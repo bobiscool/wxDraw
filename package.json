@@ -4,7 +4,8 @@
   "description": "A lightweight canvas library which providing 2d draw for weapp 微信小程序2d动画绘制库",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"webpack"
   },
   "repository": {
     "type": "git",
@@ -20,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/bobiscool/wxDraw/issues"
   },
-  "homepage": "https://github.com/bobiscool/wxDraw#readme"
+  "homepage": "https://github.com/bobiscool/wxDraw#readme",
+  "dependencies": {
+    "webpack": "^3.6.0"
+  }
 }
