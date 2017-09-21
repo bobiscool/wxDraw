@@ -1,0 +1,24 @@
+{
+  "name": "wxdraw",
+  "version": "1.0.0",
+  "description": "A lightweight canvas library which providing 2d draw for weapp 微信小程序2d动画绘制库",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bobiscool/wxDraw.git"
+  },
+  "keywords": [
+    "weapp",
+    "html5",
+    "canvas"
+  ],
+  "author": "wuyiping/bobiscool/thuderball.wu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bobiscool/wxDraw/issues"
+  },
+  "homepage": "https://github.com/bobiscool/wxDraw#readme"
+}
