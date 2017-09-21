@@ -72,9 +72,26 @@ module.exports = __webpack_require__(1);
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _getLocation = __webpack_require__(2)._getLocation;
+console.log(_getLocation);
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports) {
 
+function getLocation(x, y) {
+    return {
+        x: (x - canvas.getBoundingClientRect().left) > 0 ? (x - canvas.getBoundingClientRect().left) : 0,
+        y: (y - canvas.getBoundingClientRect().top) > 0 ? (y - canvas.getBoundingClientRect().top) : 0,
+    }
+}
 
+
+module.exports= {
+   _getLocation:getLocation
+}
 
 /***/ })
 /******/ ]);

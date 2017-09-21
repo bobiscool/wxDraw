@@ -1,0 +1,5 @@
+- store
+- animation
+- painter
+- handler
+- bus [use signal js ? how ? why use it]
