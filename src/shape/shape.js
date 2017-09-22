@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 16:00:49
+ * @Last Modified time: 2017-09-22 16:08:20
  * 在这里添加事件 
  */
 
@@ -19,8 +19,12 @@ function Shape(type,option,strokeOrfill,draggable){
 
 
 Shape.prototype = {
-    paint:function(){
-       if(strokeOrfill)
+    paint:function(context){
+       if(strokeOrfill){
+            this.Shape.fill(context);
+       }else{
+           this.Shape.stroke(context);
+       }
     }
 }
 
