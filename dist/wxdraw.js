@@ -78,7 +78,7 @@ module.exports = __webpack_require__(1);
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 09:28:43
+ * @Last Modified time: 2017-09-22 10:18:17
  * 主要 引入对象
  * 
  * 
@@ -106,9 +106,26 @@ WxDraw.prototype = {
     }    
 }
 
+module.exports = {
+    WxDraw:WxDraw
+}
+
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-09-22 09:34:43 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-09-22 10:15:38
+ * 
+ * 工具库
+ */
+
+
+
+// import * as _ from "lodash"
 
 function getLocation(x, y) {
     return {
@@ -124,6 +141,44 @@ function guid(){
     };
 }
 
+
+
+
+function arrLikeToArray(al) {
+    let len = al.length;
+    let temArray = [];
+    if (len > 0) {
+        for (var i = 0; i < len; i++) {
+            temArray.push(al[i])
+        }
+    }
+    return temArray;
+}
+// var UTIL = {
+
+//     mix(target, source, overlay) {
+//         //混合
+//         target = 'prototype' in target ? target.prototype : target;
+//         source = 'prototype' in source ? source.prototype : source;
+
+//         this.extend(target, source, overlay);
+
+//     },
+//     extend(target, source, overlay) {
+//         for (var key in source) {
+//             if (source.hasOwnProperty(key)
+//                 && (overlay ? source[key] != null : target[key] == null)
+//             ) {
+//                 target[key] = source[key];
+//             }
+//         }
+//         return target;
+//     },
+//     cloMix(target, source) {
+//         let _tem = _.cloneDeep(target);
+//         return _.extend(_tem,source);
+//     }
+// }
 
 module.exports= {
    _getLocation:getLocation,
