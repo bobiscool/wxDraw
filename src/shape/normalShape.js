@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 22:21:20
+ * @Last Modified time: 2017-09-22 22:28:59
  * 普通形状
  * 
  */
@@ -38,12 +38,12 @@ var util = require('../util/utils.js').util;
  */
 function Circle(option) {
     var _temOption = util.extend(option, cOption);
-    console.log(_temOption);
+    console.log('_temOption',_temOption);
     this.x = _temOption.x;
     this.y = _temOption.y;
     this.r = _temOption.r;
-    this.startAngle = _temOption.startAngle;
-    this.endAngle = _temOption.endAngle;
+    this.sA = _temOption.sA;
+    this.eA = _temOption.eA;
     this.counterclockwise = _temOption.counterclockwise;
     this.fillStyle = _temOption.fillStyle;
     this.strokeStyle = _temOption.strokeStyle;
