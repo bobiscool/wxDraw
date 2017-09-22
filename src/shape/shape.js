@@ -1,9 +1,9 @@
 
 var ShapeBase = require('./shapeBase.js').ShapeBase;
-var ShapeBase = require('./shapeBase.js').ShapeBase;
+var Circle = require('./normalShape.js').Circle;
 
 function Shape(type,option){
-   this.Shape = new 
+   this.Shape = new Circle(option)
 }
 
 
