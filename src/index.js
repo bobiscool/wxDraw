@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 10:18:17
+ * @Last Modified time: 2017-09-22 11:30:06
  * 主要 引入对象
  * 
  * 
@@ -23,11 +23,11 @@ WxDraw.prototype = {
     add:function(item){
          this.store.add(item);
     },
-    draw:function(){
+    draw:function(context){
         this.store.store.forEach(function(item) {
-            item.paint();
+            item.paint(context);
         }, this);
-    }    
+    }   
 }
 
 module.exports = {
