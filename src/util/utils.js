@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 14:26:22
+ * @Last Modified time: 2017-09-22 14:28:30
  * 
  * 工具库
  */
@@ -38,7 +38,7 @@ function arrLikeToArray(al) {
     }
     return temArray;
 }
-var UTIL = {
+var util = {
 
     mix(target, source, overlay) {
         //混合
@@ -62,5 +62,6 @@ var UTIL = {
 
 module.exports= {
    _getLocation:getLocation,
-   _guid:guid
+   _guid:guid,
+   util:util
 }
