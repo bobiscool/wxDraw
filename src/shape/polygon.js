@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 13:22:15
+ * @Last Modified time: 2017-09-22 14:19:16
  */
 
 
@@ -15,7 +15,6 @@ function Polygon(centerX, centerY, radius, sides, fillStyle,strokeStyle, filled)
     this.points = this.getPoints();
     this.fillStyle = fillStyle;
     this.strokeStyle = strokeStyle;
-
 }
 
 Polygon.prototype = {
@@ -47,16 +46,17 @@ Polygon.prototype = {
         context.stroke();
         context.restore();
     },
-    fill: function(){
+    fill: function(context){
        context.save();
         this.createPath(context);
         context.setStrokeStyle(this.fillStyle);
         context.fill();
         context.restore();
     },
-    paint: function (context) {
-
-    },
+    move: function (x,y) {
+        this.x = x;
+        this.y = y;
+    }
 
 
 }
@@ -74,4 +74,9 @@ Polygon.prototype = {
 function Points(x, y) {
     this.x = x;
     this.y = y;
+}
+
+
+module.exports = {
+    Polygon: Polygon;
 }
