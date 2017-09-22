@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 22:10:45
+ * @Last Modified time: 2017-09-22 22:21:20
  * 普通形状
  * 
  */
@@ -12,9 +12,9 @@ var cOption = {
     strokeStyle: "red",
     x: 10,
     y: 10,
-    radius: 10,
-    startAngle: 0,
-    endAngle: Math.PI * 2,
+    r: 10,
+    sA: 0,
+    eA: Math.PI * 2,
     counterclockwise: false
 }
 var rOption = {
@@ -41,7 +41,7 @@ function Circle(option) {
     console.log(_temOption);
     this.x = _temOption.x;
     this.y = _temOption.y;
-    this.radius = _temOption.radius;
+    this.r = _temOption.r;
     this.startAngle = _temOption.startAngle;
     this.endAngle = _temOption.endAngle;
     this.counterclockwise = _temOption.counterclockwise;
@@ -53,7 +53,7 @@ Circle.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
-        context.arc(this.x, this.y, this.radius, this.startAngle, this.endAngle, this.counterclockwise);
+        context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
         context.closePath();
         context.setStrokeStyle(this.strokeStyle)
         context.stroke();
@@ -63,7 +63,7 @@ Circle.prototype = {
     fill: function (context) {
         context.save();
         context.beginPath();
-        context.arc(this.x, this.y, this.radius, this.startAngle, this.endAngle, this.counterclockwise);
+        context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
         context.closePath();
         context.setStrokeStyle(this.fillStyle);
         context.fill();
@@ -86,11 +86,9 @@ function Rect(option) {
     var _temOption = util.extend(option, rOption);
     console.log(_temOption);
     this.x = _temOption.x;
-    this.y = _temOption.centerY;
-    this.radius = _temOption.radius;
-    this.startAngle = _temOption.startAngle;
-    this.endAngle = _temOption.endAngle;
-    this.counterclockwise = _temOption.counterclockwise;
+    this.y = _temOption.y;
+    this.w = _temOption.w;
+    this.h = _temOption.h;
     this.fillStyle = _temOption.fillStyle;
     this.strokeStyle = _temOption.strokeStyle;
 }
@@ -99,7 +97,7 @@ Rect.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
-        context.arc(this.x, this.y, this.radius, this.startAngle, this.endAngle, this.counterclockwise);
+        context.rect(this.x, this.y, this.w, this.h);
         context.closePath();
         context.setStrokeStyle(this.strokeStyle)
         context.stroke();
@@ -109,7 +107,7 @@ Rect.prototype = {
     fill: function (context) {
         context.save();
         context.beginPath();
-        context.arc(this.x, this.y, this.radius, this.startAngle, this.endAngle, this.counterclockwise);
+        context.rect(this.x, this.y, this.w, this.h);
         context.closePath();
         context.setStrokeStyle(this.fillStyle);
         context.fill();
