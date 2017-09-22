@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 23:32:20
+ * @Last Modified time: 2017-09-22 23:34:18
  */
 
 var pOption = {
@@ -12,6 +12,13 @@ var pOption = {
     sides: 7,
     fillStyle:"red",
     strokeStyle:"red",
+}
+
+
+
+function Point(x, y) {
+    this.x = x;
+    this.y = y;
 }
 
 var util = require('../util/utils.js').util;
@@ -82,11 +89,6 @@ Polygon.prototype = {
 
 
 
-
-function Point(x, y) {
-    this.x = x;
-    this.y = y;
-}
 
 
 module.exports = {
