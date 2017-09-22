@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 23:18:59
+ * @Last Modified time: 2017-09-22 23:26:28
  */
 
 var pOption = {
@@ -14,14 +14,19 @@ var pOption = {
     strokeStyle:"red",
 }
 
-function Polygon(centerX, centerY, radius, sides, fillStyle,strokeStyle) {
-    this.x = centerX;
-    this.y = centerY;
-    this.radius = radius;
-    this.sides = sides;//边数
+var util = require('../util/utils.js').util;
+
+
+function Polygon(option) {
+    var _temOption = util.extend(option,pOption);
+    this.x = _temOption.x;
+    this.y = _temOption.y;
+    this.x = _temOption.x;
+    this.radius = _temOption.r;
+    this.sides = _temOption.sides;//边数
     this.points = this.getPoints();
-    this.fillStyle = fillStyle;
-    this.strokeStyle = strokeStyle;
+    this.fillStyle = _temOption.fillStyle;
+    this.strokeStyle = _temOption.strokeStyle;
 }
 
 Polygon.prototype = {
