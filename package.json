@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack && cp ./dist/wxdraw.js /Users/mac/Dropbox/Code/Own/Conv计算器/Code/NiceCalc/utils/"
+    // "start": "webpack && cp ./dist/wxdraw.js /Users/mac/Dropbox/Code/Own/Conv计算器/Code/NiceCalc/utils/",
+    "start": "cp ./src /Users/mac/Dropbox/Code/Own/Conv计算器/Code/NiceCalc/utils/"
   },
   "repository": {
     "type": "git",
