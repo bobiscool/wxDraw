@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 10:15:38
+ * @Last Modified time: 2017-09-22 14:26:22
  * 
  * 工具库
  */
@@ -38,31 +38,27 @@ function arrLikeToArray(al) {
     }
     return temArray;
 }
-// var UTIL = {
+var UTIL = {
 
-//     mix(target, source, overlay) {
-//         //混合
-//         target = 'prototype' in target ? target.prototype : target;
-//         source = 'prototype' in source ? source.prototype : source;
+    mix(target, source, overlay) {
+        //混合
+        target = 'prototype' in target ? target.prototype : target;
+        source = 'prototype' in source ? source.prototype : source;
 
-//         this.extend(target, source, overlay);
+        this.extend(target, source, overlay);
 
-//     },
-//     extend(target, source, overlay) {
-//         for (var key in source) {
-//             if (source.hasOwnProperty(key)
-//                 && (overlay ? source[key] != null : target[key] == null)
-//             ) {
-//                 target[key] = source[key];
-//             }
-//         }
-//         return target;
-//     },
-//     cloMix(target, source) {
-//         let _tem = _.cloneDeep(target);
-//         return _.extend(_tem,source);
-//     }
-// }
+    },
+    extend(target, source, overlay) {
+        for (var key in source) {
+            if (source.hasOwnProperty(key)
+                && (overlay ? source[key] != null : target[key] == null)
+            ) {
+                target[key] = source[key];
+            }
+        }
+        return target;
+    },
+}
 
 module.exports= {
    _getLocation:getLocation,
