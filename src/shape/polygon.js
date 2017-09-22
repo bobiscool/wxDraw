@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 23:26:28
+ * @Last Modified time: 2017-09-22 23:32:20
  */
 
 var pOption = {
@@ -83,7 +83,7 @@ Polygon.prototype = {
 
 
 
-function Points(x, y) {
+function Point(x, y) {
     this.x = x;
     this.y = y;
 }
