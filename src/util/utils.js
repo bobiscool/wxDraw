@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 14:28:30
+ * @Last Modified time: 2017-09-22 23:53:23
  * 
  * 工具库
  */
@@ -62,6 +62,6 @@ var util = {
 
 module.exports= {
    _getLocation:getLocation,
-   _guid:guid,
+   _guid:guid(),
    util:util
 }
