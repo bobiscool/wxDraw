@@ -2,12 +2,19 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 17:49:43
+ * @Last Modified time: 2017-09-22 23:18:59
  */
 
+var pOption = {
+    x:10,
+    y:10,
+    r:10,
+    sides: 7,
+    fillStyle:"red",
+    strokeStyle:"red",
+}
 
-
-function Polygon(centerX, centerY, radius, sides, fillStyle,strokeStyle, filled) {
+function Polygon(centerX, centerY, radius, sides, fillStyle,strokeStyle) {
     this.x = centerX;
     this.y = centerY;
     this.radius = radius;
