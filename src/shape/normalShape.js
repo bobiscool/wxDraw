@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 22:28:59
+ * @Last Modified time: 2017-09-22 22:30:28
  * 普通形状
  * 
  */
@@ -128,5 +128,6 @@ Rect.prototype = {
 
 
 module.exports = {
-    Circle: Circle
+    Circle: Circle,
+    Rect:Rect
 }
