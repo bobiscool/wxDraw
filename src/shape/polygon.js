@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 14:19:16
+ * @Last Modified time: 2017-09-22 17:49:43
  */
 
 
@@ -78,5 +78,5 @@ function Points(x, y) {
 
 
 module.exports = {
-    Polygon: Polygon;
+    Polygon: Polygon
 }

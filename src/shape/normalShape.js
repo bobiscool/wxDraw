@@ -2,12 +2,12 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 15:42:12
+ * @Last Modified time: 2017-09-22 17:56:50
  * 普通形状
  * 
  */
 
-cOption = {
+var cOption = {
     fillStyle: "red",
     strokeStyle: "red",
     centerX:10,
@@ -20,7 +20,7 @@ cOption = {
 
 
 
-var util = require('../util/util.js').util;
+var util = require('../util/utils.js').util;
 function Circle(option) {
     var _temOption = util.extends(option,cOption);
     this.x = _temOption.centerX;
