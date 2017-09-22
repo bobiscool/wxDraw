@@ -74,8 +74,37 @@ module.exports = __webpack_require__(1);
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _getLocation = __webpack_require__(2)._getLocation;
-console.log(_getLocation);
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-09-21 13:47:34 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-09-22 09:28:43
+ * 主要 引入对象
+ * 
+ * 
+ */
+
+var  uitl = __webpack_require__(2);
+var  Store = __webpack_require__(3).Store;
+
+
+
+function WxDraw(canvas){
+    this._canvas = canvas;
+    this._wcid = util._guid()
+    this.store = new Store();
+}
+
+WxDraw.prototype = {
+    add:function(item){
+         this.store.add(item);
+    },
+    draw:function(){
+        this.store.store.forEach(function(item) {
+            item.paint();
+        }, this);
+    }    
+}
 
 /***/ }),
 /* 2 */
@@ -88,9 +117,43 @@ function getLocation(x, y) {
     }
 }
 
+function guid(){
+    var id = 0x9420dc;
+    return function(){
+        return id++;
+    };
+}
+
 
 module.exports= {
-   _getLocation:getLocation
+   _getLocation:getLocation,
+   _guid:guid
+}
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+function Store(){
+   this.store = [];
+}
+
+Store.prototype = {
+    add:function(shape){
+        // 添加 图形
+      this.store.push(shape);
+    },
+    update:function(){
+
+    },
+    delete:function(){
+
+    },
+
+}
+
+module.exports = {
+    Store:Store
 }
 
 /***/ })
