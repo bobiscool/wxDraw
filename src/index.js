@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 23:53:33
+ * @Last Modified time: 2017-09-23 00:01:24
  * 主要 引入对象
  * 
  * 
@@ -12,11 +12,10 @@ var  _guid = require("./util/utils.js")._guid;
 var  Store = require("./store/store.js").Store;
 var  Shape = require("./shape/shape.js").Shape;
 
-console.log(_guid());
 
 function WxDraw(canvas){
     this._canvas = canvas;
-    this._wcid = _guid()();
+    this._wcid = _guid();
     this.store = new Store();
 }
 
