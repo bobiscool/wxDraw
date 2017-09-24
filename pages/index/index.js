@@ -17,15 +17,16 @@ Page({
     })
   },
   bindtouchstart:function(e){
-    //  console.log(e);
+    // 检测手指点击事件
      this.wxCanvas.detect(e);
+    
   },
   bindtouchmove:function(e){
-    // console.log(e);
+    // 检测手指点击 之后的移动事件
     this.wxCanvas.moveDetect(e);
   },
   bindtouchend:function(e){
-    // console.log(e);
+     //检测手指点击 移出事件
     this.wxCanvas.upDetect(e);
   },
   detect:function(e){
@@ -49,7 +50,8 @@ Page({
      * 所以 wxDraw初始化的时候 需要设置 以便点击检测的时候使用
     */
 
-    this.wxCanvas.add(new Shape('circle',{}))
+    this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,fillStyle:"#333333"},true))
+    this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
 
     this.wxCanvas.draw();
     context.draw();
