@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 11:55:33
+ * @Last Modified time: 2017-09-24 16:16:12
  * 在这里添加事件 
  */
 
@@ -13,52 +13,61 @@ var Rect = require('./normalShape.js').Rect;
 var Polygon = require('./polygon.js').Polygon;
 
 
-function Shape(type,option,strokeOrfill,draggable){
-   this.draggable = draggable?true:false;
-   this.strokeOrfill = strokeOrfill?true:false;//是否填充
-   this.type = type;
-   this.Shape = new shapeTypes[type](option);
+function Shape(type, option, strokeOrfill, draggable, highlight) {
+    this.draggable = draggable ? true : false;
+    this.highlight = highlight ? true : false;
+    this.strokeOrfill = strokeOrfill ? true : false;//是否填充
+    this.type = type;
+    this.Shape = new shapeTypes[type](option);
 }
 
 
 
 Shape.prototype = {
-    paint:function(context){
-       if(this.strokeOrfill){
+    paint: function (context) {
+        if (this.strokeOrfill) {
             this.Shape.fill(context);
-       }else{
-           this.Shape.stroke(context);
-       }
+        } else {
+            this.Shape.stroke(context);
+        }
     },
-    detect:function(x,y){
+    detect: function (x, y) {
         //检查点击了谁
-        this.detected(x,y);    
+        this.Shape.detected(x, y);
+        if (this.Shape.detected(x, y)) {
+
+        }
+
+    },
+    moveDetect: function (x, y) {
+        this.Shape.moveDetect(x, y);
+
     }
 }
 
 
 
 
-var shapeTypes={
-   "circle": function(option){
-       return new Circle(option);
-   },
-    'rect':function(option){
-       return new Rect(option);
+var shapeTypes = {
+    "circle": function (option) {
+        return new Circle(option);
     },
-    'polygon':function(option){
-       return new Polygon(option);
+    'rect': function (option) {
+        return new Rect(option);
+    },
+    'polygon': function (option) {
+        return new Polygon(option);
     }
 }
 
 
 var detectWay = {
     //侦查方式
-    "circle":function(){
-        
+    "circle": function () {
+
     }
 }
 
 module.exports = {
-    Shape:Shape
+    Shape: Shape
 }

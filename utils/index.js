@@ -2,15 +2,15 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 12:03:16
+ * @Last Modified time: 2017-09-24 16:15:39
  * 主要 引入对象
  * 
  * 
  */
 
-var  _guid = require("./util/utils.js")._guid;
-var  Store = require("./store/store.js").Store;
-var  Shape = require("./shape/shape.js").Shape;
+var _guid = require("./util/utils.js")._guid;
+var Store = require("./store/store.js").Store;
+var Shape = require("./shape/shape.js").Shape;
 
 /**
  * 
@@ -21,22 +21,50 @@ var  Shape = require("./shape/shape.js").Shape;
  * @param {any} w 
  * @param {any} h 
  */
-function WxDraw(canvas,x,y,w,h){
+function WxDraw(canvas, x, y, w, h) {
+
     this._canvas = canvas;
     this._wcid = _guid();
     this.store = new Store();
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
 }
 
 WxDraw.prototype = {
-    add:function(item){
-         this.store.add(item);
+    add: function (item) {
+        this.store.add(item);
     },
-    draw:function(){
-        this.store.store.forEach(function(item) {
+    draw: function () {
+        this.store.store.forEach(function (item) {
             item.paint(this._canvas);
         }, this);
     },
-       
+    detect: function (e) {
+        //事件检测
+        let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+
+        this.store.store.forEach(function (item) {
+            item.detect(loc.x, loc.y);
+        }, this);
+        // this.getLoc()
+
+    },
+    moveDetect: function (e) {
+        let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+
+        this.store.store.forEach(function (item) {
+            item.moveDetect(loc.x, loc.y);
+        }, this);
+    },
+    getLoc: function (x, y) {
+        //获取点击相对位置
+        return {
+            x: (x - this.x) > 0 ? ((x - this.x) > this.w ? this.w : x - this.x) : this.x,
+            y: (y - this.y) > 0 ? ((y - this.y) > this.h ? this.h : y - this.y) : this.y,
+        }
+    }
 }
 
 
@@ -44,6 +72,6 @@ WxDraw.prototype = {
 
 
 module.exports = {
-    WxDraw:WxDraw,
-    Shape:Shape
+    WxDraw: WxDraw,
+    Shape: Shape
 }

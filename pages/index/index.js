@@ -7,6 +7,7 @@ Page({
   data: {
     userInfo: {},
     hasUserInfo: false,
+    wxCanvas:null
 
   },
   //事件处理函数
@@ -17,6 +18,7 @@ Page({
   },
   bindtouchstart:function(e){
      console.log(e);
+     this.wxCanvas.detect(e);
   },
   bindtouchmove:function(e){
     console.log(e);
@@ -39,10 +41,15 @@ Page({
      */
     var context = wx.createCanvasContext('first')
 
-    var a = new WxDraw(context,0,0,400,500);
+    this.wxCanvas = new WxDraw(context,0,0,400,500);
     /**
      * 由于 小程序没有Dom 操作，所以没法获取canvas高度以及绘图的起点
      * 所以 wxDraw初始化的时候 需要设置 以便点击检测的时候使用
     */
+
+    this.wxCanvas.add(new Shape('circle',{}))
+
+    this.wxCanvas.draw();
+    context.draw();
   }
 })

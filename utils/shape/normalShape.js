@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 11:32:23
+ * @Last Modified time: 2017-09-24 16:17:39
  * 普通形状
  * 
  */
@@ -47,6 +47,7 @@ function Circle(option) {
     this.counterclockwise = _temOption.counterclockwise;
     this.fillStyle = _temOption.fillStyle;
     this.strokeStyle = _temOption.strokeStyle;
+    this._isChoosed = false;
 }
 
 Circle.prototype = {
@@ -77,6 +78,13 @@ Circle.prototype = {
         var _self = this;
         if (Math.pow((_self.x - x), 2) + Math.pow((_self.y - y), 2) <= Math.pow(_self.r, 2)) {
             return true;// 点击
+        }
+    },
+    moveDetect:function(x,y){
+        if(!this.detected(x,y)){
+           this._isChoosed = false;
+        }else{
+            
         }
     }
 }
