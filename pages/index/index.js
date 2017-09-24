@@ -17,14 +17,15 @@ Page({
     })
   },
   bindtouchstart:function(e){
-     console.log(e);
+    //  console.log(e);
      this.wxCanvas.detect(e);
   },
   bindtouchmove:function(e){
-    console.log(e);
+    // console.log(e);
+    this.wxCanvas.moveDetect(e);
   },
   bindtouchend:function(e){
-    console.log(e);
+    // console.log(e);
   },
   detect:function(e){
    

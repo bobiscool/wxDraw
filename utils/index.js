@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 16:15:39
+ * @Last Modified time: 2017-09-24 16:33:30
  * 主要 引入对象
  * 
  * 
@@ -23,8 +23,8 @@ var Shape = require("./shape/shape.js").Shape;
  */
 function WxDraw(canvas, x, y, w, h) {
 
-    this._canvas = canvas;
-    this._wcid = _guid();
+    this.canvas = canvas;
+    this.wcid = _guid();
     this.store = new Store();
     this.x = x;
     this.y = y;
@@ -38,7 +38,7 @@ WxDraw.prototype = {
     },
     draw: function () {
         this.store.store.forEach(function (item) {
-            item.paint(this._canvas);
+            item.paint(this.canvas);
         }, this);
     },
     detect: function (e) {
@@ -57,6 +57,10 @@ WxDraw.prototype = {
         this.store.store.forEach(function (item) {
             item.moveDetect(loc.x, loc.y);
         }, this);
+         
+         console.log(loc);
+        this.draw();
+        this.canvas.draw();
     },
     getLoc: function (x, y) {
         //获取点击相对位置

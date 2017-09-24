@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 16:16:12
+ * @Last Modified time: 2017-09-24 16:35:03
  * 在这里添加事件 
  */
 
@@ -40,8 +40,8 @@ Shape.prototype = {
 
     },
     moveDetect: function (x, y) {
+        console.log('moveDetect')
         this.Shape.moveDetect(x, y);
-
     }
 }
 
