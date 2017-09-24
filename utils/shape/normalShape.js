@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 16:17:39
+ * @Last Modified time: 2017-09-24 16:22:47
  * 普通形状
  * 
  */
@@ -48,6 +48,8 @@ function Circle(option) {
     this.fillStyle = _temOption.fillStyle;
     this.strokeStyle = _temOption.strokeStyle;
     this._isChoosed = false;
+    this._offsetX = 0;
+    this._offsetY = 0;
 }
 
 Circle.prototype = {
@@ -77,14 +79,16 @@ Circle.prototype = {
     detected: function (x, y) {
         var _self = this;
         if (Math.pow((_self.x - x), 2) + Math.pow((_self.y - y), 2) <= Math.pow(_self.r, 2)) {
+            this._offsetX = _self.x - x;
+            this._offsetY = _self.y - y;
             return true;// 点击
         }
     },
-    moveDetect:function(x,y){
-        if(!this.detected(x,y)){
-           this._isChoosed = false;
-        }else{
-            
+    moveDetect: function (x, y) {
+        if (!this.detected(x, y)) {
+            this._isChoosed = false;
+        } else {
+
         }
     }
 }
@@ -133,7 +137,8 @@ Rect.prototype = {
     },
     detected: function (x, y) {
         var _self = this;
-        if (_self.x>x&&_self.y<y&&(_self.y+_self.h)>y&&(_self.x+_self.w)>x) {
+        if (_self.x > x && _self.y < y && (_self.y + _self.h) > y && (_self.x + _self.w) > x) {
+
             return true;// 点击
         }
     }
