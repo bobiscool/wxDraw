@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 16:49:43
+ * @Last Modified time: 2017-09-24 17:05:05
  * 普通形状
  * 
  */
@@ -68,7 +68,7 @@ Circle.prototype = {
         context.beginPath();
         context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
         context.closePath();
-        context.setStrokeStyle(this.fillStyle);
+        context.setFillStyle(this.fillStyle);
         context.fill();
         context.restore();
     },
