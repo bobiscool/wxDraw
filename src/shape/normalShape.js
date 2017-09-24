@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 22:30:28
+ * @Last Modified time: 2017-09-24 11:00:58
  * 普通形状
  * 
  */
@@ -38,7 +38,7 @@ var util = require('../util/utils.js').util;
  */
 function Circle(option) {
     var _temOption = util.extend(option, cOption);
-    console.log('_temOption',_temOption);
+    console.log('_temOption', _temOption);
     this.x = _temOption.x;
     this.y = _temOption.y;
     this.r = _temOption.r;
@@ -72,6 +72,12 @@ Circle.prototype = {
     move: function (x, y) {
         this.x = x;
         this.y = y;
+    },
+    detected: function (x, y) {
+        var _self = this;
+        if (Math.pow((_self.x - x), 2) + Math.pow((_self.y - y), 2) <= Math.pow(_self.r, 2)) {
+            return true;// 点击
+        }
     }
 }
 
@@ -116,6 +122,12 @@ Rect.prototype = {
     move: function (x, y) {
         this.x = x;
         this.y = y;
+    },
+    detected: function (x, y) {
+        var _self = this;
+        if (_self.x>x&&_self.y<y&&(_self.y+_self.h)>y&&(_self.x+_self.w)>x) {
+            return true;// 点击
+        }
     }
 }
 
@@ -129,5 +141,5 @@ Rect.prototype = {
 
 module.exports = {
     Circle: Circle,
-    Rect:Rect
+    Rect: Rect
 }
