@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 12:00:29
+ * @Last Modified time: 2017-09-24 12:03:16
  * 主要 引入对象
  * 
  * 
@@ -38,6 +38,10 @@ WxDraw.prototype = {
     },
        
 }
+
+
+
+
 
 module.exports = {
     WxDraw:WxDraw,

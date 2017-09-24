@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-23 20:05:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 11:57:35
+ * @Last Modified time: 2017-09-24 14:18:30
  * \事件感应 函数
  */
 
@@ -14,8 +14,8 @@ function getLocation(x, y,conOption) {
     }
 }
  
- function detect(){
-        items.forEach(function(element) {
-            element.detect(getLocation())
-        }, this);
+ function detect(e){
+// 获取事件对象
+        var _temLoc = getLocation(x,y,conOption);
+        
  }
