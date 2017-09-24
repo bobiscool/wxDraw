@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 10:47:23
+ * @Last Modified time: 2017-09-24 10:50:21
  * 在这里添加事件 
  */
 
@@ -31,7 +31,8 @@ Shape.prototype = {
        }
     },
     detect:function(){
-        //检查点击了事儿
+        //检查点击了谁
+        
     }
 }
 
@@ -50,6 +51,13 @@ var shapeTypes={
     }
 }
 
+
+var detectWay = {
+    //侦查方式
+    "circle":function({
+        
+    }
+}
 
 module.exports = {
     Shape:Shape
