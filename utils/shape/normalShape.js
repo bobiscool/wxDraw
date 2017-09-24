@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 17:39:53
+ * @Last Modified time: 2017-09-24 17:41:59
  * 普通形状
  * 
  */
@@ -150,9 +150,10 @@ Rect.prototype = {
     },
     detected: function (x, y) {
         var _self = this;
-        if (_self.x > x && _self.y < y && (_self.y + _self.h) > y && (_self.x + _self.w) > x) {
+        if (_self.x < x && _self.y < y && (_self.y + _self.h) > y && (_self.x + _self.w) > x) {
             this._offsetX =x - _self.x;
             this._offsetY =y - _self.y;
+            console.log('移动方块');            
             this._isChoosed = true;
             return true;// 点击
         }
@@ -160,8 +161,7 @@ Rect.prototype = {
     moveDetect: function (x, y) {
 
         if (this._isChoosed == true) {
-            console.log('移动方块');
-            this.move(x + this._offsetX, y + this._offsetY);
+            this.move(x - this._offsetX, y - this._offsetY);
         }
     
     },
