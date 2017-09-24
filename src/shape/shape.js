@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-22 23:14:45
+ * @Last Modified time: 2017-09-24 10:47:23
  * 在这里添加事件 
  */
 
@@ -16,6 +16,7 @@ var Polygon = require('./polygon.js').Polygon;
 function Shape(type,option,strokeOrfill,draggable){
    this.draggable = draggable?true:false;
    this.strokeOrfill = strokeOrfill?true:false;//是否填充
+   this.type = type;
    this.Shape = new shapeTypes[type](option);
 }
 
@@ -28,6 +29,9 @@ Shape.prototype = {
        }else{
            this.Shape.stroke(context);
        }
+    },
+    detect:function(){
+        //检查点击了事儿
     }
 }
 
