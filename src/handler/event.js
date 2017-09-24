@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-23 20:05:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 10:45:54
+ * @Last Modified time: 2017-09-24 11:57:35
  * \事件感应 函数
  */
 
@@ -14,7 +14,7 @@ function getLocation(x, y,conOption) {
     }
 }
  
- function detect(items){
+ function detect(){
         items.forEach(function(element) {
             element.detect(getLocation())
         }, this);

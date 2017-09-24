@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 10:50:46
+ * @Last Modified time: 2017-09-24 11:55:33
  * 在这里添加事件 
  */
 
@@ -30,9 +30,9 @@ Shape.prototype = {
            this.Shape.stroke(context);
        }
     },
-    detect:function(){
+    detect:function(x,y){
         //检查点击了谁
-        
+        this.detected(x,y);    
     }
 }
 
