@@ -52,7 +52,7 @@ Page({
 
     this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,fillStyle:"#333333"},true))
     this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
-
+    this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
     this.wxCanvas.draw();
     context.draw();
   }

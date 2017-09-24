@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 17:05:05
+ * @Last Modified time: 2017-09-24 17:39:53
  * 普通形状
  * 
  */
@@ -80,7 +80,7 @@ Circle.prototype = {
     detected: function (x, y) {
         var _self = this;
         if (Math.pow((_self.x - x), 2) + Math.pow((_self.y - y), 2) <= Math.pow(_self.r, 2)) {
-            this._offsetX = _self.x - x;
+            this._offsetX = _self.x -x;
             this._offsetY = _self.y - y;
             console.log('x', this._offsetX);
             console.log('y', this._offsetY);
@@ -92,12 +92,13 @@ Circle.prototype = {
         // if (!this.detected(x, y)) {
         //     this._isChoosed = false;
         // } else {
-            if (this._isChoosed == true) {
-                this.move(x + this._offsetX, y + this._offsetY);
-            }
+        if (this._isChoosed == true) {
+            
+            this.move(x + this._offsetX, y + this._offsetY);
+        }
         // }
     },
-    upDetect:function(){
+    upDetect: function () {
         this._isChoosed = false;
     }
 }
@@ -118,6 +119,9 @@ function Rect(option) {
     this.h = _temOption.h;
     this.fillStyle = _temOption.fillStyle;
     this.strokeStyle = _temOption.strokeStyle;
+    this._isChoosed = false;
+    this._offsetX = 0;
+    this._offsetY = 0;
 }
 
 Rect.prototype = {
@@ -136,7 +140,7 @@ Rect.prototype = {
         context.beginPath();
         context.rect(this.x, this.y, this.w, this.h);
         context.closePath();
-        context.setStrokeStyle(this.fillStyle);
+        context.setFillStyle(this.fillStyle);
         context.fill();
         context.restore();
     },
@@ -147,10 +151,24 @@ Rect.prototype = {
     detected: function (x, y) {
         var _self = this;
         if (_self.x > x && _self.y < y && (_self.y + _self.h) > y && (_self.x + _self.w) > x) {
-
+            this._offsetX =x - _self.x;
+            this._offsetY =y - _self.y;
+            this._isChoosed = true;
             return true;// 点击
         }
+    },
+    moveDetect: function (x, y) {
+
+        if (this._isChoosed == true) {
+            console.log('移动方块');
+            this.move(x + this._offsetX, y + this._offsetY);
+        }
+    
+    },
+    upDetect: function () {
+        this._isChoosed = false;
     }
+
 }
 
 
