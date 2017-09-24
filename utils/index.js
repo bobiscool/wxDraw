@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-24 16:33:30
+ * @Last Modified time: 2017-09-24 16:50:53
  * 主要 引入对象
  * 
  * 
@@ -56,11 +56,17 @@ WxDraw.prototype = {
 
         this.store.store.forEach(function (item) {
             item.moveDetect(loc.x, loc.y);
+            console.log('item',item);
         }, this);
          
-         console.log(loc);
+        //  console.log(loc);
         this.draw();
         this.canvas.draw();
+    },
+    upDetect:function(){
+      this.store.store.forEach(function (item) {
+            item.upDetect();
+        }, this);
     },
     getLoc: function (x, y) {
         //获取点击相对位置

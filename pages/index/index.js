@@ -26,6 +26,7 @@ Page({
   },
   bindtouchend:function(e){
     // console.log(e);
+    this.wxCanvas.upDetect(e);
   },
   detect:function(e){
    
