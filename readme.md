@@ -9,7 +9,7 @@
 - 拖拽检测
     - rect
     - arc
-    - polygon 
+    - polygon 区域 
     - 
 - 动画
     - 
