@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-25 14:20:54
+ * @Last Modified time: 2017-09-25 15:23:03
  */
 
 var pOption = {
@@ -106,11 +106,39 @@ Polygon.prototype = {
         this.x = x;
         this.y = y;
     },
-    detected: function () {
+    detected: function (x, y) {
         // pnpoly 算法区域
 
         // 首先找到 最大x 最小x 最大y 最小y
+        if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
+            //在最小矩形里面才开始
+        }
 
+
+    },
+    _pnpolyTest(x, y) {
+        // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
+        // var A = this.points[0];// 拿到前面两个点
+        // var B = this.points[1];
+        var ifInside = false;
+
+        for (var i = 0, j = this.points.length - 1; i < this.points.length; j = i++) {
+            /**
+             * 0 4
+               1 0
+               2 1
+               3 2
+               4 3
+             */
+            var Xi= this.points[i].x,Yi = this.points[i].y;
+            var Xj= this.points[j].x,Yj = this.points[j].y;
+
+            var insect = ((Yi>y)) !=(Yj>y)&&(x<(Xj-Xi)*(y -Yi)/(Yj - Yi) + Xi);
+
+            if(insect) ifInside=!ifInside;
+        }
+
+        return ifInside;
     }
 
 
