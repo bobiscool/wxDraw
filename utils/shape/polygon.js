@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-25 15:23:03
+ * @Last Modified time: 2017-09-25 15:50:12
  */
 
 var pOption = {
@@ -31,21 +31,31 @@ function Polygon(option) {
     this.x = _temOption.x;
     this.radius = _temOption.r;
     this.sides = _temOption.sides;//边数
-    this.points = this.getPoints();
-    this.fillStyle = _temOption.fillStyle;
-    this.strokeStyle = _temOption.strokeStyle;
     this.max = {
         maxX: 0,
         maxY: 0,
         minX: 0,
         minY: 0,
-    }
+    };
+    this.points = this.getPoints();
+    this.fillStyle = _temOption.fillStyle;
+    this.strokeStyle = _temOption.strokeStyle;
+    this._isChoosed = false;
 }
 
 Polygon.prototype = {
     getPoints: function () {
         var points = [],
             angle = this.startAngle || 0;
+        //每次getPoints 要刷新max
+
+        this.max = {
+            maxX: 0,
+            maxY: 0,
+            minX: 0,
+            minY: 0,
+        };
+
 
         for (var i = 0; i < this.sides; ++i) {
             points.push(new Point(this.x + this.radius * Math.sin(angle), this.y - this.radius * Math.cos(angle)));
@@ -56,7 +66,7 @@ Polygon.prototype = {
                 this.max.minX = this.x + this.radius * Math.sin(angle)
             }
             if (this.max.minX && ((this.x + this.radius * Math.sin(angle)) < this.max.minX)) {
-                this.max.maxX = (this.x + this.radius * Math.sin(angle));
+                this.max.minX = (this.x + this.radius * Math.sin(angle));
             }
 
 
@@ -68,9 +78,8 @@ Polygon.prototype = {
                 this.max.minY = this.y + this.radius * Math.sin(angle)
             }
             if (this.max.minY && ((this.y + this.radius * Math.sin(angle)) < this.max.minY)) {
-                this.max.maxY = (this.y + this.radius * Math.sin(angle));
+                this.max.minY = (this.y + this.radius * Math.sin(angle));
             }
-
 
 
             angle += 2 * Math.PI / this.sides;
@@ -112,9 +121,26 @@ Polygon.prototype = {
         // 首先找到 最大x 最小x 最大y 最小y
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
+            this.points = this.getPoints();
+
+            this._offsetX = this.x - x;
+            this._offsetY = this.y - y;
+            if (this._pnpolyTest(x, y)) {
+                this._isChoosed = true;
+            }
         }
 
 
+    },
+    moveDetect: function (x, y) {
+
+        if (this._isChoosed == true) {
+            this.move(x + this._offsetX, y + this._offsetY);
+        }
+
+    },
+    upDetect: function () {
+        this._isChoosed = false;
     },
     _pnpolyTest(x, y) {
         // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
@@ -130,14 +156,15 @@ Polygon.prototype = {
                3 2
                4 3
              */
-            var Xi= this.points[i].x,Yi = this.points[i].y;
-            var Xj= this.points[j].x,Yj = this.points[j].y;
+            var Xi = this.points[i].x, Yi = this.points[i].y;
+            var Xj = this.points[j].x, Yj = this.points[j].y;
 
-            var insect = ((Yi>y)) !=(Yj>y)&&(x<(Xj-Xi)*(y -Yi)/(Yj - Yi) + Xi);
+            var insect = ((Yi > y) != (Yj > y)) && (x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi);
 
-            if(insect) ifInside=!ifInside;
+            if (insect) ifInside = !ifInside;
         }
 
+        console.log(ifInside);
         return ifInside;
     }
 
