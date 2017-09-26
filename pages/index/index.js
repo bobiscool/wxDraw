@@ -54,10 +54,10 @@ Page({
     this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
     this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
     this.wxCanvas.add(new Shape('polygon', { sides:876,r:100}))
-    // for(var i =4;i<10;i++){
-    //       this.wxCanvas.add(new Shape('polygon', { sides:i,r:i,x:i,y:i/10}))
-    // }
-    console.log(this.wxCanvas);
+   
+
+
+
     this.wxCanvas.draw();
     context.draw();
   }
