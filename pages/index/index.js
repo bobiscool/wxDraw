@@ -1,8 +1,8 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var WxDraw = require("../../utils/index.js").WxDraw;
-var Shape = require("../../utils/index.js").Shape;
+var WxDraw = require("../../utils/wxDraw/index.js").WxDraw;
+var Shape = require("../../utils/wxDraw/index.js").Shape;
 Page({
   data: {
     userInfo: {},
