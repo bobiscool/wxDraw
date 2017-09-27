@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 23:31:49 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 23:57:47
+ * @Last Modified time: 2017-09-28 00:02:37
  * 单个小物件自己的计时器
  */
 function Watch() {
@@ -58,7 +58,17 @@ AnimationTimer.prototype = {
    start:function() {
        //开始计时
        this.watch.sart();
-   }
+   },
+    stop:function(){
+        this.watch.stop();
+    },
+    getGoesByTime:function(){
+        //注意这里的时间与 watch 里面的时间不是同一概念 这里面还有扭曲时间 用于产生不同的动画效果的
+        var goesBytime = this.watch.getGoesByTime();
+        var aniPercent = goesBytime/this.duration;//动画进行的程度
+
+        
+    }
   
 
 }
