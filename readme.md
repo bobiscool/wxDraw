@@ -14,6 +14,7 @@
     - polygon 区域 
     - z-index
 - 动画
+    - requestAnimationFrame垫片
     - 运动
     - 精灵图【小程序 所支持的drawImage功能太低级 所以取消】
 

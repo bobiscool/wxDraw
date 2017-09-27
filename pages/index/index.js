@@ -5,7 +5,7 @@ var WxDraw = require("../../wxDraw/dist/wxdraw.js").WxDraw;
 var Shape = require("../../wxDraw/dist/wxdraw.js").Shape;
 var AnimationFrame = require("../../wxDraw/dist/wxdraw.js").AnimationFrame;
 
-console.log(AnimationFrame);
+console.log(cancelAnimationFrame);
 Page({
   data: {
     userInfo: {},
