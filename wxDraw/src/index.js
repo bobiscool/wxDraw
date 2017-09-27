@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 23:23:43
+ * @Last Modified time: 2017-09-27 23:34:42
  * 主要 引入对象
  * 
  * 
@@ -79,6 +79,7 @@ WxDraw.prototype = {
         }
     }
 }
+
 
 
 

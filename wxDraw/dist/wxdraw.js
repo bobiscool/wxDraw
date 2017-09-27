@@ -435,12 +435,12 @@ var shapeTypes = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 16:12:38 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 23:19:41
+ * @Last Modified time: 2017-09-27 23:38:54
  * 帧动画控制器
  */
 
 var AnimationFrame = function AnimationFrame() {
-    console.log('requestAnimationFrame', requestAnimationFrame);
+    // console.log('requestAnimationFrame',requestAnimationFrame);
     if (requestAnimationFrame) {
         return requestAnimationFrame;
     } else {
@@ -449,13 +449,13 @@ var AnimationFrame = function AnimationFrame() {
 };
 
 function fakeAnimationFrame(callback) {
-    var start, finish;
+    var start;
     setTimeout(function () {
         start = +new Date();
         callback(start);
-        finish = +new Date();
+        
 
-        console.log(finish - start);
+        //   console.log(finish - start);
     }, 20);
 }
 
@@ -463,21 +463,12 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 23:21:03
+ * @Last Modified time: 2017-09-27 23:34:42
  * 主要 引入对象
  * 
  * 
  */
 
-/**
- * 
- * 
- * @param {any} canvas canvas对象
- * @param {any} x   由于小程序的无法获取 canvas 大小高宽 必须指定 x y 长宽 才能 去检测点击
- * @param {any} y 
- * @param {any} w 
- * @param {any} h 
- */
 function WxDraw(canvas, x, y, w, h) {
 
     this.canvas = canvas;

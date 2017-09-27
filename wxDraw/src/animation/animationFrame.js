@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 16:12:38 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 23:25:47
+ * @Last Modified time: 2017-09-27 23:38:54
  * 帧动画控制器
  */
 
@@ -25,5 +25,6 @@ function fakeAnimationFrame(callback){
       finish = +new Date();
 
     //   console.log(finish - start);
+    
     },20);
 }
