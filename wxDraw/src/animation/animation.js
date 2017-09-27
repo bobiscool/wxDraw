@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 23:31:49 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 23:51:04
+ * @Last Modified time: 2017-09-27 23:51:34
  * 单个小物件自己的计时器
  */
 function Watch() {
@@ -25,7 +25,7 @@ Watch.prototype = {
         this.running = false;
     },
 
-    getElapsedTime: function () {
+    getGoesByTime: function () {
 
 
         if (this.running) {
