@@ -5,7 +5,7 @@ import uglify from 'rollup-plugin-uglify';
 export default {
   entry: 'src/index.js',
   format: 'cjs',
-  dest: 'dist/wxdraw-min.js',
+  dest: 'dist/wxdraw.min.js',
   plugins: [
       babel({
           exclude: 'node_modules/**',
