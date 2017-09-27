@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 23:31:49 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-28 00:02:37
+ * @Last Modified time: 2017-09-28 00:11:01
  * 单个小物件自己的计时器
  */
 function Watch() {
@@ -48,9 +48,9 @@ Watch.prototype = {
 
 
 
-export const AnimationTimer = function (duration, timeWrap) {
+export const AnimationTimer = function (duration, timeFunc) {
     if (duration !== undefined) this.duration = duration;
-    if (timeWrap !== undefined) this.timeWrap = timeWrap;
+    if (timeFunc !== undefined) this.timeFunc = timeFunc;
     this.watch = new Watch();
 }
 
@@ -66,8 +66,16 @@ AnimationTimer.prototype = {
         //注意这里的时间与 watch 里面的时间不是同一概念 这里面还有扭曲时间 用于产生不同的动画效果的
         var goesBytime = this.watch.getGoesByTime();
         var aniPercent = goesBytime/this.duration;//动画进行的程度
-
         
+
+        if(!this.watch.running) return undefined; //没有运行 那就没有
+        if(!this.timeFunc) return goesBytime;//如果没有时间函数那就直接返回正常的 时间
+        //关键点
+        return goesBytime*(this.timeFunc(aniPercent)/aniPercent);//时间扭曲
+
+    },
+    isOver:function(){
+        return this.watch.getGoesByTime>this.duration;
     }
   
 
