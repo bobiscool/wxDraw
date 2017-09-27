@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-26 17:09:55
+ * @Last Modified time: 2017-09-27 13:42:45
  */
 
 var pOption = {
@@ -24,7 +24,7 @@ function Point(x, y) {
 var util = require('../util/utils.js').util;
 
 
-function Polygon(option) {
+export const Polygon=function(option) {
     var _temOption = util.extend(option, pOption);
     this.x = _temOption.x;
     this.y = _temOption.y;
@@ -172,12 +172,3 @@ Polygon.prototype = {
 }
 
 
-
-
-
-
-
-
-
-
-export const Polygon = Polygon;

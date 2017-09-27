@@ -3,7 +3,7 @@ import uglify from 'rollup-plugin-uglify';
 
 
 export default {
-  entry: 'index.js',
+  entry: 'src/index.js',
   format: 'cjs',
   dest: 'dist/wxdraw-min.js',
   plugins: [

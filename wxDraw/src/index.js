@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-26 17:11:58
+ * @Last Modified time: 2017-09-27 13:24:00
  * 主要 引入对象
  * 
  * 
@@ -10,7 +10,7 @@
 
 var _guid = require("./util/utils.js")._guid;
 var Store = require("./store/store.js").Store;
-var { Shape }= "./shape/shape.js";
+import { Shape } from "./shape/shape.js";
 
 /**
  * 

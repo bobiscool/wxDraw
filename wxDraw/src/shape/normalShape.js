@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-26 17:09:38
+ * @Last Modified time: 2017-09-27 13:43:40
  * 普通形状
  * 
  */
@@ -36,7 +36,7 @@ var util = require('../util/utils.js').util;
  * @param {any} option  配置项
  * 
  */
-function Circle(option) {
+export const Circle =function(option) {
     var _temOption = util.extend(option, cOption);
     console.log('_temOption', _temOption);
     this.x = _temOption.x;
@@ -110,7 +110,7 @@ Circle.prototype = {
  */
 
 
-function Rect(option) {
+export const Rect =function(option) {
     var _temOption = util.extend(option, rOption);
     console.log(_temOption);
     this.x = _temOption.x;
@@ -184,6 +184,3 @@ Rect.prototype = {
 //     Rect: Rect
 // }
 
-
-export const Circle = Circle;
-export const Rect = Rect;

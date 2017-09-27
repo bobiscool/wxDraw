@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-26 17:11:44
+ * @Last Modified time: 2017-09-27 13:42:22
  * 在这里添加事件 
  */
 
@@ -12,7 +12,7 @@ import { Polygon } from './polygon.js';
 import { Rect,Circle } from './normalShape.js';
 
 
-function Shape(type, option, strokeOrfill, draggable, highlight) {
+export var  Shape=function(type, option, strokeOrfill, draggable, highlight) {
     this.draggable = draggable ? true : false;
     this.highlight = highlight ? true : false;
     this.strokeOrfill = strokeOrfill ? true : false;//是否填充
@@ -61,5 +61,3 @@ var shapeTypes = {
         return new Polygon(option);
     }
 }
-
-export const Shape=Shape;
