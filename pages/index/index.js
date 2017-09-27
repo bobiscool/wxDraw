@@ -3,8 +3,9 @@
 const app = getApp()
 var WxDraw = require("../../wxDraw/dist/wxdraw.js").WxDraw;
 var Shape = require("../../wxDraw/dist/wxdraw.js").Shape;
+var AnimationFrame = require("../../wxDraw/dist/wxdraw.js").AnimationFrame;
 
-console.log(WxDraw);
+console.log(AnimationFrame);
 Page({
   data: {
     userInfo: {},
@@ -58,7 +59,14 @@ Page({
     this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
     this.wxCanvas.add(new Shape('polygon', { sides:876,r:100}))
    
+  
 
+function animate(){
+      AnimationFrame(function () {
+        console.log(3)
+        animate();
+      })
+}
 
 
     this.wxCanvas.draw();

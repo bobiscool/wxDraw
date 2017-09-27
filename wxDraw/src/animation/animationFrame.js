@@ -2,15 +2,16 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 16:12:38 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 18:29:41
+ * @Last Modified time: 2017-09-27 23:19:41
  * 帧动画控制器
  */
 
-export const requestAnimationFrame = function(callback){
-    if(false){
-        return requestAnimationFrame(callback)
+export const AnimationFrame = function(){
+    console.log('requestAnimationFrame',requestAnimationFrame);
+    if(requestAnimationFrame){
+        return requestAnimationFrame
     }else {
-       fakeAnimationFrame(callback);
+      return  fakeAnimationFrame;
     }
 }
 
@@ -24,5 +25,5 @@ function fakeAnimationFrame(callback){
       finish = +new Date();
 
       console.log(finish - start);
-    },16);
+    },20);
 }

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 18:31:21
+ * @Last Modified time: 2017-09-27 23:21:03
  * 主要 引入对象
  * 
  * 
@@ -11,7 +11,7 @@
 import { guid } from "./util/utils.js";
 import { Store } from "./store/store.js";
 import { Shape } from "./shape/shape.js";
-import { requestAnimationFrame } from "./animation/animationFrame.js";
+import { AnimationFrame } from "./animation/animationFrame.js";
 
 /**
  * 
@@ -86,5 +86,5 @@ module.exports = {
     
     WxDraw: WxDraw,
     Shape: Shape,
-    requestAnimationFrame: requestAnimationFrame
+    AnimationFrame: AnimationFrame()
 }
