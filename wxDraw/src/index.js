@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 18:30:36
+ * @Last Modified time: 2017-09-27 18:31:21
  * 主要 引入对象
  * 
  * 
@@ -83,6 +83,7 @@ WxDraw.prototype = {
 
 
 module.exports = {
+    
     WxDraw: WxDraw,
     Shape: Shape,
     requestAnimationFrame: requestAnimationFrame
