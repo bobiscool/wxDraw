@@ -2,8 +2,11 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 13:42:45
+ * @Last Modified time: 2017-09-27 14:07:35
  */
+
+import { util } from '../util/utils.js';
+
 
 var pOption = {
     x: 10,
@@ -21,7 +24,7 @@ function Point(x, y) {
     this.y = y;
 }
 
-var util = require('../util/utils.js').util;
+
 
 
 export const Polygon=function(option) {

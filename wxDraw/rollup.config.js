@@ -10,5 +10,5 @@ export default {
           exclude: 'node_modules/**',
       })
   ],
-  banner: "wxDraw"
+  banner: ""
 };

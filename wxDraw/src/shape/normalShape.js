@@ -2,10 +2,12 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 13:43:40
+ * @Last Modified time: 2017-09-27 14:10:00
  * 普通形状
  * 
  */
+import { util } from '../util/utils.js';
+
 
 var cOption = {
     fillStyle: "red",
@@ -28,7 +30,8 @@ var rOption = {
 
 
 
-var util = require('../util/utils.js').util;
+
+
 
 /**
  * 

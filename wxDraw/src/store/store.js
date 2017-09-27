@@ -1,4 +1,4 @@
-function Store(){
+export const  Store = function (){
    this.store = [];
 }
 
@@ -16,6 +16,3 @@ Store.prototype = {
 
 }
 
-module.exports = {
-    Store:Store
-}

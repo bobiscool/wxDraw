@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-23 20:09:19
+ * @Last Modified time: 2017-09-27 13:53:54
  * 
  * 工具库
  */
@@ -11,14 +11,15 @@
 
 // import * as _ from "lodash"
 
-function getLocation(x, y) {
+export const getLocation=function(x, y) {
     return {
         x: (x - canvas.getBoundingClientRect().left) > 0 ? (x - canvas.getBoundingClientRect().left) : 0,
         y: (y - canvas.getBoundingClientRect().top) > 0 ? (y - canvas.getBoundingClientRect().top) : 0,
     }
 }
 
-function guid(){
+
+export const guid=function(){
     var id = 0x9420dc;
     return function(){
         return id++;
@@ -28,7 +29,7 @@ function guid(){
 
 
 
-function arrLikeToArray(al) {
+export const arrLikeToArray=function (al) {
     let len = al.length;
     let temArray = [];
     if (len > 0) {
@@ -38,7 +39,7 @@ function arrLikeToArray(al) {
     }
     return temArray;
 }
-var util = {
+export const util = {
 
     mix(target, source, overlay) {
         //混合
@@ -58,10 +59,4 @@ var util = {
         }
         return target;
     },
-}
-
-module.exports= {
-   _getLocation:getLocation,
-   _guid:guid(),
-   util:util
 }

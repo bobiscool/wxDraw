@@ -2,14 +2,14 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 13:24:00
+ * @Last Modified time: 2017-09-27 13:54:47
  * 主要 引入对象
  * 
  * 
  */
 
-var _guid = require("./util/utils.js")._guid;
-var Store = require("./store/store.js").Store;
+import { guid } from "./util/utils.js";
+import { Store } from "./store/store.js";
 import { Shape } from "./shape/shape.js";
 
 /**
@@ -24,7 +24,7 @@ import { Shape } from "./shape/shape.js";
 function WxDraw(canvas, x, y, w, h) {
 
     this.canvas = canvas;
-    this.wcid = _guid();
+    this.wcid = guid();
     this.store = new Store();
     this.x = x;
     this.y = y;

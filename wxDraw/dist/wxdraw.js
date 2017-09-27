@@ -1,11 +1,63 @@
-wxDraw
 'use strict';
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-09-22 09:34:43 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-09-27 13:53:54
+ * 
+ * 工具库
+ */
+
+// import * as _ from "lodash"
+
+
+
+var guid = function guid() {
+    var id = 0x9420dc;
+    return function () {
+        return id++;
+    };
+};
+
+
+var util = {
+    mix: function mix(target, source, overlay) {
+        //混合
+        target = 'prototype' in target ? target.prototype : target;
+        source = 'prototype' in source ? source.prototype : source;
+
+        this.extend(target, source, overlay);
+    },
+    extend: function extend(target, source, overlay) {
+        for (var key in source) {
+            if (source.hasOwnProperty(key) && (overlay ? source[key] != null : target[key] == null)) {
+                target[key] = source[key];
+            }
+        }
+        return target;
+    }
+};
+
+var Store = function Store() {
+    this.store = [];
+};
+
+Store.prototype = {
+    add: function add(shape) {
+        // 添加 图形
+        this.store.push(shape);
+    },
+    update: function update() {},
+    delete: function _delete() {}
+
+};
 
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 13:42:45
+ * @Last Modified time: 2017-09-27 14:07:35
  */
 
 var pOption = {
@@ -21,8 +73,6 @@ function Point(x, y) {
     this.x = x;
     this.y = y;
 }
-
-var util = require('../util/utils.js').util;
 
 var Polygon = function Polygon(option) {
     var _temOption = util.extend(option, pOption);
@@ -168,11 +218,10 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 13:43:40
+ * @Last Modified time: 2017-09-27 14:10:00
  * 普通形状
  * 
  */
-
 var cOption = {
     fillStyle: "red",
     strokeStyle: "red",
@@ -190,18 +239,15 @@ var rOption = {
     h: 10,
     fillStyle: "red",
     strokeStyle: "red"
-};
 
-var util$1 = require('../util/utils.js').util;
-
-/**
- * 
- * 圆圈
- * @param {any} option  配置项
- * 
- */
-var Circle = function Circle(option) {
-    var _temOption = util$1.extend(option, cOption);
+    /**
+     * 
+     * 圆圈
+     * @param {any} option  配置项
+     * 
+     */
+};var Circle = function Circle(option) {
+    var _temOption = util.extend(option, cOption);
     console.log('_temOption', _temOption);
     this.x = _temOption.x;
     this.y = _temOption.y;
@@ -271,7 +317,7 @@ Circle.prototype = {
      */
 
 };var Rect = function Rect(option) {
-    var _temOption = util$1.extend(option, rOption);
+    var _temOption = util.extend(option, rOption);
     console.log(_temOption);
     this.x = _temOption.x;
     this.y = _temOption.y;
@@ -339,11 +385,10 @@ Rect.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 13:42:22
+ * @Last Modified time: 2017-09-27 16:04:25
  * 在这里添加事件 
  */
 
-var ShapeBase = require('./shapeBase.js').ShapeBase;
 var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.draggable = draggable ? true : false;
     this.highlight = highlight ? true : false;
@@ -390,14 +435,12 @@ var shapeTypes = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 13:24:00
+ * @Last Modified time: 2017-09-27 13:54:47
  * 主要 引入对象
  * 
  * 
  */
 
-var _guid = require("./util/utils.js")._guid;
-var Store = require("./store/store.js").Store;
 /**
  * 
  * 
@@ -410,7 +453,7 @@ var Store = require("./store/store.js").Store;
 function WxDraw(canvas, x, y, w, h) {
 
     this.canvas = canvas;
-    this.wcid = _guid();
+    this.wcid = guid();
     this.store = new Store();
     this.x = x;
     this.y = y;
