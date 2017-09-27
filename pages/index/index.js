@@ -44,6 +44,7 @@ Page({
     /** 
      * 
      */
+    console.log(requestAnimationFrame);
     var context = wx.createCanvasContext('first')
 
     this.wxCanvas = new WxDraw(context,0,0,400,500);
