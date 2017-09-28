@@ -469,6 +469,15 @@ function fakeAnimationFrame(callback) {
  * 
  */
 
+/**
+ * 
+ * 
+ * @param {any} canvas canvas对象
+ * @param {any} x   由于小程序的无法获取 canvas 大小高宽 必须指定 x y 长宽 才能 去检测点击
+ * @param {any} y 
+ * @param {any} w 
+ * @param {any} h 
+ */
 function WxDraw(canvas, x, y, w, h) {
 
     this.canvas = canvas;

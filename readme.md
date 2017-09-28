@@ -7,11 +7,17 @@
         - 正n边形
         - 用户自己加的形状
     - image
-    - 
+    - 线条    
+        - 贝塞尔曲线
+        - 普通线条
+ 
 - 拖拽检测
     - rect
     - arc
     - polygon 区域 
+        - 正多边形
+        - 非规则多边形
+    - 线条点击
     - z-index
 - 动画
     - requestAnimationFrame垫片
