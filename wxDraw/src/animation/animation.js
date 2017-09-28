@@ -2,16 +2,19 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 23:31:49 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-28 00:11:01
+ * @Last Modified time: 2017-09-28 14:13:15
  * 单个小物件自己的计时器
  */
-function Watch() {
+import { EasingFunctions } from "./animationFunc.js"
+
+ function Watch() {
     this.startTime = 0; //启动时间
     this.running = false;//是否还在运行
     this.goesBytime = 0;
     this.goesBy = undefined;
     this.DEFAULT_ELASTIC = 2;
 }
+
 
 Watch.prototype = {
     start: function () {
@@ -71,7 +74,7 @@ AnimationTimer.prototype = {
         if(!this.watch.running) return undefined; //没有运行 那就没有
         if(!this.timeFunc) return goesBytime;//如果没有时间函数那就直接返回正常的 时间
         //关键点
-        return goesBytime*(this.timeFunc(aniPercent)/aniPercent);//时间扭曲
+        return goesBytime*(EasingFunctions[timeFunc](aniPercent)/aniPercent);//时间扭曲
 
     },
     isOver:function(){
