@@ -2,12 +2,13 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-28 09:35:25
+ * @Last Modified time: 2017-09-28 14:26:27
  * 在这里添加事件 
  */
 
 import { Polygon } from './polygon.js';
 import { Rect,Circle } from './normalShape.js';
+import { AnimationTimer } from '../aniamtion/animation.js';
 
 
 export var  Shape=function(type, option, strokeOrfill, draggable, highlight) {
@@ -16,6 +17,7 @@ export var  Shape=function(type, option, strokeOrfill, draggable, highlight) {
     this.strokeOrfill = strokeOrfill ? true : false;//是否填充
     this.type = type;
     this.Shape = new shapeTypes[type](option);
+    this.AnimationTimer = new AnimationTimer();
 }
 
 
@@ -42,6 +44,9 @@ Shape.prototype = {
     },
     upDetect:function(){
         this.Shape.upDetect();
+    },
+    animate:function(){
+
     }
 }
 
