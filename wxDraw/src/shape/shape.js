@@ -1,8 +1,9 @@
+
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-28 14:26:27
+ * @Last Modified time: 2017-09-28 14:31:22
  * 在这里添加事件 
  */
 
@@ -45,8 +46,8 @@ Shape.prototype = {
     upDetect:function(){
         this.Shape.upDetect();
     },
-    animate:function(){
-
+    animate:function(atrribute,exp,option){
+       
     }
 }
 
