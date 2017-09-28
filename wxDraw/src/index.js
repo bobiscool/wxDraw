@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 23:34:42
+ * @Last Modified time: 2017-09-28 15:03:06
  * 主要 引入对象
  * 
  * 
@@ -77,6 +77,9 @@ WxDraw.prototype = {
             x: (x - this.x) > 0 ? ((x - this.x) > this.w ? this.w : x - this.x) : this.x,
             y: (y - this.y) > 0 ? ((y - this.y) > this.h ? this.h : y - this.y) : this.y,
         }
+    },
+    update:function(){
+        // 用户手动更新 
     }
 }
 

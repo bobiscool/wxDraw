@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-28 14:31:22
+ * @Last Modified time: 2017-09-28 14:54:17
  * 在这里添加事件 
  */
 
@@ -46,10 +46,20 @@ Shape.prototype = {
     upDetect:function(){
         this.Shape.upDetect();
     },
+    
+    /**
+     * 
+     * 
+     * @param {any} atrribute 哪个属性动画
+     * @param {any} exp   增加多少
+     * @param {any} option  其他设置项目
+     */
     animate:function(atrribute,exp,option){
        
     }
 }
+
+
 
 
 
