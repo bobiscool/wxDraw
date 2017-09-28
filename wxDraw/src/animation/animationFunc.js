@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-28 13:43:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-28 14:04:01
+ * @Last Modified time: 2017-09-28 14:10:22
   时间函数 基于
   http://easings.net/zh-cn
  */

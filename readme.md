@@ -1,27 +1,29 @@
 #
 
 - 图形创建
-    - rect
-    - arc
-    - polygon
-        - 正n边形
-        - 用户自己加的形状
-    - image
-    - 线条    
-        - 贝塞尔曲线
-        - 普通线条
+    - [x] rect
+    - [x] arc
+    - [ ] polygon
+        - [x] 正n边形
+        - [ ] 用户自己加的形状
+    -  [x] image
+    -  [x] 线条    
+        -  [ ] 贝塞尔曲线
+        -  [ ] 普通线条
  
-- 拖拽检测
-    - rect
-    - arc
-    - polygon 区域 
-        - 正多边形
-        - 非规则多边形
-    - 线条点击
-    - z-index
-- 动画
-    - requestAnimationFrame垫片
-    - 运动
-    - 精灵图【小程序 所支持的drawImage功能太低级 所以取消】
+-  [ ] 拖拽检测
+    -  [x] rect
+    -  [x] arc
+    -  [ ] polygon 区域 
+        -  [x] 正多边形
+        -  [ ] 非规则多边形
+    -  [ ] 线条点击
+    -  [ ] z-index
+-  [ ] 动画
+    -  [x] requestAnimationFrame垫片
+    -  [ ] 时间扭曲函数
+    -  [ ] 
+    -  [ ] 运动
+    -  [N] 精灵图【小程序 所支持的drawImage功能太低级 所以取消】
 
 - 碰撞检测
