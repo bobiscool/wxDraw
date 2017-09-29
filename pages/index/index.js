@@ -61,12 +61,7 @@ Page({
    
   
 
-function animate(){
-      AnimationFrame(function () {
-        console.log(3)
-        animate();
-      })
-}
+
 
 
     this.wxCanvas.draw();
