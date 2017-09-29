@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 16:12:38 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 10:15:45
+ * @Last Modified time: 2017-09-29 10:38:41
  * 帧动画控制器
  */
 //todo cancelRequestAnimationFrame 
@@ -10,11 +10,25 @@
  export const AnimationFrame = function(){
     // console.log('requestAnimationFrame',requestAnimationFrame);
     if(requestAnimationFrame){
-        return requestAnimationFrame
-    }else {
-      return  fakeAnimationFrame;
+        this.animationType = "r";
+        this.AnimationFrame = requestAnimationFrame;
+    }else{
+        this.animationType = 's';
+        this.AnimationFrame = fakeAnimationFrame;
     }
+
+
+    
 }
+
+
+AnimationFrame.prototype = {
+    
+}
+
+
+
+
 
 
 function fakeAnimationFrame(callback){
