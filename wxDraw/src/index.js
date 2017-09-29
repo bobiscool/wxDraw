@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-28 17:22:43
+ * @Last Modified time: 2017-09-29 11:42:06
  * 主要 引入对象
  * 
  * 
@@ -11,7 +11,8 @@
 import { guid } from "./util/utils.js";
 import { Store } from "./store/store.js";
 import { Shape } from "./shape/shape.js";
-import { AnimationFrame } from "./animation/animationFrame.js";
+// import { AnimationFrame } from "./animation/animationFrame.js";
+import { Animation } from "./animation/animationFrame.js";
 
 /**
  * 
@@ -29,6 +30,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.canvas = canvas;
     this.wcid = guid();
     this.store = new Store();
+    this.animation = new Animation
     this.x = x;
     this.y = y;
     this.w = w;
@@ -81,7 +83,7 @@ WxDraw.prototype = {
     update:function(){
         // 用户手动更新 
     },
-    _AnimationCenter:function(){
+    AnimationCenter:function(){
       
     }
 }
