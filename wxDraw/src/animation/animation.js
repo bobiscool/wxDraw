@@ -2,10 +2,11 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 10:09:51
+ * @Last Modified time: 2017-09-29 10:14:12
  * 动画 对象 接管所有动画
  */
 
+import { AnimationTimer } from "./animationTimer.js"
 
 function Animation(){
    this._running = false;
@@ -13,6 +14,16 @@ function Animation(){
                         // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
 }
 
-Animation.prototype = {
 
+
+
+Animation.prototype = {
+   start:function(){
+       //开始整个动画
+ 
+   },
+    loopAnimation:function(){
+        //循环 整场动画
+        
+    }
 }
