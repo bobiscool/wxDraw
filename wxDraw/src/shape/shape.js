@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-28 14:54:17
+ * @Last Modified time: 2017-09-29 15:30:41
  * 在这里添加事件 
  */
 
@@ -55,6 +55,9 @@ Shape.prototype = {
      * @param {any} option  其他设置项目
      */
     animate:function(atrribute,exp,option){
+       // 在这里添加 动画
+
+       
        
     }
 }
