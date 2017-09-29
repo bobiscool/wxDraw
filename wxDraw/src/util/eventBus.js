@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 15:46:45
+ * @Last Modified time: 2017-09-29 15:48:32
  * 事件对象
  * 
  */
@@ -18,6 +18,11 @@ eventBus.prototype = {
         this.eventList.forEach(function(ele) {
             if(ele.name==="name"){
                 ele.thingsList.push(event);
+            }else{
+                this.eventList.push({
+                    name:name,
+                    thingsList:[event]
+                })
             }
         }, this);
     },
