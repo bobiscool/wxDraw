@@ -383,9 +383,148 @@ Rect.prototype = {
 
 /*
  * @Author: Thunderball.Wu 
+ * @Date: 2017-09-28 13:43:40 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-09-28 14:11:55
+  时间函数 基于
+  http://easings.net/zh-cn
+ */
+
+var EasingFunctions = {
+  // 线性函数
+  linear: function linear(t) {
+    return t;
+  },
+  // easeInQuad 函数
+  easeInQuad: function easeInQuad(t) {
+    return t * t;
+  },
+  // easeOutQuad 函数
+  easeOutQuad: function easeOutQuad(t) {
+    return t * (2 - t);
+  },
+  // acceleration until halfway, then deceleration
+  easeInOutQuad: function easeInOutQuad(t) {
+    return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  },
+  // accelerating from zero velocity 
+  easeInCubic: function easeInCubic(t) {
+    return t * t * t;
+  },
+  // decelerating to zero velocity 
+  easeOutCubic: function easeOutCubic(t) {
+    return --t * t * t + 1;
+  },
+  // acceleration until halfway, then deceleration 
+  easeInOutCubic: function easeInOutCubic(t) {
+    return t < .5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+  },
+  // accelerating from zero velocity 
+  easeInQuart: function easeInQuart(t) {
+    return t * t * t * t;
+  },
+  // decelerating to zero velocity 
+  easeOutQuart: function easeOutQuart(t) {
+    return 1 - --t * t * t * t;
+  },
+  // acceleration until halfway, then deceleration
+  easeInOutQuart: function easeInOutQuart(t) {
+    return t < .5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
+  },
+  // accelerating from zero velocity
+  easeInQuint: function easeInQuint(t) {
+    return t * t * t * t * t;
+  },
+  // decelerating to zero velocity
+  easeOutQuint: function easeOutQuint(t) {
+    return 1 + --t * t * t * t * t;
+  },
+  // acceleration until halfway, then deceleration 
+  easeInOutQuint: function easeInOutQuint(t) {
+    return t < .5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t;
+  }
+};
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-09-27 23:31:49 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-09-28 18:12:33
+ * 单个小物件自己的计时器
+ */
+function Watch() {
+    this.startTime = 0; //启动时间
+    this.running = false; //是否还在运行
+    this.goesBytime = 0;
+    this.goesBy = undefined;
+    this.DEFAULT_ELASTIC = 2;
+}
+
+Watch.prototype = {
+    start: function start() {
+        this.startTime = +new Date();
+        this.goesBytime = undefined;
+        this.running = true;
+    },
+
+    stop: function stop() {
+        this.goesBy = +new Date() - this.startTime;
+        this.running = false;
+    },
+
+    getGoesByTime: function getGoesByTime() {
+
+        if (this.running) {
+            var _tem = +new Date() - this.startTime;
+            return _tem > 1 && !isNaN(_tem) ? _tem : 0;
+        } else {
+            return this.goesBy;
+        }
+    },
+    isRunning: function isRunning() {
+        return this.running;
+    },
+    reset: function reset() {
+        this.goesBy = 0;
+    }
+};
+
+var AnimationTimer = function AnimationTimer(duration, timeFunc) {
+    if (duration !== undefined) this.duration = duration;
+    if (timeFunc !== undefined) this.timeFunc = timeFunc;
+    this.watch = new Watch();
+};
+
+AnimationTimer.prototype = {
+    start: function start() {
+        //开始计时
+        this.watch.sart();
+    },
+    stop: function stop() {
+        this.watch.stop();
+    },
+    getGoesByTime: function getGoesByTime() {
+        //注意这里的时间与 watch 里面的时间不是同一概念 这里面还有扭曲时间 用于产生不同的动画效果的
+        var goesBytime = this.watch.getGoesByTime();
+        var aniPercent = goesBytime / this.duration; //动画进行的程度
+
+
+        if (!this.watch.running) return undefined; //没有运行 那就没有
+        if (!this.timeFunc) return goesBytime; //如果没有时间函数那就直接返回正常的 时间
+        //关键点
+        return goesBytime * (EasingFunctions[timeFunc](aniPercent) / aniPercent); //时间扭曲
+    },
+    isOver: function isOver() {
+        return this.watch.getGoesByTime > this.duration;
+    }
+
+};
+
+/*
+ * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-28 09:35:25
+ * @Last Modified time: 2017-09-29 16:52:38
  * 在这里添加事件 
  */
 
@@ -395,6 +534,7 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.strokeOrfill = strokeOrfill ? true : false; //是否填充
     this.type = type;
     this.Shape = new shapeTypes[type](option);
+    this.AnimationTimer = new AnimationTimer();
 };
 
 Shape.prototype = {
@@ -416,6 +556,27 @@ Shape.prototype = {
     },
     upDetect: function upDetect() {
         this.Shape.upDetect();
+    },
+
+    /**
+     * 
+     * 
+     * @param {any} atrribute 哪个属性动画
+     * @param {any} exp   增加多少
+     * @param {any} option  其他设置项目
+     */
+    animate: function animate(atrribute, exp, option) {
+        // 在这里添加 动画
+
+        if (atrribute == "x") {
+            // @TODO 方向
+            // @TODO 表达式
+            // @TODO 回调
+
+            if (exp.indexOf('+=') == 0) {
+                exp.slpit('=')[1];
+            }
+        }
     }
 };
 
@@ -435,18 +596,43 @@ var shapeTypes = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 16:12:38 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 23:38:54
+ * @Last Modified time: 2017-09-29 10:56:10
  * 帧动画控制器
  */
-
+//todo cancelRequestAnimationFrame 
+// cancel setTimeOut
 var AnimationFrame = function AnimationFrame() {
     // console.log('requestAnimationFrame',requestAnimationFrame);
+    // if(requestAnimationFrame){
+    //     this.animationType = "r";
+    //     this.AnimationFrame = requestAnimationFrame;
+    // }else{
+    //     this.animationType = 's';
+    //     this.AnimationFrame = fakeAnimationFrame;
+    // }
+
+    // this.animationId = null;
+
     if (requestAnimationFrame) {
         return requestAnimationFrame;
     } else {
         return fakeAnimationFrame;
     }
 };
+
+// AnimationFrame.prototype = {
+//     getAnimationFrame:function(){
+//         return this.AnimationFrame;
+//     },
+//     cancelAnimationFrame:function(){//取消动画
+//         if(thid.animationType=='r'){
+//            cancelAnimationFrame(this.animationId);
+//         }else{
+//             clearTimeout(this.animationId);
+//         }
+//     }
+// }
+
 
 function fakeAnimationFrame(callback) {
     var start;
@@ -456,19 +642,61 @@ function fakeAnimationFrame(callback) {
         
 
         //   console.log(finish - start);
-    }, 20);
+    }, 16);
 }
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-09-29 15:33:40 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-09-29 15:53:05
+ * 事件对象
+ * 
+ */
+
+var eventBus = function eventBus() {
+    this.eventList = [];
+};
+eventBus.prototype = {
+    add: function add(name, event) {
+        //添加事件 初始化事件
+        this.eventList.forEach(function (ele) {
+            if (ele.name === name) {
+                ele.thingsList.push(event);
+            } else {
+                this.eventList.push({
+                    name: name,
+                    thingsList: [event]
+                });
+            }
+        }, this);
+    },
+    dispatch: function dispatch(name, scope, params) {
+        //执行事件
+        this.eventList.forEach(function (ele) {
+            if (ele.name === name) {
+                this.eventList.forEach(function (_ele) {
+                    _ele.call(scope, params);
+                });
+            }
+        });
+    },
+    destroy: function destroy() {
+        // 取消事件
+    }
+};
 
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 23:34:42
+ * @Last Modified time: 2017-09-29 16:51:37
  * 主要 引入对象
  * 
  * 
  */
 
+// import { AnimationFrame } from "./animation/animationFrame.js";
 /**
  * 
  * 
@@ -483,6 +711,8 @@ function WxDraw(canvas, x, y, w, h) {
     this.canvas = canvas;
     this.wcid = guid();
     this.store = new Store();
+    thid._bus = new eventBus();
+    this.animation = new Animation(this._bus);
     this.x = x;
     this.y = y;
     this.w = w;
@@ -530,7 +760,11 @@ WxDraw.prototype = {
             x: x - this.x > 0 ? x - this.x > this.w ? this.w : x - this.x : this.x,
             y: y - this.y > 0 ? y - this.y > this.h ? this.h : y - this.y : this.y
         };
-    }
+    },
+    update: function update() {
+        // 用户手动更新 
+    },
+    AnimationCenter: function AnimationCenter() {}
 };
 
 module.exports = {

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 16:11:02
+ * @Last Modified time: 2017-09-29 16:51:37
  * 主要 引入对象
  * 
  * 
@@ -12,7 +12,7 @@ import { guid } from "./util/utils.js";
 import { Store } from "./store/store.js";
 import { Shape } from "./shape/shape.js";
 // import { AnimationFrame } from "./animation/animationFrame.js";
-import { Animation } from "./animation/animationFrame.js";
+import { AnimationFrame } from "./animation/animationFrame.js";
 import { eventBus } from "./util/eventBus.js"
 /**
  * 
@@ -30,12 +30,13 @@ function WxDraw(canvas, x, y, w, h) {
     this.canvas = canvas;
     this.wcid = guid();
     this.store = new Store();
-    this.animation = new Animation
+    thid._bus = new eventBus();
+    this.animation = new Animation(this._bus);
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
-    thid._bus = new eventBus();
+   
 }
 
 WxDraw.prototype = {
