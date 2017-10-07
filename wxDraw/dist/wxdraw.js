@@ -524,7 +524,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 12:54:31
+ * @Last Modified time: 2017-10-07 13:15:02
  */
 
 var FRAGOPTION = {
@@ -543,7 +543,7 @@ var FRAGOPTION = {
 
 };
 
-var AnimationFrag = function AnimationFrag(object, atrribute, source, target, option) {
+var AnimationFrag = function AnimationFrag(object, atrribute, target, option) {
     // 这里是动画碎片 更改 obj的地方 但是 问题就在这里 这应该是 最简单的功能 就是对比目标 
     // 添加 delta
     // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
@@ -557,16 +557,24 @@ var AnimationFrag = function AnimationFrag(object, atrribute, source, target, op
     this.started = false;
     this.duration = _temOption.duration;
     this.atrribute = atrribute;
-    this.source = source; // 最初动画开始的属性
+    this.source = this.object[atrribute]; // 最初动画开始的属性
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
 };
 
 AnimationFrag.prototype = {
     updateAnimation: function updateAnimation() {
         //获取时间  以及计算出来 的变化时间 来  如果现在的时间 一加到达 
+        if (this.timer.isOver()) {
+            this.complete = true;
+            this.running = false;
+            return false;
+        }
         if (!this.started) {
             this.started = true;
+            this.running = true;
             this.timer.start();
+        } else {
+            this.updateAtrribute();
         }
     },
     updateAtrribute: function updateAtrribute() {
@@ -578,7 +586,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 13:01:40
+ * @Last Modified time: 2017-10-07 13:16:59
  * 在这里添加事件 
  */
 
@@ -650,9 +658,8 @@ Shape.prototype = {
                  * 
                  */
 
-                var _temTarget = this.x + parseFloat(tem[1]);
-                var _direc = true;
-                var _temFrag = new AnimationFrag(this, "x", _temTarget, _direc, option);
+                var _temTarget = this.Shape.x + parseFloat(tem[1]);
+                var _temFrag = new AnimationFrag(this, "x", _temTarget, option);
                 //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
                 console.log(_temFrag);
             }
@@ -729,16 +736,15 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 10:28:22
+ * @Last Modified time: 2017-10-07 13:27:29
  * 动画 对象 接管所有动画
  */
 
 var animationFrame = AnimationFrame();
 var Animation = function Animation(bus) {
-    this._running = false;
-    this._paused = true; // 我觉得暂停 不应哎全局的这个暂停上 而是每一个对象有一个自己的暂停 用于 当时wait的时候用  但是现在为我写的
+    this.running = false;
+    this.paused = true; // 我觉得暂停 不应哎全局的这个暂停上 而是每一个对象有一个自己的暂停 用于 当时wait的时候用  但是现在为我写的
     // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
-
 
     this.bus = bus;
     this.animationFragStore = []; // 动画碎片仓库 存储 所有 动画 
@@ -747,20 +753,27 @@ var Animation = function Animation(bus) {
 Animation.prototype = {
     start: function start() {
         //开始整个动画
-
+        this.loopAnimation();
     },
     loopAnimation: function loopAnimation() {
         //循环 整场动画
-        
+        var _self = this;
+        function stepAnimation() {
+            animationFrame(stepAnimation);
+            console.log('---');
+            _self.running && _self.updateStep();
+        }
 
-        animationFrame(step);
+        animationFrame(stepAnimation);
     },
     updateStep: function updateStep() {
         //这里是执行小动画的地方 每一个obj都有自己的动画 在obj添加动画的时候 
         // 便在动画循环里面添加 
         // 动画是根据时间 来执行的 
         // this._bus()
-
+        this.animationFragStore.forEach(function (ele) {
+            ele.updateAnimation();
+        });
     }
 };
 
@@ -819,7 +832,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 12:56:07
+ * @Last Modified time: 2017-10-07 13:22:06
  * 主要 引入对象
  * 
  * 
@@ -848,6 +861,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.h = h;
     // 初始化 动画仓库 接收点 
     this.bus.add('addAnimation', this.addAnimationFrag);
+    this.animation.start();
 }
 
 WxDraw.prototype = {

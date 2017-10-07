@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 13:10:19
+ * @Last Modified time: 2017-10-07 13:15:02
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -25,7 +25,7 @@ var FRAGOPTION = {
 
 }
 
-export const AnimationFrag = function (object, atrribute,source, target, option) {
+export const AnimationFrag = function (object, atrribute, target, option) {
     // 这里是动画碎片 更改 obj的地方 但是 问题就在这里 这应该是 最简单的功能 就是对比目标 
     // 添加 delta
     // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
@@ -39,7 +39,7 @@ export const AnimationFrag = function (object, atrribute,source, target, option)
     this.started = false;
     this.duration = _temOption.duration;
     this.atrribute = atrribute;
-    this.source = source;// 最初动画开始的属性
+    this.source = this.object[atrribute];// 最初动画开始的属性
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
 }
 
