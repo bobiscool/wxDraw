@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 12:54:31
+ * @Last Modified time: 2017-10-07 13:10:19
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -46,11 +46,18 @@ export const AnimationFrag = function (object, atrribute,source, target, option)
 AnimationFrag.prototype = {
     updateAnimation: function () {
         //获取时间  以及计算出来 的变化时间 来  如果现在的时间 一加到达 
+        if(this.timer.isOver()){
+            this.complete = true;
+            this.running = false;
+            return false;
+        }
        if(!this.started){
            this.started = true;
+            this.running = true;
            this.timer.start();
-
-          
+           
+        }else{
+            this.updateAtrribute();
         }
 
     },
