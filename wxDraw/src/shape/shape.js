@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:09:31
+ * @Last Modified time: 2017-10-07 14:21:31
  * 在这里添加事件 
  */
 
@@ -21,11 +21,15 @@ export var  Shape=function(type, option, strokeOrfill, draggable, highlight) {
     this.Shape = new shapeTypes[type](option);
     this.AnimationTimer = new AnimationTimer();
     this.animtionFragList = [];// flag List
+    this.bus = null;
 }
 
 
 
 Shape.prototype = {
+    updateBus:function(bus){
+        this.bus = bus;
+    },
     paint: function (context) {
         if (this.strokeOrfill) {
             this.Shape.fill(context);

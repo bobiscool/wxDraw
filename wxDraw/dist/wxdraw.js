@@ -786,7 +786,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 13:37:12
+ * @Last Modified time: 2017-10-07 14:19:25
  * 事件对象
  * 
  */
@@ -797,6 +797,14 @@ var eventBus = function eventBus() {
 eventBus.prototype = {
     add: function add(name, event) {
         //添加事件 初始化事件
+
+        if (!this.eventList.length) {
+            this.eventList.push({
+                name: name,
+                thingsList: [event]
+            });
+        }
+
         this.eventList.forEach(function (ele) {
             if (ele.name === name) {
                 ele.thingsList.push(event);

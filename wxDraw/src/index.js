@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:18:02
+ * @Last Modified time: 2017-10-07 14:22:08
  * 主要 引入对象
  * 
  * 
@@ -47,8 +47,7 @@ function WxDraw(canvas, x, y, w, h) {
 
 WxDraw.prototype = {
     add: function (item) {
-        console.log('item',item);
-        item.bus = this.bus;
+        item.updateBus(this.bus)
         this.store.add(item);
     },
     draw: function () {
