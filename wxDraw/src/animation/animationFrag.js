@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 11:11:52
+ * @Last Modified time: 2017-10-07 11:16:00
  */
 
  import { AnimationTimer } from "./animationTimer.js"
@@ -20,7 +20,9 @@ var FRAGOPTION = {
        // 动画结束 的时候 执行
     },
     duration:1000,// 毫秒
-    easing:"linear"// 缓动函数 
+    easing:"linear",// 缓动函数 
+
+
 }
 
 export const AnimationFrag = function(object,atrribute,target,option){
@@ -38,6 +40,7 @@ export const AnimationFrag = function(object,atrribute,target,option){
 AnimationFrag.prototype = {
     updateAnimation:function(){
     //    if
+    if()
     },
 }
 
