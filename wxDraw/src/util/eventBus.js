@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 09:47:44
+ * @Last Modified time: 2017-10-07 10:15:31
  * 事件对象
  * 
  */
@@ -40,7 +40,9 @@ eventBus.prototype = {
        this.eventList.forEach(function(ele){
            if(ele.name===name){
                this.eventList.forEach(function(_ele){
-                   _ele.call(scope,...params)
+                   _ele.call(scope,params)
+                   //  TODO 添加 解构 
+                   
                });
            }
        });

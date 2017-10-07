@@ -524,7 +524,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 16:52:38
+ * @Last Modified time: 2017-09-29 17:36:52
  * 在这里添加事件 
  */
 
@@ -535,6 +535,7 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.type = type;
     this.Shape = new shapeTypes[type](option);
     this.AnimationTimer = new AnimationTimer();
+    this.animtionFragList = []; // flag List
 };
 
 Shape.prototype = {
@@ -562,19 +563,38 @@ Shape.prototype = {
      * 
      * 
      * @param {any} atrribute 哪个属性动画
-     * @param {any} exp   增加多少
+     * @param {any} exp   表达式
      * @param {any} option  其他设置项目
      */
     animate: function animate(atrribute, exp, option) {
         // 在这里添加 动画
-
+        // 所有的动画其实就是目标
+        // 一旦 每个动画对象执行 animate其实就是给自己立了一个flag
+        /**
+         *所以的动画碎片其实就是所有的flag
+         这些flag you刚开始的 有结束的 于是 改变的时候就要去记录状态 
+         对比 这些状态 是不是以及完成 
+         完成了就完事 
+         没完成 那就继续 按照时间 完成
+         */
         if (atrribute == "x") {
             // @TODO 方向
             // @TODO 表达式
             // @TODO 回调
 
             if (exp.indexOf('+=') == 0) {
-                exp.slpit('=')[1];
+                var tem = exp.slpit('=')[1];
+
+                /**
+                 * 这里的animate 世纪路所有动画 
+                 * 但是在哪里执行呢 ？
+                 * 在父集里面 有一个 aniamtion 哪个是 动画控制器 
+                 * 是一个总的 宗华控制器 
+                 * 但是 是事实上 总的动画控制器 
+                 * uodate 还是 每一个单个 shape自己跟新 动画 这样思路上 
+                 * 才不不会乱 
+                 * 
+                 */
             }
         }
     }
@@ -649,7 +669,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 15:53:05
+ * @Last Modified time: 2017-10-07 10:07:07
  * 事件对象
  * 
  */
@@ -671,8 +691,17 @@ eventBus.prototype = {
             }
         }, this);
     },
-    dispatch: function dispatch(name, scope, params) {
+    dispatch: function dispatch(name, scope) {
         //执行事件
+
+        var _temArgu = arguments;
+
+        if (arguments.length < 2) {
+            return false;
+        }
+
+        var _params = Array.prototype.slice.call(_temArgu, 1);
+
         this.eventList.forEach(function (ele) {
             if (ele.name === name) {
                 this.eventList.forEach(function (_ele) {
@@ -690,7 +719,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 16:51:37
+ * @Last Modified time: 2017-10-07 09:31:04
  * 主要 引入对象
  * 
  * 
@@ -711,7 +740,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.canvas = canvas;
     this.wcid = guid();
     this.store = new Store();
-    thid._bus = new eventBus();
+    this._bus = new eventBus();
     this.animation = new Animation(this._bus);
     this.x = x;
     this.y = y;
