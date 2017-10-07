@@ -790,7 +790,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:34:13
+ * @Last Modified time: 2017-10-07 14:44:58
  * 事件对象
  * 
  */
@@ -799,12 +799,13 @@ var eventBus = function eventBus() {
     this.eventList = [];
 };
 eventBus.prototype = {
-    add: function add(name, event) {
+    add: function add(name, scope, event) {
         //添加事件 初始化事件
 
         if (!this.eventList.length) {
             this.eventList.push({
                 name: name,
+                scope: scope,
                 thingsList: [event]
             });
         }
@@ -815,6 +816,7 @@ eventBus.prototype = {
             } else {
                 this.eventList.push({
                     name: name,
+                    scope: scope,
                     thingsList: [event]
                 });
             }
@@ -838,7 +840,7 @@ eventBus.prototype = {
                     if (scope !== "no") {
                         _ele.call(scope, _params);
                     } else {
-                        _ele(_params);
+                        _ele.call(ele.scope, _params);
                     }
 
                     //  TODO 添加 解构 
@@ -855,7 +857,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:29:00
+ * @Last Modified time: 2017-10-07 14:43:10
  * 主要 引入对象
  * 
  * 
@@ -884,7 +886,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.w = w;
     this.h = h;
     // 初始化 动画仓库 接收点 
-    this.bus.add('addAnimation', this.addAnimationFrag);
+    this.bus.add('addAnimation', this, this.addAnimationFrag);
     console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
@@ -938,7 +940,7 @@ WxDraw.prototype = {
     },
     AnimationCenter: function AnimationCenter() {},
     addAnimationFrag: function addAnimationFrag(scope, AnimationOption) {
-      console.log(this);
+
         this.animation.animationFragStore.push(AnimationOption[0]); // 添加 动画碎片 
     }
 };
