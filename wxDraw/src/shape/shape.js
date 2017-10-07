@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 17:34:03
+ * @Last Modified time: 2017-09-29 17:36:52
  * 在这里添加事件 
  */
 
@@ -19,6 +19,7 @@ export var  Shape=function(type, option, strokeOrfill, draggable, highlight) {
     this.type = type;
     this.Shape = new shapeTypes[type](option);
     this.AnimationTimer = new AnimationTimer();
+    this.animtionFragList = [];// flag List
 }
 
 
@@ -83,6 +84,8 @@ Shape.prototype = {
                * 才不不会乱 
                * 
                */
+
+               
            }
            
        }

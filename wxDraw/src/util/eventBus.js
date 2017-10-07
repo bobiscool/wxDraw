@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 15:53:05
+ * @Last Modified time: 2017-10-07 09:47:44
  * 事件对象
  * 
  */
@@ -26,12 +26,21 @@ eventBus.prototype = {
             }
         }, this);
     },
-    dispatch:function(name,scope,params){
+    dispatch:function(name,scope){
        //执行事件
+       
+       var _temArgu = arguments;
+       
+       if(arguments.length<2){
+         return false;
+       }
+    
+       let _params = Array.prototype.slice.call(_temArgu,1);
+
        this.eventList.forEach(function(ele){
            if(ele.name===name){
                this.eventList.forEach(function(_ele){
-                   _ele.call(scope,params)
+                   _ele.call(scope,...params)
                });
            }
        });
