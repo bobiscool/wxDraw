@@ -586,7 +586,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 13:16:59
+ * @Last Modified time: 2017-10-07 14:09:31
  * 在这里添加事件 
  */
 
@@ -662,6 +662,8 @@ Shape.prototype = {
                 var _temFrag = new AnimationFrag(this, "x", _temTarget, option);
                 //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
                 console.log(_temFrag);
+
+                this.bus.dispatch('addAnimation', "no", _temFrag);
             }
         }
     }
@@ -736,7 +738,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 13:28:56
+ * @Last Modified time: 2017-10-07 14:13:02
  * 动画 对象 接管所有动画
  */
 
@@ -747,6 +749,7 @@ var Animation = function Animation(bus) {
     // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
 
     this.bus = bus;
+    console.log(this.bus);
     this.animationFragStore = []; // 动画碎片仓库 存储 所有 动画 
 };
 
@@ -761,7 +764,7 @@ Animation.prototype = {
         var _self = this;
         function stepAnimation() {
             animationFrame(stepAnimation);
-            console.log('---');
+            // console.log('---');
             _self.running && _self.updateStep();
         }
 
@@ -783,7 +786,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 10:15:31
+ * @Last Modified time: 2017-10-07 13:37:12
  * 事件对象
  * 
  */
@@ -806,7 +809,8 @@ eventBus.prototype = {
         }, this);
     },
     dispatch: function dispatch(name, scope) {
-        //执行事件
+        //执行事件 这里有两种状况  执行最外层或者是事件添加层 的scope 或者是 当地的scope
+
 
         var _temArgu = arguments;
 
@@ -819,7 +823,12 @@ eventBus.prototype = {
         this.eventList.forEach(function (ele) {
             if (ele.name === name) {
                 this.eventList.forEach(function (_ele) {
-                    _ele.call(scope, params);
+                    if (scope !== "no") {
+                        _ele.call(scope, params);
+                    } else {
+                        _ele(params);
+                    }
+
                     //  TODO 添加 解构 
                 });
             }
@@ -834,7 +843,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 13:22:06
+ * @Last Modified time: 2017-10-07 14:18:02
  * 主要 引入对象
  * 
  * 
@@ -856,6 +865,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.wcid = guid();
     this.store = new Store();
     this.bus = new eventBus();
+    console.log(this.bus);
     this.animation = new Animation(this.bus);
     this.x = x;
     this.y = y;
@@ -863,11 +873,14 @@ function WxDraw(canvas, x, y, w, h) {
     this.h = h;
     // 初始化 动画仓库 接收点 
     this.bus.add('addAnimation', this.addAnimationFrag);
+    console.log(this.bus);
     this.animation.start();
 }
 
 WxDraw.prototype = {
     add: function add(item) {
+        console.log('item', item);
+        item.bus = this.bus;
         this.store.add(item);
     },
     draw: function draw() {
@@ -912,8 +925,8 @@ WxDraw.prototype = {
         // 用户手动更新 
     },
     AnimationCenter: function AnimationCenter() {},
-    addAnimationFrag: function addAnimationFrag(AnimationOption) {
-        this.animation.animationFragStore.push(AnimationOption); // 添加 动画碎片 
+    addAnimationFrag: function addAnimationFrag(scope, AnimationOption) {
+        this.animation.animationFragStore.push(AnimationOption[0]); // 添加 动画碎片 
     }
 };
 
