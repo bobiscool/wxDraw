@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 12:34:34
+ * @Last Modified time: 2017-10-07 12:54:31
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -55,7 +55,7 @@ AnimationFrag.prototype = {
 
     },
     updateAtrribute:function(){
-        this.target*this.time.getGoesByTime()/this.duration;
+       this.object[this.atrribute] = this.source + this.target*this.time.getGoesByTime()/this.duration;
     }
 }
 
