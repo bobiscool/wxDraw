@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 12:22:34
+ * @Last Modified time: 2017-10-07 12:28:20
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -37,6 +37,7 @@ export const AnimationFrag = function (object, atrribute, _direc, target, option
     this.complete = false;
     this.running = false;
     this.started = false;
+    this.duration = _temOption.duration;
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
 }
 
@@ -46,9 +47,14 @@ AnimationFrag.prototype = {
        if(!this.started){
            this.started = true;
            this.timer.start();
+
+           this.time.getGoesByTime/this.duration;
         }
 
     },
+    updateAtrribute:function(){
+        
+    }
 }
 
 
