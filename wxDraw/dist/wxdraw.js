@@ -790,7 +790,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:33:41
+ * @Last Modified time: 2017-10-07 14:34:13
  * 事件对象
  * 
  */
@@ -836,9 +836,9 @@ eventBus.prototype = {
             if (ele.name === name) {
                 ele.thingsList.forEach(function (_ele) {
                     if (scope !== "no") {
-                        _ele.call(scope, params);
+                        _ele.call(scope, _params);
                     } else {
-                        _ele(params);
+                        _ele(_params);
                     }
 
                     //  TODO 添加 解构 
@@ -938,6 +938,7 @@ WxDraw.prototype = {
     },
     AnimationCenter: function AnimationCenter() {},
     addAnimationFrag: function addAnimationFrag(scope, AnimationOption) {
+      console.log(this);
         this.animation.animationFragStore.push(AnimationOption[0]); // 添加 动画碎片 
     }
 };

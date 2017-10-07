@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:34:13
+ * @Last Modified time: 2017-10-07 14:44:58
  * 事件对象
  * 
  */
@@ -13,12 +13,13 @@ export const eventBus = function () {
     this.eventList = [];
 }
 eventBus.prototype = {
-    add: function (name, event) {
+    add: function (name, scope, event) {
         //添加事件 初始化事件
 
         if (!this.eventList.length) {
             this.eventList.push({
                 name: name,
+                scope: scope,
                 thingsList: [event]
             })
         }
@@ -29,6 +30,7 @@ eventBus.prototype = {
             } else {
                 this.eventList.push({
                     name: name,
+                    scope: scope,
                     thingsList: [event]
                 })
             }
@@ -52,9 +54,9 @@ eventBus.prototype = {
             if (ele.name === name) {
                 ele.thingsList.forEach(function (_ele) {
                     if (scope !== "no") {
-                        _ele.call(scope,_params)
+                        _ele.call(scope, _params)
                     } else {
-                        _ele(_params);
+                        _ele.call(ele.scope,_params);
                     }
 
                     //  TODO 添加 解构 
