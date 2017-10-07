@@ -3,13 +3,14 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 17:36:52
+ * @Last Modified time: 2017-10-07 11:05:55
  * 在这里添加事件 
  */
 
 import { Polygon } from './polygon.js';
 import { Rect,Circle } from './normalShape.js';
 import { AnimationTimer } from '../animation/animationTimer.js';
+import { AnimationFrag } from '../animation/animationFrag.js';
 
 
 export var  Shape=function(type, option, strokeOrfill, draggable, highlight) {
@@ -72,7 +73,7 @@ Shape.prototype = {
            // @TODO 回调
           
            if(exp.indexOf('+=')==0){
-              var tem = exp.slpit('=')[1];
+              var tem = exp.split('=')[1];
               
               /**
                * 这里的animate 世纪路所有动画 
@@ -85,7 +86,10 @@ Shape.prototype = {
                * 
                */
 
+               var _temTarget = this.x+parseFloat(tem[1]);
+               var _temFrag = new AnimationFrag(this,"x",_temTarget,option);
                
+    
            }
            
        }
