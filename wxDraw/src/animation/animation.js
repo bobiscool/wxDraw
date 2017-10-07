@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 13:28:15
+ * @Last Modified time: 2017-10-07 13:28:56
  * 动画 对象 接管所有动画
  */
 
@@ -26,6 +26,7 @@ export const Animation= function(bus){
 Animation.prototype = {
    start:function(){
        //开始整个动画
+       this.running = true;
        this.loopAnimation();
    },
     loopAnimation:function(){

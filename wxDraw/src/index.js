@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 13:22:06
+ * @Last Modified time: 2017-10-07 13:32:45
  * 主要 引入对象
  * 
  * 
@@ -92,8 +92,8 @@ WxDraw.prototype = {
     AnimationCenter:function(){
       
     },
-    addAnimationFrag:function(AnimationOption){
-        this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
+    addAnimationFrag:function(scope,AnimationOption){
+        this.animation.animationFragStore.push(AnimationOption[0]);// 添加 动画碎片 
 
     }
 }

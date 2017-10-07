@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 10:15:31
+ * @Last Modified time: 2017-10-07 13:37:12
  * 事件对象
  * 
  */
@@ -27,9 +27,12 @@ eventBus.prototype = {
         }, this);
     },
     dispatch:function(name,scope){
-       //执行事件
+       //执行事件 这里有两种状况  执行最外层或者是事件添加层 的scope 或者是 当地的scope
+       
        
        var _temArgu = arguments;
+       
+
        
        if(arguments.length<2){
          return false;
@@ -40,9 +43,14 @@ eventBus.prototype = {
        this.eventList.forEach(function(ele){
            if(ele.name===name){
                this.eventList.forEach(function(_ele){
-                   _ele.call(scope,params)
+                   if(scope!=="no"){
+                   _ele.call(scope,params)                       
+                   }else{
+                   _ele(params);    
+                   }
+
                    //  TODO 添加 解构 
-                   
+
                });
            }
        });
