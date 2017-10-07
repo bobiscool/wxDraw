@@ -586,7 +586,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:09:31
+ * @Last Modified time: 2017-10-07 14:21:31
  * 在这里添加事件 
  */
 
@@ -598,9 +598,13 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.Shape = new shapeTypes[type](option);
     this.AnimationTimer = new AnimationTimer();
     this.animtionFragList = []; // flag List
+    this.bus = null;
 };
 
 Shape.prototype = {
+    updateBus: function updateBus(bus) {
+        this.bus = bus;
+    },
     paint: function paint(context) {
         if (this.strokeOrfill) {
             this.Shape.fill(context);
@@ -738,7 +742,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:13:02
+ * @Last Modified time: 2017-10-07 14:22:59
  * 动画 对象 接管所有动画
  */
 
@@ -775,7 +779,7 @@ Animation.prototype = {
         // 便在动画循环里面添加 
         // 动画是根据时间 来执行的 
         // this._bus()
-        console.log(this.animationFragStore);
+        // console.log(this.animationFragStore);
         this.animationFragStore.forEach(function (ele) {
             ele.updateAnimation();
         });
@@ -786,7 +790,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:19:25
+ * @Last Modified time: 2017-10-07 14:33:41
  * 事件对象
  * 
  */
@@ -830,7 +834,7 @@ eventBus.prototype = {
 
         this.eventList.forEach(function (ele) {
             if (ele.name === name) {
-                this.eventList.forEach(function (_ele) {
+                ele.thingsList.forEach(function (_ele) {
                     if (scope !== "no") {
                         _ele.call(scope, params);
                     } else {
@@ -851,7 +855,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:18:02
+ * @Last Modified time: 2017-10-07 14:29:00
  * 主要 引入对象
  * 
  * 
@@ -883,12 +887,12 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('addAnimation', this.addAnimationFrag);
     console.log(this.bus);
     this.animation.start();
+    Shape.bus = this.bus;
 }
 
 WxDraw.prototype = {
     add: function add(item) {
-        console.log('item', item);
-        item.bus = this.bus;
+        item.updateBus(this.bus);
         this.store.add(item);
     },
     draw: function draw() {

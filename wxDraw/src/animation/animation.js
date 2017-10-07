@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:13:02
+ * @Last Modified time: 2017-10-07 14:22:59
  * 动画 对象 接管所有动画
  */
 
@@ -46,7 +46,7 @@ Animation.prototype = {
         // 便在动画循环里面添加 
         // 动画是根据时间 来执行的 
         // this._bus()
-        console.log(this.animationFragStore);
+        // console.log(this.animationFragStore);
         this.animationFragStore.forEach(function(ele){
             ele.updateAnimation();
         });
