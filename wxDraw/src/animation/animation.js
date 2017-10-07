@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 10:28:22
+ * @Last Modified time: 2017-10-07 13:05:17
  * 动画 对象 接管所有动画
  */
 
@@ -19,7 +19,7 @@ export const Animation= function(bus){
 
    this.bus = bus;
    this.animationFragStore = [];// 动画碎片仓库 存储 所有 动画 
-   
+
 }
 
 
@@ -44,6 +44,8 @@ Animation.prototype = {
         // 便在动画循环里面添加 
         // 动画是根据时间 来执行的 
         // this._bus()
-        
+        this.animationFragStore.forEach(function(ele){
+            ele.updateAnimation();
+        });
     }
 }

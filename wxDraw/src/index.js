@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 10:30:30
+ * @Last Modified time: 2017-10-07 12:56:07
  * 主要 引入对象
  * 
  * 
@@ -13,6 +13,7 @@ import { Store } from "./store/store.js";
 import { Shape } from "./shape/shape.js";
 // import { AnimationFrame } from "./animation/animationFrame.js";
 import { AnimationFrame } from "./animation/animationFrame.js";
+import { Animation } from "./animation/animation.js";
 import { eventBus } from "./util/eventBus.js"
 /**
  * 
@@ -92,7 +93,7 @@ WxDraw.prototype = {
     },
     addAnimationFrag:function(AnimationOption){
         this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
-        
+
     }
 }
 

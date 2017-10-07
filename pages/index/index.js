@@ -55,7 +55,13 @@ Page({
      * 所以 wxDraw初始化的时候 需要设置 以便点击检测的时候使用
     */
 
-    this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,fillStyle:"#333333"},true))
+    this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,fillStyle:"#333333"},true));
+
+    var cir1 = new Shape('circle', { x: 40, y: 20, r: 20, fillStyle: "#e3e223" }, true)
+    cir1.animate('x',"+=100",{
+      duration:1000
+    })
+    this.wxCanvas.add(cir1)
     this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
     this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
     this.wxCanvas.add(new Shape('polygon', { sides:876,r:100}))

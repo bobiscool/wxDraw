@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 11:18:45
+ * @Last Modified time: 2017-10-07 13:01:40
  * 在这里添加事件 
  */
 
@@ -90,6 +90,7 @@ Shape.prototype = {
                let _direc = true;
                let _temFrag = new AnimationFrag(this,"x",_temTarget,_direc,option);
                //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
+               console.log(_temFrag);
     
            }
            

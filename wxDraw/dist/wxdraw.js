@@ -522,9 +522,63 @@ AnimationTimer.prototype = {
 
 /*
  * @Author: Thunderball.Wu 
+ * @Date: 2017-09-29 16:34:09 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-07 12:54:31
+ */
+
+var FRAGOPTION = {
+    onStart: function onStart() {
+        // 动画碎片开始的函数
+    },
+    onLooping: function onLooping() {
+        //在动画重复执行的时候 需要循环的函数 这里 可能需要一些传参
+    },
+    onEnd: function onEnd() {
+        // 动画结束 的时候 执行
+    },
+    duration: 1000, // 毫秒
+    easing: "linear" // 缓动函数 
+
+
+};
+
+var AnimationFrag = function AnimationFrag(object, atrribute, source, target, option) {
+    // 这里是动画碎片 更改 obj的地方 但是 问题就在这里 这应该是 最简单的功能 就是对比目标 
+    // 添加 delta
+    // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
+    // 假比 是 linear 传进来的 deatla 时间 就是 均衡的
+    // 那这一刻增加的东西就是 均衡的 
+    var _temOption = util.extend(FRAGOPTION, option);
+    this.object = object;
+    this.target = target;
+    this.complete = false;
+    this.running = false;
+    this.started = false;
+    this.duration = _temOption.duration;
+    this.atrribute = atrribute;
+    this.source = source; // 最初动画开始的属性
+    this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
+};
+
+AnimationFrag.prototype = {
+    updateAnimation: function updateAnimation() {
+        //获取时间  以及计算出来 的变化时间 来  如果现在的时间 一加到达 
+        if (!this.started) {
+            this.started = true;
+            this.timer.start();
+        }
+    },
+    updateAtrribute: function updateAtrribute() {
+        this.object[this.atrribute] = this.source + this.target * this.time.getGoesByTime() / this.duration;
+    }
+};
+
+/*
+ * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 17:36:52
+ * @Last Modified time: 2017-10-07 13:01:40
  * 在这里添加事件 
  */
 
@@ -583,7 +637,7 @@ Shape.prototype = {
             // @TODO 回调
 
             if (exp.indexOf('+=') == 0) {
-                var tem = exp.slpit('=')[1];
+                var tem = exp.split('=')[1];
 
                 /**
                  * 这里的animate 世纪路所有动画 
@@ -595,6 +649,12 @@ Shape.prototype = {
                  * 才不不会乱 
                  * 
                  */
+
+                var _temTarget = this.x + parseFloat(tem[1]);
+                var _direc = true;
+                var _temFrag = new AnimationFrag(this, "x", _temTarget, _direc, option);
+                //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
+                console.log(_temFrag);
             }
         }
     }
@@ -667,9 +727,48 @@ function fakeAnimationFrame(callback) {
 
 /*
  * @Author: Thunderball.Wu 
+ * @Date: 2017-09-29 09:58:45 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-07 10:28:22
+ * 动画 对象 接管所有动画
+ */
+
+var animationFrame = AnimationFrame();
+var Animation = function Animation(bus) {
+    this._running = false;
+    this._paused = true; // 我觉得暂停 不应哎全局的这个暂停上 而是每一个对象有一个自己的暂停 用于 当时wait的时候用  但是现在为我写的
+    // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
+
+
+    this.bus = bus;
+    this.animationFragStore = []; // 动画碎片仓库 存储 所有 动画 
+};
+
+Animation.prototype = {
+    start: function start() {
+        //开始整个动画
+
+    },
+    loopAnimation: function loopAnimation() {
+        //循环 整场动画
+        
+
+        animationFrame(step);
+    },
+    updateStep: function updateStep() {
+        //这里是执行小动画的地方 每一个obj都有自己的动画 在obj添加动画的时候 
+        // 便在动画循环里面添加 
+        // 动画是根据时间 来执行的 
+        // this._bus()
+
+    }
+};
+
+/*
+ * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 10:07:07
+ * @Last Modified time: 2017-10-07 10:15:31
  * 事件对象
  * 
  */
@@ -706,6 +805,7 @@ eventBus.prototype = {
             if (ele.name === name) {
                 this.eventList.forEach(function (_ele) {
                     _ele.call(scope, params);
+                    //  TODO 添加 解构 
                 });
             }
         });
@@ -719,7 +819,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 09:31:04
+ * @Last Modified time: 2017-10-07 12:56:07
  * 主要 引入对象
  * 
  * 
@@ -740,12 +840,14 @@ function WxDraw(canvas, x, y, w, h) {
     this.canvas = canvas;
     this.wcid = guid();
     this.store = new Store();
-    this._bus = new eventBus();
-    this.animation = new Animation(this._bus);
+    this.bus = new eventBus();
+    this.animation = new Animation(this.bus);
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+    // 初始化 动画仓库 接收点 
+    this.bus.add('addAnimation', this.addAnimationFrag);
 }
 
 WxDraw.prototype = {
@@ -771,7 +873,7 @@ WxDraw.prototype = {
 
         this.store.store.forEach(function (item) {
             item.moveDetect(loc.x, loc.y);
-            console.log('item', item);
+            // console.log('item',item);
         }, this);
 
         //  console.log(loc);
@@ -793,7 +895,10 @@ WxDraw.prototype = {
     update: function update() {
         // 用户手动更新 
     },
-    AnimationCenter: function AnimationCenter() {}
+    AnimationCenter: function AnimationCenter() {},
+    addAnimationFrag: function addAnimationFrag(AnimationOption) {
+        this.animation.animationFragStore.push(AnimationOption); // 添加 动画碎片 
+    }
 };
 
 module.exports = {
