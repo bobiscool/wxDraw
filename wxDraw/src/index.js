@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 15:06:39
+ * @Last Modified time: 2017-10-08 17:53:49
  * 主要 引入对象
  * 
  * 
@@ -40,7 +40,8 @@ function WxDraw(canvas, x, y, w, h) {
     this.h = h;
    // 初始化 动画仓库 接收点 
     this.bus.add('addAnimation',this,this.addAnimationFrag);
-    console.log(this.bus);
+    this.bus.add('update',this,this.draw);
+    // console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
 }
