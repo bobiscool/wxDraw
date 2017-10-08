@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:43:10
+ * @Last Modified time: 2017-10-07 15:06:39
  * 主要 引入对象
  * 
  * 
@@ -70,7 +70,7 @@ WxDraw.prototype = {
 
         this.store.store.forEach(function (item) {
             item.moveDetect(loc.x, loc.y);
-            // console.log('item',item);
+            // console.log('item',item)ﬂ
         }, this);
          
         //  console.log(loc);
@@ -97,7 +97,7 @@ WxDraw.prototype = {
     },
     addAnimationFrag:function(scope,AnimationOption){
         
-        this.animation.animationFragStore.push(AnimationOption[0]);// 添加 动画碎片 
+        this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
 
     }
 }

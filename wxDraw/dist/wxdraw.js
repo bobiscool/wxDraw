@@ -1,5 +1,9 @@
 'use strict';
 
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var _toConsumableArray = _interopDefault(require('babel-runtime/helpers/toConsumableArray'));
+
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
@@ -790,7 +794,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:44:58
+ * @Last Modified time: 2017-10-07 14:58:46
  * 事件对象
  * 
  */
@@ -838,12 +842,13 @@ eventBus.prototype = {
             if (ele.name === name) {
                 ele.thingsList.forEach(function (_ele) {
                     if (scope !== "no") {
-                        _ele.call(scope, _params);
+                        _ele.call.apply(_ele, [scope].concat(_toConsumableArray(_params)));
                     } else {
-                        _ele.call(ele.scope, _params);
+                        _ele.call.apply(_ele, [ele.scope].concat(_toConsumableArray(_params)));
                     }
 
                     //  TODO 添加 解构 
+
                 });
             }
         });
@@ -857,7 +862,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:43:10
+ * @Last Modified time: 2017-10-07 15:06:39
  * 主要 引入对象
  * 
  * 
@@ -916,7 +921,7 @@ WxDraw.prototype = {
 
         this.store.store.forEach(function (item) {
             item.moveDetect(loc.x, loc.y);
-            // console.log('item',item);
+            // console.log('item',item)ﬂ
         }, this);
 
         //  console.log(loc);
@@ -941,7 +946,7 @@ WxDraw.prototype = {
     AnimationCenter: function AnimationCenter() {},
     addAnimationFrag: function addAnimationFrag(scope, AnimationOption) {
 
-        this.animation.animationFragStore.push(AnimationOption[0]); // 添加 动画碎片 
+        this.animation.animationFragStore.push(AnimationOption); // 添加 动画碎片 
     }
 };
 
