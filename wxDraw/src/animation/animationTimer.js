@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 23:31:49 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:09:19
+ * @Last Modified time: 2017-10-08 18:25:32
  * 单个小物件自己的计时器
  */
 import { EasingFunctions } from "./animationFunc.js"
@@ -75,7 +75,7 @@ AnimationTimer.prototype = {
         if(!this.watch.running) return undefined; //没有运行 那就没有
         if(!this.timeFunc) return goesBytime;//如果没有时间函数那就直接返回正常的 时间
         //关键点
-        
+        console.log('扭曲时间');
         return goesBytime*(EasingFunctions[this.timeFunc](aniPercent)/aniPercent);//时间扭曲
 
     },

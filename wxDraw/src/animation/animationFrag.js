@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 17:57:40
+ * @Last Modified time: 2017-10-08 18:24:43
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -39,7 +39,7 @@ export const AnimationFrag = function (object, atrribute, target, option) {
     this.started = false;
     this.duration = _temOption.duration;
     this.atrribute = atrribute;
-    console.log(this.object);
+    // console.log(this.object);
     this.source = this.object.Shape[atrribute];// 最初动画开始的属性
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
 }

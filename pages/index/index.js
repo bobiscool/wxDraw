@@ -60,7 +60,7 @@ Page({
     var cir1 = new Shape('circle', { x: 40, y: 20, r: 20, fillStyle: "#e3e223" }, true)
   
     this.wxCanvas.add(cir1)
-    cir1.animate('x', "+=500", {
+    cir1.animate('x', "+=100", {
       duration: 2000,
       easing:"easeInOutQuint"
     });
