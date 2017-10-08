@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-28 13:43:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:44:43
+ * @Last Modified time: 2017-10-08 18:49:36
   时间函数 基于
   http://easings.net/zh-cn
  */
@@ -10,7 +10,7 @@
  
 export const EasingFunctions = {
   // 线性函数
-  linear: function (t) { return t },
+  linear: function (pos) { return pos },
   easeInQuad: function(pos) {
     return Math.pow(pos, 2);
   },
