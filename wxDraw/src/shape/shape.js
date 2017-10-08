@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:12:48
+ * @Last Modified time: 2017-10-08 18:13:29
  * 在这里添加事件 
  */
 
@@ -90,8 +90,8 @@ Shape.prototype = {
                * 
                */
 
-                console.log('tem',tem);
                let _temTarget = this.Shape.x+parseFloat(tem[1]);
+                console.log('tem',_temTarget);
                
                let _direc = true;
                let _temFrag = new AnimationFrag(this,"x",_temTarget,option);
