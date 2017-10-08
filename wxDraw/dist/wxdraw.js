@@ -449,7 +449,7 @@ var EasingFunctions = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 23:31:49 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 17:42:24
+ * @Last Modified time: 2017-10-08 18:09:19
  * 单个小物件自己的计时器
  */
 function Watch() {
@@ -517,7 +517,7 @@ AnimationTimer.prototype = {
         return goesBytime * (EasingFunctions[this.timeFunc](aniPercent) / aniPercent); //时间扭曲
     },
     isOver: function isOver() {
-        return this.watch.getGoesByTime > this.duration;
+        return this.watch.getGoesByTime() > this.duration;
     }
 
 };
@@ -1036,7 +1036,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:02:25
+ * @Last Modified time: 2017-10-08 18:04:02
  * 主要 引入对象
  * 
  * 
@@ -1081,7 +1081,6 @@ WxDraw.prototype = {
         this.store.store.forEach(function (item) {
             item.paint(this.canvas);
         }, this);
-        console.log('重新绘制');
     },
     detect: function detect(e) {
         //事件检测
