@@ -1,9 +1,5 @@
 'use strict';
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var _toConsumableArray = _interopDefault(require('babel-runtime/helpers/toConsumableArray'));
-
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
@@ -453,7 +449,7 @@ var EasingFunctions = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 23:31:49 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-28 18:12:33
+ * @Last Modified time: 2017-10-08 17:42:24
  * 单个小物件自己的计时器
  */
 function Watch() {
@@ -502,7 +498,7 @@ var AnimationTimer = function AnimationTimer(duration, timeFunc) {
 AnimationTimer.prototype = {
     start: function start() {
         //开始计时
-        this.watch.sart();
+        this.watch.start();
     },
     stop: function stop() {
         this.watch.stop();
@@ -510,13 +506,15 @@ AnimationTimer.prototype = {
     getGoesByTime: function getGoesByTime() {
         //注意这里的时间与 watch 里面的时间不是同一概念 这里面还有扭曲时间 用于产生不同的动画效果的
         var goesBytime = this.watch.getGoesByTime();
+        console.log(goesBytime);
         var aniPercent = goesBytime / this.duration; //动画进行的程度
 
 
         if (!this.watch.running) return undefined; //没有运行 那就没有
         if (!this.timeFunc) return goesBytime; //如果没有时间函数那就直接返回正常的 时间
         //关键点
-        return goesBytime * (EasingFunctions[timeFunc](aniPercent) / aniPercent); //时间扭曲
+
+        return goesBytime * (EasingFunctions[this.timeFunc](aniPercent) / aniPercent); //时间扭曲
     },
     isOver: function isOver() {
         return this.watch.getGoesByTime > this.duration;
@@ -528,7 +526,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 13:15:02
+ * @Last Modified time: 2017-10-08 17:38:17
  */
 
 var FRAGOPTION = {
@@ -582,7 +580,7 @@ AnimationFrag.prototype = {
         }
     },
     updateAtrribute: function updateAtrribute() {
-        this.object[this.atrribute] = this.source + this.target * this.time.getGoesByTime() / this.duration;
+        this.object[this.atrribute] = this.source + this.target * this.timer.getGoesByTime() / this.duration;
     }
 };
 
@@ -790,6 +788,177 @@ Animation.prototype = {
     }
 };
 
+var asyncGenerator = function () {
+  function AwaitValue(value) {
+    this.value = value;
+  }
+
+  function AsyncGenerator(gen) {
+    var front, back;
+
+    function send(key, arg) {
+      return new Promise(function (resolve, reject) {
+        var request = {
+          key: key,
+          arg: arg,
+          resolve: resolve,
+          reject: reject,
+          next: null
+        };
+
+        if (back) {
+          back = back.next = request;
+        } else {
+          front = back = request;
+          resume(key, arg);
+        }
+      });
+    }
+
+    function resume(key, arg) {
+      try {
+        var result = gen[key](arg);
+        var value = result.value;
+
+        if (value instanceof AwaitValue) {
+          Promise.resolve(value.value).then(function (arg) {
+            resume("next", arg);
+          }, function (arg) {
+            resume("throw", arg);
+          });
+        } else {
+          settle(result.done ? "return" : "normal", result.value);
+        }
+      } catch (err) {
+        settle("throw", err);
+      }
+    }
+
+    function settle(type, value) {
+      switch (type) {
+        case "return":
+          front.resolve({
+            value: value,
+            done: true
+          });
+          break;
+
+        case "throw":
+          front.reject(value);
+          break;
+
+        default:
+          front.resolve({
+            value: value,
+            done: false
+          });
+          break;
+      }
+
+      front = front.next;
+
+      if (front) {
+        resume(front.key, front.arg);
+      } else {
+        back = null;
+      }
+    }
+
+    this._invoke = send;
+
+    if (typeof gen.return !== "function") {
+      this.return = undefined;
+    }
+  }
+
+  if (typeof Symbol === "function" && Symbol.asyncIterator) {
+    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
+      return this;
+    };
+  }
+
+  AsyncGenerator.prototype.next = function (arg) {
+    return this._invoke("next", arg);
+  };
+
+  AsyncGenerator.prototype.throw = function (arg) {
+    return this._invoke("throw", arg);
+  };
+
+  AsyncGenerator.prototype.return = function (arg) {
+    return this._invoke("return", arg);
+  };
+
+  return {
+    wrap: function (fn) {
+      return function () {
+        return new AsyncGenerator(fn.apply(this, arguments));
+      };
+    },
+    await: function (value) {
+      return new AwaitValue(value);
+    }
+  };
+}();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+};
+
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
@@ -842,9 +1011,9 @@ eventBus.prototype = {
             if (ele.name === name) {
                 ele.thingsList.forEach(function (_ele) {
                     if (scope !== "no") {
-                        _ele.call.apply(_ele, [scope].concat(_toConsumableArray(_params)));
+                        _ele.call.apply(_ele, [scope].concat(toConsumableArray(_params)));
                     } else {
-                        _ele.call.apply(_ele, [ele.scope].concat(_toConsumableArray(_params)));
+                        _ele.call.apply(_ele, [ele.scope].concat(toConsumableArray(_params)));
                     }
 
                     //  TODO 添加 解构 
