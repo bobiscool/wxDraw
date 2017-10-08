@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 17:53:49
+ * @Last Modified time: 2017-10-08 18:00:47
  * 主要 引入对象
  * 
  * 
@@ -55,6 +55,7 @@ WxDraw.prototype = {
         this.store.store.forEach(function (item) {
             item.paint(this.canvas);
         }, this);
+        console.log('重新绘制');
     },
     detect: function (e) {
         //事件检测
