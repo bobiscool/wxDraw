@@ -591,7 +591,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:12:48
+ * @Last Modified time: 2017-10-08 18:16:58
  * 在这里添加事件 
  */
 
@@ -667,8 +667,10 @@ Shape.prototype = {
                  * 
                  */
 
-                console.log('tem', tem);
-                var _temTarget = this.Shape.x + parseFloat(tem[1]);
+                //    let _temTarget = parseFloat(tem[1])+this.Shape.x;
+                var _temTarget = 200;
+                console.log('tem', _temTarget);
+                console.log('shapeX', this.Shape.x);
 
                 var _temFrag = new AnimationFrag(this, "x", _temTarget, option);
                 //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
