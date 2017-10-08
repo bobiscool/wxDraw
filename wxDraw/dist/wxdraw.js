@@ -449,7 +449,7 @@ var EasingFunctions = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 23:31:49 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:09:19
+ * @Last Modified time: 2017-10-08 18:26:44
  * 单个小物件自己的计时器
  */
 function Watch() {
@@ -513,7 +513,8 @@ AnimationTimer.prototype = {
         if (!this.watch.running) return undefined; //没有运行 那就没有
         if (!this.timeFunc) return goesBytime; //如果没有时间函数那就直接返回正常的 时间
         //关键点
-
+        console.log('扭曲时间', EasingFunctions[this.timeFunc](aniPercent) / aniPercent);
+        console.log('扭曲时间', this.timeFunc);
         return goesBytime * (EasingFunctions[this.timeFunc](aniPercent) / aniPercent); //时间扭曲
     },
     isOver: function isOver() {
@@ -526,7 +527,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 17:57:40
+ * @Last Modified time: 2017-10-08 18:27:30
  */
 
 var FRAGOPTION = {
@@ -551,7 +552,7 @@ var AnimationFrag = function AnimationFrag(object, atrribute, target, option) {
     // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
     // 假比 是 linear 传进来的 deatla 时间 就是 均衡的
     // 那这一刻增加的东西就是 均衡的 
-    var _temOption = util.extend(FRAGOPTION, option);
+    var _temOption = util.extend(option, FRAGOPTION);
     this.object = object;
     this.target = target;
     this.complete = false;
@@ -559,7 +560,7 @@ var AnimationFrag = function AnimationFrag(object, atrribute, target, option) {
     this.started = false;
     this.duration = _temOption.duration;
     this.atrribute = atrribute;
-    console.log(this.object);
+    // console.log(this.object);
     this.source = this.object.Shape[atrribute]; // 最初动画开始的属性
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
 };

@@ -61,7 +61,7 @@ Page({
   
     this.wxCanvas.add(cir1)
     cir1.animate('x', "+=100", {
-      duration: 2000,
+      duration: 4000,
       easing:"easeInOutQuint"
     });
     this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
