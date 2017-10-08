@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 23:31:49 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 17:42:24
+ * @Last Modified time: 2017-10-08 18:09:19
  * 单个小物件自己的计时器
  */
 import { EasingFunctions } from "./animationFunc.js"
@@ -80,7 +80,7 @@ AnimationTimer.prototype = {
 
     },
     isOver:function(){
-        return this.watch.getGoesByTime>this.duration;
+        return this.watch.getGoesByTime()>this.duration;
     }
   
 
