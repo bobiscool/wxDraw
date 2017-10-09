@@ -934,7 +934,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:28:24
+ * @Last Modified time: 2017-10-09 18:01:58
  * 动画 对象 接管所有动画
  */
 
@@ -946,8 +946,8 @@ var Animation = function Animation(bus) {
 
     this.bus = bus;
     //    console.log(this.bus);
-    this.animationFragStore = []; // 动画碎片仓库 存储 所有 动画 
-    this.animationFragStore2 = {};
+    this.animationFragStore = {}; // 动画碎片仓库 存储 所有 动画 
+    //    this.animationFragStore2 = {};
 };
 
 Animation.prototype = {
@@ -977,10 +977,10 @@ Animation.prototype = {
         //     ele.updateAnimation();
         // });
 
-        var _keys = Object.keys(this.animationFragStore2);
+        var _keys = Object.keys(this.animationFragStore);
 
         _keys.forEach(function (item) {
-            var _temFragStore = this.animationFragStore2[item];
+            var _temFragStore = this.animationFragStore[item];
             _temFragStore.forEach(function (item, index) {
                 item.endCallFrag = _temFragStore[index + 1];
                 if (index == 0) {
@@ -1238,7 +1238,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:31:48
+ * @Last Modified time: 2017-10-09 18:00:47
  * 主要 引入对象
  * 
  * 
@@ -1325,17 +1325,17 @@ WxDraw.prototype = {
     AnimationCenter: function AnimationCenter() {},
     addAnimationFrag: function addAnimationFrag(scope, AnimationOption, Shapeid) {
         console.log(AnimationOption);
-        this.animation.animationFragStore.push(AnimationOption); // 添加 动画碎片 
+        // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
 
-        if (this.animation.animationFragStore2[Shapeid]) {
+        if (this.animation.animationFragStore[Shapeid]) {
             // 
             console.log('已经有动画了');
-            this.animation.animationFragStore2[Shapeid].push(AnimationOption);
+            this.animation.animationFragStore[Shapeid].push(AnimationOption);
         } else {
             console.log('初始化 ');
 
-            this.animation.animationFragStore2[Shapeid] = [AnimationOption];
+            this.animation.animationFragStore[Shapeid] = [AnimationOption];
         }
 
         console.log(this.animation.animationFragStore2);

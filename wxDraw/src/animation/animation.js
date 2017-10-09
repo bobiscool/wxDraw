@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:01:08
+ * @Last Modified time: 2017-10-09 18:15:04
  * 动画 对象 接管所有动画
  */
 
@@ -10,15 +10,19 @@ import { AnimationTimer } from "./animationTimer.js"
 import { AnimationFrame } from "./animationFrame.js"
 
 var animationFrame = AnimationFrame();
-export const Animation= function(bus){
-   this.running = false;
-   this.paused = true;// 我觉得暂停 不应哎全局的这个暂停上 而是每一个对象有一个自己的暂停 用于 当时wait的时候用  但是现在为我写的
-                        // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
+export const Animation = function (bus) {
+    this.running = false;
+    this.paused = true;// 我觉得暂停 不应哎全局的这个暂停上 而是每一个对象有一个自己的暂停 用于 当时wait的时候用  但是现在为我写的
+    // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
 
-   this.bus = bus;
+    this.bus = bus;
     //    console.log(this.bus);
-   this.animationFragStore = {};// 动画碎片仓库 存储 所有 动画 
-//    this.animationFragStore2 = {};
+    this.animationFragStore = {};// 动画碎片仓库 存储 所有 动画 
+    this.animationCompleteList = [];// 动画完成清单
+    this.bus.add('animationComplete',this,this.animationComplete);// 添加动画事件 
+    
+
+    //    this.animationFragStore2 = {};
 
 }
 
@@ -26,23 +30,23 @@ export const Animation= function(bus){
 
 
 Animation.prototype = {
-   start:function(){
-       //开始整个动画
-       this.running = true;
-       this.loopAnimation();
-   },
-    loopAnimation:function(){
+    start: function () {
+        //开始整个动画
+        this.running = true;
+        this.loopAnimation();
+    },
+    loopAnimation: function () {
         //循环 整场动画
         var _self = this;
-        function stepAnimation(){
+        function stepAnimation() {
             animationFrame(stepAnimation);
             // console.log('---');
-            _self.running&&_self.updateStep();
+            _self.running && _self.updateStep();
         };
 
         animationFrame(stepAnimation)
     },
-    updateStep:function(){
+    updateStep: function () {
         //这里是执行小动画的地方 每一个obj都有自己的动画 在obj添加动画的时候 
         // 便在动画循环里面添加 
         // 动画是根据时间 来执行的 
@@ -52,21 +56,28 @@ Animation.prototype = {
         //     ele.updateAnimation();
         // });
 
-       let _keys = Object.keys(this.animationFragStore2);
-        
-       _keys.forEach(function(item){
-          let _temFragStore= this.animationFragStore2[item];
-          _temFragStore.forEach(function(item,index){
-            item.endCallFrag=_temFragStore[index+1];
-            if(index==0){
-                item.updateAnimation();
-            }
-          });
-           
-       },this);
-      
-       
-    
-        this.bus.dispatch('update','no');//通知更新 
+        let _keys = Object.keys(this.animationFragStore);
+
+        _keys.forEach(function (item) {
+            let _temFragStore = this.animationFragStore[item];
+            _temFragStore.forEach(function (item, index) {
+                item.endCallFrag = _temFragStore[index + 1];
+                if (index == 0) {
+                    item.updateAnimation();
+                }
+            });
+
+        }, this);
+
+
+
+        this.bus.dispatch('update', 'no');//通知更新 
+    },
+    animationComplete:function(who){
+      this.animationCompleteList.push(who);
+      if(this.animationCompleteList.length===Object.keys(this.animationFragStore).length){
+          this.running = false;// 动画执行 结束
+          console.log('结束动画')
+      }
     }
 }

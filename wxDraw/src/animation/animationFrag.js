@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 16:23:58
+ * @Last Modified time: 2017-10-09 18:08:10
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -52,7 +52,7 @@ function genExe(exe) {
 }
 
 
-export const AnimationFrag = function (object, atrribute, exe, option) {
+export const AnimationFrag = function (object, atrribute, exe, option,bus) {
     // 这里是动画碎片 更改 obj的地方 但是 问题就在这里 这应该是 最简单的功能 就是对比目标 
     // 添加 delta
     // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
@@ -68,6 +68,8 @@ export const AnimationFrag = function (object, atrribute, exe, option) {
     } else {
         this.incre = genExe(exe).incre
     }
+
+    this.bus = bus;
     this.complete = false;
     this.running = false;
     this.started = false;
@@ -89,6 +91,8 @@ AnimationFrag.prototype = {
         if (this.complete) {
             if (this.endCallFrag) {
                 this.endCallFrag.updateAnimation(); // 朝后调用
+            }else{
+                this.bus.dispatch('animationComplete',"no",this.object.Shapeid);
             }
             return false;
         }

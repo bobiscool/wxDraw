@@ -73,7 +73,13 @@ Page({
       },
       easing: "bouncePast"
       }).animate('r', "+=100", {
-        duration: 2000,
+        duration: 50,
+        onLooping: function () {
+          console.log('@@@');
+        },
+        easing: "easeInQuad"
+      }).animate('r', "-=100", {
+        duration: 500,
         onLooping: function () {
           console.log('@@@');
         },

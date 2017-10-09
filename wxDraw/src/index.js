@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:00:47
+ * @Last Modified time: 2017-10-09 18:11:21
  * 主要 引入对象
  * 
  * 
@@ -32,7 +32,6 @@ function WxDraw(canvas, x, y, w, h) {
     this.wcid = guid();
     this.store = new Store();
     this.bus = new eventBus();
-    console.log(this.bus);
     this.animation = new Animation(this.bus);
     this.x = x;
     this.y = y;
@@ -115,7 +114,8 @@ WxDraw.prototype = {
 
         console.log(this.animation.animationFragStore2);
     
-    }
+    },
+   
 }
 
 
