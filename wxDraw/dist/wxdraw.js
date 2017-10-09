@@ -656,7 +656,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:07:34
+ * @Last Modified time: 2017-10-09 14:20:30
  */
 
 var FRAGOPTION = {
@@ -693,6 +693,10 @@ var AnimationFrag = function AnimationFrag(object, atrribute, target, option) {
     this.source = this.object.Shape[atrribute]; // 最初动画开始的属性
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
     this.endCall = null; // 用于动画叠加调用
+
+    this.onEnd = _temOption.onEnd;
+    this.onLooping = _temOption.onLooping;
+    this.onStart = _temOption.onStart;
 };
 
 AnimationFrag.prototype = {
@@ -711,7 +715,7 @@ AnimationFrag.prototype = {
             this.running = false;
             if (this.endCall) {
                 console.log('朝后调用');
-                this.endCall.updateAnimation(); // 朝后调用
+                this.endCallFrag.updateAnimation(); // 朝后调用
             }
             return false;
         }
