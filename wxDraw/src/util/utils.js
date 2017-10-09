@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 13:53:54
+ * @Last Modified time: 2017-10-09 11:05:33
  * 
  * 工具库
  */
@@ -20,10 +20,11 @@ export const getLocation=function(x, y) {
 
 
 export const guid=function(){
-    var id = 0x9420dc;
-    return function(){
-        return id++;
-    };
+   var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+         return v.toString(16);
+    });     
+    return guid;
 }
 
 

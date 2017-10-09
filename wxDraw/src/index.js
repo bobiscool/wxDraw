@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 10:59:11
+ * @Last Modified time: 2017-10-09 11:06:16
  * 主要 引入对象
  * 
  * 
@@ -29,7 +29,7 @@ function WxDraw(canvas, x, y, w, h) {
 
     
     this.canvas = canvas;
-    this.wcid = guid()();
+    this.wcid = guid();
     this.store = new Store();
     this.bus = new eventBus();
     console.log(this.bus);

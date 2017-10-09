@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 10:59:07
+ * @Last Modified time: 2017-10-09 11:06:38
  * 在这里添加事件 
  */
 
@@ -23,7 +23,7 @@ export var  Shape=function(type, option, strokeOrfill, draggable, highlight) {
     this.AnimationTimer = new AnimationTimer();
     this.animtionFragList = [];// flag List
     this.bus = null;
-    this.Shapeid = "sp"+guid()();
+    this.Shapeid = "sp"+guid();
 }
 
 
