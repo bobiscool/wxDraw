@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:27:30
+ * @Last Modified time: 2017-10-09 14:20:30
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -31,7 +31,7 @@ export const AnimationFrag = function (object, atrribute, target, option) {
     // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
     // 假比 是 linear 传进来的 deatla 时间 就是 均衡的
     // 那这一刻增加的东西就是 均衡的 
-    let _temOption = util.extend(option,FRAGOPTION);
+    let _temOption = util.extend(option, FRAGOPTION);
     this.object = object;
     this.target = target;
     this.complete = false;
@@ -42,30 +42,50 @@ export const AnimationFrag = function (object, atrribute, target, option) {
     // console.log(this.object);
     this.source = this.object.Shape[atrribute];// 最初动画开始的属性
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
+    this.endCall = null;// 用于动画叠加调用
+
+    this.onEnd = _temOption.onEnd;
+    this.onLooping = _temOption.onLooping;
+    this.onStart = _temOption.onStart;
+
 }
 
 AnimationFrag.prototype = {
     updateAnimation: function () {
         //获取时间  以及计算出来 的变化时间 来  如果现在的时间 一加到达 
-        if(this.timer.isOver()){
-            this.complete = true;
-            this.running = false;
+        if (this.complete) {
+            if (this.endCall) {
+                this.endCallFrag.updateAnimation(); // 朝后调用
+            }
             return false;
         }
-       if(!this.started){
-           this.started = true;
+
+        if (this.timer.isOver()) {
+            this.onEnd();
+            this.complete = true;
+            this.running = false;
+            if (this.endCall) {
+                console.log('朝后调用');
+                this.endCallFrag.updateAnimation(); // 朝后调用
+            }
+            return false;
+        }
+        if (!this.started) {
+            this.started = true;
             this.running = true;
-           this.timer.start();
-           
-        }else{
+            this.onStart();
+            this.timer.start();
+
+        } else {
+            this.onLooping();
             this.updateAtrribute();
         }
 
     },
-    updateAtrribute:function(){
-    console.log('x',this.source + this.target*this.timer.getGoesByTime()/this.duration);
-    console.log('cx',this.object.Shape[this.atrribute]);
-       this.object.Shape[this.atrribute] = this.source + this.target*this.timer.getGoesByTime()/this.duration;
+    updateAtrribute: function () {
+        console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
+        console.log('cx', this.object.Shape[this.atrribute]);
+        this.object.Shape[this.atrribute] = this.source + this.target * this.timer.getGoesByTime() / this.duration;
     }
 }
 

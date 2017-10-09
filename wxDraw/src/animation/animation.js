@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 13:36:21
+ * @Last Modified time: 2017-10-09 14:14:49
  * 动画 对象 接管所有动画
  */
 
@@ -48,14 +48,25 @@ Animation.prototype = {
         // 动画是根据时间 来执行的 
         // this._bus()
         // console.log(this.animationFragStore);
-        this.animationFragStore.forEach(function(ele){
-            ele.updateAnimation();
-        });
+        // this.animationFragStore.forEach(function(ele){
+        //     ele.updateAnimation();
+        // });
 
-
-       Array.prototype.forEach.call(this.animationFragStore2,function(item,index){
-         console.log('ITEM',item); 
-       });
+       let _keys = Object.keys(this.animationFragStore2);
+        
+       _keys.forEach(function(item){
+          let _temFragStore= this.animationFragStore2[item];
+          _temFragStore.forEach(function(item,index){
+            item.endCallFrag=_temFragStore[index+1];
+            if(index==0){
+                item.updateAnimation();
+            }
+          });
+           
+       },this);
+      
+       
+    
         this.bus.dispatch('update','no');//通知更新 
     }
 }

@@ -656,7 +656,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:27:30
+ * @Last Modified time: 2017-10-09 14:07:34
  */
 
 var FRAGOPTION = {
@@ -692,21 +692,36 @@ var AnimationFrag = function AnimationFrag(object, atrribute, target, option) {
     // console.log(this.object);
     this.source = this.object.Shape[atrribute]; // 最初动画开始的属性
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
+    this.endCall = null; // 用于动画叠加调用
 };
 
 AnimationFrag.prototype = {
     updateAnimation: function updateAnimation() {
         //获取时间  以及计算出来 的变化时间 来  如果现在的时间 一加到达 
+        if (this.complete) {
+            if (this.endCall) {
+                this.endCallFrag.updateAnimation(); // 朝后调用
+            }
+            return false;
+        }
+
         if (this.timer.isOver()) {
+            this.onEnd();
             this.complete = true;
             this.running = false;
+            if (this.endCall) {
+                console.log('朝后调用');
+                this.endCall.updateAnimation(); // 朝后调用
+            }
             return false;
         }
         if (!this.started) {
             this.started = true;
             this.running = true;
+            this.onStart();
             this.timer.start();
         } else {
+            this.onLooping();
             this.updateAtrribute();
         }
     },
@@ -883,7 +898,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 10:40:12
+ * @Last Modified time: 2017-10-09 14:14:49
  * 动画 对象 接管所有动画
  */
 
@@ -922,9 +937,21 @@ Animation.prototype = {
         // 动画是根据时间 来执行的 
         // this._bus()
         // console.log(this.animationFragStore);
-        this.animationFragStore.forEach(function (ele) {
-            ele.updateAnimation();
-        });
+        // this.animationFragStore.forEach(function(ele){
+        //     ele.updateAnimation();
+        // });
+
+        var _keys = Object.keys(this.animationFragStore2);
+
+        _keys.forEach(function (item) {
+            var _temFragStore = this.animationFragStore2[item];
+            _temFragStore.forEach(function (item, index) {
+                item.endCallFrag = _temFragStore[index + 1];
+                if (index == 0) {
+                    item.updateAnimation();
+                }
+            });
+        }, this);
 
         this.bus.dispatch('update', 'no'); //通知更新 
     }
