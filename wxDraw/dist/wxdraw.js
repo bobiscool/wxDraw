@@ -385,15 +385,15 @@ Rect.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-28 13:43:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:44:43
+ * @Last Modified time: 2017-10-08 18:49:36
   时间函数 基于
   http://easings.net/zh-cn
  */
 
 var EasingFunctions = {
   // 线性函数
-  linear: function linear(t) {
-    return t;
+  linear: function linear(pos) {
+    return pos;
   },
   easeInQuad: function easeInQuad(pos) {
     return Math.pow(pos, 2);
@@ -719,7 +719,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:22:33
+ * @Last Modified time: 2017-10-09 09:57:02
  * 在这里添加事件 
  */
 
@@ -804,6 +804,8 @@ Shape.prototype = {
                 this.bus.dispatch('addAnimation', "no", _temFrag);
             }
         }
+
+        return this;
     }
 };
 

@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:22:33
+ * @Last Modified time: 2017-10-09 10:20:45
  * 在这里添加事件 
  */
 
@@ -100,10 +100,13 @@ Shape.prototype = {
                this.bus.dispatch('addAnimation',"no",_temFrag);
     
            }
+
            
        }
 
+
        
+           return this;               
     }
 }
 

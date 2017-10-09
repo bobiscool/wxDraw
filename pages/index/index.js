@@ -63,6 +63,9 @@ Page({
     cir1.animate('x', "+=100", {
       duration: 4000,
       easing: "bouncePast"
+    }).animate('x', "+=300", {
+      duration: 2000,
+      easing: "bouncePast"
     });
     this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
     this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
