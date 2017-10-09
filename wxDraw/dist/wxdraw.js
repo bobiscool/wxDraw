@@ -656,7 +656,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:35:12
+ * @Last Modified time: 2017-10-09 16:23:58
  */
 
 var FRAGOPTION = {
@@ -675,22 +675,52 @@ var FRAGOPTION = {
 
 };
 
-var AnimationFrag = function AnimationFrag(object, atrribute, target, option) {
+function genExe(exe) {
+    if (!isNaN(Number(exe))) {
+        return {
+            target: Number(exe)
+        };
+    }
+
+    if (exe.indexOf('+=') == 0) {
+        var tem = exe.split('=')[1];
+
+        return {
+            incre: tem
+        };
+    }
+
+    if (exe.indexOf('-=') == 0) {
+        var _tem = exe.split('=')[1];
+
+        return {
+            incre: -1 * _tem
+        };
+    }
+}
+
+var AnimationFrag = function AnimationFrag(object, atrribute, exe, option) {
     // 这里是动画碎片 更改 obj的地方 但是 问题就在这里 这应该是 最简单的功能 就是对比目标 
     // 添加 delta
     // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
     // 假比 是 linear 传进来的 deatla 时间 就是 均衡的
     // 那这一刻增加的东西就是 均衡的 
+
     var _temOption = util.extend(option, FRAGOPTION);
     this.object = object;
-    this.target = target;
+
+    this.source = 0;
+    if (genExe(exe).target) {
+        this.incre = genExe(exe).target - this.source;
+    } else {
+        this.incre = genExe(exe).incre;
+    }
     this.complete = false;
     this.running = false;
     this.started = false;
     this.duration = _temOption.duration;
     this.atrribute = atrribute;
     // console.log(this.object);
-    this.source = this.object.Shape[atrribute]; // 最初动画开始的属性
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
     this.endCallFrag = null; // 用于动画叠加调用
 
@@ -714,12 +744,13 @@ AnimationFrag.prototype = {
             this.complete = true;
             this.running = false;
             if (this.endCallFrag) {
-                console.log('朝后调用');
+                // console.log('朝后调用');
                 this.endCallFrag.updateAnimation(); // 朝后调用
             }
             return false;
         }
-        if (!this.started) {
+        if (!this.started && !this.complete) {
+            this.source = this.object.Shape[this.atrribute]; // 最初动画开始的属性            
             this.started = true;
             this.running = true;
             this.onStart();
@@ -732,7 +763,7 @@ AnimationFrag.prototype = {
     updateAtrribute: function updateAtrribute() {
         // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
         // console.log('cx', this.object.Shape[this.atrribute]);
-        this.object.Shape[this.atrribute] = this.source + this.target * this.timer.getGoesByTime() / this.duration;
+        this.object.Shape[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
     }
 };
 
@@ -740,7 +771,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:33:22
+ * @Last Modified time: 2017-10-09 17:49:31
  * 在这里添加事件 
  */
 
@@ -799,34 +830,35 @@ Shape.prototype = {
          完成了就完事 
          没完成 那就继续 按照时间 完成
          */
-        if (atrribute == "x") {
-            // @TODO 方向
-            // @TODO 表达式
-            // @TODO 回调
+        //    if(atrribute=="x"){
+        // @TODO 方向
+        // @TODO 表达式
+        // @TODO 回调
 
-            if (exp.indexOf('+=') == 0) {
-                var tem = exp.split('=')[1];
+        //    if(exp.indexOf('+=')==0){
+        //       let tem = exp.split('=')[1];
 
-                /**
-                 * 这里的animate 世纪路所有动画 
-                 * 但是在哪里执行呢 ？
-                 * 在父集里面 有一个 aniamtion 哪个是 动画控制器 
-                 * 是一个总的 宗华控制器 
-                 * 但是 是事实上 总的动画控制器 
-                 * uodate 还是 每一个单个 shape自己跟新 动画 这样思路上 
-                 * 才不不会乱 
-                 * 
-                 */
+        /**
+         * 这里的animate 世纪路所有动画 
+         * 但是在哪里执行呢 ？
+         * 在父集里面 有一个 aniamtion 哪个是 动画控制器 
+         * 是一个总的 宗华控制器 
+         * 但是 是事实上 总的动画控制器 
+         * uodate 还是 每一个单个 shape自己跟新 动画 这样思路上 
+         * 才不不会乱 
+         * 
+         */
 
-                var _temTarget = parseFloat(tem) + parseFloat(this.Shape.x);
+        var _temFrag = new AnimationFrag(this, atrribute, exp, option);
+        //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
 
-                var _temFrag = new AnimationFrag(this, "x", _temTarget, option);
-                //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
+        //    console.log('添加形状',this.bus);
+        this.bus.dispatch('addAnimation', "no", _temFrag, this.Shapeid);
 
-                //    console.log('添加形状',this.bus);
-                this.bus.dispatch('addAnimation', "no", _temFrag, this.Shapeid);
-            }
-        }
+        //    }
+
+
+        //    }
 
         console.log("继续调用", this);
         return this;

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 16:09:41
+ * @Last Modified time: 2017-10-09 16:23:58
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -32,8 +32,8 @@ function genExe(exe) {
         }
     }
 
-    if (exp.indexOf('+=') == 0) {
-        let tem = exp.split('=')[1];
+    if (exe.indexOf('+=') == 0) {
+        let tem = exe.split('=')[1];
 
         return {
             incre: tem,
@@ -41,8 +41,8 @@ function genExe(exe) {
     }
 
 
-    if (exp.indexOf('-=') == 0) {
-        let tem = exp.split('=')[1];
+    if (exe.indexOf('-=') == 0) {
+        let tem = exe.split('=')[1];
 
         return {
             incre: -1 * tem
@@ -102,9 +102,10 @@ AnimationFrag.prototype = {
                 this.endCallFrag.updateAnimation(); // 朝后调用
             }
             return false;
+            
         }
         if (!this.started && !this.complete) {
-            this.source = this.object.Shape[atrribute];// 最初动画开始的属性            
+            this.source = this.object.Shape[this.atrribute];// 最初动画开始的属性            
             this.started = true;
             this.running = true;
             this.onStart();
