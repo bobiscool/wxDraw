@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 13:19:08
+ * @Last Modified time: 2017-10-09 13:30:13
  * 在这里添加事件 
  */
 
@@ -107,7 +107,7 @@ Shape.prototype = {
            
        }
 
-
+           console.log("继续调用",this)
            return this;               
     }
 }

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 11:21:36
+ * @Last Modified time: 2017-10-09 13:31:51
  * 主要 引入对象
  * 
  * 
@@ -110,7 +110,7 @@ WxDraw.prototype = {
         }else{
             console.log('初始化 ');
             
-            this.animation.animationFragStore2[Shapeid] = [Animation];
+            this.animation.animationFragStore2[Shapeid] = [AnimationOption];
         }
 
         console.log(this.animation.animationFragStore2);

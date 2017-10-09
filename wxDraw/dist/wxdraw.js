@@ -721,7 +721,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 13:19:08
+ * @Last Modified time: 2017-10-09 13:30:13
  * 在这里添加事件 
  */
 
@@ -809,6 +809,7 @@ Shape.prototype = {
             }
         }
 
+        console.log("继续调用", this);
         return this;
     }
 };
@@ -1104,7 +1105,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 13:24:42
+ * @Last Modified time: 2017-10-09 13:25:54
  * 事件对象
  * 
  */
@@ -1115,13 +1116,14 @@ var eventBus = function eventBus() {
 eventBus.prototype = {
     add: function add(name, scope, event) {
         //添加事件 初始化事件
-        console.log('添加' + name);
+        // console.log('添加'+name);
         if (!this.eventList.length) {
             this.eventList.push({
                 name: name,
                 scope: scope,
                 thingsList: [event]
             });
+            return false;
         }
 
         this.eventList.forEach(function (ele) {
@@ -1173,7 +1175,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 11:21:36
+ * @Last Modified time: 2017-10-09 13:31:51
  * 主要 引入对象
  * 
  * 
@@ -1270,7 +1272,7 @@ WxDraw.prototype = {
         } else {
             console.log('初始化 ');
 
-            this.animation.animationFragStore2[Shapeid] = [Animation];
+            this.animation.animationFragStore2[Shapeid] = [AnimationOption];
         }
 
         console.log(this.animation.animationFragStore2);
