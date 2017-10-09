@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:28:24
+ * @Last Modified time: 2017-10-09 18:01:08
  * 动画 对象 接管所有动画
  */
 
@@ -17,8 +17,8 @@ export const Animation= function(bus){
 
    this.bus = bus;
     //    console.log(this.bus);
-   this.animationFragStore = [];// 动画碎片仓库 存储 所有 动画 
-   this.animationFragStore2 = {};
+   this.animationFragStore = {};// 动画碎片仓库 存储 所有 动画 
+//    this.animationFragStore2 = {};
 
 }
 

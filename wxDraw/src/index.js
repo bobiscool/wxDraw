@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:31:48
+ * @Last Modified time: 2017-10-09 18:00:47
  * 主要 引入对象
  * 
  * 
@@ -100,17 +100,17 @@ WxDraw.prototype = {
     },
     addAnimationFrag:function(scope,AnimationOption,Shapeid){
         console.log(AnimationOption);
-        this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
+        // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
     
-        if(this.animation.animationFragStore2[Shapeid]){
+        if(this.animation.animationFragStore[Shapeid]){
             // 
             console.log('已经有动画了');
-            this.animation.animationFragStore2[Shapeid].push(AnimationOption);
+            this.animation.animationFragStore[Shapeid].push(AnimationOption);
         }else{
             console.log('初始化 ');
             
-            this.animation.animationFragStore2[Shapeid] = [AnimationOption];
+            this.animation.animationFragStore[Shapeid] = [AnimationOption];
         }
 
         console.log(this.animation.animationFragStore2);

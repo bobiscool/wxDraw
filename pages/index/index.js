@@ -60,24 +60,24 @@ Page({
     var cir1 = new Shape('circle', { x: 40, y: 20, r: 20, fillStyle: "#e3e223" }, true)
   
     this.wxCanvas.add(cir1)
-    cir1.animate('x', "+=10", {
+    cir1.animate('x', "+=100", {
       duration: 4000,
       onLooping: function () {
         console.log('***');
       },
       easing: "bouncePast"
-    }).animate('x', "+=200", {
+    }).animate('y', "+=200", {
       duration: 2000,
       onLooping:function(){
         console.log('---');
       },
       easing: "bouncePast"
-      }).animate('y', "+=100", {
+      }).animate('r', "+=100", {
         duration: 2000,
         onLooping: function () {
           console.log('@@@');
         },
-        easing: "linear"
+        easing: "easeInQuad"
       });
     // this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
     // this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
