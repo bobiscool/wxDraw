@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 13:20:42
+ * @Last Modified time: 2017-10-09 13:25:54
  * 事件对象
  * 
  */
@@ -15,13 +15,14 @@ export const eventBus = function () {
 eventBus.prototype = {
     add: function (name, scope, event) {
         //添加事件 初始化事件
-
+        // console.log('添加'+name);
         if (!this.eventList.length) {
             this.eventList.push({
                 name: name,
                 scope: scope,
                 thingsList: [event]
             })
+            return false;
         }
 
         this.eventList.forEach(function (ele) {

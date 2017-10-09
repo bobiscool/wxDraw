@@ -1104,7 +1104,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:58:46
+ * @Last Modified time: 2017-10-09 13:24:42
  * 事件对象
  * 
  */
@@ -1115,7 +1115,7 @@ var eventBus = function eventBus() {
 eventBus.prototype = {
     add: function add(name, scope, event) {
         //添加事件 初始化事件
-
+        console.log('添加' + name);
         if (!this.eventList.length) {
             this.eventList.push({
                 name: name,
@@ -1150,6 +1150,7 @@ eventBus.prototype = {
 
         this.eventList.forEach(function (ele) {
             if (ele.name === name) {
+                console.log('触发' + name);
                 ele.thingsList.forEach(function (_ele) {
                     if (scope !== "no") {
                         _ele.call.apply(_ele, [scope].concat(toConsumableArray(_params)));
