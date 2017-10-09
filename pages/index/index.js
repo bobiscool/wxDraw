@@ -59,7 +59,11 @@ Page({
 
     var cir1 = new Shape('circle', { x: 40, y: 20, r: 20, fillStyle: "#e3e223" }, true)
   
-    this.wxCanvas.add(cir1)
+    var cir2 = new Shape('rect', { x: 200, y: 20, w: 20,h:20, fillStyle: "#e33123" }, true)
+
+    this.wxCanvas.add(cir1);
+    this.wxCanvas.add(cir2);
+    
     cir1.animate('x', "+=100", {
       duration: 4000,
       onLooping: function () {
@@ -85,6 +89,45 @@ Page({
         },
         easing: "easeInQuad"
       });
+
+
+    cir2.animate('x', "+=100", {
+      duration: 4000,
+      onLooping: function () {
+        console.log('***');
+      },
+      easing: "bouncePast"
+    }).animate('y', "+=200", {
+      duration: 2000,
+      onLooping: function () {
+        console.log('---');
+      },
+      easing: "bouncePast"
+    }).animate('r', "+=100", {
+      duration: 50,
+      onLooping: function () {
+        console.log('@@@');
+      },
+      easing: "easeInQuad"
+    }).animate('h', "+=100", {
+      duration: 500,
+      onLooping: function () {
+        console.log('@@@');
+      },
+      easing: "bouncePast"
+      }).animate('w', "+=2000", {
+        duration: 500,
+        onLooping: function () {
+          console.log('----');
+        },
+        easing: "bouncePast"
+      });
+
+
+
+
+
+
     // this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
     // this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
     // this.wxCanvas.add(new Shape('polygon', { sides:876,r:100}))
