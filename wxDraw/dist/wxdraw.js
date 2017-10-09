@@ -1171,7 +1171,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 11:15:08
+ * @Last Modified time: 2017-10-09 11:21:36
  * 主要 引入对象
  * 
  * 
@@ -1257,7 +1257,7 @@ WxDraw.prototype = {
     },
     AnimationCenter: function AnimationCenter() {},
     addAnimationFrag: function addAnimationFrag(scope, AnimationOption, Shapeid) {
-
+        console.log(AnimationOption);
         this.animation.animationFragStore.push(AnimationOption); // 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
 
@@ -1266,6 +1266,8 @@ WxDraw.prototype = {
             console.log('已经有动画了');
             this.animation.animationFragStore2[Shapeid].push(AnimationOption);
         } else {
+            console.log('初始化 ');
+
             this.animation.animationFragStore2[Shapeid] = [Animation];
         }
 

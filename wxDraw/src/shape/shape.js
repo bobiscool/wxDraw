@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 11:06:38
+ * @Last Modified time: 2017-10-09 11:28:26
  * 在这里添加事件 
  */
 
@@ -63,6 +63,7 @@ Shape.prototype = {
      * @param {any} option  其他设置项目
      */
     animate:function(atrribute,exp,option){
+        console.log("添加形状")
        // 在这里添加 动画
        // 所有的动画其实就是目标
        // 一旦 每个动画对象执行 animate其实就是给自己立了一个flag
