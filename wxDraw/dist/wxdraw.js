@@ -656,7 +656,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 16:23:58
+ * @Last Modified time: 2017-10-09 18:08:10
  */
 
 var FRAGOPTION = {
@@ -699,7 +699,7 @@ function genExe(exe) {
     }
 }
 
-var AnimationFrag = function AnimationFrag(object, atrribute, exe, option) {
+var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) {
     // 这里是动画碎片 更改 obj的地方 但是 问题就在这里 这应该是 最简单的功能 就是对比目标 
     // 添加 delta
     // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
@@ -715,6 +715,8 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option) {
     } else {
         this.incre = genExe(exe).incre;
     }
+
+    this.bus = bus;
     this.complete = false;
     this.running = false;
     this.started = false;
@@ -735,6 +737,8 @@ AnimationFrag.prototype = {
         if (this.complete) {
             if (this.endCallFrag) {
                 this.endCallFrag.updateAnimation(); // 朝后调用
+            } else {
+                this.bus.dispatch('animationComplete', "no", this.object.Shapeid);
             }
             return false;
         }
@@ -771,7 +775,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 17:49:31
+ * @Last Modified time: 2017-10-09 18:06:24
  * 在这里添加事件 
  */
 
@@ -849,7 +853,7 @@ Shape.prototype = {
          * 
          */
 
-        var _temFrag = new AnimationFrag(this, atrribute, exp, option);
+        var _temFrag = new AnimationFrag(this, atrribute, exp, option, this.bus);
         //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
 
         //    console.log('添加形状',this.bus);
@@ -934,7 +938,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:01:58
+ * @Last Modified time: 2017-10-09 18:15:04
  * 动画 对象 接管所有动画
  */
 
@@ -947,6 +951,10 @@ var Animation = function Animation(bus) {
     this.bus = bus;
     //    console.log(this.bus);
     this.animationFragStore = {}; // 动画碎片仓库 存储 所有 动画 
+    this.animationCompleteList = []; // 动画完成清单
+    this.bus.add('animationComplete', this, this.animationComplete); // 添加动画事件 
+
+
     //    this.animationFragStore2 = {};
 };
 
@@ -990,6 +998,13 @@ Animation.prototype = {
         }, this);
 
         this.bus.dispatch('update', 'no'); //通知更新 
+    },
+    animationComplete: function animationComplete(who) {
+        this.animationCompleteList.push(who);
+        if (this.animationCompleteList.length === Object.keys(this.animationFragStore).length) {
+            this.running = false; // 动画执行 结束
+            console.log('结束动画');
+        }
     }
 };
 
@@ -1168,7 +1183,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 13:25:54
+ * @Last Modified time: 2017-10-09 18:44:47
  * 事件对象
  * 
  */
@@ -1179,7 +1194,7 @@ var eventBus = function eventBus() {
 eventBus.prototype = {
     add: function add(name, scope, event) {
         //添加事件 初始化事件
-        // console.log('添加'+name);
+        console.log('添加' + name);
         if (!this.eventList.length) {
             this.eventList.push({
                 name: name,
@@ -1190,16 +1205,19 @@ eventBus.prototype = {
         }
 
         this.eventList.forEach(function (ele) {
-            if (ele.name === name) {
+            if (ele.name == name) {
                 ele.thingsList.push(event);
-            } else {
-                this.eventList.push({
-                    name: name,
-                    scope: scope,
-                    thingsList: [event]
-                });
+                return false;
             }
         }, this);
+
+        this.eventList.push({
+            name: name,
+            scope: scope,
+            thingsList: [event]
+        });
+
+        console.log(this.eventList);
     },
     dispatch: function dispatch(name, scope) {
         //执行事件 这里有两种状况  执行最外层或者是事件添加层 的scope 或者是 当地的scope
@@ -1238,7 +1256,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:00:47
+ * @Last Modified time: 2017-10-09 18:11:21
  * 主要 引入对象
  * 
  * 
@@ -1260,7 +1278,6 @@ function WxDraw(canvas, x, y, w, h) {
     this.wcid = guid();
     this.store = new Store();
     this.bus = new eventBus();
-    console.log(this.bus);
     this.animation = new Animation(this.bus);
     this.x = x;
     this.y = y;
@@ -1340,6 +1357,7 @@ WxDraw.prototype = {
 
         console.log(this.animation.animationFragStore2);
     }
+
 };
 
 module.exports = {

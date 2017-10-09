@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 13:25:54
+ * @Last Modified time: 2017-10-09 18:44:47
  * 事件对象
  * 
  */
@@ -15,7 +15,7 @@ export const eventBus = function () {
 eventBus.prototype = {
     add: function (name, scope, event) {
         //添加事件 初始化事件
-        // console.log('添加'+name);
+        console.log('添加'+name);
         if (!this.eventList.length) {
             this.eventList.push({
                 name: name,
@@ -26,16 +26,20 @@ eventBus.prototype = {
         }
 
         this.eventList.forEach(function (ele) {
-            if (ele.name === name) {
+            if (ele.name == name) {
                 ele.thingsList.push(event);
-            } else {
-                this.eventList.push({
-                    name: name,
-                    scope: scope,
-                    thingsList: [event]
-                })
+                return false;
             }
         }, this);
+
+
+         this.eventList.push({
+                name: name,
+                scope: scope,
+                thingsList: [event]
+            });
+        
+        console.log(this.eventList);        
     },
     dispatch: function (name, scope) {
         //执行事件 这里有两种状况  执行最外层或者是事件添加层 的scope 或者是 当地的scope
