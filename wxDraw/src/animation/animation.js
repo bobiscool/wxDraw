@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:14:49
+ * @Last Modified time: 2017-10-09 14:28:24
  * 动画 对象 接管所有动画
  */
 
@@ -16,7 +16,7 @@ export const Animation= function(bus){
                         // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
 
    this.bus = bus;
-       console.log(this.bus);
+    //    console.log(this.bus);
    this.animationFragStore = [];// 动画碎片仓库 存储 所有 动画 
    this.animationFragStore2 = {};
 

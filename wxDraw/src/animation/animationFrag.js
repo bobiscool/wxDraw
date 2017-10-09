@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:26:27
+ * @Last Modified time: 2017-10-09 14:35:12
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -54,7 +54,7 @@ AnimationFrag.prototype = {
     updateAnimation: function () {
         //获取时间  以及计算出来 的变化时间 来  如果现在的时间 一加到达 
         if (this.complete) {
-            if (this.endCall) {
+            if (this.endCallFrag) {
                 this.endCallFrag.updateAnimation(); // 朝后调用
             }
             return false;
@@ -83,8 +83,8 @@ AnimationFrag.prototype = {
 
     },
     updateAtrribute: function () {
-        console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
-        console.log('cx', this.object.Shape[this.atrribute]);
+        // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
+        // console.log('cx', this.object.Shape[this.atrribute]);
         this.object.Shape[this.atrribute] = this.source + this.target * this.timer.getGoesByTime() / this.duration;
     }
 }

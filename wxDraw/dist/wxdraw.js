@@ -578,7 +578,7 @@ var EasingFunctions = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 23:31:49 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:26:44
+ * @Last Modified time: 2017-10-09 14:28:39
  * 单个小物件自己的计时器
  */
 function Watch() {
@@ -642,8 +642,8 @@ AnimationTimer.prototype = {
         if (!this.watch.running) return undefined; //没有运行 那就没有
         if (!this.timeFunc) return goesBytime; //如果没有时间函数那就直接返回正常的 时间
         //关键点
-        console.log('扭曲时间', EasingFunctions[this.timeFunc](aniPercent) / aniPercent);
-        console.log('扭曲时间', this.timeFunc);
+        // console.log('扭曲时间',EasingFunctions[this.timeFunc](aniPercent)/aniPercent);
+        // console.log('扭曲时间',this.timeFunc);
         return goesBytime * (EasingFunctions[this.timeFunc](aniPercent) / aniPercent); //时间扭曲
     },
     isOver: function isOver() {
@@ -656,7 +656,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:20:30
+ * @Last Modified time: 2017-10-09 14:35:12
  */
 
 var FRAGOPTION = {
@@ -692,7 +692,7 @@ var AnimationFrag = function AnimationFrag(object, atrribute, target, option) {
     // console.log(this.object);
     this.source = this.object.Shape[atrribute]; // 最初动画开始的属性
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
-    this.endCall = null; // 用于动画叠加调用
+    this.endCallFrag = null; // 用于动画叠加调用
 
     this.onEnd = _temOption.onEnd;
     this.onLooping = _temOption.onLooping;
@@ -703,7 +703,7 @@ AnimationFrag.prototype = {
     updateAnimation: function updateAnimation() {
         //获取时间  以及计算出来 的变化时间 来  如果现在的时间 一加到达 
         if (this.complete) {
-            if (this.endCall) {
+            if (this.endCallFrag) {
                 this.endCallFrag.updateAnimation(); // 朝后调用
             }
             return false;
@@ -713,7 +713,7 @@ AnimationFrag.prototype = {
             this.onEnd();
             this.complete = true;
             this.running = false;
-            if (this.endCall) {
+            if (this.endCallFrag) {
                 console.log('朝后调用');
                 this.endCallFrag.updateAnimation(); // 朝后调用
             }
@@ -730,8 +730,8 @@ AnimationFrag.prototype = {
         }
     },
     updateAtrribute: function updateAtrribute() {
-        console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
-        console.log('cx', this.object.Shape[this.atrribute]);
+        // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
+        // console.log('cx', this.object.Shape[this.atrribute]);
         this.object.Shape[this.atrribute] = this.source + this.target * this.timer.getGoesByTime() / this.duration;
     }
 };
@@ -740,7 +740,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 13:30:13
+ * @Last Modified time: 2017-10-09 14:33:22
  * 在这里添加事件 
  */
 
@@ -823,7 +823,7 @@ Shape.prototype = {
                 var _temFrag = new AnimationFrag(this, "x", _temTarget, option);
                 //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
 
-                console.log('添加形状', this.bus);
+                //    console.log('添加形状',this.bus);
                 this.bus.dispatch('addAnimation', "no", _temFrag, this.Shapeid);
             }
         }
@@ -902,7 +902,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:14:49
+ * @Last Modified time: 2017-10-09 14:28:24
  * 动画 对象 接管所有动画
  */
 
@@ -913,7 +913,7 @@ var Animation = function Animation(bus) {
     // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
 
     this.bus = bus;
-    console.log(this.bus);
+    //    console.log(this.bus);
     this.animationFragStore = []; // 动画碎片仓库 存储 所有 动画 
     this.animationFragStore2 = {};
 };
@@ -1206,7 +1206,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 13:31:51
+ * @Last Modified time: 2017-10-09 14:31:48
  * 主要 引入对象
  * 
  * 

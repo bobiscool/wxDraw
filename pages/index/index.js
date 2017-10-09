@@ -62,9 +62,15 @@ Page({
     this.wxCanvas.add(cir1)
     cir1.animate('x', "+=100", {
       duration: 4000,
+      onLooping: function () {
+        console.log('***');
+      },
       easing: "bouncePast"
     }).animate('x', "+=500", {
       duration: 2000,
+      onLooping:function(){
+        console.log('---');
+      },
       easing: "bouncePast"
     });
     // this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
