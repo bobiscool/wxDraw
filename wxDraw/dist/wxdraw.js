@@ -1171,7 +1171,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 11:06:16
+ * @Last Modified time: 2017-10-09 11:15:08
  * 主要 引入对象
  * 
  * 
@@ -1262,6 +1262,8 @@ WxDraw.prototype = {
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
 
         if (this.animation.animationFragStore2[Shapeid]) {
+            // 
+            console.log('已经有动画了');
             this.animation.animationFragStore2[Shapeid].push(AnimationOption);
         } else {
             this.animation.animationFragStore2[Shapeid] = [Animation];
