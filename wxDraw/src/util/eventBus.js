@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-07 14:58:46
+ * @Last Modified time: 2017-10-09 13:20:42
  * 事件对象
  * 
  */
@@ -52,6 +52,7 @@ eventBus.prototype = {
 
         this.eventList.forEach(function (ele) {
             if (ele.name === name) {
+                console.log('触发'+name);
                 ele.thingsList.forEach(function (_ele) {
                     if (scope !== "no") {
                         _ele.call(scope,..._params)
