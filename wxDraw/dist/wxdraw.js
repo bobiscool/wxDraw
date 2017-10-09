@@ -719,7 +719,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 09:57:02
+ * @Last Modified time: 2017-10-09 10:50:19
  * 在这里添加事件 
  */
 
@@ -732,6 +732,7 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.AnimationTimer = new AnimationTimer();
     this.animtionFragList = []; // flag List
     this.bus = null;
+    this.Shapeid = "sp" + guid();
 };
 
 Shape.prototype = {
@@ -801,7 +802,7 @@ Shape.prototype = {
                 //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
                 console.log(_temFrag);
 
-                this.bus.dispatch('addAnimation', "no", _temFrag);
+                this.bus.dispatch('addAnimation', "no", _temFrag, this.Shapeid);
             }
         }
 
@@ -878,7 +879,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 17:55:28
+ * @Last Modified time: 2017-10-09 10:40:12
  * 动画 对象 接管所有动画
  */
 
@@ -891,6 +892,7 @@ var Animation = function Animation(bus) {
     this.bus = bus;
     console.log(this.bus);
     this.animationFragStore = []; // 动画碎片仓库 存储 所有 动画 
+    this.animationFragStore2 = {};
 };
 
 Animation.prototype = {
@@ -1167,7 +1169,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-08 18:04:02
+ * @Last Modified time: 2017-10-09 10:57:02
  * 主要 引入对象
  * 
  * 
@@ -1252,9 +1254,18 @@ WxDraw.prototype = {
         this.canvas.draw();
     },
     AnimationCenter: function AnimationCenter() {},
-    addAnimationFrag: function addAnimationFrag(scope, AnimationOption) {
+    addAnimationFrag: function addAnimationFrag(scope, AnimationOption, Shapeid) {
 
         this.animation.animationFragStore.push(AnimationOption); // 添加 动画碎片 
+        // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
+
+        if (this.animation.animationFragStore2[Shapeid]) {
+            this.animation.animationFragStore2[Shapeid].push(AnimationOption);
+        } else {
+            this.animation.animationFragStore2[Shapeid] = [Animation];
+        }
+
+        console.log(this.animation.animationFragStore2);
     }
 };
 
