@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 10:20:45
+ * @Last Modified time: 2017-10-09 10:50:19
  * 在这里添加事件 
  */
 
@@ -11,6 +11,7 @@ import { Polygon } from './polygon.js';
 import { Rect,Circle } from './normalShape.js';
 import { AnimationTimer } from '../animation/animationTimer.js';
 import { AnimationFrag } from '../animation/animationFrag.js';
+import { guid } from "../util/utils.js";
 
 
 export var  Shape=function(type, option, strokeOrfill, draggable, highlight) {
@@ -22,6 +23,7 @@ export var  Shape=function(type, option, strokeOrfill, draggable, highlight) {
     this.AnimationTimer = new AnimationTimer();
     this.animtionFragList = [];// flag List
     this.bus = null;
+    this.Shapeid = "sp"+guid();
 }
 
 
@@ -97,7 +99,7 @@ Shape.prototype = {
                //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
                console.log(_temFrag);
 
-               this.bus.dispatch('addAnimation',"no",_temFrag);
+               this.bus.dispatch('addAnimation',"no",_temFrag,this.Shapeid);
     
            }
 
@@ -105,7 +107,6 @@ Shape.prototype = {
        }
 
 
-       
            return this;               
     }
 }
