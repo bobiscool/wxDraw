@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 10:40:12
+ * @Last Modified time: 2017-10-09 13:36:21
  * 动画 对象 接管所有动画
  */
 
@@ -52,6 +52,10 @@ Animation.prototype = {
             ele.updateAnimation();
         });
 
+
+       Array.prototype.forEach.call(this.animationFragStore2,function(item,index){
+         console.log('ITEM',item); 
+       });
         this.bus.dispatch('update','no');//通知更新 
     }
 }
