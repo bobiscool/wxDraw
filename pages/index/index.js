@@ -72,7 +72,13 @@ Page({
         console.log('---');
       },
       easing: "bouncePast"
-    });
+      }).animate('x', "+=200", {
+        duration: 2000,
+        onLooping: function () {
+          console.log('@@@');
+        },
+        easing: "linear"
+      });
     // this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
     // this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
     // this.wxCanvas.add(new Shape('polygon', { sides:876,r:100}))

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:35:12
+ * @Last Modified time: 2017-10-09 16:09:41
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -25,22 +25,55 @@ var FRAGOPTION = {
 
 }
 
-export const AnimationFrag = function (object, atrribute, target, option) {
+function genExe(exe) {
+    if (!isNaN(Number(exe))) {
+        return {
+            target: Number(exe),
+        }
+    }
+
+    if (exp.indexOf('+=') == 0) {
+        let tem = exp.split('=')[1];
+
+        return {
+            incre: tem,
+        }
+    }
+
+
+    if (exp.indexOf('-=') == 0) {
+        let tem = exp.split('=')[1];
+
+        return {
+            incre: -1 * tem
+        }
+    }
+
+}
+
+
+export const AnimationFrag = function (object, atrribute, exe, option) {
     // 这里是动画碎片 更改 obj的地方 但是 问题就在这里 这应该是 最简单的功能 就是对比目标 
     // 添加 delta
     // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
     // 假比 是 linear 传进来的 deatla 时间 就是 均衡的
     // 那这一刻增加的东西就是 均衡的 
+
     let _temOption = util.extend(option, FRAGOPTION);
     this.object = object;
-    this.target = target;
+
+    this.source = 0;
+    if (genExe(exe).target) {
+        this.incre = genExe(exe).target - this.source;
+    } else {
+        this.incre = genExe(exe).incre
+    }
     this.complete = false;
     this.running = false;
     this.started = false;
     this.duration = _temOption.duration;
     this.atrribute = atrribute;
     // console.log(this.object);
-    this.source = this.object.Shape[atrribute];// 最初动画开始的属性
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
     this.endCallFrag = null;// 用于动画叠加调用
 
@@ -65,12 +98,13 @@ AnimationFrag.prototype = {
             this.complete = true;
             this.running = false;
             if (this.endCallFrag) {
-                console.log('朝后调用');
+                // console.log('朝后调用');
                 this.endCallFrag.updateAnimation(); // 朝后调用
             }
             return false;
         }
-        if (!this.started) {
+        if (!this.started && !this.complete) {
+            this.source = this.object.Shape[atrribute];// 最初动画开始的属性            
             this.started = true;
             this.running = true;
             this.onStart();
@@ -85,7 +119,7 @@ AnimationFrag.prototype = {
     updateAtrribute: function () {
         // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
         // console.log('cx', this.object.Shape[this.atrribute]);
-        this.object.Shape[this.atrribute] = this.source + this.target * this.timer.getGoesByTime() / this.duration;
+        this.object.Shape[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
     }
 }
 
