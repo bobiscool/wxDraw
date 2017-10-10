@@ -64,64 +64,49 @@ Page({
     this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir2);
     
-    cir1.animate('x', "+=100", {
+    cir1.animate({
+      "x":"+=100",
+      "y":"+=100"
+    },{
       duration: 4000,
       onLooping: function () {
         console.log('***');
       },
       easing: "bouncePast"
-    }).animate('y', "+=200", {
-      duration: 2000,
-      onLooping:function(){
-        console.log('---');
-      },
-      easing: "bouncePast"
-      }).animate('r', "+=100", {
-        duration: 50,
-        onLooping: function () {
-          console.log('@@@');
-        },
-        easing: "easeInQuad"
-      }).animate('r', "-=100", {
-        duration: 500,
-        onLooping: function () {
-          console.log('@@@');
-        },
-        easing: "easeInQuad"
-      });
+    });
 
 
-    cir2.animate('x', "+=100", {
-      duration: 4000,
-      onLooping: function () {
-        console.log('***');
-      },
-      easing: "bouncePast"
-    }).animate('y', "+=200", {
-      duration: 2000,
-      onLooping: function () {
-        console.log('---');
-      },
-      easing: "bouncePast"
-    }).animate('r', "+=100", {
-      duration: 50,
-      onLooping: function () {
-        console.log('@@@');
-      },
-      easing: "easeInQuad"
-    }).animate('h', "+=100", {
-      duration: 500,
-      onLooping: function () {
-        console.log('@@@');
-      },
-      easing: "bouncePast"
-      }).animate('w', "+=2000", {
-        duration: 500,
-        onLooping: function () {
-          console.log('----');
-        },
-        easing: "bouncePast"
-      });
+    // cir2.animate('x', "+=100", {
+    //   duration: 4000,
+    //   onLooping: function () {
+    //     console.log('***');
+    //   },
+    //   easing: "bouncePast"
+    // }).animate('y', "+=200", {
+    //   duration: 2000,
+    //   onLooping: function () {
+    //     console.log('---');
+    //   },
+    //   easing: "bouncePast"
+    // }).animate('r', "+=100", {
+    //   duration: 50,
+    //   onLooping: function () {
+    //     console.log('@@@');
+    //   },
+    //   easing: "easeInQuad"
+    // }).animate('h', "+=100", {
+    //   duration: 500,
+    //   onLooping: function () {
+    //     console.log('@@@');
+    //   },
+    //   easing: "bouncePast"
+    //   }).animate('w', "+=2000", {
+    //     duration: 500,
+    //     onLooping: function () {
+    //       console.log('----');
+    //     },
+    //     easing: "bouncePast"
+    //   });
 
 
 

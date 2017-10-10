@@ -837,7 +837,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 14:51:03
+ * @Last Modified time: 2017-10-10 15:04:17
  */
 
 var FRAGOPTION = {
@@ -903,12 +903,7 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) 
     * 先把a出来
     * 
     */
-    if ((typeof atrribute === "undefined" ? "undefined" : _typeof(atrribute)) == "object") {
-        this.genFlag = true;
-        this.genAtrributeList(atrribute);
-    } else {
-        this.incre = genExe(exe, atrribute, object);
-    }
+
     this.bus = bus;
     this.complete = false;
     this.running = false;
@@ -916,6 +911,13 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) 
     this.duration = _temOption.duration;
     this.atrribute = atrribute;
     this.atrributeList = []; // 如果atrribute是对象的形式
+    if ((typeof atrribute === "undefined" ? "undefined" : _typeof(atrribute)) == "object") {
+        this.genFlag = true;
+
+        this.genAtrributeList(atrribute);
+    } else {
+        this.incre = genExe(exe, atrribute, object);
+    }
     // console.log(this.object);
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
     this.endCallFrag = null; // 用于动画叠加调用
@@ -975,9 +977,11 @@ AnimationFrag.prototype = {
     genAtrributeList: function genAtrributeList(atrribute) {
         //生成 属性 更改列表
         var _keys = Object.keys(atrribute);
+        var _self = this;
+        console.log(_self);
         _keys.forEach(function (item) {
-            this.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, this.object), "source": atrribute[item] });
-        }, this);
+            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape[item] });
+        });
     }
 };
 
@@ -985,7 +989,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 14:54:30
+ * @Last Modified time: 2017-10-10 14:54:51
  * 在这里添加事件 
  */
 
@@ -1063,10 +1067,11 @@ Shape.prototype = {
          * 
          */
 
+        var _temFrag = null;
         if ((typeof atrribute === 'undefined' ? 'undefined' : _typeof(atrribute)) == "object") {
-            var _temFrag2 = new AnimationFrag(this, atrribute, "no", arguments[1], this.bus); //懒得写 就写arguments吧
+            _temFrag = new AnimationFrag(this, atrribute, "no", arguments[1], this.bus); //懒得写 就写arguments吧
         } else {
-            var _temFrag3 = new AnimationFrag(this, atrribute, arguments[1], arguments[2], this.bus);
+            _temFrag = new AnimationFrag(this, atrribute, arguments[1], arguments[2], this.bus);
         }
         //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
 

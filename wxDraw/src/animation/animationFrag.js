@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 14:51:03
+ * @Last Modified time: 2017-10-10 15:04:17
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -75,12 +75,7 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
   * 先把a出来
   * 
   */
-    if (typeof atrribute == "object") {
-        this.genFlag = true;
-        this.genAtrributeList(atrribute);
-    } else {
-        this.incre = genExe(exe, atrribute, object)
-    }
+   
     this.bus = bus;
     this.complete = false;
     this.running = false;
@@ -88,6 +83,13 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     this.duration = _temOption.duration;
     this.atrribute = atrribute;
     this.atrributeList = [];// 如果atrribute是对象的形式
+     if (typeof atrribute == "object") {
+        this.genFlag = true;
+        
+        this.genAtrributeList(atrribute);
+    } else {
+        this.incre = genExe(exe, atrribute, object)
+    }
     // console.log(this.object);
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
     this.endCallFrag = null;// 用于动画叠加调用
@@ -149,9 +151,11 @@ AnimationFrag.prototype = {
     genAtrributeList: function (atrribute) {
         //生成 属性 更改列表
         let _keys = Object.keys(atrribute);
+        var _self = this;
+        console.log(_self);
         _keys.forEach(function (item) {
-            this.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, this.object), "source": atrribute[item] });
-        }, this);
+            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape[item] });
+        });
 
     }
 }
