@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 17:44:47
+ * @Last Modified time: 2017-10-10 17:59:58
  * 普通形状
  * 
  */
@@ -44,18 +44,9 @@ var rOption = {
  * 
  */
 export const Circle = function (option) {
-    var _temOption = util.extend(option, cOption);
-    console.log('_temOption', _temOption);
-    this.x = _temOption.x;
-    this.y = _temOption.y;
-    this.r = _temOption.r;
-    this.sA = _temOption.sA;
-    this.eA = _temOption.eA;
-    this.counterclockwise = _temOption.counterclockwise;
-    this.fillStyle = _temOption.fillStyle;
-    this.strokeStyle = _temOption.strokeStyle;
-    this.rotate = _temOption.rotate;
-    this.rotateOrigin = _temOption.rotateOrigin;
+    var _temOption = util.extend(option, cOption);  
+    this.Option = _temOption;
+    
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -65,13 +56,13 @@ Circle.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
-        if (!this.rotateOrigin) {
-            context.translate(this.x, this.y);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
         }
-        context.rotate(this.rotate);
-        context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
+        context.rotate(this.Option.rotate);
+        context.arc(this.Option.x, this.Option.y, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         context.closePath();
-        context.setStrokeStyle(this.strokeStyle)
+        context.setStrokeStyle(this.Option.strokeStyle)
 
         context.stroke();
 
@@ -80,26 +71,26 @@ Circle.prototype = {
     fill: function (context) {
         context.save();
         context.beginPath();
-        if (!this.rotateOrigin) {
-            context.translate(this.x, this.y);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
         }
-        context.rotate(this.rotate);
-        context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
+        context.rotate(this.Option.rotate);
+        context.arc(this.Option.x, this.Option.y, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         context.closePath();
-        context.setFillStyle(this.fillStyle);
+        context.setFillStyle(this.Option.fillStyle);
         context.fill();
         context.restore();
     },
     move: function (x, y) {
         // console.log('move', x, y);
-        this.x = x;
-        this.y = y;
+        this.Option.x = x;
+        this.Option.y = y;
     },
     detected: function (x, y) {
         var _self = this;
-        if (Math.pow((_self.x - x), 2) + Math.pow((_self.y - y), 2) <= Math.pow(_self.r, 2)) {
-            this._offsetX = _self.x - x;
-            this._offsetY = _self.y - y;
+        if (Math.pow((_self.Option.x - x), 2) + Math.pow((_self.Option.y - y), 2) <= Math.pow(_self.Option.r, 2)) {
+            this._offsetX = _self.Option.x - x;
+            this._offsetY = _self.Option.y - y;
             console.log('x', this._offsetX);
             console.log('y', this._offsetY);
             this._isChoosed = true;
@@ -120,18 +111,7 @@ Circle.prototype = {
         this._isChoosed = false;
     },
      updateOption: function (option) {
-    var _temOption = util.extend(option, cOption);
-    console.log('_temOption', _temOption);
-    this.x = _temOption.x;
-    this.y = _temOption.y;
-    this.r = _temOption.r;
-    this.sA = _temOption.sA;
-    this.eA = _temOption.eA;
-    this.counterclockwise = _temOption.counterclockwise;
-    this.fillStyle = _temOption.fillStyle;
-    this.strokeStyle = _temOption.strokeStyle;
-    this.rotate = _temOption.rotate;
-    this.rotateOrigin = _temOption.rotateOrigin;
+    this.Option= util.extend(option, this.Option);
         this.bus.dispatch('update','no');
     }
 }
@@ -146,14 +126,7 @@ Circle.prototype = {
 export const Rect = function (option) {
     var _temOption = util.extend(option, rOption);
     console.log(_temOption);
-    this.x = _temOption.x;
-    this.y = _temOption.y;
-    this.w = _temOption.w;
-    this.h = _temOption.h;
-    this.fillStyle = _temOption.fillStyle;
-    this.strokeStyle = _temOption.strokeStyle;
-    this.rotate = _temOption.rotate;
-    this.rotateOrigin = _temOption.rotateOrigin;
+    this.Option = _temOption;
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -164,14 +137,14 @@ Rect.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
-        if (!this.rotateOrigin) {
-            context.translate(this.x, this.y);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
 
         }
-        context.rotate(this.rotate);
-        context.rect(this.x, this.y, this.w, this.h);
+        context.rotate(this.Option.rotate);
+        context.rect(this.Option.x, this.Option.y, this.Option.w, this.Option.h);
         context.closePath();
-        context.setStrokeStyle(this.strokeStyle)
+        context.setStrokeStyle(this.Option.strokeStyle)
         context.stroke();
 
         context.restore();
@@ -179,31 +152,31 @@ Rect.prototype = {
     fill: function (context) {
         context.save();
         context.beginPath();
-        if (!this.rotateOrigin) {
-            context.translate(this.x, this.y);
-            context.rotate(this.rotate);
-            context.rect(-this.w / 2, -this.h / 2, this.w, this.h);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
         } else {
-            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
-            context.rotate(this.rotate);
-            context.rect(this.x - this.rotateOrigin[0], this.y - this.rotateOrigin[1], this.w, this.h);
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
 
         context.closePath();
-        context.setFillStyle(this.fillStyle);
+        context.setFillStyle(this.Option.fillStyle);
         context.fill();
         context.translate(0, 0);
         context.restore();
     },
     move: function (x, y) {
-        this.x = x;
-        this.y = y;
+        this.Option.x = x;
+        this.Option.y = y;
     },
     detected: function (x, y) {
         var _self = this;
-        if (_self.x < x && _self.y < y && (_self.y + _self.h) > y && (_self.x + _self.w) > x) {
-            this._offsetX = x - _self.x;
-            this._offsetY = y - _self.y;
+        if (_self.Option.x < x && _self.Option.y < y && (_self.Option.y + _self.Option.h) > y && (_self.Option.x + _self.Option.w) > x) {
+            this._offsetX = x - _self.Option.x;
+            this._offsetY = y - _self.Option.y;
             console.log('移动方块');
             this._isChoosed = true;
             return true;// 点击
@@ -220,17 +193,15 @@ Rect.prototype = {
         this._isChoosed = false;
     },
     updateOption: function (option) {
-    var _temOption = util.extend(option, rOption);
         
-       console.log(_temOption);
-    this.x = _temOption.x;
-    this.y = _temOption.y;
-    this.w = _temOption.w;
-    this.h = _temOption.h;
-    this.fillStyle = _temOption.fillStyle;
-    this.strokeStyle = _temOption.strokeStyle;
-    this.rotate = _temOption.rotate;
-    this.rotateOrigin = _temOption.rotateOrigin;
+    this.x = option.x;
+    this.y = option.y;
+    this.w = option.w;
+    this.h = option.h;
+    this.fillStyle = option.fillStyle;
+    this.strokeStyle = option.strokeStyle;
+    this.rotate = option.rotate;
+    this.rotateOrigin = option.rotateOrigin;
         this.bus.dispatch('update','no');
     }
 

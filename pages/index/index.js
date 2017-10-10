@@ -62,7 +62,10 @@ Page({
     var cir2 = new Shape('rect', { x: 20, y: 20, w: 20,h:20, fillStyle: "#e33123" }, true,false)
 
     this.wxCanvas.add(cir1);
+
+    cir1.updateOption({x:100})
     this.wxCanvas.add(cir2);
+    cir1.updateOption({ x: 100 })
     
     // cir1.animate({
     //   "x":"+=100",
@@ -78,13 +81,13 @@ Page({
     // });
 
 
-    cir2.animate('rotate', -2*Math.PI, {
-        duration: 10000,
-        onLooping: function () {
-          console.log('----');
-        },
-        easing: "linear"
-      });
+    // cir2.animate('rotate', -2*Math.PI, {
+    //     duration: 10000,
+    //     onLooping: function () {
+    //       console.log('----');
+    //     },
+    //     easing: "linear"
+    //   });
 
 
 

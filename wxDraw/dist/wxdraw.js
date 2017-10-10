@@ -232,7 +232,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 17:24:24
+ * @Last Modified time: 2017-10-10 17:54:19
  * 普通形状
  * 
  */
@@ -277,6 +277,9 @@ var rOption = {
     this.strokeStyle = _temOption.strokeStyle;
     this.rotate = _temOption.rotate;
     this.rotateOrigin = _temOption.rotateOrigin;
+
+    this.Option = _temOption;
+
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -286,13 +289,13 @@ Circle.prototype = {
     stroke: function stroke(context) {
         context.save();
         context.beginPath();
-        if (!this.rotateOrigin) {
-            context.translate(this.x, this.y);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
         }
-        context.rotate(this.rotate);
-        context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
+        context.rotate(this.Option.rotate);
+        context.arc(this.Option.x, this.Option.y, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         context.closePath();
-        context.setStrokeStyle(this.strokeStyle);
+        context.setStrokeStyle(this.Option.strokeStyle);
 
         context.stroke();
 
@@ -301,26 +304,26 @@ Circle.prototype = {
     fill: function fill(context) {
         context.save();
         context.beginPath();
-        if (!this.rotateOrigin) {
-            context.translate(this.x, this.y);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
         }
-        context.rotate(this.rotate);
-        context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
+        context.rotate(this.Option.rotate);
+        context.arc(this.Option.x, this.Option.y, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         context.closePath();
-        context.setFillStyle(this.fillStyle);
+        context.setFillStyle(this.Option.fillStyle);
         context.fill();
         context.restore();
     },
     move: function move(x, y) {
         // console.log('move', x, y);
-        this.x = x;
-        this.y = y;
+        this.Option.x = x;
+        this.Option.y = y;
     },
     detected: function detected(x, y) {
         var _self = this;
-        if (Math.pow(_self.x - x, 2) + Math.pow(_self.y - y, 2) <= Math.pow(_self.r, 2)) {
-            this._offsetX = _self.x - x;
-            this._offsetY = _self.y - y;
+        if (Math.pow(_self.Option.x - x, 2) + Math.pow(_self.Option.y - y, 2) <= Math.pow(_self.Option.r, 2)) {
+            this._offsetX = _self.Option.x - x;
+            this._offsetY = _self.Option.y - y;
             console.log('x', this._offsetX);
             console.log('y', this._offsetY);
             this._isChoosed = true;
@@ -339,6 +342,11 @@ Circle.prototype = {
     },
     upDetect: function upDetect() {
         this._isChoosed = false;
+    },
+    updateOption: function updateOption(option) {
+        this.Option = util.extend(option, this.Option);
+
+        this.bus.dispatch('update', 'no');
     }
 
     /**
@@ -359,6 +367,7 @@ Circle.prototype = {
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
+    this.bus = null;
 };
 
 Rect.prototype = {
@@ -417,6 +426,18 @@ Rect.prototype = {
     },
     upDetect: function upDetect() {
         this._isChoosed = false;
+    },
+    updateOption: function updateOption(option) {
+
+        this.x = option.x;
+        this.y = option.y;
+        this.w = option.w;
+        this.h = option.h;
+        this.fillStyle = option.fillStyle;
+        this.strokeStyle = option.strokeStyle;
+        this.rotate = option.rotate;
+        this.rotateOrigin = option.rotateOrigin;
+        this.bus.dispatch('update', 'no');
     }
 
     // module.exports = {
@@ -1032,7 +1053,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 15:40:32
+ * @Last Modified time: 2017-10-10 17:38:20
  * 在这里添加事件 
  */
 
@@ -1130,6 +1151,13 @@ Shape.prototype = {
 
         console.log("继续调用", this);
         return this;
+    },
+    updateOption: function updateOption(option) {
+        if (!this.Shape.bus) {
+            this.Shape.bus = this.bus;
+        }
+
+        this.Shape.updateOption(option);
     }
 };
 
