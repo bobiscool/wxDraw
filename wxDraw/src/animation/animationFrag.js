@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 14:31:18
+ * @Last Modified time: 2017-10-10 14:42:41
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -25,34 +25,29 @@ var FRAGOPTION = {
 
 }
 
-function genExe(exe) {
+function genExe(exe, atrribute, object) {
     if (!isNaN(Number(exe))) {
-        return {
-            target: Number(exe),
-        }
+        let temAtrr = parseFloat(object[atrribute]) - parseFloat(exe);
+        return temAtrr;
     }
 
     if (exe.indexOf('+=') == 0) {
         let tem = exe.split('=')[1];
 
-        return {
-            incre: tem,
-        }
+        return tem;
     }
 
 
     if (exe.indexOf('-=') == 0) {
         let tem = exe.split('=')[1];
 
-        return {
-            incre: -1 * tem
-        }
+        return -1 * tem;
     }
 
 }
 
 
-export const AnimationFrag = function (object, atrribute, exe, option,bus) {
+export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     // 这里是动画碎片 更改 obj的地方 但是 问题就在这里 这应该是 最简单的功能 就是对比目标 
     // 添加 delta
     // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
@@ -65,8 +60,10 @@ export const AnimationFrag = function (object, atrribute, exe, option,bus) {
     let _temOption = util.extend(option, FRAGOPTION);
     this.object = object;
     this.source = 0;
-
-    if(typeof atrribute == "object"){
+    this.genFlag = false;
+    if (typeof atrribute == "object") {
+        this.genFlag = true;
+        
         /**
          * 若果是对象的形式 
          * 那么 就不能直接 使用exe的形式了 
@@ -81,16 +78,13 @@ export const AnimationFrag = function (object, atrribute, exe, option,bus) {
          * 先把a出来
          * 
          */
+       
 
-         
-        
-    }
-    if (genExe(exe).target) {
-        this.incre = genExe(exe).target - this.source;
+
     } else {
-        this.incre = genExe(exe).incre
+        this.incre = genExe(exe, atrribute, object)
+     
     }
-
     this.bus = bus;
     this.complete = false;
     this.running = false;
@@ -114,8 +108,8 @@ AnimationFrag.prototype = {
         if (this.complete) {
             if (this.endCallFrag) {
                 this.endCallFrag.updateAnimation(); // 朝后调用
-            }else{
-                this.bus.dispatch('animationComplete',"no",this.object.Shapeid);
+            } else {
+                this.bus.dispatch('animationComplete', "no", this.object.Shapeid);
             }
             return false;
         }
@@ -129,7 +123,7 @@ AnimationFrag.prototype = {
                 this.endCallFrag.updateAnimation(); // 朝后调用
             }
             return false;
-            
+
         }
         if (!this.started && !this.complete) {
             this.source = this.object.Shape[this.atrribute];// 最初动画开始的属性            
@@ -149,11 +143,12 @@ AnimationFrag.prototype = {
         // console.log('cx', this.object.Shape[this.atrribute]);
         this.object.Shape[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
     },
-    genAtrributeList:function(atrribute){
-       let _keys = Object.keys(atrribute);
-       _keys.forEach(function(item){
-          
-       });
+    genAtrributeList: function (atrribute) {
+        let _keys = Object.keys(atrribute);
+        _keys.forEach(function (item) {
+          this.atrributeList.push({"attr":item,"incre":genExe(atrribute[item], item, this.object)});
+        },this);
+
     }
 }
 
