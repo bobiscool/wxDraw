@@ -59,7 +59,7 @@ Store.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 14:07:35
+ * @Last Modified time: 2017-10-10 15:26:50
  */
 
 var pOption = {
@@ -68,7 +68,8 @@ var pOption = {
     r: 10,
     sides: 7,
     fillStyle: "red",
-    strokeStyle: "red"
+    strokeStyle: "red",
+    rotate: 0
 };
 
 function Point(x, y) {
@@ -83,6 +84,7 @@ var Polygon = function Polygon(option) {
     this.x = _temOption.x;
     this.radius = _temOption.r;
     this.sides = _temOption.sides; //边数
+    this.rotate = _temOption.rotate; //边数
     this.max = {
         maxX: 0,
         maxY: 0,
@@ -147,6 +149,7 @@ Polygon.prototype = {
     },
     stroke: function stroke(context) {
         context.save();
+        context.rotate(this.rotate);
         this.createPath(context);
         context.setStrokeStyle(this.strokeStyle);
         context.stroke();
@@ -154,6 +157,7 @@ Polygon.prototype = {
     },
     fill: function fill(context) {
         context.save();
+        context.rotate(this.rotate);
         this.createPath(context);
         context.setStrokeStyle(this.fillStyle);
         context.fill();
@@ -220,7 +224,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 14:10:00
+ * @Last Modified time: 2017-10-10 15:25:09
  * 普通形状
  * 
  */
@@ -232,7 +236,8 @@ var cOption = {
     r: 10,
     sA: 0,
     eA: Math.PI * 2,
-    counterclockwise: false
+    counterclockwise: false,
+    rotate: 0
 };
 var rOption = {
     x: 10,
@@ -240,7 +245,8 @@ var rOption = {
     w: 10,
     h: 10,
     fillStyle: "red",
-    strokeStyle: "red"
+    strokeStyle: "red",
+    rotate: 0
 
     /**
      * 
@@ -259,6 +265,7 @@ var rOption = {
     this.counterclockwise = _temOption.counterclockwise;
     this.fillStyle = _temOption.fillStyle;
     this.strokeStyle = _temOption.strokeStyle;
+    this.rotate = _temOption.rotate;
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -268,9 +275,11 @@ Circle.prototype = {
     stroke: function stroke(context) {
         context.save();
         context.beginPath();
+        context.rotate(this.rotate);
         context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
         context.closePath();
         context.setStrokeStyle(this.strokeStyle);
+
         context.stroke();
 
         context.restore();
@@ -278,6 +287,7 @@ Circle.prototype = {
     fill: function fill(context) {
         context.save();
         context.beginPath();
+        context.rotate(this.rotate);
         context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
         context.closePath();
         context.setFillStyle(this.fillStyle);
@@ -327,6 +337,7 @@ Circle.prototype = {
     this.h = _temOption.h;
     this.fillStyle = _temOption.fillStyle;
     this.strokeStyle = _temOption.strokeStyle;
+    this.rotate = _temOption.rotate;
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -336,6 +347,7 @@ Rect.prototype = {
     stroke: function stroke(context) {
         context.save();
         context.beginPath();
+        context.rotate(this.rotate);
         context.rect(this.x, this.y, this.w, this.h);
         context.closePath();
         context.setStrokeStyle(this.strokeStyle);
@@ -346,6 +358,7 @@ Rect.prototype = {
     fill: function fill(context) {
         context.save();
         context.beginPath();
+        context.rotate(this.rotate);
         context.rect(this.x, this.y, this.w, this.h);
         context.closePath();
         context.setFillStyle(this.fillStyle);
@@ -837,7 +850,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 15:04:17
+ * @Last Modified time: 2017-10-10 15:33:51
  */
 
 var FRAGOPTION = {
@@ -858,7 +871,7 @@ var FRAGOPTION = {
 
 function genExe(exe, atrribute, object) {
     if (!isNaN(Number(exe))) {
-        var temAtrr = parseFloat(object[atrribute]) - parseFloat(exe);
+        var temAtrr = parseFloat(object.Shape[atrribute]) - parseFloat(exe);
         return temAtrr;
     }
 
@@ -978,7 +991,7 @@ AnimationFrag.prototype = {
         //生成 属性 更改列表
         var _keys = Object.keys(atrribute);
         var _self = this;
-        console.log(_self);
+        // console.log(_self);
         _keys.forEach(function (item) {
             _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape[item] });
         });
@@ -989,7 +1002,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 14:54:51
+ * @Last Modified time: 2017-10-10 15:33:05
  * 在这里添加事件 
  */
 

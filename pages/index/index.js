@@ -59,55 +59,32 @@ Page({
 
     var cir1 = new Shape('circle', { x: 40, y: 20, r: 20, fillStyle: "#e3e223" }, true)
   
-    var cir2 = new Shape('rect', { x: 200, y: 20, w: 20,h:20, fillStyle: "#e33123" }, true)
+    var cir2 = new Shape('rect', { x: 200, y: 20, w: 20,h:20, fillStyle: "#e33123" }, true,false)
 
     this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir2);
     
-    cir1.animate({
-      "x":"+=100",
-      "y":"+=100",
-      "r":"+=100"
-    },{
-      duration: 4000,
-      onLooping: function () {
-        console.log('***');
-      },
-      easing: "bouncePast"
-    });
+    // cir1.animate({
+    //   "x":"+=100",
+    //   "y":"+=100",
+    //   "r":"+=100"
 
-
-    // cir2.animate('x', "+=100", {
+    // },{
     //   duration: 4000,
     //   onLooping: function () {
     //     console.log('***');
     //   },
     //   easing: "bouncePast"
-    // }).animate('y', "+=200", {
-    //   duration: 2000,
-    //   onLooping: function () {
-    //     console.log('---');
-    //   },
-    //   easing: "bouncePast"
-    // }).animate('r', "+=100", {
-    //   duration: 50,
-    //   onLooping: function () {
-    //     console.log('@@@');
-    //   },
-    //   easing: "easeInQuad"
-    // }).animate('h', "+=100", {
-    //   duration: 500,
-    //   onLooping: function () {
-    //     console.log('@@@');
-    //   },
-    //   easing: "bouncePast"
-    //   }).animate('w', "+=2000", {
-    //     duration: 500,
-    //     onLooping: function () {
-    //       console.log('----');
-    //     },
-    //     easing: "bouncePast"
-    //   });
+    // });
+
+
+    cir2.animate('rotate', -2*Math.PI, {
+        duration: 4000,
+        onLooping: function () {
+          console.log('----');
+        },
+        easing: "linear"
+      });
 
 
 

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 15:05:26
+ * @Last Modified time: 2017-10-10 15:33:51
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -27,7 +27,7 @@ var FRAGOPTION = {
 
 function genExe(exe, atrribute, object) {
     if (!isNaN(Number(exe))) {
-        let temAtrr = parseFloat(object[atrribute]) - parseFloat(exe);
+        let temAtrr = parseFloat(object.Shape[atrribute]) - parseFloat(exe);
         return temAtrr;
     }
 

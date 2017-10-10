@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 14:54:51
+ * @Last Modified time: 2017-10-10 15:40:32
  * 在这里添加事件 
  */
 
@@ -49,7 +49,10 @@ Shape.prototype = {
     },
     moveDetect: function (x, y) {
         // console.log('moveDetect')
+        if(this.draggable){
         this.Shape.moveDetect(x, y);
+
+        }
     },
     upDetect: function () {
         this.Shape.upDetect();
