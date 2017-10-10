@@ -59,7 +59,7 @@ Store.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 17:12:10
+ * @Last Modified time: 2017-10-10 18:11:57
  */
 
 var pOption = {
@@ -87,6 +87,10 @@ var Polygon = function Polygon(option) {
     this.sides = _temOption.sides; //边数
     this.rotate = _temOption.rotate; //旋转 角度
     this.rotateOrigin = _temOption.rotateOrigin; //旋转中心
+    this.fillStyle = _temOption.fillStyle;
+    this.strokeStyle = _temOption.strokeStyle;
+    this.Option = _temOption;
+
     this.max = {
         maxX: 0,
         maxY: 0,
@@ -94,15 +98,13 @@ var Polygon = function Polygon(option) {
         minY: 0
     };
     this.points = this.getPoints();
-    this.fillStyle = _temOption.fillStyle;
-    this.strokeStyle = _temOption.strokeStyle;
     this._isChoosed = false;
 };
 
 Polygon.prototype = {
     getPoints: function getPoints() {
         var points = [],
-            angle = this.startAngle || 0;
+            angle = this.Option.startAngle || 0;
         //每次getPoints 要刷新max
 
         this.max = {
@@ -113,28 +115,28 @@ Polygon.prototype = {
         };
 
         for (var i = 0; i < this.sides; ++i) {
-            points.push(new Point(this.x + this.radius * Math.sin(angle), this.y - this.radius * Math.cos(angle)));
-            if (this.x + this.radius * Math.sin(angle) > this.max.maxX) {
-                this.max.maxX = this.x + this.radius * Math.sin(angle);
+            points.push(new Point(this.Option.x + this.Option.radius * Math.sin(angle), this.Option.y - this.Option.radius * Math.cos(angle)));
+            if (this.Option.x + this.Option.radius * Math.sin(angle) > this.max.maxX) {
+                this.max.maxX = this.Option.x + this.Option.radius * Math.sin(angle);
             }
             if (!this.max.minX) {
-                this.max.minX = this.x + this.radius * Math.sin(angle);
+                this.max.minX = this.Option.x + this.Option.radius * Math.sin(angle);
             }
-            if (this.max.minX && this.x + this.radius * Math.sin(angle) < this.max.minX) {
-                this.max.minX = this.x + this.radius * Math.sin(angle);
+            if (this.max.minX && this.Option.x + this.Option.radius * Math.sin(angle) < this.max.minX) {
+                this.max.minX = this.Option.x + this.Option.radius * Math.sin(angle);
             }
 
-            if (this.y + this.radius * Math.sin(angle) > this.max.maxY) {
-                this.max.maxY = this.y + this.radius * Math.sin(angle);
+            if (this.Option.y + this.Option.radius * Math.sin(angle) > this.max.maxY) {
+                this.max.maxY = this.Option.y + this.Option.radius * Math.sin(angle);
             }
             if (!this.max.minY) {
-                this.max.minY = this.y + this.radius * Math.sin(angle);
+                this.max.minY = this.Option.y + this.Option.radius * Math.sin(angle);
             }
-            if (this.max.minY && this.y + this.radius * Math.sin(angle) < this.max.minY) {
-                this.max.minY = this.y + this.radius * Math.sin(angle);
+            if (this.max.minY && this.Option.y + this.Option.radius * Math.sin(angle) < this.max.minY) {
+                this.max.minY = this.Option.y + this.Option.radius * Math.sin(angle);
             }
 
-            angle += 2 * Math.PI / this.sides;
+            angle += 2 * Math.PI / this.Option.sides;
         }
         return points;
     },
@@ -144,36 +146,36 @@ Polygon.prototype = {
 
         context.beginPath();
         context.moveTo(points[0].x, points[0].y);
-        for (var i = 1; i < this.sides; ++i) {
+        for (var i = 1; i < this.Option.sides; ++i) {
             context.lineTo(points[i].x, points[i].y);
         }
         context.closePath();
     },
     stroke: function stroke(context) {
         context.save();
-        if (!this.rotateOrigin) {
-            context.translate(this.x, this.y);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
         }
-        context.rotate(this.rotate);
+        context.rotate(this.Option.rotate);
         this.createPath(context);
-        context.setStrokeStyle(this.strokeStyle);
+        context.setStrokeStyle(this.Option.strokeStyle);
         context.stroke();
         context.restore();
     },
     fill: function fill(context) {
         context.save();
-        if (!this.rotateOrigin) {
-            context.translate(this.x, this.y);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
         }
-        context.rotate(this.rotate);
+        context.rotate(this.Option.rotate);
         this.createPath(context);
-        context.setStrokeStyle(this.fillStyle);
+        context.setStrokeStyle(this.Option.fillStyle);
         context.fill();
         context.restore();
     },
     move: function move(x, y) {
-        this.x = x;
-        this.y = y;
+        this.Option.x = x;
+        this.Option.y = y;
     },
     detected: function detected(x, y) {
         // pnpoly 算法区域
@@ -183,8 +185,8 @@ Polygon.prototype = {
             //在最小矩形里面才开始
             this.points = this.getPoints();
 
-            this._offsetX = this.x - x;
-            this._offsetY = this.y - y;
+            this._offsetX = this.Option.x - x;
+            this._offsetY = this.Option.y - y;
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
             }
@@ -232,7 +234,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:03:52
+ * @Last Modified time: 2017-10-10 18:04:37
  * 普通形状
  * 
  */
@@ -1026,7 +1028,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 17:38:20
+ * @Last Modified time: 2017-10-10 18:08:21
  * 在这里添加事件 
  */
 
@@ -1131,6 +1133,8 @@ Shape.prototype = {
         }
 
         this.Shape.updateOption(option);
+
+        return this;
     }
 };
 
