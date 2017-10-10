@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 14:46:27
+ * @Last Modified time: 2017-10-10 14:49:30
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -61,24 +61,23 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     this.object = object;
     this.source = 0;
     this.genFlag = false;
+    /**
+  * 若果是对象的形式 
+  * 那么 就不能直接 使用exe的形式了 
+  * 而是将每一个对象拆开 然后 一个一个的 进行 升级 
+  * a {
+  *   "a":"+=100",
+  *    "b":"-=100"
+  * 
+  * }
+  * 
+  * 那就是 
+  * 先把a出来
+  * 
+  */
     if (typeof atrribute == "object") {
         this.genFlag = true;
         this.genAtrributeList(atrribute);
-
-        /**
-         * 若果是对象的形式 
-         * 那么 就不能直接 使用exe的形式了 
-         * 而是将每一个对象拆开 然后 一个一个的 进行 升级 
-         * a {
-         *   "a":"+=100",
-         *    "b":"-=100"
-         * 
-         * }
-         * 
-         * 那就是 
-         * 先把a出来
-         * 
-         */
 
 
 
@@ -100,7 +99,6 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     this.onEnd = _temOption.onEnd;
     this.onLooping = _temOption.onLooping;
     this.onStart = _temOption.onStart;
-
 }
 
 AnimationFrag.prototype = {
@@ -127,8 +125,8 @@ AnimationFrag.prototype = {
 
         }
         if (!this.started && !this.complete) {
-            if(!this.genFlag){ // 如果是 单点动画
-            this.source = this.object.Shape[this.atrribute];// 最初动画开始的属性            
+            if (!this.genFlag) { // 如果是 单点动画
+                this.source = this.object.Shape[this.atrribute];// 最初动画开始的属性            
             }
             this.started = true;
             this.running = true;
@@ -146,13 +144,17 @@ AnimationFrag.prototype = {
         // console.log('cx', this.object.Shape[this.atrribute]);
         if (!this.genFlag) {
             this.object.Shape[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+        }else{
+            this.atrributeList.forEach(function(item){
+                this.object.Shape[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+            },this);
         }
     },
     genAtrributeList: function (atrribute) {
         //生成 属性 更改列表
         let _keys = Object.keys(atrribute);
         _keys.forEach(function (item) {
-            this.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, this.object) });
+            this.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, this.object), "source": atrribute[item] });
         }, this);
 
     }
