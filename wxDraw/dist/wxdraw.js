@@ -59,7 +59,7 @@ Store.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 15:26:50
+ * @Last Modified time: 2017-10-10 17:12:10
  */
 
 var pOption = {
@@ -69,7 +69,8 @@ var pOption = {
     sides: 7,
     fillStyle: "red",
     strokeStyle: "red",
-    rotate: 0
+    rotate: 0,
+    rotateOrigin: null
 };
 
 function Point(x, y) {
@@ -84,7 +85,8 @@ var Polygon = function Polygon(option) {
     this.x = _temOption.x;
     this.radius = _temOption.r;
     this.sides = _temOption.sides; //边数
-    this.rotate = _temOption.rotate; //边数
+    this.rotate = _temOption.rotate; //旋转 角度
+    this.rotateOrigin = _temOption.rotateOrigin; //旋转中心
     this.max = {
         maxX: 0,
         maxY: 0,
@@ -149,6 +151,9 @@ Polygon.prototype = {
     },
     stroke: function stroke(context) {
         context.save();
+        if (!this.rotateOrigin) {
+            context.translate(this.x, this.y);
+        }
         context.rotate(this.rotate);
         this.createPath(context);
         context.setStrokeStyle(this.strokeStyle);
@@ -157,6 +162,9 @@ Polygon.prototype = {
     },
     fill: function fill(context) {
         context.save();
+        if (!this.rotateOrigin) {
+            context.translate(this.x, this.y);
+        }
         context.rotate(this.rotate);
         this.createPath(context);
         context.setStrokeStyle(this.fillStyle);
@@ -224,7 +232,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 15:25:09
+ * @Last Modified time: 2017-10-10 17:24:24
  * 普通形状
  * 
  */
@@ -237,7 +245,8 @@ var cOption = {
     sA: 0,
     eA: Math.PI * 2,
     counterclockwise: false,
-    rotate: 0
+    rotate: 0,
+    rotateOrigin: null
 };
 var rOption = {
     x: 10,
@@ -246,7 +255,8 @@ var rOption = {
     h: 10,
     fillStyle: "red",
     strokeStyle: "red",
-    rotate: 0
+    rotate: 0,
+    rotateOrigin: null
 
     /**
      * 
@@ -266,6 +276,7 @@ var rOption = {
     this.fillStyle = _temOption.fillStyle;
     this.strokeStyle = _temOption.strokeStyle;
     this.rotate = _temOption.rotate;
+    this.rotateOrigin = _temOption.rotateOrigin;
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -275,6 +286,9 @@ Circle.prototype = {
     stroke: function stroke(context) {
         context.save();
         context.beginPath();
+        if (!this.rotateOrigin) {
+            context.translate(this.x, this.y);
+        }
         context.rotate(this.rotate);
         context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
         context.closePath();
@@ -287,6 +301,9 @@ Circle.prototype = {
     fill: function fill(context) {
         context.save();
         context.beginPath();
+        if (!this.rotateOrigin) {
+            context.translate(this.x, this.y);
+        }
         context.rotate(this.rotate);
         context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
         context.closePath();
@@ -338,6 +355,7 @@ Circle.prototype = {
     this.fillStyle = _temOption.fillStyle;
     this.strokeStyle = _temOption.strokeStyle;
     this.rotate = _temOption.rotate;
+    this.rotateOrigin = _temOption.rotateOrigin;
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -347,6 +365,9 @@ Rect.prototype = {
     stroke: function stroke(context) {
         context.save();
         context.beginPath();
+        if (!this.rotateOrigin) {
+            context.translate(this.x, this.y);
+        }
         context.rotate(this.rotate);
         context.rect(this.x, this.y, this.w, this.h);
         context.closePath();
@@ -358,11 +379,20 @@ Rect.prototype = {
     fill: function fill(context) {
         context.save();
         context.beginPath();
-        context.rotate(this.rotate);
-        context.rect(this.x, this.y, this.w, this.h);
+        if (!this.rotateOrigin) {
+            context.translate(this.x, this.y);
+            context.rotate(this.rotate);
+            context.rect(-this.w / 2, -this.h / 2, this.w, this.h);
+        } else {
+            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
+            context.rotate(this.rotate);
+            context.rect(this.x - this.rotateOrigin[0], this.y - this.rotateOrigin[1], this.w, this.h);
+        }
+
         context.closePath();
         context.setFillStyle(this.fillStyle);
         context.fill();
+        context.translate(0, 0);
         context.restore();
     },
     move: function move(x, y) {
@@ -1002,7 +1032,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 15:33:05
+ * @Last Modified time: 2017-10-10 15:40:32
  * 在这里添加事件 
  */
 
@@ -1036,7 +1066,9 @@ Shape.prototype = {
     },
     moveDetect: function moveDetect(x, y) {
         // console.log('moveDetect')
-        this.Shape.moveDetect(x, y);
+        if (this.draggable) {
+            this.Shape.moveDetect(x, y);
+        }
     },
     upDetect: function upDetect() {
         this.Shape.upDetect();

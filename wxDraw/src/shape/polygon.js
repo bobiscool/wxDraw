@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 15:26:50
+ * @Last Modified time: 2017-10-10 17:12:10
  */
 
 import { util } from '../util/utils.js';
@@ -15,7 +15,8 @@ var pOption = {
     sides: 7,
     fillStyle: "red",
     strokeStyle: "red",
-    rotate:0
+    rotate:0,
+    rotateOrigin:null
 }
 
 
@@ -35,7 +36,8 @@ export const Polygon=function(option) {
     this.x = _temOption.x;
     this.radius = _temOption.r;
     this.sides = _temOption.sides;//边数
-    this.rotate = _temOption.rotate;//边数
+    this.rotate = _temOption.rotate;//旋转 角度
+    this.rotateOrigin = _temOption.rotateOrigin;//旋转中心
     this.max = {
         maxX: 0,
         maxY: 0,
@@ -104,6 +106,9 @@ Polygon.prototype = {
     },
     stroke: function (context) {
         context.save();
+        if(!this.rotateOrigin){
+           context.translate(this.x,this.y);
+        }
         context.rotate(this.rotate);
         this.createPath(context);
         context.setStrokeStyle(this.strokeStyle)
@@ -112,6 +117,9 @@ Polygon.prototype = {
     },
     fill: function (context) {
         context.save();
+        if(!this.rotateOrigin){
+           context.translate(this.x,this.y);
+        }
         context.rotate(this.rotate);        
         this.createPath(context);
         context.setStrokeStyle(this.fillStyle);
