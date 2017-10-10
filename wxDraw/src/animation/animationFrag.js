@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 14:42:41
+ * @Last Modified time: 2017-10-10 14:44:41
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -63,7 +63,8 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     this.genFlag = false;
     if (typeof atrribute == "object") {
         this.genFlag = true;
-        
+        this.genAtrributeList(atrribute);
+
         /**
          * 若果是对象的形式 
          * 那么 就不能直接 使用exe的形式了 
@@ -144,6 +145,7 @@ AnimationFrag.prototype = {
         this.object.Shape[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
     },
     genAtrributeList: function (atrribute) {
+        //生成 属性 更改列表
         let _keys = Object.keys(atrribute);
         _keys.forEach(function (item) {
           this.atrributeList.push({"attr":item,"incre":genExe(atrribute[item], item, this.object)});
