@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 14:44:41
+ * @Last Modified time: 2017-10-10 14:46:27
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -79,12 +79,12 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
          * 先把a出来
          * 
          */
-       
+
 
 
     } else {
         this.incre = genExe(exe, atrribute, object)
-     
+
     }
     this.bus = bus;
     this.complete = false;
@@ -127,7 +127,9 @@ AnimationFrag.prototype = {
 
         }
         if (!this.started && !this.complete) {
+            if(!this.genFlag){ // 如果是 单点动画
             this.source = this.object.Shape[this.atrribute];// 最初动画开始的属性            
+            }
             this.started = true;
             this.running = true;
             this.onStart();
@@ -142,14 +144,16 @@ AnimationFrag.prototype = {
     updateAtrribute: function () {
         // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
         // console.log('cx', this.object.Shape[this.atrribute]);
-        this.object.Shape[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+        if (!this.genFlag) {
+            this.object.Shape[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+        }
     },
     genAtrributeList: function (atrribute) {
         //生成 属性 更改列表
         let _keys = Object.keys(atrribute);
         _keys.forEach(function (item) {
-          this.atrributeList.push({"attr":item,"incre":genExe(atrribute[item], item, this.object)});
-        },this);
+            this.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, this.object) });
+        }, this);
 
     }
 }
