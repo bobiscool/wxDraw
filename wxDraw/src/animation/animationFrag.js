@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 14:21:56
+ * @Last Modified time: 2017-10-10 14:31:18
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -71,7 +71,18 @@ export const AnimationFrag = function (object, atrribute, exe, option,bus) {
          * 若果是对象的形式 
          * 那么 就不能直接 使用exe的形式了 
          * 而是将每一个对象拆开 然后 一个一个的 进行 升级 
+         * a {
+         *   "a":"+=100",
+         *    "b":"-=100"
+         * 
+         * }
+         * 
+         * 那就是 
+         * 先把a出来
+         * 
          */
+
+         
         
     }
     if (genExe(exe).target) {
@@ -86,6 +97,7 @@ export const AnimationFrag = function (object, atrribute, exe, option,bus) {
     this.started = false;
     this.duration = _temOption.duration;
     this.atrribute = atrribute;
+    this.atrributeList = [];// 如果atrribute是对象的形式
     // console.log(this.object);
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
     this.endCallFrag = null;// 用于动画叠加调用
@@ -136,6 +148,12 @@ AnimationFrag.prototype = {
         // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
         // console.log('cx', this.object.Shape[this.atrribute]);
         this.object.Shape[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+    },
+    genAtrributeList:function(atrribute){
+       let _keys = Object.keys(atrribute);
+       _keys.forEach(function(item){
+          
+       });
     }
 }
 
