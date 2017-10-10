@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 14:49:30
+ * @Last Modified time: 2017-10-10 14:51:03
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -78,12 +78,8 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     if (typeof atrribute == "object") {
         this.genFlag = true;
         this.genAtrributeList(atrribute);
-
-
-
     } else {
         this.incre = genExe(exe, atrribute, object)
-
     }
     this.bus = bus;
     this.complete = false;

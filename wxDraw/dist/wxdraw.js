@@ -652,361 +652,15 @@ AnimationTimer.prototype = {
 
 };
 
-/*
- * @Author: Thunderball.Wu 
- * @Date: 2017-09-29 16:34:09 
- * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:08:10
- */
-
-var FRAGOPTION = {
-    onStart: function onStart() {
-        // 动画碎片开始的函数
-    },
-    onLooping: function onLooping() {
-        //在动画重复执行的时候 需要循环的函数 这里 可能需要一些传参
-    },
-    onEnd: function onEnd() {
-        // 动画结束 的时候 执行
-    },
-    duration: 1000, // 毫秒
-    easing: "linear" // 缓动函数 
-
-
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
 
-function genExe(exe) {
-    if (!isNaN(Number(exe))) {
-        return {
-            target: Number(exe)
-        };
-    }
-
-    if (exe.indexOf('+=') == 0) {
-        var tem = exe.split('=')[1];
-
-        return {
-            incre: tem
-        };
-    }
-
-    if (exe.indexOf('-=') == 0) {
-        var _tem = exe.split('=')[1];
-
-        return {
-            incre: -1 * _tem
-        };
-    }
-}
-
-var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) {
-    // 这里是动画碎片 更改 obj的地方 但是 问题就在这里 这应该是 最简单的功能 就是对比目标 
-    // 添加 delta
-    // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
-    // 假比 是 linear 传进来的 deatla 时间 就是 均衡的
-    // 那这一刻增加的东西就是 均衡的 
-
-    var _temOption = util.extend(option, FRAGOPTION);
-    this.object = object;
-
-    this.source = 0;
-    if (genExe(exe).target) {
-        this.incre = genExe(exe).target - this.source;
-    } else {
-        this.incre = genExe(exe).incre;
-    }
-
-    this.bus = bus;
-    this.complete = false;
-    this.running = false;
-    this.started = false;
-    this.duration = _temOption.duration;
-    this.atrribute = atrribute;
-    // console.log(this.object);
-    this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
-    this.endCallFrag = null; // 用于动画叠加调用
-
-    this.onEnd = _temOption.onEnd;
-    this.onLooping = _temOption.onLooping;
-    this.onStart = _temOption.onStart;
-};
-
-AnimationFrag.prototype = {
-    updateAnimation: function updateAnimation() {
-        //获取时间  以及计算出来 的变化时间 来  如果现在的时间 一加到达 
-        if (this.complete) {
-            if (this.endCallFrag) {
-                this.endCallFrag.updateAnimation(); // 朝后调用
-            } else {
-                this.bus.dispatch('animationComplete', "no", this.object.Shapeid);
-            }
-            return false;
-        }
-
-        if (this.timer.isOver()) {
-            this.onEnd();
-            this.complete = true;
-            this.running = false;
-            if (this.endCallFrag) {
-                // console.log('朝后调用');
-                this.endCallFrag.updateAnimation(); // 朝后调用
-            }
-            return false;
-        }
-        if (!this.started && !this.complete) {
-            this.source = this.object.Shape[this.atrribute]; // 最初动画开始的属性            
-            this.started = true;
-            this.running = true;
-            this.onStart();
-            this.timer.start();
-        } else {
-            this.onLooping();
-            this.updateAtrribute();
-        }
-    },
-    updateAtrribute: function updateAtrribute() {
-        // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
-        // console.log('cx', this.object.Shape[this.atrribute]);
-        this.object.Shape[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
-    }
-};
-
-/*
- * @Author: Thunderball.Wu 
- * @Date: 2017-09-22 15:45:51 
- * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:06:24
- * 在这里添加事件 
- */
-
-var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
-    this.draggable = draggable ? true : false;
-    this.highlight = highlight ? true : false;
-    this.strokeOrfill = strokeOrfill ? true : false; //是否填充
-    this.type = type;
-    this.Shape = new shapeTypes[type](option);
-    this.AnimationTimer = new AnimationTimer();
-    this.animtionFragList = []; // flag List
-    this.bus = null;
-    this.Shapeid = "sp" + guid();
-};
-
-Shape.prototype = {
-    updateBus: function updateBus(bus) {
-        this.bus = bus;
-    },
-    paint: function paint(context) {
-        if (this.strokeOrfill) {
-            this.Shape.fill(context);
-        } else {
-            this.Shape.stroke(context);
-        }
-    },
-    detect: function detect(x, y) {
-        //检查点击了谁
-        this.Shape.detected(x, y);
-        if (this.Shape.detected(x, y)) {}
-    },
-    moveDetect: function moveDetect(x, y) {
-        // console.log('moveDetect')
-        this.Shape.moveDetect(x, y);
-    },
-    upDetect: function upDetect() {
-        this.Shape.upDetect();
-    },
-
-    /**
-     * 
-     * 
-     * @param {any} atrribute 哪个属性动画
-     * @param {any} exp   表达式
-     * @param {any} option  其他设置项目
-     */
-    animate: function animate(atrribute, exp, option) {
-        console.log("添加形状");
-        // 在这里添加 动画
-        // 所有的动画其实就是目标
-        // 一旦 每个动画对象执行 animate其实就是给自己立了一个flag
-        /**
-         *所以的动画碎片其实就是所有的flag
-         这些flag you刚开始的 有结束的 于是 改变的时候就要去记录状态 
-         对比 这些状态 是不是以及完成 
-         完成了就完事 
-         没完成 那就继续 按照时间 完成
-         */
-        //    if(atrribute=="x"){
-        // @TODO 方向
-        // @TODO 表达式
-        // @TODO 回调
-
-        //    if(exp.indexOf('+=')==0){
-        //       let tem = exp.split('=')[1];
-
-        /**
-         * 这里的animate 世纪路所有动画 
-         * 但是在哪里执行呢 ？
-         * 在父集里面 有一个 aniamtion 哪个是 动画控制器 
-         * 是一个总的 宗华控制器 
-         * 但是 是事实上 总的动画控制器 
-         * uodate 还是 每一个单个 shape自己跟新 动画 这样思路上 
-         * 才不不会乱 
-         * 
-         */
-
-        var _temFrag = new AnimationFrag(this, atrribute, exp, option, this.bus);
-        //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
-
-        //    console.log('添加形状',this.bus);
-        this.bus.dispatch('addAnimation', "no", _temFrag, this.Shapeid);
-
-        //    }
 
 
-        //    }
 
-        console.log("继续调用", this);
-        return this;
-    }
-};
-
-var shapeTypes = {
-    "circle": function circle(option) {
-        return new Circle(option);
-    },
-    'rect': function rect(option) {
-        return new Rect(option);
-    },
-    'polygon': function polygon(option) {
-        return new Polygon(option);
-    }
-};
-
-/*
- * @Author: Thunderball.Wu 
- * @Date: 2017-09-27 16:12:38 
- * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 10:56:10
- * 帧动画控制器
- */
-//todo cancelRequestAnimationFrame 
-// cancel setTimeOut
-var AnimationFrame = function AnimationFrame() {
-    // console.log('requestAnimationFrame',requestAnimationFrame);
-    // if(requestAnimationFrame){
-    //     this.animationType = "r";
-    //     this.AnimationFrame = requestAnimationFrame;
-    // }else{
-    //     this.animationType = 's';
-    //     this.AnimationFrame = fakeAnimationFrame;
-    // }
-
-    // this.animationId = null;
-
-    if (requestAnimationFrame) {
-        return requestAnimationFrame;
-    } else {
-        return fakeAnimationFrame;
-    }
-};
-
-// AnimationFrame.prototype = {
-//     getAnimationFrame:function(){
-//         return this.AnimationFrame;
-//     },
-//     cancelAnimationFrame:function(){//取消动画
-//         if(thid.animationType=='r'){
-//            cancelAnimationFrame(this.animationId);
-//         }else{
-//             clearTimeout(this.animationId);
-//         }
-//     }
-// }
-
-
-function fakeAnimationFrame(callback) {
-    var start;
-    setTimeout(function () {
-        start = +new Date();
-        callback(start);
-        
-
-        //   console.log(finish - start);
-    }, 16);
-}
-
-/*
- * @Author: Thunderball.Wu 
- * @Date: 2017-09-29 09:58:45 
- * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:15:04
- * 动画 对象 接管所有动画
- */
-
-var animationFrame = AnimationFrame();
-var Animation = function Animation(bus) {
-    this.running = false;
-    this.paused = true; // 我觉得暂停 不应哎全局的这个暂停上 而是每一个对象有一个自己的暂停 用于 当时wait的时候用  但是现在为我写的
-    // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
-
-    this.bus = bus;
-    //    console.log(this.bus);
-    this.animationFragStore = {}; // 动画碎片仓库 存储 所有 动画 
-    this.animationCompleteList = []; // 动画完成清单
-    this.bus.add('animationComplete', this, this.animationComplete); // 添加动画事件 
-
-
-    //    this.animationFragStore2 = {};
-};
-
-Animation.prototype = {
-    start: function start() {
-        //开始整个动画
-        this.running = true;
-        this.loopAnimation();
-    },
-    loopAnimation: function loopAnimation() {
-        //循环 整场动画
-        var _self = this;
-        function stepAnimation() {
-            animationFrame(stepAnimation);
-            // console.log('---');
-            _self.running && _self.updateStep();
-        }
-
-        animationFrame(stepAnimation);
-    },
-    updateStep: function updateStep() {
-        //这里是执行小动画的地方 每一个obj都有自己的动画 在obj添加动画的时候 
-        // 便在动画循环里面添加 
-        // 动画是根据时间 来执行的 
-        // this._bus()
-        // console.log(this.animationFragStore);
-        // this.animationFragStore.forEach(function(ele){
-        //     ele.updateAnimation();
-        // });
-
-        var _keys = Object.keys(this.animationFragStore);
-
-        _keys.forEach(function (item) {
-            var _temFragStore = this.animationFragStore[item];
-            _temFragStore.forEach(function (item, index) {
-                item.endCallFrag = _temFragStore[index + 1];
-                if (index == 0) {
-                    item.updateAnimation();
-                }
-            });
-        }, this);
-
-        this.bus.dispatch('update', 'no'); //通知更新 
-    },
-    animationComplete: function animationComplete(who) {
-        this.animationCompleteList.push(who);
-        if (this.animationCompleteList.length === Object.keys(this.animationFragStore).length) {
-            this.running = false; // 动画执行 结束
-            console.log('结束动画');
-        }
-    }
-};
 
 var asyncGenerator = function () {
   function AwaitValue(value) {
@@ -1181,9 +835,398 @@ var toConsumableArray = function (arr) {
 
 /*
  * @Author: Thunderball.Wu 
+ * @Date: 2017-09-29 16:34:09 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-10 14:51:03
+ */
+
+var FRAGOPTION = {
+    onStart: function onStart() {
+        // 动画碎片开始的函数
+    },
+    onLooping: function onLooping() {
+        //在动画重复执行的时候 需要循环的函数 这里 可能需要一些传参
+    },
+    onEnd: function onEnd() {
+        // 动画结束 的时候 执行
+    },
+    duration: 1000, // 毫秒
+    easing: "linear" // 缓动函数 
+
+
+};
+
+function genExe(exe, atrribute, object) {
+    if (!isNaN(Number(exe))) {
+        var temAtrr = parseFloat(object[atrribute]) - parseFloat(exe);
+        return temAtrr;
+    }
+
+    if (exe.indexOf('+=') == 0) {
+        var tem = exe.split('=')[1];
+
+        return tem;
+    }
+
+    if (exe.indexOf('-=') == 0) {
+        var _tem = exe.split('=')[1];
+
+        return -1 * _tem;
+    }
+}
+
+var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) {
+    // 这里是动画碎片 更改 obj的地方 但是 问题就在这里 这应该是 最简单的功能 就是对比目标 
+    // 添加 delta
+    // 一旦完成 那这个 running就等于 false 而对于时间 的控制 不应该在这里 控制时间 来 控制 动画 
+    // 假比 是 linear 传进来的 deatla 时间 就是 均衡的
+    // 那这一刻增加的东西就是 均衡的 
+
+    // ATRRIBUTE 是对象的时候 那就是几个属性 一起改变
+
+
+    var _temOption = util.extend(option, FRAGOPTION);
+    this.object = object;
+    this.source = 0;
+    this.genFlag = false;
+    /**
+    * 若果是对象的形式 
+    * 那么 就不能直接 使用exe的形式了 
+    * 而是将每一个对象拆开 然后 一个一个的 进行 升级 
+    * a {
+    *   "a":"+=100",
+    *    "b":"-=100"
+    * 
+    * }
+    * 
+    * 那就是 
+    * 先把a出来
+    * 
+    */
+    if ((typeof atrribute === "undefined" ? "undefined" : _typeof(atrribute)) == "object") {
+        this.genFlag = true;
+        this.genAtrributeList(atrribute);
+    } else {
+        this.incre = genExe(exe, atrribute, object);
+    }
+    this.bus = bus;
+    this.complete = false;
+    this.running = false;
+    this.started = false;
+    this.duration = _temOption.duration;
+    this.atrribute = atrribute;
+    this.atrributeList = []; // 如果atrribute是对象的形式
+    // console.log(this.object);
+    this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
+    this.endCallFrag = null; // 用于动画叠加调用
+
+    this.onEnd = _temOption.onEnd;
+    this.onLooping = _temOption.onLooping;
+    this.onStart = _temOption.onStart;
+};
+
+AnimationFrag.prototype = {
+    updateAnimation: function updateAnimation() {
+        //获取时间  以及计算出来 的变化时间 来  如果现在的时间 一加到达 
+        if (this.complete) {
+            if (this.endCallFrag) {
+                this.endCallFrag.updateAnimation(); // 朝后调用
+            } else {
+                this.bus.dispatch('animationComplete', "no", this.object.Shapeid);
+            }
+            return false;
+        }
+
+        if (this.timer.isOver()) {
+            this.onEnd();
+            this.complete = true;
+            this.running = false;
+            if (this.endCallFrag) {
+                // console.log('朝后调用');
+                this.endCallFrag.updateAnimation(); // 朝后调用
+            }
+            return false;
+        }
+        if (!this.started && !this.complete) {
+            if (!this.genFlag) {
+                // 如果是 单点动画
+                this.source = this.object.Shape[this.atrribute]; // 最初动画开始的属性            
+            }
+            this.started = true;
+            this.running = true;
+            this.onStart();
+            this.timer.start();
+        } else {
+            this.onLooping();
+            this.updateAtrribute();
+        }
+    },
+    updateAtrribute: function updateAtrribute() {
+        // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
+        // console.log('cx', this.object.Shape[this.atrribute]);
+        if (!this.genFlag) {
+            this.object.Shape[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+        } else {
+            this.atrributeList.forEach(function (item) {
+                this.object.Shape[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+            }, this);
+        }
+    },
+    genAtrributeList: function genAtrributeList(atrribute) {
+        //生成 属性 更改列表
+        var _keys = Object.keys(atrribute);
+        _keys.forEach(function (item) {
+            this.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, this.object), "source": atrribute[item] });
+        }, this);
+    }
+};
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-09-22 15:45:51 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-10 14:54:30
+ * 在这里添加事件 
+ */
+
+var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
+    this.draggable = draggable ? true : false;
+    this.highlight = highlight ? true : false;
+    this.strokeOrfill = strokeOrfill ? true : false; //是否填充
+    this.type = type;
+    this.Shape = new shapeTypes[type](option);
+    this.AnimationTimer = new AnimationTimer();
+    this.animtionFragList = []; // flag List
+    this.bus = null;
+    this.Shapeid = "sp" + guid();
+};
+
+Shape.prototype = {
+    updateBus: function updateBus(bus) {
+        this.bus = bus;
+    },
+    paint: function paint(context) {
+        if (this.strokeOrfill) {
+            this.Shape.fill(context);
+        } else {
+            this.Shape.stroke(context);
+        }
+    },
+    detect: function detect(x, y) {
+        //检查点击了谁
+        this.Shape.detected(x, y);
+        if (this.Shape.detected(x, y)) {}
+    },
+    moveDetect: function moveDetect(x, y) {
+        // console.log('moveDetect')
+        this.Shape.moveDetect(x, y);
+    },
+    upDetect: function upDetect() {
+        this.Shape.upDetect();
+    },
+
+    /**
+     * 
+     * 
+     * @param {any} atrribute 哪个属性动画
+     * @param {any} exp   表达式
+     * @param {any} option  其他设置项目
+     */
+    animate: function animate(atrribute, exp, option) {
+        console.log("添加形状");
+        // 在这里添加 动画
+        // 所有的动画其实就是目标
+        // 一旦 每个动画对象执行 animate其实就是给自己立了一个flag
+        /**
+         *所以的动画碎片其实就是所有的flag
+         这些flag you刚开始的 有结束的 于是 改变的时候就要去记录状态 
+         对比 这些状态 是不是以及完成 
+         完成了就完事 
+         没完成 那就继续 按照时间 完成
+         */
+        //    if(atrribute=="x"){
+        // @TODO 方向
+        // @TODO 表达式
+        // @TODO 回调
+
+        //    if(exp.indexOf('+=')==0){
+        //       let tem = exp.split('=')[1];
+
+        /**
+         * 这里的animate 世纪路所有动画 
+         * 但是在哪里执行呢 ？
+         * 在父集里面 有一个 aniamtion 哪个是 动画控制器 
+         * 是一个总的 宗华控制器 
+         * 但是 是事实上 总的动画控制器 
+         * uodate 还是 每一个单个 shape自己跟新 动画 这样思路上 
+         * 才不不会乱 
+         * 
+         */
+
+        if ((typeof atrribute === 'undefined' ? 'undefined' : _typeof(atrribute)) == "object") {
+            var _temFrag2 = new AnimationFrag(this, atrribute, "no", arguments[1], this.bus); //懒得写 就写arguments吧
+        } else {
+            var _temFrag3 = new AnimationFrag(this, atrribute, arguments[1], arguments[2], this.bus);
+        }
+        //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
+
+        //    console.log('添加形状',this.bus);
+        this.bus.dispatch('addAnimation', "no", _temFrag, this.Shapeid);
+
+        //    }
+
+
+        //    }
+
+        console.log("继续调用", this);
+        return this;
+    }
+};
+
+var shapeTypes = {
+    "circle": function circle(option) {
+        return new Circle(option);
+    },
+    'rect': function rect(option) {
+        return new Rect(option);
+    },
+    'polygon': function polygon(option) {
+        return new Polygon(option);
+    }
+};
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-09-27 16:12:38 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-09-29 10:56:10
+ * 帧动画控制器
+ */
+//todo cancelRequestAnimationFrame 
+// cancel setTimeOut
+var AnimationFrame = function AnimationFrame() {
+    // console.log('requestAnimationFrame',requestAnimationFrame);
+    // if(requestAnimationFrame){
+    //     this.animationType = "r";
+    //     this.AnimationFrame = requestAnimationFrame;
+    // }else{
+    //     this.animationType = 's';
+    //     this.AnimationFrame = fakeAnimationFrame;
+    // }
+
+    // this.animationId = null;
+
+    if (requestAnimationFrame) {
+        return requestAnimationFrame;
+    } else {
+        return fakeAnimationFrame;
+    }
+};
+
+// AnimationFrame.prototype = {
+//     getAnimationFrame:function(){
+//         return this.AnimationFrame;
+//     },
+//     cancelAnimationFrame:function(){//取消动画
+//         if(thid.animationType=='r'){
+//            cancelAnimationFrame(this.animationId);
+//         }else{
+//             clearTimeout(this.animationId);
+//         }
+//     }
+// }
+
+
+function fakeAnimationFrame(callback) {
+    var start;
+    setTimeout(function () {
+        start = +new Date();
+        callback(start);
+        
+
+        //   console.log(finish - start);
+    }, 16);
+}
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-09-29 09:58:45 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-09 18:15:04
+ * 动画 对象 接管所有动画
+ */
+
+var animationFrame = AnimationFrame();
+var Animation = function Animation(bus) {
+    this.running = false;
+    this.paused = true; // 我觉得暂停 不应哎全局的这个暂停上 而是每一个对象有一个自己的暂停 用于 当时wait的时候用  但是现在为我写的
+    // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
+
+    this.bus = bus;
+    //    console.log(this.bus);
+    this.animationFragStore = {}; // 动画碎片仓库 存储 所有 动画 
+    this.animationCompleteList = []; // 动画完成清单
+    this.bus.add('animationComplete', this, this.animationComplete); // 添加动画事件 
+
+
+    //    this.animationFragStore2 = {};
+};
+
+Animation.prototype = {
+    start: function start() {
+        //开始整个动画
+        this.running = true;
+        this.loopAnimation();
+    },
+    loopAnimation: function loopAnimation() {
+        //循环 整场动画
+        var _self = this;
+        function stepAnimation() {
+            animationFrame(stepAnimation);
+            // console.log('---');
+            _self.running && _self.updateStep();
+        }
+
+        animationFrame(stepAnimation);
+    },
+    updateStep: function updateStep() {
+        //这里是执行小动画的地方 每一个obj都有自己的动画 在obj添加动画的时候 
+        // 便在动画循环里面添加 
+        // 动画是根据时间 来执行的 
+        // this._bus()
+        // console.log(this.animationFragStore);
+        // this.animationFragStore.forEach(function(ele){
+        //     ele.updateAnimation();
+        // });
+
+        var _keys = Object.keys(this.animationFragStore);
+
+        _keys.forEach(function (item) {
+            var _temFragStore = this.animationFragStore[item];
+            _temFragStore.forEach(function (item, index) {
+                item.endCallFrag = _temFragStore[index + 1];
+                if (index == 0) {
+                    item.updateAnimation();
+                }
+            });
+        }, this);
+
+        this.bus.dispatch('update', 'no'); //通知更新 
+    },
+    animationComplete: function animationComplete(who) {
+        this.animationCompleteList.push(who);
+        if (this.animationCompleteList.length === Object.keys(this.animationFragStore).length) {
+            this.running = false; // 动画执行 结束
+            console.log('结束动画');
+        }
+    }
+};
+
+/*
+ * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:44:47
+ * @Last Modified time: 2017-10-09 18:47:46
  * 事件对象
  * 
  */
@@ -1195,27 +1238,26 @@ eventBus.prototype = {
     add: function add(name, scope, event) {
         //添加事件 初始化事件
         console.log('添加' + name);
-        if (!this.eventList.length) {
+        if (this.eventList.length) {
+            this.eventList.forEach(function (ele) {
+                if (ele.name == name) {
+                    ele.thingsList.push(event); //如果已经有了这个事件 那就 存list 并且退出程序
+                    return false;
+                }
+            }, this);
+            // 如果没有 那就再造一个
             this.eventList.push({
                 name: name,
                 scope: scope,
                 thingsList: [event]
             });
-            return false;
+        } else {
+            this.eventList.push({
+                name: name,
+                scope: scope,
+                thingsList: [event]
+            });
         }
-
-        this.eventList.forEach(function (ele) {
-            if (ele.name == name) {
-                ele.thingsList.push(event);
-                return false;
-            }
-        }, this);
-
-        this.eventList.push({
-            name: name,
-            scope: scope,
-            thingsList: [event]
-        });
 
         console.log(this.eventList);
     },
