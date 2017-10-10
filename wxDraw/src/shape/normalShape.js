@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 17:31:40
+ * @Last Modified time: 2017-10-10 17:39:13
  * 普通形状
  * 
  */
@@ -142,6 +142,7 @@ export const Rect = function (option) {
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
+    this.bus = null;
 }
 
 Rect.prototype = {
@@ -216,8 +217,6 @@ Rect.prototype = {
         this.rotate = _temOption.rotate;
         this.rotateOrigin = _temOption.rotateOrigin;
         this._isChoosed = false;
-        this._offsetX = 0;
-        this._offsetY = 0;
     }
 
 }
