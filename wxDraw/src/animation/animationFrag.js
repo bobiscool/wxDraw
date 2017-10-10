@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:08:10
+ * @Last Modified time: 2017-10-10 14:21:56
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -59,10 +59,21 @@ export const AnimationFrag = function (object, atrribute, exe, option,bus) {
     // 假比 是 linear 传进来的 deatla 时间 就是 均衡的
     // 那这一刻增加的东西就是 均衡的 
 
+    // ATRRIBUTE 是对象的时候 那就是几个属性 一起改变
+
+
     let _temOption = util.extend(option, FRAGOPTION);
     this.object = object;
-
     this.source = 0;
+
+    if(typeof atrribute == "object"){
+        /**
+         * 若果是对象的形式 
+         * 那么 就不能直接 使用exe的形式了 
+         * 而是将每一个对象拆开 然后 一个一个的 进行 升级 
+         */
+        
+    }
     if (genExe(exe).target) {
         this.incre = genExe(exe).target - this.source;
     } else {
