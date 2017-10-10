@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:23:32
+ * @Last Modified time: 2017-10-10 18:41:11
  */
 
 import { util } from '../util/utils.js';
@@ -31,15 +31,7 @@ function Point(x, y) {
 
 export const Polygon = function (option) {
     var _temOption = util.extend(option, pOption);
-    this.x = _temOption.x;
-    this.y = _temOption.y;
-    this.x = _temOption.x;
-    this.radius = _temOption.r;
-    this.sides = _temOption.sides;//边数
-    this.rotate = _temOption.rotate;//旋转 角度
-    this.rotateOrigin = _temOption.rotateOrigin;//旋转中心
-    this.fillStyle = _temOption.fillStyle;
-    this.strokeStyle = _temOption.strokeStyle;
+ 
     this.Option = _temOption;
 
     this.max = {
@@ -111,17 +103,15 @@ Polygon.prototype = {
         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
-            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+            this.move(0,0);
         } else {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
              */
             context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
-            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
+            this.move(this.Option.x - this.Option.rotateOrigin[0],this.Option.y - this.Option.rotateOrigin[1])
         }
-
-        context.rotate(this.Option.rotate);
         this.createPath(context);
         context.setStrokeStyle(this.Option.strokeStyle)
         context.stroke();
@@ -129,20 +119,18 @@ Polygon.prototype = {
     },
     fill: function (context) {
         context.save();
-        if (!this.Option.rotateOrigin) {
+         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
-            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+            this.move(0,0);
         } else {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
              */
             context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
-            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
+            this.move(this.Option.x - this.Option.rotateOrigin[0],this.Option.y - this.Option.rotateOrigin[1])
         }
-
-        context.rotate(this.Option.rotate);
         this.createPath(context);
         context.setStrokeStyle(this.Option.fillStyle);
         context.fill();
