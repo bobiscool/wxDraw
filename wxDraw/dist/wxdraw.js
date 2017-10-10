@@ -59,7 +59,7 @@ Store.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:11:57
+ * @Last Modified time: 2017-10-10 18:23:32
  */
 
 var pOption = {
@@ -155,7 +155,17 @@ Polygon.prototype = {
         context.save();
         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
+
         context.rotate(this.Option.rotate);
         this.createPath(context);
         context.setStrokeStyle(this.Option.strokeStyle);
@@ -166,7 +176,17 @@ Polygon.prototype = {
         context.save();
         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
+
         context.rotate(this.Option.rotate);
         this.createPath(context);
         context.setStrokeStyle(this.Option.fillStyle);
@@ -234,7 +254,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:04:37
+ * @Last Modified time: 2017-10-10 18:32:49
  * 普通形状
  * 
  */
@@ -281,9 +301,16 @@ Circle.prototype = {
         context.beginPath();
         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            context.arc(0, 0, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.arc(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         }
-        context.rotate(this.Option.rotate);
-        context.arc(this.Option.x, this.Option.y, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         context.closePath();
         context.setStrokeStyle(this.Option.strokeStyle);
 
@@ -296,9 +323,17 @@ Circle.prototype = {
         context.beginPath();
         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            context.arc(0, 0, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.arc(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         }
-        context.rotate(this.Option.rotate);
-        context.arc(this.Option.x, this.Option.y, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
+
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
         context.fill();
@@ -358,7 +393,17 @@ Rect.prototype = {
         context.beginPath();
         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
+
         context.rotate(this.Option.rotate);
         context.rect(this.Option.x, this.Option.y, this.Option.w, this.Option.h);
         context.closePath();
@@ -375,6 +420,9 @@ Rect.prototype = {
             context.rotate(this.Option.rotate);
             context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
         } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
             context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
             context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
@@ -383,7 +431,6 @@ Rect.prototype = {
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
         context.fill();
-        context.translate(0, 0);
         context.restore();
     },
     move: function move(x, y) {
@@ -1028,7 +1075,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:08:21
+ * @Last Modified time: 2017-10-10 18:28:16
  * 在这里添加事件 
  */
 
@@ -1058,7 +1105,9 @@ Shape.prototype = {
     detect: function detect(x, y) {
         //检查点击了谁
         this.Shape.detected(x, y);
-        if (this.Shape.detected(x, y)) {}
+        if (this.Shape.detected(x, y)) {
+            console.log('点击');
+        }
     },
     moveDetect: function moveDetect(x, y) {
         // console.log('moveDetect')

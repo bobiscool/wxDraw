@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:22:24
+ * @Last Modified time: 2017-10-10 18:32:49
  * 普通形状
  * 
  */
@@ -44,9 +44,9 @@ var rOption = {
  * 
  */
 export const Circle = function (option) {
-    var _temOption = util.extend(option, cOption);  
+    var _temOption = util.extend(option, cOption);
     this.Option = _temOption;
-    
+
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -56,21 +56,18 @@ Circle.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
-          if (!this.Option.rotateOrigin) {
+        if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
-            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+            context.arc(0, 0, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         } else {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
              */
             context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
-            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
+            context.arc(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         }
-
-        context.rotate(this.Option.rotate);
-        context.arc(this.Option.x, this.Option.y, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         context.closePath();
         context.setStrokeStyle(this.Option.strokeStyle)
 
@@ -81,21 +78,19 @@ Circle.prototype = {
     fill: function (context) {
         context.save();
         context.beginPath();
-         if (!this.Option.rotateOrigin) {
+        if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
-            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+            context.arc(0, 0, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         } else {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
              */
             context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
-            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
+            context.arc(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         }
-
-        context.rotate(this.Option.rotate);
-        context.arc(this.Option.x, this.Option.y, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
+        
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
         context.fill();
@@ -130,9 +125,9 @@ Circle.prototype = {
     upDetect: function () {
         this._isChoosed = false;
     },
-     updateOption: function (option) {
-    this.Option= util.extend(option, this.Option);
-        this.bus.dispatch('update','no');
+    updateOption: function (option) {
+        this.Option = util.extend(option, this.Option);
+        this.bus.dispatch('update', 'no');
     }
 }
 
@@ -157,7 +152,7 @@ Rect.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
-          if (!this.Option.rotateOrigin) {
+        if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
             context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
@@ -224,9 +219,9 @@ Rect.prototype = {
         this._isChoosed = false;
     },
     updateOption: function (option) {
-        
-       this.Option= util.extend(option, this.Option);
-        this.bus.dispatch('update','no');
+
+        this.Option = util.extend(option, this.Option);
+        this.bus.dispatch('update', 'no');
     }
 
 }
