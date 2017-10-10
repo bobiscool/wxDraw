@@ -232,7 +232,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 17:54:19
+ * @Last Modified time: 2017-10-10 18:03:52
  * 普通形状
  * 
  */
@@ -266,18 +266,6 @@ var rOption = {
      */
 };var Circle = function Circle(option) {
     var _temOption = util.extend(option, cOption);
-    console.log('_temOption', _temOption);
-    this.x = _temOption.x;
-    this.y = _temOption.y;
-    this.r = _temOption.r;
-    this.sA = _temOption.sA;
-    this.eA = _temOption.eA;
-    this.counterclockwise = _temOption.counterclockwise;
-    this.fillStyle = _temOption.fillStyle;
-    this.strokeStyle = _temOption.strokeStyle;
-    this.rotate = _temOption.rotate;
-    this.rotateOrigin = _temOption.rotateOrigin;
-
     this.Option = _temOption;
 
     this._isChoosed = false;
@@ -345,7 +333,6 @@ Circle.prototype = {
     },
     updateOption: function updateOption(option) {
         this.Option = util.extend(option, this.Option);
-
         this.bus.dispatch('update', 'no');
     }
 
@@ -356,14 +343,7 @@ Circle.prototype = {
 };var Rect = function Rect(option) {
     var _temOption = util.extend(option, rOption);
     console.log(_temOption);
-    this.x = _temOption.x;
-    this.y = _temOption.y;
-    this.w = _temOption.w;
-    this.h = _temOption.h;
-    this.fillStyle = _temOption.fillStyle;
-    this.strokeStyle = _temOption.strokeStyle;
-    this.rotate = _temOption.rotate;
-    this.rotateOrigin = _temOption.rotateOrigin;
+    this.Option = _temOption;
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -374,13 +354,13 @@ Rect.prototype = {
     stroke: function stroke(context) {
         context.save();
         context.beginPath();
-        if (!this.rotateOrigin) {
-            context.translate(this.x, this.y);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
         }
-        context.rotate(this.rotate);
-        context.rect(this.x, this.y, this.w, this.h);
+        context.rotate(this.Option.rotate);
+        context.rect(this.Option.x, this.Option.y, this.Option.w, this.Option.h);
         context.closePath();
-        context.setStrokeStyle(this.strokeStyle);
+        context.setStrokeStyle(this.Option.strokeStyle);
         context.stroke();
 
         context.restore();
@@ -388,31 +368,31 @@ Rect.prototype = {
     fill: function fill(context) {
         context.save();
         context.beginPath();
-        if (!this.rotateOrigin) {
-            context.translate(this.x, this.y);
-            context.rotate(this.rotate);
-            context.rect(-this.w / 2, -this.h / 2, this.w, this.h);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
         } else {
-            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
-            context.rotate(this.rotate);
-            context.rect(this.x - this.rotateOrigin[0], this.y - this.rotateOrigin[1], this.w, this.h);
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
 
         context.closePath();
-        context.setFillStyle(this.fillStyle);
+        context.setFillStyle(this.Option.fillStyle);
         context.fill();
         context.translate(0, 0);
         context.restore();
     },
     move: function move(x, y) {
-        this.x = x;
-        this.y = y;
+        this.Option.x = x;
+        this.Option.y = y;
     },
     detected: function detected(x, y) {
         var _self = this;
-        if (_self.x < x && _self.y < y && _self.y + _self.h > y && _self.x + _self.w > x) {
-            this._offsetX = x - _self.x;
-            this._offsetY = y - _self.y;
+        if (_self.Option.x < x && _self.Option.y < y && _self.Option.y + _self.Option.h > y && _self.Option.x + _self.Option.w > x) {
+            this._offsetX = x - _self.Option.x;
+            this._offsetY = y - _self.Option.y;
             console.log('移动方块');
             this._isChoosed = true;
             return true; // 点击
@@ -429,14 +409,7 @@ Rect.prototype = {
     },
     updateOption: function updateOption(option) {
 
-        this.x = option.x;
-        this.y = option.y;
-        this.w = option.w;
-        this.h = option.h;
-        this.fillStyle = option.fillStyle;
-        this.strokeStyle = option.strokeStyle;
-        this.rotate = option.rotate;
-        this.rotateOrigin = option.rotateOrigin;
+        this.Option = util.extend(option, this.Option);
         this.bus.dispatch('update', 'no');
     }
 

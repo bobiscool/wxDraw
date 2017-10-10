@@ -65,7 +65,7 @@ Page({
 
     cir1.updateOption({x:100})
     this.wxCanvas.add(cir2);
-    cir1.updateOption({ x: 100 })
+    cir2.updateOption({ x: 100 })
     
     // cir1.animate({
     //   "x":"+=100",

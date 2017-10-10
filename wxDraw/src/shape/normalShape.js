@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 17:59:58
+ * @Last Modified time: 2017-10-10 18:04:37
  * 普通形状
  * 
  */
@@ -194,14 +194,7 @@ Rect.prototype = {
     },
     updateOption: function (option) {
         
-    this.x = option.x;
-    this.y = option.y;
-    this.w = option.w;
-    this.h = option.h;
-    this.fillStyle = option.fillStyle;
-    this.strokeStyle = option.strokeStyle;
-    this.rotate = option.rotate;
-    this.rotateOrigin = option.rotateOrigin;
+       this.Option= util.extend(option, this.Option);
         this.bus.dispatch('update','no');
     }
 
