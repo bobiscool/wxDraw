@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 17:39:13
+ * @Last Modified time: 2017-10-10 17:40:07
  * 普通形状
  * 
  */
@@ -216,7 +216,7 @@ Rect.prototype = {
         this.strokeStyle = _temOption.strokeStyle;
         this.rotate = _temOption.rotate;
         this.rotateOrigin = _temOption.rotateOrigin;
-        this._isChoosed = false;
+        this.bus.dispatch('update','no');
     }
 
 }
