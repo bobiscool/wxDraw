@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:08:21
+ * @Last Modified time: 2017-10-10 18:28:16
  * 在这里添加事件 
  */
 
@@ -43,7 +43,7 @@ Shape.prototype = {
         //检查点击了谁
         this.Shape.detected(x, y);
         if (this.Shape.detected(x, y)) {
-
+          console.log('点击')
         }
 
     },

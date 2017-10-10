@@ -59,7 +59,7 @@ Page({
 
     var cir1 = new Shape('circle', { x: 40, y: 20, r: 20, fillStyle: "#e3e223" }, true,true)
   
-    var cir2 = new Shape('rect', { x: 20, y: 20, w: 20,h:20, fillStyle: "#e33123" }, true,false)
+    var cir2 = new Shape('rect', { x: 20, y: 20, w: 20,h:20, fillStyle: "#e33123" }, true,true)
 
     this.wxCanvas.add(cir1);
 
@@ -69,6 +69,8 @@ Page({
     setTimeout(function(){
       cir2.updateOption({ x: 100 })
     },2000);
+
+    console.log(this.wxCanvas);
     // cir1.animate({
     //   "x":"+=100",
     //   "y":"+=100",

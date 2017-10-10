@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:11:57
+ * @Last Modified time: 2017-10-10 18:23:32
  */
 
 import { util } from '../util/utils.js';
@@ -15,8 +15,8 @@ var pOption = {
     sides: 7,
     fillStyle: "red",
     strokeStyle: "red",
-    rotate:0,
-    rotateOrigin:null
+    rotate: 0,
+    rotateOrigin: null
 }
 
 
@@ -29,7 +29,7 @@ function Point(x, y) {
 
 
 
-export const Polygon=function(option) {
+export const Polygon = function (option) {
     var _temOption = util.extend(option, pOption);
     this.x = _temOption.x;
     this.y = _temOption.y;
@@ -108,9 +108,19 @@ Polygon.prototype = {
     },
     stroke: function (context) {
         context.save();
-        if(!this.Option.rotateOrigin){
-           context.translate(this.Option.x,this.Option.y);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
+
         context.rotate(this.Option.rotate);
         this.createPath(context);
         context.setStrokeStyle(this.Option.strokeStyle)
@@ -119,10 +129,20 @@ Polygon.prototype = {
     },
     fill: function (context) {
         context.save();
-        if(!this.Option.rotateOrigin){
-           context.translate(this.Option.x,this.Option.y);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
-        context.rotate(this.Option.rotate);        
+
+        context.rotate(this.Option.rotate);
         this.createPath(context);
         context.setStrokeStyle(this.Option.fillStyle);
         context.fill();
