@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:21:16
+ * @Last Modified time: 2017-10-10 18:22:24
  * 普通形状
  * 
  */
@@ -56,11 +56,19 @@ Circle.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
-        if (!this.Option.rotateOrigin) {
+          if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
-        }else{
-
+            context.rotate(this.Option.rotate);
+            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
+
         context.rotate(this.Option.rotate);
         context.arc(this.Option.x, this.Option.y, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         context.closePath();
@@ -73,9 +81,19 @@ Circle.prototype = {
     fill: function (context) {
         context.save();
         context.beginPath();
-        if (!this.Option.rotateOrigin) {
+         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
+
         context.rotate(this.Option.rotate);
         context.arc(this.Option.x, this.Option.y, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         context.closePath();
@@ -139,10 +157,19 @@ Rect.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
-        if (!this.Option.rotateOrigin) {
+          if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
-
+            context.rotate(this.Option.rotate);
+            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
+
         context.rotate(this.Option.rotate);
         context.rect(this.Option.x, this.Option.y, this.Option.w, this.Option.h);
         context.closePath();
@@ -170,7 +197,6 @@ Rect.prototype = {
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
         context.fill();
-        context.translate(0, 0);
         context.restore();
     },
     move: function (x, y) {
