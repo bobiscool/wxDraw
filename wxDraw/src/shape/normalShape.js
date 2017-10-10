@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 17:26:04
+ * @Last Modified time: 2017-10-10 17:31:40
  * 普通形状
  * 
  */
@@ -166,17 +166,17 @@ Rect.prototype = {
         if (!this.rotateOrigin) {
             context.translate(this.x, this.y);
             context.rotate(this.rotate);
-            context.rect(-this.w/2, -this.h/2, this.w, this.h);
+            context.rect(-this.w / 2, -this.h / 2, this.w, this.h);
         } else {
             context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
             context.rotate(this.rotate);
-            context.rect(this.x - this.rotateOrigin[0]-, this.y - this.rotateOrigin[1], this.w, this.h);
+            context.rect(this.x - this.rotateOrigin[0], this.y - this.rotateOrigin[1], this.w, this.h);
         }
 
         context.closePath();
         context.setFillStyle(this.fillStyle);
         context.fill();
-        context.translate(0,0);
+        context.translate(0, 0);
         context.restore();
     },
     move: function (x, y) {
@@ -202,6 +202,22 @@ Rect.prototype = {
     },
     upDetect: function () {
         this._isChoosed = false;
+    },
+    updateOption: function (option) {
+        var _temOption = util.extend(option, cOption);
+        this.x = _temOption.x;
+        this.y = _temOption.y;
+        this.r = _temOption.r;
+        this.sA = _temOption.sA;
+        this.eA = _temOption.eA;
+        this.counterclockwise = _temOption.counterclockwise;
+        this.fillStyle = _temOption.fillStyle;
+        this.strokeStyle = _temOption.strokeStyle;
+        this.rotate = _temOption.rotate;
+        this.rotateOrigin = _temOption.rotateOrigin;
+        this._isChoosed = false;
+        this._offsetX = 0;
+        this._offsetY = 0;
     }
 
 }
