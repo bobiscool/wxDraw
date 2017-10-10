@@ -66,7 +66,8 @@ Page({
     
     cir1.animate({
       "x":"+=100",
-      "y":"+=100"
+      "y":"+=100",
+      "r":"+=100"
     },{
       duration: 4000,
       onLooping: function () {

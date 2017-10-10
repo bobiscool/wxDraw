@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-27 14:10:00
+ * @Last Modified time: 2017-10-10 15:25:09
  * 普通形状
  * 
  */
@@ -17,7 +17,8 @@ var cOption = {
     r: 10,
     sA: 0,
     eA: Math.PI * 2,
-    counterclockwise: false
+    counterclockwise: false,
+    rotate:0
 }
 var rOption = {
     x: 10,
@@ -26,6 +27,7 @@ var rOption = {
     h: 10,
     fillStyle: "red",
     strokeStyle: "red",
+    rotate:0
 }
 
 
@@ -50,6 +52,7 @@ export const Circle =function(option) {
     this.counterclockwise = _temOption.counterclockwise;
     this.fillStyle = _temOption.fillStyle;
     this.strokeStyle = _temOption.strokeStyle;
+    this.rotate = _temOption.rotate;
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -59,9 +62,11 @@ Circle.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
+        context.rotate(this.rotate);
         context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
         context.closePath();
         context.setStrokeStyle(this.strokeStyle)
+        
         context.stroke();
 
         context.restore();
@@ -69,6 +74,7 @@ Circle.prototype = {
     fill: function (context) {
         context.save();
         context.beginPath();
+        context.rotate(this.rotate);        
         context.arc(this.x, this.y, this.r, this.sA, this.eA, this.counterclockwise);
         context.closePath();
         context.setFillStyle(this.fillStyle);
@@ -122,6 +128,7 @@ export const Rect =function(option) {
     this.h = _temOption.h;
     this.fillStyle = _temOption.fillStyle;
     this.strokeStyle = _temOption.strokeStyle;
+    this.rotate = _temOption.rotate;
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -131,6 +138,7 @@ Rect.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
+        context.rotate(this.rotate);        
         context.rect(this.x, this.y, this.w, this.h);
         context.closePath();
         context.setStrokeStyle(this.strokeStyle)
@@ -141,6 +149,7 @@ Rect.prototype = {
     fill: function (context) {
         context.save();
         context.beginPath();
+        context.rotate(this.rotate);        
         context.rect(this.x, this.y, this.w, this.h);
         context.closePath();
         context.setFillStyle(this.fillStyle);
