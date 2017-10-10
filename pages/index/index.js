@@ -61,14 +61,18 @@ Page({
   
     var cir2 = new Shape('rect', { x: 20, y: 20, w: 20,h:20, fillStyle: "#e33123" }, true,true)
 
-    this.wxCanvas.add(cir1);
+    var cir3 = new Shape('polygon', {z:20,y:30,r:20 }, true, true)
 
-    cir1.updateOption({x:100})
-    this.wxCanvas.add(cir2);
-    cir2.updateOption({ x: 200 })
-    setTimeout(function(){
-      cir2.updateOption({ x: 100 })
-    },2000);
+    console.log(cir3);
+    // this.wxCanvas.add(cir1);
+    this.wxCanvas.add(cir3);
+
+    // cir1.updateOption({x:100})
+    // this.wxCanvas.add(cir2);
+    // cir2.updateOption({ x: 200 })
+    // setTimeout(function(){
+    //   cir2.updateOption({ x: 100 })
+    // },2000);
 
     console.log(this.wxCanvas);
     // cir1.animate({

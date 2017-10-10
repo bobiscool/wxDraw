@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:41:11
+ * @Last Modified time: 2017-10-10 19:02:08
  */
 
 import { util } from '../util/utils.js';
@@ -48,6 +48,8 @@ Polygon.prototype = {
     getPoints: function () {
         var points = [],
             angle = this.Option.startAngle || 0;
+            
+            console.log('Option',this.Option);
         //每次getPoints 要刷新max
 
         this.max = {
@@ -58,28 +60,28 @@ Polygon.prototype = {
         };
 
 
-        for (var i = 0; i < this.sides; ++i) {
-            points.push(new Point(this.Option.x + this.Option.radius * Math.sin(angle), this.Option.y - this.Option.radius * Math.cos(angle)));
-            if ((this.Option.x + this.Option.radius * Math.sin(angle)) > this.max.maxX) {
-                this.max.maxX = (this.Option.x + this.Option.radius * Math.sin(angle));
+        for (var i = 0; i < this.Option.sides; ++i) {
+            points.push(new Point(this.Option.x + this.Option.r * Math.sin(angle), this.Option.y - this.Option.r * Math.cos(angle)));
+            if ((this.Option.x + this.Option.r * Math.sin(angle)) > this.max.maxX) {
+                this.max.maxX = (this.Option.x + this.Option.r * Math.sin(angle));
             }
             if (!this.max.minX) {
-                this.max.minX = this.Option.x + this.Option.radius * Math.sin(angle)
+                this.max.minX = this.Option.x + this.Option.r * Math.sin(angle)
             }
-            if (this.max.minX && ((this.Option.x + this.Option.radius * Math.sin(angle)) < this.max.minX)) {
-                this.max.minX = (this.Option.x + this.Option.radius * Math.sin(angle));
+            if (this.max.minX && ((this.Option.x + this.Option.r * Math.sin(angle)) < this.max.minX)) {
+                this.max.minX = (this.Option.x + this.Option.r * Math.sin(angle));
             }
 
 
 
-            if ((this.Option.y + this.Option.radius * Math.sin(angle)) > this.max.maxY) {
-                this.max.maxY = (this.Option.y + this.Option.radius * Math.sin(angle));
+            if ((this.Option.y + this.Option.r * Math.sin(angle)) > this.max.maxY) {
+                this.max.maxY = (this.Option.y + this.Option.r * Math.sin(angle));
             }
             if (!this.max.minY) {
-                this.max.minY = this.Option.y + this.Option.radius * Math.sin(angle)
+                this.max.minY = this.Option.y + this.Option.r * Math.sin(angle)
             }
-            if (this.max.minY && ((this.Option.y + this.Option.radius * Math.sin(angle)) < this.max.minY)) {
-                this.max.minY = (this.Option.y + this.Option.radius * Math.sin(angle));
+            if (this.max.minY && ((this.Option.y + this.Option.r * Math.sin(angle)) < this.max.minY)) {
+                this.max.minY = (this.Option.y + this.Option.r * Math.sin(angle));
             }
 
 
@@ -100,18 +102,18 @@ Polygon.prototype = {
     },
     stroke: function (context) {
         context.save();
-        if (!this.Option.rotateOrigin) {
-            context.translate(this.Option.x, this.Option.y);
-            context.rotate(this.Option.rotate);
-            this.move(0,0);
-        } else {
-            /**
-             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-             */
-            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
-            context.rotate(this.Option.rotate);
-            this.move(this.Option.x - this.Option.rotateOrigin[0],this.Option.y - this.Option.rotateOrigin[1])
-        }
+        // if (!this.Option.rotateOrigin) {
+        //     context.translate(this.Option.x, this.Option.y);
+        //     context.rotate(this.Option.rotate);
+        //     this.move(0,0);
+        // } else {
+        //     /**
+        //      * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+        //      */
+        //     context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+        //     context.rotate(this.Option.rotate);
+        //     this.move(this.Option.x - this.Option.rotateOrigin[0],this.Option.y - this.Option.rotateOrigin[1])
+        // }
         this.createPath(context);
         context.setStrokeStyle(this.Option.strokeStyle)
         context.stroke();
@@ -119,18 +121,18 @@ Polygon.prototype = {
     },
     fill: function (context) {
         context.save();
-         if (!this.Option.rotateOrigin) {
-            context.translate(this.Option.x, this.Option.y);
-            context.rotate(this.Option.rotate);
-            this.move(0,0);
-        } else {
-            /**
-             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-             */
-            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
-            context.rotate(this.Option.rotate);
-            this.move(this.Option.x - this.Option.rotateOrigin[0],this.Option.y - this.Option.rotateOrigin[1])
-        }
+        //  if (!this.Option.rotateOrigin) {
+        //     context.translate(this.Option.x, this.Option.y);
+        //     context.rotate(this.Option.rotate);
+        //     this.move(0,0);
+        // } else {
+        //     /**
+        //      * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+        //      */
+        //     context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+        //     context.rotate(this.Option.rotate);
+        //     this.move(this.Option.x - this.Option.rotateOrigin[0],this.Option.y - this.Option.rotateOrigin[1])
+        // }
         this.createPath(context);
         context.setStrokeStyle(this.Option.fillStyle);
         context.fill();
