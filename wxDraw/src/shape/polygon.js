@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 19:02:08
+ * @Last Modified time: 2017-10-11 15:30:58
  */
 
 import { util } from '../util/utils.js';
@@ -40,18 +40,19 @@ export const Polygon = function (option) {
         minX: 0,
         minY: 0,
     };
-    this.points = this.getPoints();
+    this.points = this.getPoints(this.Option.x,this.Option.y);
     this._isChoosed = false;
 }
 
 Polygon.prototype = {
-    getPoints: function () {
+    getPoints: function (x,y) {
         var points = [],
             angle = this.Option.startAngle || 0;
             
-            console.log('Option',this.Option);
+            // console.log('Option',this.Option);
         //每次getPoints 要刷新max
 
+         console.log('init xy',x,y);
         this.max = {
             maxX: 0,
             maxY: 0,
@@ -61,27 +62,27 @@ Polygon.prototype = {
 
 
         for (var i = 0; i < this.Option.sides; ++i) {
-            points.push(new Point(this.Option.x + this.Option.r * Math.sin(angle), this.Option.y - this.Option.r * Math.cos(angle)));
-            if ((this.Option.x + this.Option.r * Math.sin(angle)) > this.max.maxX) {
-                this.max.maxX = (this.Option.x + this.Option.r * Math.sin(angle));
+            points.push(new Point(x + this.Option.r * Math.sin(angle), y - this.Option.r * Math.cos(angle)));
+            if ((x + this.Option.r * Math.sin(angle)) > this.max.maxX) {
+                this.max.maxX = (x + this.Option.r * Math.sin(angle));
             }
             if (!this.max.minX) {
-                this.max.minX = this.Option.x + this.Option.r * Math.sin(angle)
+                this.max.minX = x + this.Option.r * Math.sin(angle)
             }
-            if (this.max.minX && ((this.Option.x + this.Option.r * Math.sin(angle)) < this.max.minX)) {
-                this.max.minX = (this.Option.x + this.Option.r * Math.sin(angle));
+            if (this.max.minX && ((x + this.Option.r * Math.sin(angle)) < this.max.minX)) {
+                this.max.minX = (x + this.Option.r * Math.sin(angle));
             }
 
 
 
-            if ((this.Option.y + this.Option.r * Math.sin(angle)) > this.max.maxY) {
-                this.max.maxY = (this.Option.y + this.Option.r * Math.sin(angle));
+            if ((y + this.Option.r * Math.sin(angle)) > this.max.maxY) {
+                this.max.maxY = (y + this.Option.r * Math.sin(angle));
             }
             if (!this.max.minY) {
-                this.max.minY = this.Option.y + this.Option.r * Math.sin(angle)
+                this.max.minY = y + this.Option.r * Math.sin(angle)
             }
-            if (this.max.minY && ((this.Option.y + this.Option.r * Math.sin(angle)) < this.max.minY)) {
-                this.max.minY = (this.Option.y + this.Option.r * Math.sin(angle));
+            if (this.max.minY && ((y + this.Option.r * Math.sin(angle)) < this.max.minY)) {
+                this.max.minY = (y + this.Option.r * Math.sin(angle));
             }
 
 
@@ -89,9 +90,9 @@ Polygon.prototype = {
         }
         return points;
     },
-    createPath: function (context) {
+    createPath: function (context,x,y) {
         //创建路径
-        var points = this.getPoints();
+        var points = this.getPoints(x,y);
 
         context.beginPath();
         context.moveTo(points[0].x, points[0].y);
@@ -102,45 +103,45 @@ Polygon.prototype = {
     },
     stroke: function (context) {
         context.save();
-        // if (!this.Option.rotateOrigin) {
-        //     context.translate(this.Option.x, this.Option.y);
-        //     context.rotate(this.Option.rotate);
-        //     this.move(0,0);
-        // } else {
-        //     /**
-        //      * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-        //      */
-        //     context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
-        //     context.rotate(this.Option.rotate);
-        //     this.move(this.Option.x - this.Option.rotateOrigin[0],this.Option.y - this.Option.rotateOrigin[1])
-        // }
-        this.createPath(context);
+        if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+        this.createPath(context,0,0);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            this.createPath(context,this.Option.x - this.Option.rotateOrigin[0],this.Option.y - this.Option.rotateOrigin[1])
+        }
         context.setStrokeStyle(this.Option.strokeStyle)
         context.stroke();
         context.restore();
     },
     fill: function (context) {
         context.save();
-        //  if (!this.Option.rotateOrigin) {
-        //     context.translate(this.Option.x, this.Option.y);
-        //     context.rotate(this.Option.rotate);
-        //     this.move(0,0);
-        // } else {
-        //     /**
-        //      * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-        //      */
-        //     context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
-        //     context.rotate(this.Option.rotate);
-        //     this.move(this.Option.x - this.Option.rotateOrigin[0],this.Option.y - this.Option.rotateOrigin[1])
-        // }
-        this.createPath(context);
+         if (!this.Option.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            this.createPath(context,0,0);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            this.createPath(context,this.Option.x - this.Option.rotateOrigin[0],this.Option.y - this.Option.rotateOrigin[1])
+        }
         context.setStrokeStyle(this.Option.fillStyle);
         context.fill();
         context.restore();
     },
     move: function (x, y) {
+        
         this.Option.x = x;
         this.Option.y = y;
+        console.log('---------------',this.Option);
     },
     detected: function (x, y) {
         // pnpoly 算法区域
@@ -148,7 +149,8 @@ Polygon.prototype = {
         // 首先找到 最大x 最小x 最大y 最小y
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
-            this.points = this.getPoints();
+            console.log('点中');            
+            this.points = this.getPoints(this.Option.x,this.Option.y);
 
             this._offsetX = this.Option.x - x;
             this._offsetY = this.Option.y - y;
@@ -162,6 +164,7 @@ Polygon.prototype = {
     moveDetect: function (x, y) {
 
         if (this._isChoosed == true) {
+            console.log('移动');
             this.move(x + this._offsetX, y + this._offsetY);
         }
 
