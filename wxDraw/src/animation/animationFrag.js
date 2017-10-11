@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 17:46:35
+ * @Last Modified time: 2017-10-11 18:16:17
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -79,6 +79,7 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
   */
    
     this.bus = bus;
+
     this.complete = false;
     this.running = false;
     this.started = false;

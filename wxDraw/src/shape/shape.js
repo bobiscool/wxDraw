@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:28:16
+ * @Last Modified time: 2017-10-11 19:05:12
  * 在这里添加事件 
  */
 
@@ -24,6 +24,8 @@ export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     this.animtionFragList = [];// flag List
     this.bus = null;
     this.Shapeid = "sp" + guid();
+    this.animationStart = false;
+    this.aniFragListId = "";
 }
 
 
@@ -66,6 +68,9 @@ Shape.prototype = {
      * @param {any} option  其他设置项目
      */
     animate: function (atrribute, exp, option) {
+        if(!this.aniFragListId){
+            this.aniFragListId = "af"+guid()
+        }
         console.log("添加形状")
         // 在这里添加 动画
         // 所有的动画其实就是目标
@@ -116,8 +121,15 @@ Shape.prototype = {
         //    }
 
         console.log("继续调用", this)
+
+        
         return this;
     },
+    // 动画循环
+    start:function(){
+       this.animationStart = true;
+       this.aniFragListId = "";// 每一段动画的id
+    },//开始动画
     updateOption:function(option){
         if(!this.Shape.bus){
             this.Shape.bus = this.bus;
