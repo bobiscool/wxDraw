@@ -59,7 +59,7 @@ Store.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 15:30:58
+ * @Last Modified time: 2017-10-11 15:39:51
  */
 
 var pOption = {
@@ -90,6 +90,7 @@ var Polygon = function Polygon(option) {
         minY: 0
     };
     this.points = this.getPoints(this.Option.x, this.Option.y);
+    this.getMax();
     this._isChoosed = false;
 };
 
@@ -100,8 +101,18 @@ Polygon.prototype = {
 
         // console.log('Option',this.Option);
         //每次getPoints 要刷新max
-
         console.log('init xy', x, y);
+
+        for (var i = 0; i < this.Option.sides; ++i) {
+            points.push(new Point(x + this.Option.r * Math.sin(angle), y - this.Option.r * Math.cos(angle)));
+            angle += 2 * Math.PI / this.Option.sides;
+        }
+        return points;
+    },
+    getMax: function getMax() {
+        //绘制 与检测 不能在统一个地方
+        var _Points = this.getPoints(this.Option.x, this.Option.y);
+
         this.max = {
             maxX: 0,
             maxY: 0,
@@ -109,8 +120,7 @@ Polygon.prototype = {
             minY: 0
         };
 
-        for (var i = 0; i < this.Option.sides; ++i) {
-            points.push(new Point(x + this.Option.r * Math.sin(angle), y - this.Option.r * Math.cos(angle)));
+        _Points.forEach(function (element) {
             if (x + this.Option.r * Math.sin(angle) > this.max.maxX) {
                 this.max.maxX = x + this.Option.r * Math.sin(angle);
             }
@@ -130,10 +140,7 @@ Polygon.prototype = {
             if (this.max.minY && y + this.Option.r * Math.sin(angle) < this.max.minY) {
                 this.max.minY = y + this.Option.r * Math.sin(angle);
             }
-
-            angle += 2 * Math.PI / this.Option.sides;
-        }
-        return points;
+        }, this);
     },
     createPath: function createPath(context, x, y) {
         //创建路径
