@@ -59,7 +59,7 @@ Store.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 15:39:51
+ * @Last Modified time: 2017-10-11 15:44:38
  */
 
 var pOption = {
@@ -121,24 +121,24 @@ Polygon.prototype = {
         };
 
         _Points.forEach(function (element) {
-            if (x + this.Option.r * Math.sin(angle) > this.max.maxX) {
-                this.max.maxX = x + this.Option.r * Math.sin(angle);
+            if (element.x > this.max.maxX) {
+                this.max.maxX = element.x;
             }
             if (!this.max.minX) {
-                this.max.minX = x + this.Option.r * Math.sin(angle);
+                this.max.minX = element.x;
             }
-            if (this.max.minX && x + this.Option.r * Math.sin(angle) < this.max.minX) {
-                this.max.minX = x + this.Option.r * Math.sin(angle);
+            if (this.max.minX && element.x < this.max.minX) {
+                this.max.minX = element.x;
             }
 
-            if (y + this.Option.r * Math.sin(angle) > this.max.maxY) {
-                this.max.maxY = y + this.Option.r * Math.sin(angle);
+            if (element.y > this.max.maxY) {
+                this.max.maxY = element.y;
             }
             if (!this.max.minY) {
-                this.max.minY = y + this.Option.r * Math.sin(angle);
+                this.max.minY = element.y;
             }
-            if (this.max.minY && y + this.Option.r * Math.sin(angle) < this.max.minY) {
-                this.max.minY = y + this.Option.r * Math.sin(angle);
+            if (this.max.minY && element.y) {
+                this.max.minY = element.y;
             }
         }, this);
     },
@@ -216,6 +216,8 @@ Polygon.prototype = {
         if (this._isChoosed == true) {
             console.log('移动');
             this.move(x + this._offsetX, y + this._offsetY);
+            this.getMax();
+            console.log(this);
         }
     },
     upDetect: function upDetect() {
