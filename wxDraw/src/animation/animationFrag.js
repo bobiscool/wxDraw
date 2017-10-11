@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 15:33:51
+ * @Last Modified time: 2017-10-11 16:29:51
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -26,8 +26,9 @@ var FRAGOPTION = {
 }
 
 function genExe(exe, atrribute, object) {
+    console.log('exe',exe);
     if (!isNaN(Number(exe))) {
-        let temAtrr = parseFloat(object.Shape[atrribute]) - parseFloat(exe);
+        let temAtrr = parseFloat(object.Shape.Option[atrribute]) - parseFloat(exe);
         return temAtrr;
     }
 
@@ -124,7 +125,7 @@ AnimationFrag.prototype = {
         }
         if (!this.started && !this.complete) {
             if (!this.genFlag) { // 如果是 单点动画
-                this.source = this.object.Shape[this.atrribute];// 最初动画开始的属性            
+                this.source = this.object.Shape.Option[this.atrribute];// 最初动画开始的属性            
             }
             this.started = true;
             this.running = true;
@@ -141,10 +142,10 @@ AnimationFrag.prototype = {
         // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
         // console.log('cx', this.object.Shape[this.atrribute]);
         if (!this.genFlag) {
-            this.object.Shape[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+            this.object.Shape.Option[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
         }else{
             this.atrributeList.forEach(function(item){
-                this.object.Shape[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+                this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
             },this);
         }
     },
@@ -154,7 +155,7 @@ AnimationFrag.prototype = {
         var _self = this;
         // console.log(_self);
         _keys.forEach(function (item) {
-            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape[item] });
+            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] });
         });
 
     }

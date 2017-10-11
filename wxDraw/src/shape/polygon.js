@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 15:44:38
+ * @Last Modified time: 2017-10-11 15:45:34
  */
 
 import { util } from '../util/utils.js';
@@ -171,10 +171,8 @@ Polygon.prototype = {
     moveDetect: function (x, y) {
 
         if (this._isChoosed == true) {
-            console.log('移动');
             this.move(x + this._offsetX, y + this._offsetY);
             this.getMax();
-            console.log(this);
         }
 
     },
