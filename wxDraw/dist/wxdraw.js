@@ -923,7 +923,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 16:29:51
+ * @Last Modified time: 2017-10-11 17:39:04
  */
 
 var FRAGOPTION = {
@@ -945,7 +945,8 @@ var FRAGOPTION = {
 function genExe(exe, atrribute, object) {
     console.log('exe', exe);
     if (!isNaN(Number(exe))) {
-        var temAtrr = parseFloat(object.Shape.Option[atrribute]) - parseFloat(exe);
+        var temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
+        console.log('temAtrr', temAtrr);
         return temAtrr;
     }
 

@@ -67,7 +67,7 @@ Page({
     console.log(cir3);
     // this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir3);
-
+    
     // cir1.updateOption({x:100})
     // this.wxCanvas.add(cir2);
     // cir2.updateOption({ x: 200 })
@@ -90,13 +90,19 @@ Page({
     // });
 
 
-    cir3.animate('rotate', Math.PI, {
-        duration: 10000,
+    cir3.animate({'rotate':Math.PI,"x":"-=200",y:200}, {
+        duration: 2000,
         onLooping: function () {
           console.log('----');
         },
-        easing: "linear"
-      });
+        easing: "bouncePast"
+    }).animate({ 'rotate': Math.PI, "x": "+=500", y: 700 }, {
+      duration: 2000,
+      onLooping: function () {
+        console.log('----');
+      },
+      easing: "bouncePast"
+    });
 
 
 

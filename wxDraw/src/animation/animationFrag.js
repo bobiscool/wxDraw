@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 16:29:51
+ * @Last Modified time: 2017-10-11 17:46:35
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -28,7 +28,8 @@ var FRAGOPTION = {
 function genExe(exe, atrribute, object) {
     console.log('exe',exe);
     if (!isNaN(Number(exe))) {
-        let temAtrr = parseFloat(object.Shape.Option[atrribute]) - parseFloat(exe);
+        let temAtrr =  parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
+        console.log('temAtrr',temAtrr);
         return temAtrr;
     }
 
@@ -118,6 +119,8 @@ AnimationFrag.prototype = {
             this.running = false;
             if (this.endCallFrag) {
                 // console.log('朝后调用');
+                this.endCallFrag.updateSource();//更新 起始源  在动画叠加中 有用
+                // 更新 endcall的 source
                 this.endCallFrag.updateAnimation(); // 朝后调用
             }
             return false;
@@ -158,6 +161,15 @@ AnimationFrag.prototype = {
             _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] });
         });
 
+    },
+    updateSource:function(){
+          if (!this.genFlag) {
+            this.source = this.object.Shape.Option[this.atrribute];
+        }else{
+            this.atrributeList.forEach(function(item){
+                item.source = this.object.Shape.Option[item.attr];
+            },this);
+        }
     }
 }
 
