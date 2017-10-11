@@ -923,7 +923,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 17:39:04
+ * @Last Modified time: 2017-10-11 17:46:35
  */
 
 var FRAGOPTION = {
@@ -1033,6 +1033,8 @@ AnimationFrag.prototype = {
             this.running = false;
             if (this.endCallFrag) {
                 // console.log('朝后调用');
+                this.endCallFrag.updateSource(); //更新 起始源  在动画叠加中 有用
+                // 更新 endcall的 source
                 this.endCallFrag.updateAnimation(); // 朝后调用
             }
             return false;
@@ -1070,6 +1072,15 @@ AnimationFrag.prototype = {
         _keys.forEach(function (item) {
             _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] });
         });
+    },
+    updateSource: function updateSource() {
+        if (!this.genFlag) {
+            this.source = this.object.Shape.Option[this.atrribute];
+        } else {
+            this.atrributeList.forEach(function (item) {
+                item.source = this.object.Shape.Option[item.attr];
+            }, this);
+        }
     }
 };
 
