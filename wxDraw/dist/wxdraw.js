@@ -902,7 +902,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 09:44:03
+ * @Last Modified time: 2017-10-12 13:29:02
  */
 
 var FRAGOPTION = {
@@ -994,6 +994,8 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) 
     this.onEnd = _temOption.onEnd;
     this.onLooping = _temOption.onLooping;
     this.onStart = _temOption.onStart;
+
+    this._aniWrapbus = null;
 };
 
 AnimationFrag.prototype = {
@@ -1017,7 +1019,11 @@ AnimationFrag.prototype = {
                 this.endCallFrag.updateSourceAndtarget(); //更新 起始源  在动画叠加中 有用
                 // 更新 endcall的 source
                 this.endCallFrag.updateAnimation(); // 朝后调用
-            }
+            } //@todo 有了 wraper 这里的 超后调用就可以 拆掉了
+
+            this._aniWrapbus.dispatch('fragAniOver', 'no', 'me'); // 这里不需要传一个 特定的 东西
+
+
             return false;
         }
         if (!this.started && !this.complete) {
@@ -1065,6 +1071,131 @@ AnimationFrag.prototype = {
             // },this);
             this.genAtrributeList(this.atrribute);
         }
+    },
+    addWrapBus: function addWrapBus(bus) {
+        this._aniWrapbus = bus;
+    }
+};
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-09-29 15:33:40 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-12 11:16:36
+ * 事件对象
+ * 
+ */
+
+var eventBus = function eventBus() {
+    this.eventList = [];
+};
+eventBus.prototype = {
+    add: function add(name, scope, event) {
+        //添加事件 初始化事件
+        console.log('添加' + name);
+        if (this.eventList.length) {
+            this.eventList.forEach(function (ele) {
+                if (ele.name == name) {
+                    ele.thingsList.push(event); //如果已经有了这个事件 那就 存list 并且退出程序
+                    return false;
+                }
+            }, this);
+            // 如果没有 那就再造一个
+            this.eventList.push({
+                name: name,
+                scope: scope,
+                thingsList: [event]
+            });
+        } else {
+            this.eventList.push({
+                name: name,
+                scope: scope,
+                thingsList: [event]
+            });
+        }
+
+        console.log(this.eventList);
+    },
+    dispatch: function dispatch(name, scope) {
+        //执行事件 这里有两种状况  执行最外层或者是事件添加层 的scope 或者是 当地的scope
+
+
+        var _temArgu = arguments;
+
+        console.log(_temArgu);
+
+        if (arguments.length < 2) {
+            return false;
+        }
+
+        var _params = Array.prototype.slice.call(_temArgu, 2);
+
+        console.log('_params', _params);
+        this.eventList.forEach(function (ele) {
+            if (ele.name === name) {
+                console.log('触发' + name);
+                ele.thingsList.forEach(function (_ele) {
+                    if (scope !== "no") {
+                        _ele.call.apply(_ele, [scope].concat(toConsumableArray(_params)));
+                    } else {
+                        _ele.call.apply(_ele, [ele.scope].concat(toConsumableArray(_params)));
+                    }
+
+                    //  TODO 添加 解构 
+
+                });
+            }
+        });
+    },
+    destroy: function destroy() {
+        // 取消事件
+    }
+};
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-10-12 11:28:31 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-12 13:46:27
+ * 动画 碎片包裹
+ * 用于控制 较复杂 的 动画 情景 
+ * 动画的 循环 
+ * 动画循环多少次 结束
+ * 
+ */
+
+var AniFragWrap = function AniFragWrap(bus, id) {
+    this.runing = false;
+    this.complete = false;
+    this.stoped = false;
+    this.started = false;
+    this.fragStore = [];
+    this.animationPick = 0; //动画戳
+    this.bus = bus;
+    this.aniFraBus = new eventBus(); // 这里需要创建一个 私有的bus
+    this.aniFraBus.add('fragAniOver', this, this.getAniOver); //获取当前 aniwrapper 里面有几个动画完成了
+    this.overAni = []; // 哪几个动画完成了
+    this.aniFragListId = id;
+};
+
+AniFragWrap.prototype = {
+    updateFrag: function updateFrag(frag) {
+        frag.addWrapBus(this.aniFraBus);
+        if (this.fragStore.length) {
+            this.fragStore[this.fragStore.length - 1].endCallFrag = frag;
+            this.fragStore.push(frag);
+        } else {
+            this.fragStore.push(frag);
+        }
+    },
+    exeAnimate: function exeAnimate() {
+        // 执行 仓库内部 动画 
+        this.fragStore[this.animationPick].updateAnimation();
+        // 这里每一次都这么执行不太好 
+    },
+    getAniOver: function getAniOver(who) {
+        this.overAni.push(who);
+        this.animationPick++;
     }
 };
 
@@ -1072,7 +1203,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 19:05:12
+ * @Last Modified time: 2017-10-12 13:49:58
  * 在这里添加事件 
  */
 
@@ -1088,6 +1219,7 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.Shapeid = "sp" + guid();
     this.animationStart = false;
     this.aniFragListId = "";
+    this.aniFragWraper = null;
 };
 
 Shape.prototype = {
@@ -1128,7 +1260,9 @@ Shape.prototype = {
     animate: function animate(atrribute, exp, option) {
         if (!this.aniFragListId) {
             this.aniFragListId = "af" + guid();
+            this.aniFragWraper = new AniFragWrap(this.bus, this.aniFragListId); // 一旦开始连续调用 就创建一个
         }
+
         console.log("添加形状");
         // 在这里添加 动画
         // 所有的动画其实就是目标
@@ -1165,10 +1299,12 @@ Shape.prototype = {
         } else {
             _temFrag = new AnimationFrag(this, atrribute, arguments[1], arguments[2], this.bus);
         }
+
+        this.aniFragWraper.updateFrag(_temFrag); // 动画容器包裹动画
+
         //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
 
         //    console.log('添加形状',this.bus);
-        this.bus.dispatch('addAnimation', "no", _temFrag, this.Shapeid);
 
         //    }
 
@@ -1182,7 +1318,13 @@ Shape.prototype = {
     // 动画循环
     start: function start() {
         this.animationStart = true;
-        this.aniFragListId = ""; // 每一段动画的id
+        if (this.aniFragWraper) {
+            this.bus.dispatch('addAnimation', "no", this.aniFragWraper, this.Shapeid);
+            this.aniFragListId = ""; // 每一段动画的id
+            this.aniFragWraper = null; // 每一段动画的id
+        } else {
+            console.log('未添加动画对象');
+        }
     }, //开始动画
     updateOption: function updateOption(option) {
         if (!this.Shape.bus) {
@@ -1264,7 +1406,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 11:11:12
+ * @Last Modified time: 2017-10-12 13:52:06
  * 动画 对象 接管所有动画
  */
 
@@ -1316,14 +1458,11 @@ Animation.prototype = {
         _keys.forEach(function (item) {
             var _temFragStore = this.animationFragStore[item];
             _temFragStore.forEach(function (item, index) {
-                item.endCallFrag = _temFragStore[index + 1];
-                if (index == 0) {
-                    item.updateAnimation();
-                }
+                item.exeAnimate(); // 每个动画 容器之间是异步进行的 不需要 排队 等候
             });
         }, this);
 
-        this.bus.dispatch('update', 'no'); //通知更新 
+        this.bus.dispatch('update', 'no'); //通知绘制更新 
     },
     animationComplete: function animationComplete(who) {
         console.log('who', who);
@@ -1337,84 +1476,9 @@ Animation.prototype = {
 
 /*
  * @Author: Thunderball.Wu 
- * @Date: 2017-09-29 15:33:40 
- * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 11:16:36
- * 事件对象
- * 
- */
-
-var eventBus = function eventBus() {
-    this.eventList = [];
-};
-eventBus.prototype = {
-    add: function add(name, scope, event) {
-        //添加事件 初始化事件
-        console.log('添加' + name);
-        if (this.eventList.length) {
-            this.eventList.forEach(function (ele) {
-                if (ele.name == name) {
-                    ele.thingsList.push(event); //如果已经有了这个事件 那就 存list 并且退出程序
-                    return false;
-                }
-            }, this);
-            // 如果没有 那就再造一个
-            this.eventList.push({
-                name: name,
-                scope: scope,
-                thingsList: [event]
-            });
-        } else {
-            this.eventList.push({
-                name: name,
-                scope: scope,
-                thingsList: [event]
-            });
-        }
-
-        console.log(this.eventList);
-    },
-    dispatch: function dispatch(name, scope) {
-        //执行事件 这里有两种状况  执行最外层或者是事件添加层 的scope 或者是 当地的scope
-
-
-        var _temArgu = arguments;
-
-        console.log(_temArgu);
-
-        if (arguments.length < 2) {
-            return false;
-        }
-
-        var _params = Array.prototype.slice.call(_temArgu, 2);
-
-        console.log('_params', _params);
-        this.eventList.forEach(function (ele) {
-            if (ele.name === name) {
-                console.log('触发' + name);
-                ele.thingsList.forEach(function (_ele) {
-                    if (scope !== "no") {
-                        _ele.call.apply(_ele, [scope].concat(toConsumableArray(_params)));
-                    } else {
-                        _ele.call.apply(_ele, [ele.scope].concat(toConsumableArray(_params)));
-                    }
-
-                    //  TODO 添加 解构 
-
-                });
-            }
-        });
-    },
-    destroy: function destroy() {
-        // 取消事件
-    }
-};
-
-/*
- * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 11:19:30
+ * @Last Modified time: 2017-10-12 13:41:01
  * 主要 引入对象
  * 
  * 
@@ -1498,7 +1562,19 @@ WxDraw.prototype = {
         this.canvas.draw();
     },
     AnimationCenter: function AnimationCenter() {},
-    addAnimationFrag: function addAnimationFrag(AnimationOption, Shapeid) {
+    /**
+     * 更新动画 
+     * 每次创建的都是动画碎片
+     * - 创建完整的动画包裹容器
+     * - 创建动画碎片
+     * 先是 创建容器 
+     * 然后创建碎片
+     * 只在start的时候 将其推送到动画空间里面 
+     * 
+     * @param {any} AnimationWraper  创建好的动画容器
+     * @param {any} Shapeid  id
+     */
+    addAnimationFrag: function addAnimationFrag(AnimationWraper, Shapeid) {
         // console.log(AnimationOption);
         // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
@@ -1506,11 +1582,11 @@ WxDraw.prototype = {
         if (this.animation.animationFragStore[Shapeid]) {
             // 
             // console.log('已经有动画了');
-            this.animation.animationFragStore[Shapeid].push(AnimationOption);
+            this.animation.animationFragStore[Shapeid].push(AnimationWraper);
         } else {
             // console.log('初始化 ');
 
-            this.animation.animationFragStore[Shapeid] = [AnimationOption];
+            this.animation.animationFragStore[Shapeid] = [AnimationWraper];
         }
 
         // console.log(this.animation.animationFragStore2);
