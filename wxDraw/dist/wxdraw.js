@@ -1170,7 +1170,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 14:46:56
+ * @Last Modified time: 2017-10-12 15:03:07
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -1262,7 +1262,7 @@ AniFragWrap.prototype = {
     setLoop: function setLoop(loop, loopTimes) {
         this.loop = loop ? loop : false; //用于循环的 
         this.loopTimes = loopTimes ? loopTimes : false;
-        this.looped = 0;
+        this.looped = 1;
     }
 };
 
