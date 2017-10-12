@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:33:27
+ * @Last Modified time: 2017-10-12 13:52:06
  * 动画 对象 接管所有动画
  */
 
@@ -61,10 +61,7 @@ Animation.prototype = {
         _keys.forEach(function (item) {
             let _temFragStore = this.animationFragStore[item];
             _temFragStore.forEach(function (item, index) {
-                item.endCallFrag = _temFragStore[index + 1];
-                if (index == 0) {
-                    item.updateAnimation();
-                }
+              item.exeAnimate();// 每个动画 容器之间是异步进行的 不需要 排队 等候
             });
 
         }, this);
