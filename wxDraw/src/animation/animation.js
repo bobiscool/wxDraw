@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:15:04
+ * @Last Modified time: 2017-10-12 11:11:12
  * 动画 对象 接管所有动画
  */
 
@@ -20,7 +20,7 @@ export const Animation = function (bus) {
     this.animationFragStore = {};// 动画碎片仓库 存储 所有 动画 
     this.animationCompleteList = [];// 动画完成清单
     this.bus.add('animationComplete',this,this.animationComplete);// 添加动画事件 
-    
+
 
     //    this.animationFragStore2 = {};
 
@@ -74,6 +74,7 @@ Animation.prototype = {
         this.bus.dispatch('update', 'no');//通知更新 
     },
     animationComplete:function(who){
+        console.log('who',who);
       this.animationCompleteList.push(who);
       if(this.animationCompleteList.length===Object.keys(this.animationFragStore).length){
           this.running = false;// 动画执行 结束

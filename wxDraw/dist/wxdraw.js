@@ -248,7 +248,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:42:23
+ * @Last Modified time: 2017-10-12 11:02:23
  * 普通形状
  * 
  */
@@ -293,18 +293,7 @@ Circle.prototype = {
     stroke: function stroke(context) {
         context.save();
         context.beginPath();
-        if (!this.Option.rotateOrigin) {
-            context.translate(this.Option.x, this.Option.y);
-            context.rotate(this.Option.rotate);
-            context.arc(0, 0, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
-        } else {
-            /**
-             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-             */
-            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
-            context.rotate(this.Option.rotate);
-            context.arc(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
-        }
+        this._draw(context);
         context.closePath();
         context.setStrokeStyle(this.Option.strokeStyle);
 
@@ -315,6 +304,13 @@ Circle.prototype = {
     fill: function fill(context) {
         context.save();
         context.beginPath();
+        this._draw(context);
+        context.closePath();
+        context.setFillStyle(this.Option.fillStyle);
+        context.fill();
+        context.restore();
+    },
+    _draw: function _draw(context) {
         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
@@ -327,11 +323,6 @@ Circle.prototype = {
             context.rotate(this.Option.rotate);
             context.arc(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         }
-
-        context.closePath();
-        context.setFillStyle(this.Option.fillStyle);
-        context.fill();
-        context.restore();
     },
     move: function move(x, y) {
         // console.log('move', x, y);
@@ -1273,7 +1264,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:15:04
+ * @Last Modified time: 2017-10-12 11:11:12
  * 动画 对象 接管所有动画
  */
 
@@ -1335,6 +1326,7 @@ Animation.prototype = {
         this.bus.dispatch('update', 'no'); //通知更新 
     },
     animationComplete: function animationComplete(who) {
+        console.log('who', who);
         this.animationCompleteList.push(who);
         if (this.animationCompleteList.length === Object.keys(this.animationFragStore).length) {
             this.running = false; // 动画执行 结束
@@ -1347,7 +1339,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:34:53
+ * @Last Modified time: 2017-10-12 11:16:36
  * 事件对象
  * 
  */
@@ -1388,12 +1380,15 @@ eventBus.prototype = {
 
         var _temArgu = arguments;
 
+        console.log(_temArgu);
+
         if (arguments.length < 2) {
             return false;
         }
 
-        var _params = Array.prototype.slice.call(_temArgu, 1);
+        var _params = Array.prototype.slice.call(_temArgu, 2);
 
+        console.log('_params', _params);
         this.eventList.forEach(function (ele) {
             if (ele.name === name) {
                 console.log('触发' + name);
@@ -1419,7 +1414,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:18:28
+ * @Last Modified time: 2017-10-12 11:19:30
  * 主要 引入对象
  * 
  * 
@@ -1503,7 +1498,7 @@ WxDraw.prototype = {
         this.canvas.draw();
     },
     AnimationCenter: function AnimationCenter() {},
-    addAnimationFrag: function addAnimationFrag(scope, AnimationOption, Shapeid) {
+    addAnimationFrag: function addAnimationFrag(AnimationOption, Shapeid) {
         // console.log(AnimationOption);
         // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
