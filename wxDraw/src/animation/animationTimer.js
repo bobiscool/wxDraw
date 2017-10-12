@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 23:31:49 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 14:28:39
+ * @Last Modified time: 2017-10-12 17:43:45
  * 单个小物件自己的计时器
  */
 import { EasingFunctions } from "./animationFunc.js"
@@ -68,7 +68,7 @@ AnimationTimer.prototype = {
     getGoesByTime:function(){
         //注意这里的时间与 watch 里面的时间不是同一概念 这里面还有扭曲时间 用于产生不同的动画效果的
         var goesBytime = this.watch.getGoesByTime();
-        console.log(goesBytime);
+        // console.log(goesBytime);
         var aniPercent = goesBytime/this.duration;//动画进行的程度
         
 

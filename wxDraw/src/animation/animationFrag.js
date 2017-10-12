@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 14:49:59
+ * @Last Modified time: 2017-10-12 17:49:46
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -128,7 +128,7 @@ AnimationFrag.prototype = {
             //     // 更新 endcall的 source
             //     this.endCallFrag.updateAnimation(); // 朝后调用
             // }//@todo 有了 wraper 这里的 超后调用就可以 拆掉了
-
+           
             this._aniWrapbus.dispatch('fragAniOver', 'no', 'me');// 这里不需要传一个 特定的 东西
 
 

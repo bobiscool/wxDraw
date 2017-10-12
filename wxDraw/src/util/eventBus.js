@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 11:16:36
+ * @Last Modified time: 2017-10-12 17:43:12
  * 事件对象
  * 
  */
@@ -49,7 +49,7 @@ eventBus.prototype = {
 
         var _temArgu = arguments;
 
-        console.log(_temArgu);
+        // console.log(_temArgu);
 
         if (arguments.length < 2) {
             return false;
@@ -57,10 +57,10 @@ eventBus.prototype = {
 
         let _params = Array.prototype.slice.call(_temArgu, 2);
        
-        console.log('_params',_params);
+        // console.log('_params',_params);
         this.eventList.forEach(function (ele) {
             if (ele.name === name) {
-                console.log('触发' + name);
+                // console.log('触发' + name);
                 ele.thingsList.forEach(function (_ele) {
                     if (scope !== "no") {
                         _ele.call(scope, ..._params)
