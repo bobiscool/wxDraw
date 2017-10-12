@@ -96,25 +96,25 @@ Page({
     //   });
 
 
-    // cir3.animate({'rotate':Math.PI,"x":"-=20",y:200}, {
-    //     duration: 2000,
-    //     onLooping: function () {
-    //       console.log('----');
-    //     },
-    //     easing: "bouncePast"
-    // }).animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
-    //   duration: 2000,
-    //   onLooping: function () {
-    //     console.log('----');
-    //   },
-    //   easing: "bouncePast"
-    //   }).animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
-    //     duration: 2000,
-    //     onLooping: function () {
-    //       console.log('----');
-    //     },
-    //     easing: "bouncePast"
-    //   });
+    cir3.animate({'rotate':Math.PI,"x":"-=20",y:200}, {
+        duration: 2000,
+        onLooping: function () {
+          console.log('----');
+        },
+        easing: "bouncePast"
+    }).animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
+      duration: 2000,
+      onLooping: function () {
+        console.log('----');
+      },
+      easing: "bouncePast"
+      }).animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
+        duration: 2000,
+        onLooping: function () {
+          console.log('----');
+        },
+        easing: "bouncePast"
+      });
 
 
 

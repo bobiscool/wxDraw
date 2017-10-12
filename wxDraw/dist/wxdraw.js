@@ -59,7 +59,7 @@ Store.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:44:12
+ * @Last Modified time: 2017-10-12 10:53:24
  */
 
 var pOption = {
@@ -137,7 +137,7 @@ Polygon.prototype = {
             if (!this.max.minY) {
                 this.max.minY = element.y;
             }
-            if (this.max.minY && element.y) {
+            if (this.max.minY && element.y < this.max.minY) {
                 this.max.minY = element.y;
             }
         }, this);
@@ -155,24 +155,20 @@ Polygon.prototype = {
     },
     stroke: function stroke(context) {
         context.save();
-        if (!this.Option.rotateOrigin) {
-            context.translate(this.Option.x, this.Option.y);
-            context.rotate(this.Option.rotate);
-            this.createPath(context, 0, 0);
-        } else {
-            /**
-             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-             */
-            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
-            context.rotate(this.Option.rotate);
-            this.createPath(context, this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1]);
-        }
+        this._draw(context);
         context.setStrokeStyle(this.Option.strokeStyle);
         context.stroke();
         context.restore();
     },
     fill: function fill(context) {
         context.save();
+        this._draw(context);
+        context.setFillStyle(this.Option.fillStyle);
+        context.fill();
+        context.restore();
+    },
+    _draw: function _draw(context) {
+        this.getMax();
         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
@@ -185,9 +181,6 @@ Polygon.prototype = {
             context.rotate(this.Option.rotate);
             this.createPath(context, this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1]);
         }
-        context.setFillStyle(this.Option.fillStyle);
-        context.fill();
-        context.restore();
     },
     move: function move(x, y) {
 
@@ -199,7 +192,7 @@ Polygon.prototype = {
         // pnpoly 算法区域
 
         // 首先找到 最大x 最小x 最大y 最小y
-        console.log('多边形点击', x, y, this.max);
+        // console.log('多边形点击',x,y,this.max)
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             console.log('点中');
