@@ -1161,7 +1161,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 14:43:38
+ * @Last Modified time: 2017-10-12 14:46:56
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -1202,6 +1202,7 @@ AniFragWrap.prototype = {
         if (this.stoped) {
             return false;
         }
+        console.log('animationPick', this.animationPick);
         if (this.fragStore[this.animationPick]) {
             this.fragStore[this.animationPick].updateAnimation();
         }
@@ -1209,7 +1210,6 @@ AniFragWrap.prototype = {
     },
     getAniOver: function getAniOver(who) {
         this.overAni.push(who);
-        this.animationPick++;
         if (this.overAni.length == this.fragStore.length) {
             // 动画执行完毕后 还有几种情况 1 直接结束
             if (this.loop) {
@@ -1228,11 +1228,12 @@ AniFragWrap.prototype = {
 
             return false;
         }
+        this.animationPick++;
         this.fragStore[this.animationPick].updateSourceAndtarget(); //更新属性
     },
     restart: function restart() {
         // 重新开始就得需要记住 最初物体的属性
-        console.log(this);
+        console.log('restart');
         this.object.updateOption(this.oriOption);
         this.overAni = [];
         this.animationPick = 0;

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 14:34:55
+ * @Last Modified time: 2017-10-12 14:49:59
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -96,6 +96,7 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     }
     // console.log(this.object);
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
+    this.oriOption = _temOption;
     this.endCallFrag = null;// 用于动画叠加调用
 
     this.onEnd = _temOption.onEnd;
@@ -189,6 +190,7 @@ AnimationFrag.prototype = {
         this.complete = false;
         this.running = false;
         this.started = false;
+        this.timer = new AnimationTimer(this.oriOption.duration,this.oriOption.easing);
     }
 }
 
