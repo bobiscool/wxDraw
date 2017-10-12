@@ -902,7 +902,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:29:02
+ * @Last Modified time: 2017-10-12 14:34:55
  */
 
 var FRAGOPTION = {
@@ -1002,11 +1002,11 @@ AnimationFrag.prototype = {
     updateAnimation: function updateAnimation() {
         //获取时间  以及计算出来 的变化时间 来  如果现在的时间 一加到达 
         if (this.complete) {
-            if (this.endCallFrag) {
-                this.endCallFrag.updateAnimation(); // 朝后调用
-            } else {
-                this.bus.dispatch('animationComplete', "no", this.object.Shapeid);
-            }
+            // if (this.endCallFrag) {
+            //     this.endCallFrag.updateAnimation(); // 朝后调用
+            // } else {
+            //     this.bus.dispatch('animationComplete', "no", this.object.Shapeid);
+            // }
             return false;
         }
 
@@ -1014,12 +1014,12 @@ AnimationFrag.prototype = {
             this.onEnd();
             this.complete = true;
             this.running = false;
-            if (this.endCallFrag) {
-                // console.log('朝后调用');
-                this.endCallFrag.updateSourceAndtarget(); //更新 起始源  在动画叠加中 有用
-                // 更新 endcall的 source
-                this.endCallFrag.updateAnimation(); // 朝后调用
-            } //@todo 有了 wraper 这里的 超后调用就可以 拆掉了
+            // if (this.endCallFrag) {
+            //     // console.log('朝后调用');
+            //     this.endCallFrag.updateSourceAndtarget();//更新 起始源  在动画叠加中 有用
+            //     // 更新 endcall的 source
+            //     this.endCallFrag.updateAnimation(); // 朝后调用
+            // }//@todo 有了 wraper 这里的 超后调用就可以 拆掉了
 
             this._aniWrapbus.dispatch('fragAniOver', 'no', 'me'); // 这里不需要传一个 特定的 东西
 
@@ -1074,6 +1074,11 @@ AnimationFrag.prototype = {
     },
     addWrapBus: function addWrapBus(bus) {
         this._aniWrapbus = bus;
+    },
+    restart: function restart() {
+        this.complete = false;
+        this.running = false;
+        this.started = false;
     }
 };
 
@@ -1156,7 +1161,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:46:27
+ * @Last Modified time: 2017-10-12 14:32:13
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -1164,9 +1169,8 @@ eventBus.prototype = {
  * 
  */
 
-var AniFragWrap = function AniFragWrap(bus, id) {
+var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.runing = false;
-    this.complete = false;
     this.stoped = false;
     this.started = false;
     this.fragStore = [];
@@ -1176,6 +1180,11 @@ var AniFragWrap = function AniFragWrap(bus, id) {
     this.aniFraBus.add('fragAniOver', this, this.getAniOver); //获取当前 aniwrapper 里面有几个动画完成了
     this.overAni = []; // 哪几个动画完成了
     this.aniFragListId = id;
+    this.loop = false; //用于循环的 
+    this.loopTimes = false;
+    this.looped = 0;
+    this.object = object;
+    this.oriOption = util.extend({}, object.Shape.Option); // 记录最初的样式
 };
 
 AniFragWrap.prototype = {
@@ -1190,12 +1199,54 @@ AniFragWrap.prototype = {
     },
     exeAnimate: function exeAnimate() {
         // 执行 仓库内部 动画 
+        if (this.stoped) {
+            return false;
+        }
         this.fragStore[this.animationPick].updateAnimation();
         // 这里每一次都这么执行不太好 
     },
     getAniOver: function getAniOver(who) {
         this.overAni.push(who);
         this.animationPick++;
+        if (this.overAni.length == this.fragStore.length) {
+            // 动画执行完毕后 还有几种情况 1 直接结束
+            if (this.loop) {
+                if (this.loopTimes && this.looped <= this.loopTimes) {
+                    this.looped++;
+                }
+                if (this.loopTimes && this.looped > this.loopTimes) {
+                    this.stop();
+                    return false;
+                }
+                // 如果 没有looptime 那就无线循环
+                this.restart();
+            } else {
+                this.stop();
+            }
+        }
+    },
+    restart: function restart() {
+        // 重新开始就得需要记住 最初物体的属性
+        this.object.updateOption(this.oriOption);
+        this.overAni = [];
+        this.animationPick = 0;
+        this.fragStore.forEach(function (element) {
+            element.restart();
+        }, this);
+        this.started = false;
+        this.stoped = false;
+    },
+    stop: function stop() {
+        this.stop = true;
+        this.bus.dispatch('animationComplete', 'no', this.aniFragListId);
+    },
+    resume: function resume() {
+        // 先不要有重启
+    },
+    setLoop: function setLoop(loop, loopTimes) {
+        this.loop = loop ? loop : false; //用于循环的 
+        this.loopTimes = loopTimes ? loopTimes : false;
+        this.looped = 0;
     }
 };
 
@@ -1203,7 +1254,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:49:58
+ * @Last Modified time: 2017-10-12 14:33:31
  * 在这里添加事件 
  */
 
@@ -1260,7 +1311,7 @@ Shape.prototype = {
     animate: function animate(atrribute, exp, option) {
         if (!this.aniFragListId) {
             this.aniFragListId = "af" + guid();
-            this.aniFragWraper = new AniFragWrap(this.bus, this.aniFragListId); // 一旦开始连续调用 就创建一个
+            this.aniFragWraper = new AniFragWrap(this.bus, this.aniFragListId, this); // 一旦开始连续调用 就创建一个
         }
 
         console.log("添加形状");
@@ -1316,9 +1367,10 @@ Shape.prototype = {
         return this;
     },
     // 动画循环
-    start: function start() {
+    start: function start(a, b) {
         this.animationStart = true;
         if (this.aniFragWraper) {
+            this.aniFragWraper.setLoop(a, b); //设置循环
             this.bus.dispatch('addAnimation', "no", this.aniFragWraper, this.Shapeid);
             this.aniFragListId = ""; // 每一段动画的id
             this.aniFragWraper = null; // 每一段动画的id

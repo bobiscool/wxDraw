@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 14:01:16
+ * @Last Modified time: 2017-10-12 14:33:31
  * 在这里添加事件 
  */
 
@@ -72,7 +72,7 @@ Shape.prototype = {
     animate: function (atrribute, exp, option) {
         if (!this.aniFragListId) {
             this.aniFragListId = "af" + guid()
-            this.aniFragWraper = new AniFragWrap(this.bus,this.aniFragListId,this);// 一旦开始连续调用 就创建一个
+            this.aniFragWraper = new AniFragWrap(this.bus, this.aniFragListId, this);// 一旦开始连续调用 就创建一个
         }
 
 
@@ -117,7 +117,7 @@ Shape.prototype = {
         }
 
         this.aniFragWraper.updateFrag(_temFrag);// 动画容器包裹动画
-        
+
         //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
 
         //    console.log('添加形状',this.bus);
@@ -133,16 +133,17 @@ Shape.prototype = {
         return this;
     },
     // 动画循环
-    start: function () {
+    start: function (a, b) {
         this.animationStart = true;
-        if(this.aniFragWraper){
-    this.bus.dispatch('addAnimation', "no", this.aniFragWraper, this.Shapeid);
-        this.aniFragListId = "";// 每一段动画的id
-        this.aniFragWraper = null;// 每一段动画的id
-        }else{
+        if (this.aniFragWraper) {
+            this.aniFragWraper.setLoop(a, b);//设置循环
+            this.bus.dispatch('addAnimation', "no", this.aniFragWraper, this.Shapeid);
+            this.aniFragListId = "";// 每一段动画的id
+            this.aniFragWraper = null;// 每一段动画的id
+        } else {
             console.log('未添加动画对象');
         }
-    
+
     },//开始动画
     updateOption: function (option) {
         if (!this.Shape.bus) {

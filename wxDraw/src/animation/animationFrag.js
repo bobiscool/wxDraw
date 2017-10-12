@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 14:06:31
+ * @Last Modified time: 2017-10-12 14:34:55
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -109,11 +109,11 @@ AnimationFrag.prototype = {
     updateAnimation: function () {
         //获取时间  以及计算出来 的变化时间 来  如果现在的时间 一加到达 
         if (this.complete) {
-            if (this.endCallFrag) {
-                this.endCallFrag.updateAnimation(); // 朝后调用
-            } else {
-                this.bus.dispatch('animationComplete', "no", this.object.Shapeid);
-            }
+            // if (this.endCallFrag) {
+            //     this.endCallFrag.updateAnimation(); // 朝后调用
+            // } else {
+            //     this.bus.dispatch('animationComplete', "no", this.object.Shapeid);
+            // }
             return false;
         }
 
@@ -121,12 +121,12 @@ AnimationFrag.prototype = {
             this.onEnd();
             this.complete = true;
             this.running = false;
-            if (this.endCallFrag) {
-                // console.log('朝后调用');
-                this.endCallFrag.updateSourceAndtarget();//更新 起始源  在动画叠加中 有用
-                // 更新 endcall的 source
-                this.endCallFrag.updateAnimation(); // 朝后调用
-            }//@todo 有了 wraper 这里的 超后调用就可以 拆掉了
+            // if (this.endCallFrag) {
+            //     // console.log('朝后调用');
+            //     this.endCallFrag.updateSourceAndtarget();//更新 起始源  在动画叠加中 有用
+            //     // 更新 endcall的 source
+            //     this.endCallFrag.updateAnimation(); // 朝后调用
+            // }//@todo 有了 wraper 这里的 超后调用就可以 拆掉了
 
             this._aniWrapbus.dispatch('fragAniOver', 'no', 'me');// 这里不需要传一个 特定的 东西
 
