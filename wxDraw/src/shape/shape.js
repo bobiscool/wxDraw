@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:30:31
+ * @Last Modified time: 2017-10-12 13:46:03
  * 在这里添加事件 
  */
 
@@ -12,6 +12,7 @@ import { Rect, Circle } from './normalShape.js';
 import { AnimationTimer } from '../animation/animationTimer.js';
 import { AnimationFrag } from '../animation/animationFrag.js';
 import { guid } from "../util/utils.js";
+import { AniFragWrap } from "../animation/animationFragWraper.js"
 
 
 export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
@@ -26,6 +27,7 @@ export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     this.Shapeid = "sp" + guid();
     this.animationStart = false;
     this.aniFragListId = "";
+    this.aniFragWraper = null;
 }
 
 
@@ -45,14 +47,14 @@ Shape.prototype = {
         //检查点击了谁
         this.Shape.detected(x, y);
         if (this.Shape.detected(x, y)) {
-          console.log('点击')
+            console.log('点击')
         }
 
     },
     moveDetect: function (x, y) {
         // console.log('moveDetect')
-        if(this.draggable){
-        this.Shape.moveDetect(x, y);
+        if (this.draggable) {
+            this.Shape.moveDetect(x, y);
 
         }
     },
@@ -68,10 +70,11 @@ Shape.prototype = {
      * @param {any} option  其他设置项目
      */
     animate: function (atrribute, exp, option) {
-        if(!this.aniFragListId){
-            this.aniFragListId = "af"+guid()
+        if (!this.aniFragListId) {
+            this.aniFragListId = "af" + guid()
+            this.aniFragWraper = new AniFragWrap(this.bus,this.aniFragListId);// 一旦开始连续调用 就创建一个
         }
-        
+
         console.log("添加形状")
         // 在这里添加 动画
         // 所有的动画其实就是目标
@@ -107,14 +110,13 @@ Shape.prototype = {
         let _direc = true;
         let _temFrag = null;
         if (typeof atrribute == "object") {
-             _temFrag = new AnimationFrag(this, atrribute, "no", arguments[1], this.bus);//懒得写 就写arguments吧
+            _temFrag = new AnimationFrag(this, atrribute, "no", arguments[1], this.bus);//懒得写 就写arguments吧
         } else {
-             _temFrag = new AnimationFrag(this, atrribute, arguments[1], arguments[2], this.bus);
+            _temFrag = new AnimationFrag(this, atrribute, arguments[1], arguments[2], this.bus);
         }
         //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
 
         //    console.log('添加形状',this.bus);
-        this.bus.dispatch('addAnimation', "no", _temFrag, this.Shapeid);
 
         //    }
 
@@ -123,16 +125,18 @@ Shape.prototype = {
 
         console.log("继续调用", this)
 
-        
+
         return this;
     },
     // 动画循环
-    start:function(){
-       this.animationStart = true;
-       this.aniFragListId = "";// 每一段动画的id
+    start: function () {
+        this.animationStart = true;
+        this.bus.dispatch('addAnimation', "no", this.aniFragWraper, this.Shapeid);
+        this.aniFragListId = "";// 每一段动画的id
+        this.aniFragWraper = null;// 每一段动画的id
     },//开始动画
-    updateOption:function(option){
-        if(!this.Shape.bus){
+    updateOption: function (option) {
+        if (!this.Shape.bus) {
             this.Shape.bus = this.bus;
         }
 

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:28:27
+ * @Last Modified time: 2017-10-12 13:46:27
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -12,7 +12,7 @@
 
  import { eventBus } from "../util/eventBus" // 
 
-export var AniFragWrap = function (bus) {
+export var AniFragWrap = function (bus,id) {
     this.runing = false;
     this.complete = false;
     this.stoped = false;
@@ -23,6 +23,7 @@ export var AniFragWrap = function (bus) {
     this.aniFraBus = new eventBus(); // 这里需要创建一个 私有的bus
     this.aniFraBus.add('fragAniOver',this,this.getAniOver);//获取当前 aniwrapper 里面有几个动画完成了
     this.overAni = [];// 哪几个动画完成了
+    this.aniFragListId = id;
 }
 
 AniFragWrap.prototype = {
