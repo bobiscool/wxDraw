@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:49:58
+ * @Last Modified time: 2017-10-12 14:01:16
  * 在这里添加事件 
  */
 
@@ -72,7 +72,7 @@ Shape.prototype = {
     animate: function (atrribute, exp, option) {
         if (!this.aniFragListId) {
             this.aniFragListId = "af" + guid()
-            this.aniFragWraper = new AniFragWrap(this.bus,this.aniFragListId);// 一旦开始连续调用 就创建一个
+            this.aniFragWraper = new AniFragWrap(this.bus,this.aniFragListId,this);// 一旦开始连续调用 就创建一个
         }
 
 
