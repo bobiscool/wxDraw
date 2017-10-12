@@ -1170,7 +1170,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 18:07:23
+ * @Last Modified time: 2017-10-12 18:34:26
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -1195,6 +1195,7 @@ var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.object = object;
     this.oriOption = util.extend({}, object.Shape.Option); // 记录最初的样式
     this.endCallWraper = null;
+    this.firstTime = true;
 };
 
 AniFragWrap.prototype = {
@@ -1209,14 +1210,18 @@ AniFragWrap.prototype = {
     },
     exeAnimate: function exeAnimate() {
         // 执行 仓库内部 动画 
-        console.log(this.stoped);
+        // console.log(this.stoped);
+        if (this.firstTime) {
+            this.firstTime = false;
+            this.oriOption = util.extend({}, this.object.Shape.Option);
+        }
         if (this.stoped) {
             if (this.endCallWraper) {
                 this.endCallWraper.exeAnimate();
             }
             return false;
         }
-        console.log('animationPick', this.animationPick);
+        // console.log('animationPick',this.animationPick);
         if (this.fragStore[this.animationPick]) {
             this.fragStore[this.animationPick].updateAnimation();
         }
@@ -1257,10 +1262,11 @@ AniFragWrap.prototype = {
         }, this);
         this.started = false;
         this.stoped = false;
+        this.firstTime = true;
     },
     stop: function stop() {
         this.stoped = true;
-        console.log('停止');
+        // console.log('停止');
         this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId, this.object.Shapeid);
     },
     resume: function resume() {

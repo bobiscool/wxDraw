@@ -119,13 +119,13 @@ Page({
 
 
     cir3.animate({ "x": "+=200"}, {
-      duration: 5000,
+      duration: 1000,
       onLooping: function () {
          console.log('动画1');
       },
       easing: "easeTo"
     }).animate({ "x": "-=200"}, {
-      duration: 5000,
+      duration: 1000,
       onLooping: function () {
         console.log('动画1');
       },
@@ -133,16 +133,27 @@ Page({
     }).start();
 
     cir3.animate({ "y": "+=200"}, {
-      duration: 5000,
+      duration: 1000,
       onLooping: function () {
         console.log('动画2'
         
         
         );
       },
-      easing: "easeTo"
-    }).start(2);
+      easing: "linear"
+    }).start(1);
 
+
+    cir3.animate({ "rotate": "+=200" }, {
+      duration: 1000,
+      onLooping: function () {
+        console.log('动画2'
+
+
+        );
+      },
+      easing: "linear"
+    }).start(2);
 
 
     // this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))

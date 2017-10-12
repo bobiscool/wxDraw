@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 18:07:23
+ * @Last Modified time: 2017-10-12 18:34:26
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -30,6 +30,7 @@ export var AniFragWrap = function (bus, id, object) {
     this.object = object;
     this.oriOption = util.extend({}, object.Shape.Option);// 记录最初的样式
     this.endCallWraper = null;
+    this.firstTime = true;
 }
 
 AniFragWrap.prototype = {
@@ -44,22 +45,26 @@ AniFragWrap.prototype = {
     },
     exeAnimate() {
         // 执行 仓库内部 动画 
-        console.log(this.stoped);
+        // console.log(this.stoped);
+        if (this.firstTime) {
+            this.firstTime = false;
+            this.oriOption = util.extend({}, this.object.Shape.Option);
+        }
         if (this.stoped) {
-            if(this.endCallWraper){
+            if (this.endCallWraper) {
                 this.endCallWraper.exeAnimate();
-                
+
             }
             return false;
         }
-        console.log('animationPick',this.animationPick);
+        // console.log('animationPick',this.animationPick);
         if (this.fragStore[this.animationPick]) {
             this.fragStore[this.animationPick].updateAnimation();
         }
     },
     getAniOver(who) {
         this.overAni.push(who);
-        console.log('连续碎片是否完成?',this.overAni);
+        console.log('连续碎片是否完成?', this.overAni);
         if (this.overAni.length == this.fragStore.length) {// 动画执行完毕后 还有几种情况 1 直接结束
             if (this.loop) {
                 if (this.loopTimes && this.looped <= this.loopTimes) {
@@ -72,14 +77,14 @@ AniFragWrap.prototype = {
                 // 如果 没有looptime 那就无线循环
                 this.restart();
             } else {
-                
+
                 this.stop();
             }
 
 
             return false;
         };
-        this.animationPick++;        
+        this.animationPick++;
         this.fragStore[this.animationPick].updateSourceAndtarget();//更新属性
 
     },
@@ -94,18 +99,19 @@ AniFragWrap.prototype = {
         }, this);
         this.started = false;
         this.stoped = false;
+        this.firstTime = true;
     },
     stop() {
         this.stoped = true;
-        console.log('停止');
-        this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId,this.object.Shapeid);
+        // console.log('停止');
+        this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId, this.object.Shapeid);
     },
     resume() {
         // 先不要有重启
     },
     setLoop(loop, loopTimes) {
         this.loop = loop ? loop : false;//用于循环的 
-        this.loopTimes = loopTimes ? loopTimes: false;
+        this.loopTimes = loopTimes ? loopTimes : false;
         this.looped = 1;
     }
 }
