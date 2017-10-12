@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 09:44:03
+ * @Last Modified time: 2017-10-12 13:29:02
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -101,6 +101,8 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     this.onEnd = _temOption.onEnd;
     this.onLooping = _temOption.onLooping;
     this.onStart = _temOption.onStart;
+
+    this._aniWrapbus = null;
 }
 
 AnimationFrag.prototype = {
@@ -124,7 +126,11 @@ AnimationFrag.prototype = {
                 this.endCallFrag.updateSourceAndtarget();//更新 起始源  在动画叠加中 有用
                 // 更新 endcall的 source
                 this.endCallFrag.updateAnimation(); // 朝后调用
-            }
+            }//@todo 有了 wraper 这里的 超后调用就可以 拆掉了
+            
+            this._aniWrapbus.dispatch('fragAniOver','no','me');// 这里不需要传一个 特定的 东西
+            
+            
             return false;
 
         }
@@ -175,6 +181,9 @@ AnimationFrag.prototype = {
             // },this);
             this.genAtrributeList(this.atrribute);
         }
+    },
+    addWrapBus(bus){
+      this._aniWrapbus = bus;
     }
 }
 
