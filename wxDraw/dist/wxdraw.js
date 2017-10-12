@@ -59,7 +59,7 @@ Store.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:53:24
+ * @Last Modified time: 2017-10-12 14:55:43
  */
 
 var pOption = {
@@ -241,7 +241,14 @@ Polygon.prototype = {
 
         console.log(ifInside);
         return ifInside;
+    },
+
+    updateOption: function updateOption(option) {
+
+        this.Option = util.extend(option, this.Option);
+        this.bus.dispatch('update', 'no');
     }
+
 };
 
 /*
