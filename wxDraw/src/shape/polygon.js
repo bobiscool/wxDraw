@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:44:12
+ * @Last Modified time: 2017-10-12 10:49:06
  */
 
 import { util } from '../util/utils.js';
@@ -90,7 +90,7 @@ Polygon.prototype = {
             if (!this.max.minY) {
                 this.max.minY = element.y;
             }
-            if (this.max.minY && element.y) {
+            if (this.max.minY && element.y<this.max.minY) {
                 this.max.minY = element.y;
             }
         }, this);

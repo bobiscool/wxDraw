@@ -4,7 +4,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:48:00
+ * @Last Modified time: 2017-10-09 11:05:33
  * 
  * 工具库
  */
@@ -137,7 +137,7 @@ Polygon.prototype = {
             if (!this.max.minY) {
                 this.max.minY = element.y;
             }
-            if (this.max.minY && element.y<this.max.minY) {
+            if (this.max.minY && element.y) {
                 this.max.minY = element.y;
             }
         }, this);
