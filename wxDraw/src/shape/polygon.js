@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 14:55:43
+ * @Last Modified time: 2017-10-12 18:53:32
  */
 
 import { util } from '../util/utils.js';
@@ -199,9 +199,11 @@ Polygon.prototype = {
         return ifInside;
     },
     updateOption: function (option) {
-
-        this.Option = util.extend(option, this.Option);
+        console.log(option);        
+        this.Option = util.extend(this.Option,option);
+        console.log(this.Option);
         this.bus.dispatch('update', 'no');
+        return this;
     }
 
 

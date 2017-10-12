@@ -140,11 +140,14 @@ Page({
         
         );
       },
+   
       easing: "linear"
     }).start(1);
 
 
-    cir3.animate({ "rotate": "+=200" }, {
+    cir3.animate({ "rotate": "+=200",
+      rotateOrigin: [10, 200],
+     }, {
       duration: 1000,
       onLooping: function () {
         console.log('动画2'
@@ -152,10 +155,22 @@ Page({
 
         );
       },
+     
       easing: "linear"
     }).start(2);
 
+      
 
+    cir3.updateOption({rotateOrigin:[10,100]}).animate({ "rotate": "-=200" }, {
+      duration: 2000,
+      onLooping: function () {
+        console.log('动画2'
+
+
+        );
+      },
+      easing: "linear"
+    }).start(9);  
     // this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
     // this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
     // this.wxCanvas.add(new Shape('polygon', { sides:876,r:100}))
