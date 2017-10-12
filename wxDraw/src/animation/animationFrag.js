@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 09:41:48
+ * @Last Modified time: 2017-10-12 09:44:03
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -121,7 +121,7 @@ AnimationFrag.prototype = {
             this.running = false;
             if (this.endCallFrag) {
                 // console.log('朝后调用');
-                this.endCallFrag.updateSource();//更新 起始源  在动画叠加中 有用
+                this.endCallFrag.updateSourceAndtarget();//更新 起始源  在动画叠加中 有用
                 // 更新 endcall的 source
                 this.endCallFrag.updateAnimation(); // 朝后调用
             }
@@ -173,7 +173,7 @@ AnimationFrag.prototype = {
             //     item.source = this.object.Shape.Option[item.attr];
 
             // },this);
-            this.genAtrributeList();
+            this.genAtrributeList(this.atrribute);
         }
     }
 }

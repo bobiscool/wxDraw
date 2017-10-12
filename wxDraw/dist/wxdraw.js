@@ -923,7 +923,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 17:46:35
+ * @Last Modified time: 2017-10-12 09:44:03
  */
 
 var FRAGOPTION = {
@@ -993,6 +993,7 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) 
     */
 
     this.bus = bus;
+
     this.complete = false;
     this.running = false;
     this.started = false;
@@ -1005,6 +1006,7 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) 
         this.genAtrributeList(atrribute);
     } else {
         this.incre = genExe(exe, atrribute, object);
+        this.exe = exe; // 这是为了及时更新属性
     }
     // console.log(this.object);
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
@@ -1033,7 +1035,7 @@ AnimationFrag.prototype = {
             this.running = false;
             if (this.endCallFrag) {
                 // console.log('朝后调用');
-                this.endCallFrag.updateSource(); //更新 起始源  在动画叠加中 有用
+                this.endCallFrag.updateSourceAndtarget(); //更新 起始源  在动画叠加中 有用
                 // 更新 endcall的 source
                 this.endCallFrag.updateAnimation(); // 朝后调用
             }
@@ -1073,13 +1075,16 @@ AnimationFrag.prototype = {
             _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] });
         });
     },
-    updateSource: function updateSource() {
+    updateSourceAndtarget: function updateSourceAndtarget() {
         if (!this.genFlag) {
             this.source = this.object.Shape.Option[this.atrribute];
+            this.incre = genExe(this.exe, this.atrribute, this.object);
         } else {
-            this.atrributeList.forEach(function (item) {
-                item.source = this.object.Shape.Option[item.attr];
-            }, this);
+            // this.atrributeList.forEach(function(item){
+            //     item.source = this.object.Shape.Option[item.attr];
+
+            // },this);
+            this.genAtrributeList(this.atrribute);
         }
     }
 };
@@ -1088,7 +1093,7 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:28:16
+ * @Last Modified time: 2017-10-11 19:05:12
  * 在这里添加事件 
  */
 
@@ -1102,6 +1107,8 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.animtionFragList = []; // flag List
     this.bus = null;
     this.Shapeid = "sp" + guid();
+    this.animationStart = false;
+    this.aniFragListId = "";
 };
 
 Shape.prototype = {
@@ -1140,6 +1147,9 @@ Shape.prototype = {
      * @param {any} option  其他设置项目
      */
     animate: function animate(atrribute, exp, option) {
+        if (!this.aniFragListId) {
+            this.aniFragListId = "af" + guid();
+        }
         console.log("添加形状");
         // 在这里添加 动画
         // 所有的动画其实就是目标
@@ -1187,8 +1197,14 @@ Shape.prototype = {
         //    }
 
         console.log("继续调用", this);
+
         return this;
     },
+    // 动画循环
+    start: function start() {
+        this.animationStart = true;
+        this.aniFragListId = ""; // 每一段动画的id
+    }, //开始动画
     updateOption: function updateOption(option) {
         if (!this.Shape.bus) {
             this.Shape.bus = this.bus;
@@ -1415,7 +1431,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:11:21
+ * @Last Modified time: 2017-10-11 18:07:47
  * 主要 引入对象
  * 
  * 
@@ -1506,15 +1522,15 @@ WxDraw.prototype = {
 
         if (this.animation.animationFragStore[Shapeid]) {
             // 
-            console.log('已经有动画了');
+            // console.log('已经有动画了');
             this.animation.animationFragStore[Shapeid].push(AnimationOption);
         } else {
-            console.log('初始化 ');
+            // console.log('初始化 ');
 
             this.animation.animationFragStore[Shapeid] = [AnimationOption];
         }
 
-        console.log(this.animation.animationFragStore2);
+        // console.log(this.animation.animationFragStore2);
     }
 
 };

@@ -59,35 +59,41 @@ Page({
 
     var cir1 = new Shape('circle', { x: 40, y: 20, r: 20, fillStyle: "#e3e223" }, true,true)
   
-    var cir2 = new Shape('rect', { x: 20, y: 20, w: 20,h:20, fillStyle: "#e33123" }, true,true)
+    var cir2 = new Shape('rect', { x: 20, y: 20, w: 40,h:40, fillStyle: "#e33123" }, true,true)
 
     var cir3 = new Shape('polygon', {x:70,y:80,r:20,sides:5}, true, true)
 
 
     console.log(cir3);
-    // this.wxCanvas.add(cir1);
+    this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir3);
     
     // cir1.updateOption({x:100})
-    // this.wxCanvas.add(cir2);
+    this.wxCanvas.add(cir2);
     // cir2.updateOption({ x: 200 })
     // setTimeout(function(){
     //   cir2.updateOption({ x: 100 })
     // },2000);
 
     console.log(this.wxCanvas);
-    // cir1.animate({
-    //   "x":"+=100",
-    //   "y":"+=100",
-    //   "r":"+=100"
+    cir1.animate({
+      "x":"+=100",
+      "y":"+=100",
+      "r":"+=100"
 
-    // },{
-    //   duration: 4000,
-    //   onLooping: function () {
-    //     console.log('***');
-    //   },
-    //   easing: "bouncePast"
-    // });
+    },{
+      duration: 4000,
+      onLooping: function () {
+        console.log('***');
+      },
+      easing: "bouncePast"
+      }).animate({ 'rotate': Math.PI, "x": "-=20", y: 200 }, {
+        duration: 2000,
+        onLooping: function () {
+          console.log('----');
+        },
+        easing: "bouncePast"
+      });
 
 
     cir3.animate({'rotate':Math.PI,"x":"-=20",y:200}, {
@@ -96,13 +102,13 @@ Page({
           console.log('----');
         },
         easing: "bouncePast"
-    }).animate({ 'rotate': Math.PI, "x": "+=200", y: 300 }, {
+    }).animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
       duration: 2000,
       onLooping: function () {
         console.log('----');
       },
       easing: "bouncePast"
-      }).animate({ 'rotate': -1*Math.PI, "x": "-=200", y: 100 }, {
+      }).animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
         duration: 2000,
         onLooping: function () {
           console.log('----');
