@@ -1170,7 +1170,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 15:03:07
+ * @Last Modified time: 2017-10-12 16:44:06
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -1194,6 +1194,7 @@ var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.looped = 0;
     this.object = object;
     this.oriOption = util.extend({}, object.Shape.Option); // 记录最初的样式
+    this.endCallWraper = null;
 };
 
 AniFragWrap.prototype = {
@@ -1209,6 +1210,9 @@ AniFragWrap.prototype = {
     exeAnimate: function exeAnimate() {
         // 执行 仓库内部 动画 
         if (this.stoped) {
+            if (this.endCallWraper) {
+                this.endCallWraper.exeAnimate();
+            }
             return false;
         }
         console.log('animationPick', this.animationPick);
@@ -1480,7 +1484,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:52:06
+ * @Last Modified time: 2017-10-12 16:48:47
  * 动画 对象 接管所有动画
  */
 
@@ -1531,9 +1535,7 @@ Animation.prototype = {
 
         _keys.forEach(function (item) {
             var _temFragStore = this.animationFragStore[item];
-            _temFragStore.forEach(function (item, index) {
-                item.exeAnimate(); // 每个动画 容器之间是异步进行的 不需要 排队 等候
-            });
+            _temFragStore[0].exeAnimate(); // 先简单  这样执行 
         }, this);
 
         this.bus.dispatch('update', 'no'); //通知绘制更新 
@@ -1552,7 +1554,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:41:01
+ * @Last Modified time: 2017-10-12 16:46:13
  * 主要 引入对象
  * 
  * 
@@ -1656,6 +1658,7 @@ WxDraw.prototype = {
         if (this.animation.animationFragStore[Shapeid]) {
             // 
             // console.log('已经有动画了');
+            this.animation.animationFragStore[Shapeid][this.animation.animationFragStore[Shapeid].length - 1].endCallWraper = AnimationWraper;
             this.animation.animationFragStore[Shapeid].push(AnimationWraper);
         } else {
             // console.log('初始化 ');

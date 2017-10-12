@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:41:01
+ * @Last Modified time: 2017-10-12 16:46:13
  * 主要 引入对象
  * 
  * 
@@ -117,6 +117,7 @@ WxDraw.prototype = {
         if(this.animation.animationFragStore[Shapeid]){
             // 
             // console.log('已经有动画了');
+            this.animation.animationFragStore[Shapeid][this.animation.animationFragStore[Shapeid].length-1].endCallWraper  = AnimationWraper;
             this.animation.animationFragStore[Shapeid].push(AnimationWraper);
         }else{
             // console.log('初始化 ');

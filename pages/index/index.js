@@ -96,28 +96,52 @@ Page({
     // //   });
 
 
-    cir3.animate({'rotate':Math.PI,"x":"-=20",y:200}, {
-        duration: 2000,
-        onLooping: function () {
-          console.log('----');
-        },
-        easing: "bouncePast"
-    }).animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
-      duration: 2000,
+    // cir3.animate({'rotate':Math.PI,"x":"-=20",y:200}, {
+    //     duration: 2000,
+    //     onLooping: function () {
+    //       console.log('----');
+    //     },
+    //     easing: "bouncePast"
+    // }).animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
+    //   duration: 2000,
+    //   onLooping: function () {
+    //     console.log('----');
+    //   },
+    //   easing: "bouncePast"
+    //   }).animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
+    //     duration: 2000,
+    //     onLooping: function () {
+    //       console.log('----');
+    //     },
+    //     easing: "bouncePast"
+    //   }).start(5);
+
+
+
+    cir3.animate({ "x": "+=200"}, {
+      duration: 5000,
       onLooping: function () {
-        console.log('----');
+         console.log('动画1');
       },
-      easing: "bouncePast"
-      }).animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
-        duration: 2000,
-        onLooping: function () {
-          console.log('----');
-        },
-        easing: "bouncePast"
-      }).start(2);
+      easing: "easeTo"
+    }).animate({ "x": "-=200"}, {
+      duration: 5000,
+      onLooping: function () {
+        console.log('动画1');
+      },
+      easing: "easeTo"
+    }).start();
 
-
-
+    cir3.animate({ "y": "+=200"}, {
+      duration: 5000,
+      onLooping: function () {
+        console.log('动画2'
+        
+        
+        );
+      },
+      easing: "easeTo"
+    }).start(2);
 
 
 
