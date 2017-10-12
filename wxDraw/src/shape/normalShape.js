@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-10 18:32:49
+ * @Last Modified time: 2017-10-12 10:29:56
  * 普通形状
  * 
  */
@@ -155,7 +155,7 @@ Rect.prototype = {
         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
-            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+            context.rect(0, 0, this.Option.w, this.Option.h);
         } else {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
@@ -177,9 +177,9 @@ Rect.prototype = {
         context.save();
         context.beginPath();
         if (!this.Option.rotateOrigin) {
-            context.translate(this.Option.x, this.Option.y);
+            context.translate(this.Option.x+this.Option.w/2, this.Option.y+this.Option.h/2);// 坐标原点变为 矩形 中心
             context.rotate(this.Option.rotate);
-            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+            context.rect(-this.Option.w/2, -this.Option.h/2, this.Option.w, this.Option.h);
         } else {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
@@ -199,7 +199,11 @@ Rect.prototype = {
         this.Option.y = y;
     },
     detected: function (x, y) {
+        console.log('检测方块',x,y);
+        console.log('方块',this.Option);
         var _self = this;
+        
+        console.log('方块',_self.Option.x , x ,_self.Option.y , y , (_self.Option.y + _self.Option.h) , y , (_self.Option.x + _self.Option.w),x);
         if (_self.Option.x < x && _self.Option.y < y && (_self.Option.y + _self.Option.h) > y && (_self.Option.x + _self.Option.w) > x) {
             this._offsetX = x - _self.Option.x;
             this._offsetY = y - _self.Option.y;

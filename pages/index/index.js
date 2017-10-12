@@ -65,8 +65,8 @@ Page({
 
 
     console.log(cir3);
-    this.wxCanvas.add(cir1);
-    this.wxCanvas.add(cir3);
+    // this.wxCanvas.add(cir1);
+    // this.wxCanvas.add(cir3);
     
     // cir1.updateOption({x:100})
     this.wxCanvas.add(cir2);
@@ -76,45 +76,45 @@ Page({
     // },2000);
 
     console.log(this.wxCanvas);
-    cir1.animate({
-      "x":"+=100",
-      "y":"+=100",
-      "r":"+=100"
+    // cir1.animate({
+    //   "x":"+=100",
+    //   "y":"+=100",
+    //   "r":"+=100"
 
-    },{
-      duration: 4000,
-      onLooping: function () {
-        console.log('***');
-      },
-      easing: "bouncePast"
-      }).animate({ 'rotate': Math.PI, "x": "-=20", y: 200 }, {
-        duration: 2000,
-        onLooping: function () {
-          console.log('----');
-        },
-        easing: "bouncePast"
-      });
+    // },{
+    //   duration: 4000,
+    //   onLooping: function () {
+    //     console.log('***');
+    //   },
+    //   easing: "bouncePast"
+    //   }).animate({ 'rotate': Math.PI, "x": "-=20", y: 200 }, {
+    //     duration: 2000,
+    //     onLooping: function () {
+    //       console.log('----');
+    //     },
+    //     easing: "bouncePast"
+    //   });
 
 
-    cir3.animate({'rotate':Math.PI,"x":"-=20",y:200}, {
-        duration: 2000,
-        onLooping: function () {
-          console.log('----');
-        },
-        easing: "bouncePast"
-    }).animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
-      duration: 2000,
-      onLooping: function () {
-        console.log('----');
-      },
-      easing: "bouncePast"
-      }).animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
-        duration: 2000,
-        onLooping: function () {
-          console.log('----');
-        },
-        easing: "bouncePast"
-      });
+    // cir3.animate({'rotate':Math.PI,"x":"-=20",y:200}, {
+    //     duration: 2000,
+    //     onLooping: function () {
+    //       console.log('----');
+    //     },
+    //     easing: "bouncePast"
+    // }).animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
+    //   duration: 2000,
+    //   onLooping: function () {
+    //     console.log('----');
+    //   },
+    //   easing: "bouncePast"
+    //   }).animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
+    //     duration: 2000,
+    //     onLooping: function () {
+    //       console.log('----');
+    //     },
+    //     easing: "bouncePast"
+    //   });
 
 
 
