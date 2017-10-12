@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:42:23
+ * @Last Modified time: 2017-10-12 11:02:23
  * 普通形状
  * 
  */
@@ -56,18 +56,7 @@ Circle.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
-        if (!this.Option.rotateOrigin) {
-            context.translate(this.Option.x, this.Option.y);
-            context.rotate(this.Option.rotate);
-            context.arc(0, 0, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
-        } else {
-            /**
-             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-             */
-            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
-            context.rotate(this.Option.rotate);
-            context.arc(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
-        }
+        this._draw(context);
         context.closePath();
         context.setStrokeStyle(this.Option.strokeStyle)
 
@@ -78,6 +67,13 @@ Circle.prototype = {
     fill: function (context) {
         context.save();
         context.beginPath();
+        this._draw(context);
+        context.closePath();
+        context.setFillStyle(this.Option.fillStyle);
+        context.fill();
+        context.restore();
+    },
+    _draw: function (context) {
         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
@@ -90,11 +86,6 @@ Circle.prototype = {
             context.rotate(this.Option.rotate);
             context.arc(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         }
-
-        context.closePath();
-        context.setFillStyle(this.Option.fillStyle);
-        context.fill();
-        context.restore();
     },
     move: function (x, y) {
         // console.log('move', x, y);
