@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 11:19:30
+ * @Last Modified time: 2017-10-12 13:41:01
  * 主要 引入对象
  * 
  * 
@@ -97,7 +97,19 @@ WxDraw.prototype = {
     AnimationCenter:function(){
       
     },
-    addAnimationFrag:function(AnimationOption,Shapeid){
+    /**
+     * 更新动画 
+     * 每次创建的都是动画碎片
+     * - 创建完整的动画包裹容器
+     * - 创建动画碎片
+     * 先是 创建容器 
+     * 然后创建碎片
+     * 只在start的时候 将其推送到动画空间里面 
+     * 
+     * @param {any} AnimationWraper  创建好的动画容器
+     * @param {any} Shapeid  id
+     */
+    addAnimationFrag:function(AnimationWraper,Shapeid){
         // console.log(AnimationOption);
         // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
@@ -105,11 +117,11 @@ WxDraw.prototype = {
         if(this.animation.animationFragStore[Shapeid]){
             // 
             // console.log('已经有动画了');
-            this.animation.animationFragStore[Shapeid].push(AnimationOption);
+            this.animation.animationFragStore[Shapeid].push(AnimationWraper);
         }else{
             // console.log('初始化 ');
             
-            this.animation.animationFragStore[Shapeid] = [AnimationOption];
+            this.animation.animationFragStore[Shapeid] = [AnimationWraper];
         }
 
         // console.log(this.animation.animationFragStore2);

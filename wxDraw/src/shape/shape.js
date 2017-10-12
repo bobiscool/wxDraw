@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 19:05:12
+ * @Last Modified time: 2017-10-12 13:30:31
  * 在这里添加事件 
  */
 
@@ -71,6 +71,7 @@ Shape.prototype = {
         if(!this.aniFragListId){
             this.aniFragListId = "af"+guid()
         }
+        
         console.log("添加形状")
         // 在这里添加 动画
         // 所有的动画其实就是目标

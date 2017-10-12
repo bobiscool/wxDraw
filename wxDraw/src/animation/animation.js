@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 11:11:12
+ * @Last Modified time: 2017-10-12 13:33:27
  * 动画 对象 接管所有动画
  */
 
@@ -71,7 +71,7 @@ Animation.prototype = {
 
 
 
-        this.bus.dispatch('update', 'no');//通知更新 
+        this.bus.dispatch('update', 'no');//通知绘制更新 
     },
     animationComplete:function(who){
         console.log('who',who);
