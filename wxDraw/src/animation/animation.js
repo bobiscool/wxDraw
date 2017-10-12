@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 17:55:31
+ * @Last Modified time: 2017-10-12 18:02:13
  * 动画 对象 接管所有动画
  */
 
@@ -20,8 +20,8 @@ export const Animation = function (bus) {
     this.animationFragStore = {};// 动画碎片仓库 存储 所有 动画 
     this.animationCompleteList = [];// 动画完成清单
     this.wraperAniCompleteOb = {}; //每一个包裹的 动画是否完成
-    this.bus.add('animationComplete',this,this.animationComplete);// 添加动画事件 
-    this.bus.add('wraperAniComplete',this,this.wraperAniComplete);// 添加动画事件 
+    this.bus.add('animationComplete', this, this.animationComplete);// 添加动画事件 
+    this.bus.add('wraperAniComplete', this, this.wraperAniComplete);// 添加动画事件 
 
 
     //    this.animationFragStore2 = {};
@@ -62,7 +62,6 @@ Animation.prototype = {
 
         _keys.forEach(function (item) {
             let _temFragStore = this.animationFragStore[item];
-            
             _temFragStore[0].exeAnimate(); // 先简单  这样顺序执行 
         }, this);
 
@@ -70,26 +69,28 @@ Animation.prototype = {
 
         this.bus.dispatch('update', 'no');//通知绘制更新 
     },
-    animationComplete:function(who){
+    animationComplete: function (who) {
         // console.log('who',who,this.animationCompleteList);
-    //   this.animationCompleteList.push(who);
-      if(Object.keys(this.wraperAniCompleteOb).length===Object.keys(this.animationFragStore).length){
-          this.running = false;// 动画执行 结束
-          console.log('结束动画')
-      }
+          this.animationCompleteList.push(who);
+        if (Object.keys(this.wraperAniCompleteOb).length === Object.keys(this.animationFragStore).length) {
+            this.running = false;// 动画执行 结束
+            console.log('结束动画')
+        }
     },
-    wraperAniComplete:function(afID,shaId){ 
-       console.log(afID,shaId);
-       if(this.wraperAniCompleteOb[shaId]){
-           console.log('shaId', this.wraperAniCompleteOb[shaId].length,this.animationFragStore[shaId].length);
-           this.wraperAniCompleteOb[shaId].push(afID);
-           if( this.wraperAniCompleteOb[shaId].length === this.animationFragStore[shaId].length){
-               this.bus.dispatch('animationComplete','no',shaId);// 某一个物件的动画完成
-           }
-       }else{
-           this.wraperAniCompleteOb[shaId]=[afID]; // 用于检测吗每一个shape的动画是否完成
-       }
+    wraperAniComplete: function (afID, shaId) {
+        console.log(afID, shaId);
+        if (this.wraperAniCompleteOb[shaId]) {
+            this.wraperAniCompleteOb[shaId].push(afID);
 
-       console.log('wraperAniComplete',this.wraperAniCompleteOb);
+        } else {
+            this.wraperAniCompleteOb[shaId] = [afID]; // 用于检测吗每一个shape的动画是否完成
+        }
+
+        // console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
+         
+        if (this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length) {
+            this.bus.dispatch('animationComplete', 'no', shaId);// 某一个物件的动画完成
+        }
+        console.log('wraperAniComplete', this.wraperAniCompleteOb);
     }
 }

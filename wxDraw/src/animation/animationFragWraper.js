@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 17:50:31
+ * @Last Modified time: 2017-10-12 18:06:08
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -44,6 +44,7 @@ AniFragWrap.prototype = {
     },
     exeAnimate() {
         // 执行 仓库内部 动画 
+        console.log(this.stoped);
         if (this.stoped) {
             if(this.endCallWraper){
                 this.endCallWraper.exeAnimate();
@@ -71,6 +72,7 @@ AniFragWrap.prototype = {
                 // 如果 没有looptime 那就无线循环
                 this.restart();
             } else {
+                
                 this.stop();
             }
 
@@ -95,6 +97,7 @@ AniFragWrap.prototype = {
     },
     stop() {
         this.stop = true;
+        console.log('停止');
         this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId,this.object.Shapeid);
     },
     resume() {

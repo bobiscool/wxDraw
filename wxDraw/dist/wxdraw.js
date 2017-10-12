@@ -1170,7 +1170,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 17:50:31
+ * @Last Modified time: 2017-10-12 18:03:56
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -1209,6 +1209,7 @@ AniFragWrap.prototype = {
     },
     exeAnimate: function exeAnimate() {
         // 执行 仓库内部 动画 
+        console.log(this.stoped);
         if (this.stoped) {
             if (this.endCallWraper) {
                 this.endCallWraper.exeAnimate();
@@ -1484,7 +1485,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 17:36:00
+ * @Last Modified time: 2017-10-12 18:02:13
  * 动画 对象 接管所有动画
  */
 
@@ -1537,7 +1538,6 @@ Animation.prototype = {
 
         _keys.forEach(function (item) {
             var _temFragStore = this.animationFragStore[item];
-
             _temFragStore[0].exeAnimate(); // 先简单  这样顺序执行 
         }, this);
 
@@ -1545,7 +1545,7 @@ Animation.prototype = {
     },
     animationComplete: function animationComplete(who) {
         // console.log('who',who,this.animationCompleteList);
-        //   this.animationCompleteList.push(who);
+        this.animationCompleteList.push(who);
         if (Object.keys(this.wraperAniCompleteOb).length === Object.keys(this.animationFragStore).length) {
             this.running = false; // 动画执行 结束
             console.log('结束动画');
@@ -1554,15 +1554,16 @@ Animation.prototype = {
     wraperAniComplete: function wraperAniComplete(afID, shaId) {
         console.log(afID, shaId);
         if (this.wraperAniCompleteOb[shaId]) {
-            console.log('shaId', shaId);
             this.wraperAniCompleteOb[shaId].push(afID);
-            if (this.wraperAniCompleteOb[shaId].length === this.animationFragStore[shaId].length) {
-                this.bus.dispatch('animationComplete', 'no', shaId); // 某一个物件的动画完成
-            }
         } else {
             this.wraperAniCompleteOb[shaId] = [afID]; // 用于检测吗每一个shape的动画是否完成
         }
 
+        // console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
+
+        if (this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length) {
+            this.bus.dispatch('animationComplete', 'no', shaId); // 某一个物件的动画完成
+        }
         console.log('wraperAniComplete', this.wraperAniCompleteOb);
     }
 };
