@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:53:24
+ * @Last Modified time: 2017-10-12 14:55:43
  */
 
 import { util } from '../util/utils.js';
@@ -90,7 +90,7 @@ Polygon.prototype = {
             if (!this.max.minY) {
                 this.max.minY = element.y;
             }
-            if (this.max.minY && element.y<this.max.minY) {
+            if (this.max.minY && element.y < this.max.minY) {
                 this.max.minY = element.y;
             }
         }, this);
@@ -122,9 +122,9 @@ Polygon.prototype = {
         context.fill();
         context.restore();
     },
-    _draw:function(context){
-       this.getMax();
-       if (!this.Option.rotateOrigin) {
+    _draw: function (context) {
+        this.getMax();
+        if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
             this.createPath(context, 0, 0);
@@ -197,6 +197,11 @@ Polygon.prototype = {
 
         console.log(ifInside);
         return ifInside;
+    },
+    updateOption: function (option) {
+
+        this.Option = util.extend(option, this.Option);
+        this.bus.dispatch('update', 'no');
     }
 
 
