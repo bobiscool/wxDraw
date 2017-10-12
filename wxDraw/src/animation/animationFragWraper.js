@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:17:10
+ * @Last Modified time: 2017-10-12 13:21:09
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  */
@@ -31,11 +31,12 @@ AniFragWrap.prototype = {
     },
     exeAnimate(){
         // 执行 仓库内部 动画 
-        this.fragStore[0].updateAnimation();
+        this.fragStore[this.animationPick].updateAnimation();
         // 这里每一次都这么执行不太好 
     },
     getAniOver(who){
       this.overAni.push(who);
+      this.animationPick ++;
     }
 }
 
