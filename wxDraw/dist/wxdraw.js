@@ -4,7 +4,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 11:05:33
+ * @Last Modified time: 2017-10-12 10:48:00
  * 
  * 工具库
  */
@@ -59,7 +59,7 @@ Store.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:35:25
+ * @Last Modified time: 2017-10-12 10:44:12
  */
 
 var pOption = {
@@ -101,7 +101,7 @@ Polygon.prototype = {
 
         // console.log('Option',this.Option);
         //每次getPoints 要刷新max
-        console.log('init xy', x, y);
+        // console.log('init xy', x, y);
 
         for (var i = 0; i < this.Option.sides; ++i) {
             points.push(new Point(x + this.Option.r * Math.sin(angle), y - this.Option.r * Math.cos(angle)));
@@ -137,7 +137,7 @@ Polygon.prototype = {
             if (!this.max.minY) {
                 this.max.minY = element.y;
             }
-            if (this.max.minY && element.y) {
+            if (this.max.minY && element.y<this.max.minY) {
                 this.max.minY = element.y;
             }
         }, this);
@@ -199,6 +199,7 @@ Polygon.prototype = {
         // pnpoly 算法区域
 
         // 首先找到 最大x 最小x 最大y 最小y
+        console.log('多边形点击', x, y, this.max);
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             console.log('点中');
@@ -254,7 +255,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:38:54
+ * @Last Modified time: 2017-10-12 10:42:23
  * 普通形状
  * 
  */
@@ -428,11 +429,11 @@ Rect.prototype = {
         this.Option.y = y;
     },
     detected: function detected(x, y) {
-        console.log('检测方块', x, y);
-        console.log('方块', this.Option);
+        // console.log('检测方块', x, y);
+        // console.log('方块', this.Option);
         var _self = this;
 
-        console.log('方块', _self.Option.x, x, _self.Option.y, y, _self.Option.y + _self.Option.h, y, _self.Option.x + _self.Option.w, x);
+        // console.log('方块', _self.Option.x, x, _self.Option.y, y, (_self.Option.y + _self.Option.h), y, (_self.Option.x + _self.Option.w), x);
         if (_self.Option.x < x && _self.Option.y < y && _self.Option.y + _self.Option.h > y && _self.Option.x + _self.Option.w > x) {
             this._offsetX = x - _self.Option.x;
             this._offsetY = y - _self.Option.y;

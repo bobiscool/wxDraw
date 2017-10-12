@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:35:25
+ * @Last Modified time: 2017-10-12 10:44:12
  */
 
 import { util } from '../util/utils.js';
@@ -52,7 +52,7 @@ Polygon.prototype = {
 
         // console.log('Option',this.Option);
         //每次getPoints 要刷新max
-        console.log('init xy', x, y);
+        // console.log('init xy', x, y);
 
         for (var i = 0; i < this.Option.sides; ++i) {
             points.push(new Point(x + this.Option.r * Math.sin(angle), y - this.Option.r * Math.cos(angle)));
@@ -154,6 +154,7 @@ Polygon.prototype = {
         // pnpoly 算法区域
 
         // 首先找到 最大x 最小x 最大y 最小y
+        console.log('多边形点击',x,y,this.max)
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             console.log('点中');

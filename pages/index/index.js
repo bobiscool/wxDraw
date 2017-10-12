@@ -69,7 +69,7 @@ Page({
     this.wxCanvas.add(cir3);
     
     // cir1.updateOption({x:100})
-    this.wxCanvas.add(cir2);
+    // this.wxCanvas.add(cir2);
     // cir2.updateOption({ x: 200 })
     // setTimeout(function(){
     //   cir2.updateOption({ x: 100 })

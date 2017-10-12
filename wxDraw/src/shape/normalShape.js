@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:38:54
+ * @Last Modified time: 2017-10-12 10:42:23
  * 普通形状
  * 
  */
@@ -189,11 +189,11 @@ Rect.prototype = {
         this.Option.y = y;
     },
     detected: function (x, y) {
-        console.log('检测方块', x, y);
-        console.log('方块', this.Option);
+        // console.log('检测方块', x, y);
+        // console.log('方块', this.Option);
         var _self = this;
 
-        console.log('方块', _self.Option.x, x, _self.Option.y, y, (_self.Option.y + _self.Option.h), y, (_self.Option.x + _self.Option.w), x);
+        // console.log('方块', _self.Option.x, x, _self.Option.y, y, (_self.Option.y + _self.Option.h), y, (_self.Option.x + _self.Option.w), x);
         if (_self.Option.x < x && _self.Option.y < y && (_self.Option.y + _self.Option.h) > y && (_self.Option.x + _self.Option.w) > x) {
             this._offsetX = x - _self.Option.x;
             this._offsetY = y - _self.Option.y;
