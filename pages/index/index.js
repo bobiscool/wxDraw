@@ -96,13 +96,19 @@ Page({
           console.log('----');
         },
         easing: "bouncePast"
-    }).animate({ 'rotate': Math.PI, "x": "+=200", y: 700 }, {
+    }).animate({ 'rotate': Math.PI, "x": "+=200", y: 300 }, {
       duration: 2000,
       onLooping: function () {
         console.log('----');
       },
       easing: "bouncePast"
-    });
+      }).animate({ 'rotate': -1*Math.PI, "x": "-=200", y: 100 }, {
+        duration: 2000,
+        onLooping: function () {
+          console.log('----');
+        },
+        easing: "bouncePast"
+      });
 
 
 

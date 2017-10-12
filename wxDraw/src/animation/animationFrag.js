@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 18:16:17
+ * @Last Modified time: 2017-10-12 09:41:48
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -26,10 +26,10 @@ var FRAGOPTION = {
 }
 
 function genExe(exe, atrribute, object) {
-    console.log('exe',exe);
+    console.log('exe', exe);
     if (!isNaN(Number(exe))) {
-        let temAtrr =  parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
-        console.log('temAtrr',temAtrr);
+        let temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
+        console.log('temAtrr', temAtrr);
         return temAtrr;
     }
 
@@ -77,7 +77,7 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
   * 先把a出来
   * 
   */
-   
+
     this.bus = bus;
 
     this.complete = false;
@@ -86,12 +86,13 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     this.duration = _temOption.duration;
     this.atrribute = atrribute;
     this.atrributeList = [];// 如果atrribute是对象的形式
-     if (typeof atrribute == "object") {
+    if (typeof atrribute == "object") {
         this.genFlag = true;
-        
+
         this.genAtrributeList(atrribute);
     } else {
-        this.incre = genExe(exe, atrribute, object)
+        this.incre = genExe(exe, atrribute, object);
+        this.exe = exe;// 这是为了及时更新属性
     }
     // console.log(this.object);
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
@@ -147,10 +148,10 @@ AnimationFrag.prototype = {
         // console.log('cx', this.object.Shape[this.atrribute]);
         if (!this.genFlag) {
             this.object.Shape.Option[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
-        }else{
-            this.atrributeList.forEach(function(item){
+        } else {
+            this.atrributeList.forEach(function (item) {
                 this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
-            },this);
+            }, this);
         }
     },
     genAtrributeList: function (atrribute) {
@@ -163,13 +164,16 @@ AnimationFrag.prototype = {
         });
 
     },
-    updateSource:function(){
-          if (!this.genFlag) {
+    updateSourceAndtarget: function () {
+        if (!this.genFlag) {
             this.source = this.object.Shape.Option[this.atrribute];
-        }else{
-            this.atrributeList.forEach(function(item){
-                item.source = this.object.Shape.Option[item.attr];
-            },this);
+            this.incre = genExe(this.exe, this.atrribute, this.object);
+        } else {
+            // this.atrributeList.forEach(function(item){
+            //     item.source = this.object.Shape.Option[item.attr];
+
+            // },this);
+            this.genAtrributeList();
         }
     }
 }
