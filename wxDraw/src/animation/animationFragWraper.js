@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 16:51:35
+ * @Last Modified time: 2017-10-12 17:13:32
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -96,7 +96,7 @@ AniFragWrap.prototype = {
     },
     stop() {
         this.stop = true;
-        this.bus.dispatch('animationComplete', 'no', this.aniFragListId);
+        this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId,this.object.Shapeid);
     },
     resume() {
         // 先不要有重启
