@@ -1270,7 +1270,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 14:33:31
+ * @Last Modified time: 2017-10-12 14:58:53
  * 在这里添加事件 
  */
 
@@ -1383,10 +1383,16 @@ Shape.prototype = {
         return this;
     },
     // 动画循环
-    start: function start(a, b) {
+    start: function start(a) {
         this.animationStart = true;
         if (this.aniFragWraper) {
-            this.aniFragWraper.setLoop(a, b); //设置循环
+            if (a === true) {
+                this.aniFragWraper.setLoop(a); //设置循环                
+            }
+
+            if (typeof a === 'number') {
+                this.aniFragWraper.setLoop(true, a);
+            }
             this.bus.dispatch('addAnimation', "no", this.aniFragWraper, this.Shapeid);
             this.aniFragListId = ""; // 每一段动画的id
             this.aniFragWraper = null; // 每一段动画的id

@@ -114,7 +114,7 @@ Page({
           console.log('----');
         },
         easing: "bouncePast"
-      }).start(true,8);
+      }).start(1);
 
 
 
