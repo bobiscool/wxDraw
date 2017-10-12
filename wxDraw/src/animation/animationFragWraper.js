@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 16:44:06
+ * @Last Modified time: 2017-10-12 16:51:35
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -47,6 +47,7 @@ AniFragWrap.prototype = {
         if (this.stoped) {
             if(this.endCallWraper){
                 this.endCallWraper.exeAnimate();
+                
             }
             return false;
         }

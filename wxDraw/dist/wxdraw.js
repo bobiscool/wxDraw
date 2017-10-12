@@ -1170,7 +1170,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 16:44:06
+ * @Last Modified time: 2017-10-12 16:51:35
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -1484,7 +1484,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 16:48:47
+ * @Last Modified time: 2017-10-12 16:57:04
  * 动画 对象 接管所有动画
  */
 
@@ -1535,13 +1535,13 @@ Animation.prototype = {
 
         _keys.forEach(function (item) {
             var _temFragStore = this.animationFragStore[item];
-            _temFragStore[0].exeAnimate(); // 先简单  这样执行 
+            _temFragStore[0].exeAnimate(); // 先简单  这样顺序执行 
         }, this);
 
         this.bus.dispatch('update', 'no'); //通知绘制更新 
     },
     animationComplete: function animationComplete(who) {
-        console.log('who', who);
+        console.log('who', who, this.animationCompleteList);
         this.animationCompleteList.push(who);
         if (this.animationCompleteList.length === Object.keys(this.animationFragStore).length) {
             this.running = false; // 动画执行 结束
