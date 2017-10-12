@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:29:56
+ * @Last Modified time: 2017-10-12 10:38:54
  * 普通形状
  * 
  */
@@ -90,7 +90,7 @@ Circle.prototype = {
             context.rotate(this.Option.rotate);
             context.arc(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         }
-        
+
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
         context.fill();
@@ -140,7 +140,7 @@ Circle.prototype = {
 
 export const Rect = function (option) {
     var _temOption = util.extend(option, rOption);
-    console.log(_temOption);
+    // console.log(_temOption);
     this.Option = _temOption;
     this._isChoosed = false;
     this._offsetX = 0;
@@ -152,21 +152,8 @@ Rect.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
-        if (!this.Option.rotateOrigin) {
-            context.translate(this.Option.x, this.Option.y);
-            context.rotate(this.Option.rotate);
-            context.rect(0, 0, this.Option.w, this.Option.h);
-        } else {
-            /**
-             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-             */
-            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
-            context.rotate(this.Option.rotate);
-            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
-        }
 
-        context.rotate(this.Option.rotate);
-        context.rect(this.Option.x, this.Option.y, this.Option.w, this.Option.h);
+        this._draw(context);
         context.closePath();
         context.setStrokeStyle(this.Option.strokeStyle)
         context.stroke();
@@ -176,10 +163,18 @@ Rect.prototype = {
     fill: function (context) {
         context.save();
         context.beginPath();
+
+        this._draw(context);
+        context.closePath();
+        context.setFillStyle(this.Option.fillStyle);
+        context.fill();
+        context.restore();
+    },
+    _draw: function (context) {
         if (!this.Option.rotateOrigin) {
-            context.translate(this.Option.x+this.Option.w/2, this.Option.y+this.Option.h/2);// 坐标原点变为 矩形 中心
+            context.translate(this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2);// 坐标原点变为 矩形 中心
             context.rotate(this.Option.rotate);
-            context.rect(-this.Option.w/2, -this.Option.h/2, this.Option.w, this.Option.h);
+            context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
         } else {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
@@ -188,22 +183,17 @@ Rect.prototype = {
             context.rotate(this.Option.rotate);
             context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
-
-        context.closePath();
-        context.setFillStyle(this.Option.fillStyle);
-        context.fill();
-        context.restore();
     },
     move: function (x, y) {
         this.Option.x = x;
         this.Option.y = y;
     },
     detected: function (x, y) {
-        console.log('检测方块',x,y);
-        console.log('方块',this.Option);
+        console.log('检测方块', x, y);
+        console.log('方块', this.Option);
         var _self = this;
-        
-        console.log('方块',_self.Option.x , x ,_self.Option.y , y , (_self.Option.y + _self.Option.h) , y , (_self.Option.x + _self.Option.w),x);
+
+        console.log('方块', _self.Option.x, x, _self.Option.y, y, (_self.Option.y + _self.Option.h), y, (_self.Option.x + _self.Option.w), x);
         if (_self.Option.x < x && _self.Option.y < y && (_self.Option.y + _self.Option.h) > y && (_self.Option.x + _self.Option.w) > x) {
             this._offsetX = x - _self.Option.x;
             this._offsetY = y - _self.Option.y;

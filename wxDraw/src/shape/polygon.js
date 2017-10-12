@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 15:45:34
+ * @Last Modified time: 2017-10-12 10:35:25
  */
 
 import { util } from '../util/utils.js';
@@ -140,7 +140,7 @@ Polygon.prototype = {
             context.rotate(this.Option.rotate);
             this.createPath(context, this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1])
         }
-        context.setStrokeStyle(this.Option.fillStyle);
+        context.setFillStyle(this.Option.fillStyle);
         context.fill();
         context.restore();
     },

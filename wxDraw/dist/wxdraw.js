@@ -59,7 +59,7 @@ Store.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-11 15:45:34
+ * @Last Modified time: 2017-10-12 10:35:25
  */
 
 var pOption = {
@@ -185,7 +185,7 @@ Polygon.prototype = {
             context.rotate(this.Option.rotate);
             this.createPath(context, this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1]);
         }
-        context.setStrokeStyle(this.Option.fillStyle);
+        context.setFillStyle(this.Option.fillStyle);
         context.fill();
         context.restore();
     },
@@ -254,7 +254,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 10:29:56
+ * @Last Modified time: 2017-10-12 10:38:54
  * 普通形状
  * 
  */
@@ -379,7 +379,7 @@ Circle.prototype = {
 
 };var Rect = function Rect(option) {
     var _temOption = util.extend(option, rOption);
-    console.log(_temOption);
+    // console.log(_temOption);
     this.Option = _temOption;
     this._isChoosed = false;
     this._offsetX = 0;
@@ -391,21 +391,8 @@ Rect.prototype = {
     stroke: function stroke(context) {
         context.save();
         context.beginPath();
-        if (!this.Option.rotateOrigin) {
-            context.translate(this.Option.x, this.Option.y);
-            context.rotate(this.Option.rotate);
-            context.rect(0, 0, this.Option.w, this.Option.h);
-        } else {
-            /**
-             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-             */
-            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
-            context.rotate(this.Option.rotate);
-            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
-        }
 
-        context.rotate(this.Option.rotate);
-        context.rect(this.Option.x, this.Option.y, this.Option.w, this.Option.h);
+        this._draw(context);
         context.closePath();
         context.setStrokeStyle(this.Option.strokeStyle);
         context.stroke();
@@ -415,6 +402,14 @@ Rect.prototype = {
     fill: function fill(context) {
         context.save();
         context.beginPath();
+
+        this._draw(context);
+        context.closePath();
+        context.setFillStyle(this.Option.fillStyle);
+        context.fill();
+        context.restore();
+    },
+    _draw: function _draw(context) {
         if (!this.Option.rotateOrigin) {
             context.translate(this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2); // 坐标原点变为 矩形 中心
             context.rotate(this.Option.rotate);
@@ -427,11 +422,6 @@ Rect.prototype = {
             context.rotate(this.Option.rotate);
             context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
         }
-
-        context.closePath();
-        context.setFillStyle(this.Option.fillStyle);
-        context.fill();
-        context.restore();
     },
     move: function move(x, y) {
         this.Option.x = x;
@@ -1363,7 +1353,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 18:47:46
+ * @Last Modified time: 2017-10-12 10:34:53
  * 事件对象
  * 
  */
