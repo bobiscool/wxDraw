@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 13:46:03
+ * @Last Modified time: 2017-10-12 13:49:58
  * 在这里添加事件 
  */
 
@@ -75,6 +75,7 @@ Shape.prototype = {
             this.aniFragWraper = new AniFragWrap(this.bus,this.aniFragListId);// 一旦开始连续调用 就创建一个
         }
 
+
         console.log("添加形状")
         // 在这里添加 动画
         // 所有的动画其实就是目标
@@ -114,6 +115,9 @@ Shape.prototype = {
         } else {
             _temFrag = new AnimationFrag(this, atrribute, arguments[1], arguments[2], this.bus);
         }
+
+        this.aniFragWraper.updateFrag(_temFrag);// 动画容器包裹动画
+        
         //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
 
         //    console.log('添加形状',this.bus);
@@ -131,9 +135,14 @@ Shape.prototype = {
     // 动画循环
     start: function () {
         this.animationStart = true;
-        this.bus.dispatch('addAnimation', "no", this.aniFragWraper, this.Shapeid);
+        if(this.aniFragWraper){
+    this.bus.dispatch('addAnimation', "no", this.aniFragWraper, this.Shapeid);
         this.aniFragListId = "";// 每一段动画的id
         this.aniFragWraper = null;// 每一段动画的id
+        }else{
+            console.log('未添加动画对象');
+        }
+    
     },//开始动画
     updateOption: function (option) {
         if (!this.Shape.bus) {
