@@ -74,11 +74,325 @@ Store.prototype = {
 
 };
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
+
+
+
+
+var asyncGenerator = function () {
+  function AwaitValue(value) {
+    this.value = value;
+  }
+
+  function AsyncGenerator(gen) {
+    var front, back;
+
+    function send(key, arg) {
+      return new Promise(function (resolve, reject) {
+        var request = {
+          key: key,
+          arg: arg,
+          resolve: resolve,
+          reject: reject,
+          next: null
+        };
+
+        if (back) {
+          back = back.next = request;
+        } else {
+          front = back = request;
+          resume(key, arg);
+        }
+      });
+    }
+
+    function resume(key, arg) {
+      try {
+        var result = gen[key](arg);
+        var value = result.value;
+
+        if (value instanceof AwaitValue) {
+          Promise.resolve(value.value).then(function (arg) {
+            resume("next", arg);
+          }, function (arg) {
+            resume("throw", arg);
+          });
+        } else {
+          settle(result.done ? "return" : "normal", result.value);
+        }
+      } catch (err) {
+        settle("throw", err);
+      }
+    }
+
+    function settle(type, value) {
+      switch (type) {
+        case "return":
+          front.resolve({
+            value: value,
+            done: true
+          });
+          break;
+
+        case "throw":
+          front.reject(value);
+          break;
+
+        default:
+          front.resolve({
+            value: value,
+            done: false
+          });
+          break;
+      }
+
+      front = front.next;
+
+      if (front) {
+        resume(front.key, front.arg);
+      } else {
+        back = null;
+      }
+    }
+
+    this._invoke = send;
+
+    if (typeof gen.return !== "function") {
+      this.return = undefined;
+    }
+  }
+
+  if (typeof Symbol === "function" && Symbol.asyncIterator) {
+    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
+      return this;
+    };
+  }
+
+  AsyncGenerator.prototype.next = function (arg) {
+    return this._invoke("next", arg);
+  };
+
+  AsyncGenerator.prototype.throw = function (arg) {
+    return this._invoke("throw", arg);
+  };
+
+  AsyncGenerator.prototype.return = function (arg) {
+    return this._invoke("return", arg);
+  };
+
+  return {
+    wrap: function (fn) {
+      return function () {
+        return new AsyncGenerator(fn.apply(this, arguments));
+      };
+    },
+    await: function (value) {
+      return new AwaitValue(value);
+    }
+  };
+}();
+
+
+
+
+
+var classCallCheck = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+var createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var toConsumableArray = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  } else {
+    return Array.from(arr);
+  }
+};
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-10-13 15:36:50 
+ * @Last Modified by:   Thunderball.Wu 
+ * @Last Modified time: 2017-10-13 15:36:50 \
+ * 图形变换 还是得用矩阵
+ * 所以 强忍着恶心写了一个矩阵计算。。
+ * 以下用es6语法的形式书写
+ * 
+ */
+
+var Matrix = function () {
+    /**
+     * Creates an instance of Matrix.
+     * @param {any} PointsArray 矩阵数组
+     * @memberof Matrix
+     */
+    function Matrix(PointsArray) {
+        classCallCheck(this, Matrix);
+
+        this.m = PointsArray.length;
+        this.n = PointsArray[0].length; //获取矩阵的 m x n
+        this.matrixArray = PointsArray;
+    }
+
+    createClass(Matrix, [{
+        key: 'multi',
+        value: function multi(matrix) {
+            //矩阵乘法
+            var Points = [];
+            if (matrix.m == this.n) {
+
+                this.matrixArray.forEach(function (everyM, _index) {
+                    //将每一行拎出来
+                    // 好久没接触过 矩阵，。。头都写大了。。。
+                    // console.log(everyM);
+                    Points.push([]);
+                    // console.log(matrix.n);
+                    for (var i = 0; i < matrix.n; i++) {
+                        //要乘多少次
+                        // 拿到这一列所有 其实这一列所有 就是 
+                        var _p = 0;
+                        everyM.forEach(function (_everN, index) {
+                            // 每一行的每一个 
+                            _p += _everN * matrix.matrixArray[index][i]; //最小城乘数因子
+                        });
+
+                        // console.log(_p);
+                        Points[_index][i] = _p; //😓
+                    }
+                }, this);
+
+                return new Matrix(Points);
+            } else {
+                console.log('两个矩阵没法计算'); // 必须前一个n 等于后一个m才能计算
+                return false;
+            }
+        }
+    }, {
+        key: 'add',
+        value: function add(matrix) {
+            //加法
+            var Points = [];
+            if (matrix.m === this.m && matrix.n == this.n) {
+
+                this.matrixArray.forEach(function (everyM, index) {
+                    Points.push([]);
+                    everyM.forEach(function (_everN, _index) {
+                        // 每一行的每一个 
+                        Points[index][_index] = _everN + matrix.matrixArray[index][_index]; //最小城乘数因子
+                    });
+                });
+
+                return new Matrix(Points);
+            }
+        }
+    }, {
+        key: 'sub',
+        value: function sub(matrix) {
+            //减法
+            var Points = [];
+            if (matrix.m === this.m && matrix.n == this.n) {
+
+                this.matrixArray.forEach(function (everyM, index) {
+                    Points.push([]);
+                    everyM.forEach(function (_everN, _index) {
+                        // 每一行的每一个 
+                        Points[index].push(_everN - matrix.matrixArray[index][_index]); //最小城乘数因子
+                    });
+                });
+
+                return new Matrix(Points);
+            }
+        }
+    }]);
+    return Matrix;
+}();
+
+// var a=new Matrix([
+//     [1,2],
+//     [1,0],
+//     [1,0]
+// ]);
+
+// var b = new Matrix([
+//     [4,2],
+//     [4,2],
+//     [4,2],
+// ]);
+
+
+// console.log(a.add(b).matrixArray)
+
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:46:56
+ * @Last Modified time: 2017-10-13 18:29:00
  */
 
 var pOption = {
@@ -92,11 +406,6 @@ var pOption = {
     rotateOrigin: null
 };
 
-function Point(x, y) {
-    this.x = x;
-    this.y = y;
-}
-
 var Polygon = function Polygon(option) {
     var _temOption = util.extend(option, pOption);
 
@@ -108,14 +417,16 @@ var Polygon = function Polygon(option) {
         minX: 0,
         minY: 0
     };
-    this.points = this.getPoints(this.Option.x, this.Option.y);
+    this.oriPoints = null; //拿到最初的点位
+    this._Points = []; //用于检测位置的 点位数组 也是当前位置
+    this.getOriPoints();
     this.getMax();
     this._isChoosed = false;
     this.rotateOrigin = null;
 };
 
 Polygon.prototype = {
-    getPoints: function getPoints(x, y) {
+    getOriPoints: function getOriPoints() {
         var points = [],
             angle = this.Option.startAngle || 0;
 
@@ -124,14 +435,30 @@ Polygon.prototype = {
         // console.log('init xy', x, y);
 
         for (var i = 0; i < this.Option.sides; ++i) {
-            points.push(new Point(x + this.Option.r * Math.sin(angle), y - this.Option.r * Math.cos(angle)));
+            points.push([this.Option.x + this.Option.r * Math.sin(angle), this.Option.y - this.Option.r * Math.cos(angle)]);
             angle += 2 * Math.PI / this.Option.sides;
         }
-        return points;
+        this.oriPoints = points;
+    },
+    getPoints: function getPoints() {
+        //getPoints修改 现在不用 tranlate+rotate形式 
+        var _points = [];
+        var origin = null;
+        if (!this.rotateOrigin) {
+            origin = [this.Option.x, this.Option.y];
+        } else {
+            origin = this.rotateOrigin;
+        }
+        this.oriPoints.forEach(function (item) {
+            _points.push(this.getPointTodraw(item[0], item[1], origin));
+        }, this);
+
+        this._Points = _points;
+        return _points;
     },
     getMax: function getMax() {
         //绘制 与检测 不能在统一个地方
-        var _Points = this.getPoints(this.Option.x, this.Option.y);
+        var _Points = this.getPoints();
 
         this.max = {
             maxX: 0,
@@ -164,12 +491,12 @@ Polygon.prototype = {
     },
     createPath: function createPath(context, x, y) {
         //创建路径
-        var points = this.getPoints(x, y);
+        var points = this.getPoints();
 
         context.beginPath();
-        context.moveTo(points[0].x, points[0].y);
+        context.moveTo(points[0][0], points[0][1].y);
         for (var i = 1; i < this.Option.sides; ++i) {
-            context.lineTo(points[i].x, points[i].y);
+            context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
     },
@@ -189,19 +516,23 @@ Polygon.prototype = {
     },
     _draw: function _draw(context) {
         this.getMax();
-        if (!this.rotateOrigin) {
-            context.translate(this.Option.x, this.Option.y);
-            context.rotate(this.Option.rotate);
-            this.createPath(context, 0, 0);
-        } else {
-            /**
-             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-             */
-            // console.log('不按原点旋转');
-            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
-            context.rotate(this.Option.rotate);
-            this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1]);
-        }
+        this.createPath(context);
+        // } else {
+        /**
+         * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+         */
+        // console.log('不按原点旋转');
+        // context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
+        // context.rotate(this.Option.rotate);
+        // this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1])
+        // // }
+    },
+    getPointTodraw: function getPointTodraw(x, y, origin) {
+        //利用矩阵计算点位
+        var changeMatrix = new Matrix([[Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), x - origin[0]], [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), y - origin[0]], [0, 0, 1]]);
+        var getChangeMatrix = new Matrix([[x], [y], [1]]);
+
+        return changeMatrix.multi(getChangeMatrix).matrixArray; //计算出每一个点变化之后的位置
     },
     move: function move(x, y) {
 
@@ -245,7 +576,7 @@ Polygon.prototype = {
         // var B = this.points[1];
         var ifInside = false;
 
-        for (var i = 0, j = this.points.length - 1; i < this.points.length; j = i++) {
+        for (var i = 0, j = this._Points.length - 1; i < this._Points.length; j = i++) {
             /**
              * 0 4
                1 0
@@ -253,10 +584,10 @@ Polygon.prototype = {
                3 2
                4 3
              */
-            var Xi = this.points[i].x,
-                Yi = this.points[i].y;
-            var Xj = this.points[j].x,
-                Yj = this.points[j].y;
+            var Xi = this._Points[i][0],
+                Yi = this._Points[i][1];
+            var Xj = this._Points[j][0],
+                Yj = this._Points[j][1];
 
             var insect = Yi > y != Yj > y && x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi;
 
@@ -283,7 +614,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:14:26
+ * @Last Modified time: 2017-10-13 17:09:44
  * 普通形状
  * 
  */
@@ -756,187 +1087,6 @@ AnimationTimer.prototype = {
         return this.watch.getGoesByTime() > this.duration;
     }
 
-};
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-  return typeof obj;
-} : function (obj) {
-  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-};
-
-
-
-
-
-var asyncGenerator = function () {
-  function AwaitValue(value) {
-    this.value = value;
-  }
-
-  function AsyncGenerator(gen) {
-    var front, back;
-
-    function send(key, arg) {
-      return new Promise(function (resolve, reject) {
-        var request = {
-          key: key,
-          arg: arg,
-          resolve: resolve,
-          reject: reject,
-          next: null
-        };
-
-        if (back) {
-          back = back.next = request;
-        } else {
-          front = back = request;
-          resume(key, arg);
-        }
-      });
-    }
-
-    function resume(key, arg) {
-      try {
-        var result = gen[key](arg);
-        var value = result.value;
-
-        if (value instanceof AwaitValue) {
-          Promise.resolve(value.value).then(function (arg) {
-            resume("next", arg);
-          }, function (arg) {
-            resume("throw", arg);
-          });
-        } else {
-          settle(result.done ? "return" : "normal", result.value);
-        }
-      } catch (err) {
-        settle("throw", err);
-      }
-    }
-
-    function settle(type, value) {
-      switch (type) {
-        case "return":
-          front.resolve({
-            value: value,
-            done: true
-          });
-          break;
-
-        case "throw":
-          front.reject(value);
-          break;
-
-        default:
-          front.resolve({
-            value: value,
-            done: false
-          });
-          break;
-      }
-
-      front = front.next;
-
-      if (front) {
-        resume(front.key, front.arg);
-      } else {
-        back = null;
-      }
-    }
-
-    this._invoke = send;
-
-    if (typeof gen.return !== "function") {
-      this.return = undefined;
-    }
-  }
-
-  if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
-      return this;
-    };
-  }
-
-  AsyncGenerator.prototype.next = function (arg) {
-    return this._invoke("next", arg);
-  };
-
-  AsyncGenerator.prototype.throw = function (arg) {
-    return this._invoke("throw", arg);
-  };
-
-  AsyncGenerator.prototype.return = function (arg) {
-    return this._invoke("return", arg);
-  };
-
-  return {
-    wrap: function (fn) {
-      return function () {
-        return new AsyncGenerator(fn.apply(this, arguments));
-      };
-    },
-    await: function (value) {
-      return new AwaitValue(value);
-    }
-  };
-}();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var toConsumableArray = function (arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-    return arr2;
-  } else {
-    return Array.from(arr);
-  }
 };
 
 /*

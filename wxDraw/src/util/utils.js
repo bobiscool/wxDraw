@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 11:05:33
+ * @Last Modified time: 2017-10-13 18:37:24
  * 
  * 工具库
  */
@@ -61,3 +61,13 @@ export const util = {
         return target;
     },
 }
+
+
+ export const matrixToarray=function(a){
+       let _points =[]; //将矩阵洗成 点位数组
+       a.forEach(function(item){
+         _points.push([item[0],item[1]])
+       });
+
+       return _points;
+    }

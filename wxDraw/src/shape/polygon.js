@@ -2,10 +2,10 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 18:24:42
+ * @Last Modified time: 2017-10-13 18:36:48
  */
 
-import { util } from '../util/utils.js';
+import { util,matrixToarray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 
 
@@ -42,11 +42,11 @@ export const Polygon = function (option) {
         minY: 0,
     };
     this.oriPoints = null//拿到最初的点位
+    this._Points = [];//用于检测位置的 点位数组 也是当前位置
     this.getOriPoints();
     this.getMax();
     this._isChoosed = false;
     this.rotateOrigin = null;
-    this._Points = [];//用于检测位置的 点位数组 也是当前位置
 }
 
 Polygon.prototype = {
@@ -76,8 +76,17 @@ Polygon.prototype = {
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
-        this._Points = _Points;
-        return _points;
+        
+        this._Points = matrixToarray(_points);
+        return this._Points;
+    },
+    matrixToarray:function(a){
+       let _points =[]; //将矩阵洗成 点位数组
+       a.forEach(function(item){
+         _points.push([item[0],item[1]])
+       });
+
+       return _points;
     },
     getMax: function () {
         //绘制 与检测 不能在统一个地方
