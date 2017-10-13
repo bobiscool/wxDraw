@@ -64,3 +64,9 @@ animate之后 如何继续调animate？ 在目标模式下不会有什么 问题
 
 ### 物体的旋转平移缩放 都得改成矩阵的形式才行。。。
 这样才能便于计算。。。
+
+
+- 投影轴定理
+- pnp算法
+- 矩阵变换
+  点位按照 某个点旋转 [->](http://blog.csdn.net/csxiaoshui/article/details/65446125)
