@@ -4,7 +4,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-09 11:05:33
+ * @Last Modified time: 2017-10-13 18:38:11
  * 
  * 工具库
  */
@@ -39,6 +39,15 @@ var util = {
         }
         return target;
     }
+};
+
+var matrixToarray = function matrixToarray(a) {
+    var _points = []; //将矩阵洗成 点位数组
+    a.forEach(function (item) {
+        _points.push([item[0][0], item[1][0]]);
+    });
+
+    return _points;
 };
 
 var Store = function Store() {
@@ -392,7 +401,7 @@ var Matrix = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 18:29:00
+ * @Last Modified time: 2017-10-13 18:36:48
  */
 
 var pOption = {
@@ -453,7 +462,15 @@ Polygon.prototype = {
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
-        this._Points = _points;
+        this._Points = matrixToarray(_points);
+        return this._Points;
+    },
+    matrixToarray: function matrixToarray$$1(a) {
+        var _points = []; //将矩阵洗成 点位数组
+        a.forEach(function (item) {
+            _points.push([item[0], item[1]]);
+        });
+
         return _points;
     },
     getMax: function getMax() {

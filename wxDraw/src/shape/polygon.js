@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 18:36:48
+ * @Last Modified time: 2017-10-13 18:43:46
  */
 
 import { util,matrixToarray } from '../util/utils.js';
@@ -77,16 +77,8 @@ Polygon.prototype = {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
         
-        this._Points = matrixToarray(_points);
+        this._Points = matrixToarray(_points);//除掉矩阵多余的部分
         return this._Points;
-    },
-    matrixToarray:function(a){
-       let _points =[]; //将矩阵洗成 点位数组
-       a.forEach(function(item){
-         _points.push([item[0],item[1]])
-       });
-
-       return _points;
     },
     getMax: function () {
         //绘制 与检测 不能在统一个地方
@@ -177,7 +169,9 @@ Polygon.prototype = {
         let getChangeMatrix = new Matrix([
             [x], [y], [1]
         ]);
-
+       
+        console.log('旋转计算',changeMatrix.multi(getChangeMatrix));
+        
         return changeMatrix.multi(getChangeMatrix).matrixArray;//计算出每一个点变化之后的位置
     },
     move: function (x, y) {

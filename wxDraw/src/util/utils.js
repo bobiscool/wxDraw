@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 18:37:24
+ * @Last Modified time: 2017-10-13 18:38:11
  * 
  * 工具库
  */
@@ -66,7 +66,7 @@ export const util = {
  export const matrixToarray=function(a){
        let _points =[]; //将矩阵洗成 点位数组
        a.forEach(function(item){
-         _points.push([item[0],item[1]])
+         _points.push([item[0][0],item[1][0]])
        });
 
        return _points;
