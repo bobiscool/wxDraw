@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 17:21:12
+ * @Last Modified time: 2017-10-13 17:41:34
  */
 
 import { util } from '../util/utils.js';
@@ -44,7 +44,8 @@ export const Polygon = function (option) {
     this.points = this.getPoints(this.Option.x, this.Option.y);
     this.getMax();
     this._isChoosed = false;
-    this.rotateOrigin = null
+    this.rotateOrigin = null;
+
 }
 
 Polygon.prototype = {
@@ -154,8 +155,18 @@ Polygon.prototype = {
         this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1])
         // }
     },
-    getPointTodraw:function(){
+    getPointTodraw:function(x,y,origin){
        //利用矩阵计算点位
+        let changeMatrix = new Matrix([
+            [Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), x - origin[0]],
+            [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), y - origin[0]],
+            [0, 0, 1]
+        ]);
+        let getChangeMatrix= new Matrix([
+            [x],[y],[1]
+        ]);
+
+        return changeMatrix.multi(getChangeMatrix).matrixArray;//计算出每一个点变化之后的位置
     },
     move: function (x, y) {
 
