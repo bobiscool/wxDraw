@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 18:53:32
+ * @Last Modified time: 2017-10-13 10:14:38
  */
 
 import { util } from '../util/utils.js';
@@ -43,6 +43,7 @@ export const Polygon = function (option) {
     this.points = this.getPoints(this.Option.x, this.Option.y);
     this.getMax();
     this._isChoosed = false;
+    this.rotateOrigin=null    
 }
 
 Polygon.prototype = {
@@ -124,7 +125,7 @@ Polygon.prototype = {
     },
     _draw: function (context) {
         this.getMax();
-        if (!this.Option.rotateOrigin) {
+        if (!this.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
             this.createPath(context, 0, 0);
@@ -132,9 +133,9 @@ Polygon.prototype = {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
              */
-            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
-            this.createPath(context, this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1])
+            this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1])
         }
     },
     move: function (x, y) {
@@ -203,7 +204,9 @@ Polygon.prototype = {
         this.Option = util.extend(this.Option,option);
         console.log(this.Option);
         this.bus.dispatch('update', 'no');
-        return this;
+    },
+    setRotateOrigin:function(loc){
+        this.rotateOrigin= loc;
     }
 
 

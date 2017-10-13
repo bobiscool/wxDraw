@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 14:58:53
+ * @Last Modified time: 2017-10-13 10:15:10
  * 在这里添加事件 
  */
 
@@ -158,6 +158,10 @@ Shape.prototype = {
 
         this.Shape.updateOption(option);
 
+        return this;
+    },
+    setOrigin:function(loc){
+        this.Shape.setRotateOrigin(loc)
         return this;
     }
 }

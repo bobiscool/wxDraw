@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 11:02:23
+ * @Last Modified time: 2017-10-13 10:14:26
  * 普通形状
  * 
  */
@@ -19,7 +19,6 @@ var cOption = {
     eA: Math.PI * 2,
     counterclockwise: false,
     rotate: 0,
-    rotateOrigin: null
 }
 var rOption = {
     x: 10,
@@ -29,7 +28,6 @@ var rOption = {
     fillStyle: "red",
     strokeStyle: "red",
     rotate: 0,
-    rotateOrigin: null
 }
 
 
@@ -50,6 +48,7 @@ export const Circle = function (option) {
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
+    this.rotateOrigin = null;
 }
 
 Circle.prototype = {
@@ -74,7 +73,7 @@ Circle.prototype = {
         context.restore();
     },
     _draw: function (context) {
-        if (!this.Option.rotateOrigin) {
+        if (!this.rotateOrigin) {
             context.translate(this.Option.x, this.Option.y);
             context.rotate(this.Option.rotate);
             context.arc(0, 0, this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
@@ -82,9 +81,9 @@ Circle.prototype = {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
              */
-            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
-            context.arc(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
+            context.arc(this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1], this.Option.r, this.Option.sA, this.Option.eA, this.Option.counterclockwise);
         }
     },
     move: function (x, y) {
@@ -119,6 +118,9 @@ Circle.prototype = {
     updateOption: function (option) {
         this.Option = util.extend(option, this.Option);
         this.bus.dispatch('update', 'no');
+    },
+    setRotateOrigin:function(loc){
+        this.rotateOrigin= loc;
     }
 }
 
@@ -137,6 +139,7 @@ export const Rect = function (option) {
     this._offsetX = 0;
     this._offsetY = 0;
     this.bus = null;
+    this.rotateOrigin = null;    
 }
 
 Rect.prototype = {
@@ -162,7 +165,7 @@ Rect.prototype = {
         context.restore();
     },
     _draw: function (context) {
-        if (!this.Option.rotateOrigin) {
+        if (!this.rotateOrigin) {
             context.translate(this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2);// 坐标原点变为 矩形 中心
             context.rotate(this.Option.rotate);
             context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
@@ -170,9 +173,9 @@ Rect.prototype = {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
              */
-            context.translate(this.Option.rotateOrigin[0], this.Option.rotateOrigin[1]);
+            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
-            context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
+            context.rect(this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1], this.Option.w, this.Option.h);
         }
     },
     move: function (x, y) {
@@ -207,6 +210,9 @@ Rect.prototype = {
 
         this.Option = util.extend(option, this.Option);
         this.bus.dispatch('update', 'no');
+    },
+     setRotateOrigin:function(loc){
+        this.rotateOrigin= loc;
     }
 
 }
