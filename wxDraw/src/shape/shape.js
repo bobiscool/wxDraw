@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:15:10
+ * @Last Modified time: 2017-10-13 10:37:56
  * 在这里添加事件 
  */
 
@@ -28,6 +28,8 @@ export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     this.animationStart = false;
     this.aniFragListId = "";
     this.aniFragWraper = null;
+    //
+    this._layerIndex = 0;//用于点击时候的
 }
 
 
@@ -48,6 +50,7 @@ Shape.prototype = {
         this.Shape.detected(x, y);
         if (this.Shape.detected(x, y)) {
             console.log('点击')
+         this.bus.dispatch('getDetectedLayers','no',this._layerIndex);
         }
 
     },
@@ -163,6 +166,9 @@ Shape.prototype = {
     setOrigin:function(loc){
         this.Shape.setRotateOrigin(loc)
         return this;
+    },
+    updateLayer:function(layer){
+        this._layerIndex = layer;
     }
 }
 

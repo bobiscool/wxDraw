@@ -144,8 +144,8 @@ Page({
       easing: "linear"
     }).start(1);
 
-    cir3.setOrigin([500,40]).animate({ "rotate": "-=200" }, {
-      duration: 20000,
+    cir3.setOrigin([200,300]).animate({ "rotate": 2*Math.PI }, {
+      duration: 4000,
       onLooping: function () {
         console.log('动画2'
 
@@ -153,7 +153,7 @@ Page({
         );
       },
       easing: "linear"
-    }).start(1);  
+    }).start(200);  
     // this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
     // this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
     // this.wxCanvas.add(new Shape('polygon', { sides:876,r:100}))

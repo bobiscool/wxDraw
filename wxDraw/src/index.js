@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 16:46:13
+ * @Last Modified time: 2017-10-13 10:37:21
  * 主要 引入对象
  * 
  * 
@@ -40,14 +40,17 @@ function WxDraw(canvas, x, y, w, h) {
    // 初始化 动画仓库 接收点 
     this.bus.add('addAnimation',this,this.addAnimationFrag);
     this.bus.add('update',this,this.update);
+    this.bus.add('getDetectedLayers',this,this.getDetectedLayers);
     // console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
+    this.detectedLayers = [];
 }
 
 WxDraw.prototype = {
     add: function (item) {
         item.updateBus(this.bus)
+        item.updateLayer(this.store.length);
         this.store.add(item);
     },
     draw: function () {
@@ -128,6 +131,10 @@ WxDraw.prototype = {
         // console.log(this.animation.animationFragStore2);
     
     },
+    getDetectedLayers:function(layers){
+      this.detectedLayers.push(layers);
+      console.log(this.detectedLayers);
+    }
    
 }
 

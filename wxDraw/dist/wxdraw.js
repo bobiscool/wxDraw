@@ -59,7 +59,7 @@ Store.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:14:38
+ * @Last Modified time: 2017-10-13 10:19:05
  */
 
 var pOption = {
@@ -178,6 +178,7 @@ Polygon.prototype = {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
              */
+            // console.log('不按原点旋转');
             context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
             this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1]);
@@ -187,7 +188,7 @@ Polygon.prototype = {
 
         this.Option.x = x;
         this.Option.y = y;
-        console.log('---------------', this.Option);
+        // console.log('---------------', this.Option);
     },
     detected: function detected(x, y) {
         // pnpoly 算法区域
@@ -1294,7 +1295,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:15:10
+ * @Last Modified time: 2017-10-13 10:37:56
  * 在这里添加事件 
  */
 
@@ -1311,6 +1312,8 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.animationStart = false;
     this.aniFragListId = "";
     this.aniFragWraper = null;
+    //
+    this._layerIndex = 0; //用于点击时候的
 };
 
 Shape.prototype = {
@@ -1329,6 +1332,7 @@ Shape.prototype = {
         this.Shape.detected(x, y);
         if (this.Shape.detected(x, y)) {
             console.log('点击');
+            this.bus.dispatch('getDetectedLayers', 'no', this._layerIndex);
         }
     },
     moveDetect: function moveDetect(x, y) {
@@ -1436,6 +1440,9 @@ Shape.prototype = {
     setOrigin: function setOrigin(loc) {
         this.Shape.setRotateOrigin(loc);
         return this;
+    },
+    updateLayer: function updateLayer(layer) {
+        this._layerIndex = layer;
     }
 };
 
@@ -1595,7 +1602,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 16:46:13
+ * @Last Modified time: 2017-10-13 10:37:21
  * 主要 引入对象
  * 
  * 
@@ -1625,14 +1632,17 @@ function WxDraw(canvas, x, y, w, h) {
     // 初始化 动画仓库 接收点 
     this.bus.add('addAnimation', this, this.addAnimationFrag);
     this.bus.add('update', this, this.update);
+    this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
     // console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
+    this.detectedLayers = [];
 }
 
 WxDraw.prototype = {
     add: function add(item) {
         item.updateBus(this.bus);
+        item.updateLayer(this.store.length);
         this.store.add(item);
     },
     draw: function draw() {
@@ -1708,6 +1718,10 @@ WxDraw.prototype = {
         }
 
         // console.log(this.animation.animationFragStore2);
+    },
+    getDetectedLayers: function getDetectedLayers(layers) {
+        this.detectedLayers.push(layers);
+        console.log(this.detectedLayers);
     }
 
 };
