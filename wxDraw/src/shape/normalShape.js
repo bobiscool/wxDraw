@@ -2,11 +2,12 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:14:26
+ * @Last Modified time: 2017-10-13 17:09:44
  * 普通形状
  * 
  */
 import { util } from '../util/utils.js';
+import { Matrix } from '../util/matrix.js';
 
 
 var cOption = {
