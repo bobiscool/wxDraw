@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 11:29:34
+ * @Last Modified time: 2017-10-13 11:32:52
  * 主要 引入对象
  * 
  * 
@@ -136,6 +136,10 @@ WxDraw.prototype = {
         this.detectedLayers.push(layers);// 这个地方不能推一次 就 判断一次 应该全部推完了 之后再来判断 
         if (this.detectedLayers.length == this.store.getLength()&&Math.max.apply(null, this.detectedLayers)!=-1) {
             this.store.find(Math.max.apply(null, this.detectedLayers)).getChoosed();
+        }
+
+        if(this.detectedLayers.length == this.store.getLength()&&Math.max.apply(null, this.detectedLayers)==-1){
+            this.clearDetectedLayers();
         }
         //   console.log(this.detectedLayers);
     },
