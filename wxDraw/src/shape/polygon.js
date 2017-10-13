@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 17:41:34
+ * @Last Modified time: 2017-10-13 18:09:15
  */
 
 import { util } from '../util/utils.js';
@@ -41,7 +41,9 @@ export const Polygon = function (option) {
         minX: 0,
         minY: 0,
     };
-    this.points = this.getPoints(this.Option.x, this.Option.y);
+    this.points = this.getPoints();
+    this.oriPoints = null//拿到最初的点位
+    this.getOriPoints()
     this.getMax();
     this._isChoosed = false;
     this.rotateOrigin = null;
@@ -49,7 +51,7 @@ export const Polygon = function (option) {
 }
 
 Polygon.prototype = {
-    getPoints: function (x, y) {
+    getOriPoints: function () {
         var points = [],
             angle = this.Option.startAngle || 0;
 
@@ -58,10 +60,10 @@ Polygon.prototype = {
         // console.log('init xy', x, y);
 
         for (var i = 0; i < this.Option.sides; ++i) {
-            points.push(new Point(x + this.Option.r * Math.sin(angle), y - this.Option.r * Math.cos(angle)));
+            points.push(new Point(this.Option.x + this.Option.r * Math.sin(angle), this.Option.y - this.Option.r * Math.cos(angle)));
             angle += 2 * Math.PI / this.Option.sides;
         }
-        return points;
+        this.oriPoints = points;
     },
     getMax: function () {
         //绘制 与检测 不能在统一个地方
@@ -136,11 +138,7 @@ Polygon.prototype = {
         } else {
             origin = this.rotateOrigin;
         }
-        changeMatrix = new Matrix([
-            [Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), x - origin[0]],
-            [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), x - origin[0]],
-            [0, 0, 1],
-        ])
+        // 
         context.translate(this.Option.x, this.Option.y);
 
         context.rotate(this.Option.rotate);
