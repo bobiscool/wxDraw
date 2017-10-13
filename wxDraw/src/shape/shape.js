@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:37:56
+ * @Last Modified time: 2017-10-13 10:40:36
  * 在这里添加事件 
  */
 
@@ -168,6 +168,7 @@ Shape.prototype = {
         return this;
     },
     updateLayer:function(layer){
+        console.log('更新层级',layer);
         this._layerIndex = layer;
     }
 }

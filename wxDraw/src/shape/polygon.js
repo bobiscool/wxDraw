@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:19:05
+ * @Last Modified time: 2017-10-13 10:46:56
  */
 
 import { util } from '../util/utils.js';
@@ -159,10 +159,11 @@ Polygon.prototype = {
             this._offsetY = this.Option.y - y;
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
+                return true;
             }
         }
 
-
+      return false;
     },
     moveDetect: function (x, y) {
 

@@ -65,11 +65,11 @@ Page({
 
 
     console.log(cir3);
-    // this.wxCanvas.add(cir1);
+    this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir3);
     
     // cir1.updateOption({x:100})
-    // this.wxCanvas.add(cir2);
+    this.wxCanvas.add(cir2);
     // cir2.updateOption({ x: 200 })
     // setTimeout(function(){
     //   cir2.updateOption({ x: 100 })
@@ -144,16 +144,16 @@ Page({
       easing: "linear"
     }).start(1);
 
-    cir3.setOrigin([200,300]).animate({ "rotate": 2*Math.PI }, {
-      duration: 4000,
-      onLooping: function () {
-        console.log('动画2'
+    // cir3.setOrigin([200,300]).animate({ "rotate": 2*Math.PI }, {
+    //   duration: 4000,
+    //   onLooping: function () {
+    //     console.log('动画2'
 
 
-        );
-      },
-      easing: "linear"
-    }).start(200);  
+    //     );
+    //   },
+    //   easing: "linear"
+    // }).start(200);  
     // this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
     // this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
     // this.wxCanvas.add(new Shape('polygon', { sides:876,r:100}))

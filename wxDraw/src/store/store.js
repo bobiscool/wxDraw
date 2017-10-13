@@ -13,6 +13,9 @@ Store.prototype = {
     delete:function(){
 
     },
+    getLength:function(){
+        return this.store.length;
+    }
 
 }
 

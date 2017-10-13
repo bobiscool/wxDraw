@@ -51,7 +51,10 @@ Store.prototype = {
         this.store.push(shape);
     },
     update: function update() {},
-    delete: function _delete() {}
+    delete: function _delete() {},
+    getLength: function getLength() {
+        return this.store.length;
+    }
 
 };
 
@@ -1295,7 +1298,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:37:56
+ * @Last Modified time: 2017-10-13 10:40:36
  * 在这里添加事件 
  */
 
@@ -1442,6 +1445,7 @@ Shape.prototype = {
         return this;
     },
     updateLayer: function updateLayer(layer) {
+        console.log('更新层级', layer);
         this._layerIndex = layer;
     }
 };
@@ -1602,7 +1606,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:37:21
+ * @Last Modified time: 2017-10-13 10:42:44
  * 主要 引入对象
  * 
  * 
@@ -1642,7 +1646,7 @@ function WxDraw(canvas, x, y, w, h) {
 WxDraw.prototype = {
     add: function add(item) {
         item.updateBus(this.bus);
-        item.updateLayer(this.store.length);
+        item.updateLayer(this.store.getLength());
         this.store.add(item);
     },
     draw: function draw() {
