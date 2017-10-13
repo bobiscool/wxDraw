@@ -118,31 +118,31 @@ Page({
 
 
 
-    cir3.animate({ "x": "+=200"}, {
-      duration: 1000,
-      onLooping: function () {
-         console.log('动画1');
-      },
-      easing: "easeTo"
-    }).animate({ "x": "-=200"}, {
-      duration: 1000,
-      onLooping: function () {
-        console.log('动画1');
-      },
-      easing: "easeTo"
-    }).start();
+    // cir3.animate({ "x": "+=200"}, {
+    //   duration: 1000,
+    //   onLooping: function () {
+    //      console.log('动画1');
+    //   },
+    //   easing: "easeTo"
+    // }).animate({ "x": "-=200"}, {
+    //   duration: 1000,
+    //   onLooping: function () {
+    //     console.log('动画1');
+    //   },
+    //   easing: "easeTo"
+    // }).start();
 
-    cir3.animate({ "y": "+=200"}, {
-      duration: 1000,
-      onLooping: function () {
-        console.log('动画2'
+    // cir3.animate({ "y": "+=200"}, {
+    //   duration: 1000,
+    //   onLooping: function () {
+    //     console.log('动画2'
         
         
-        );
-      },
+    //     );
+    //   },
    
-      easing: "linear"
-    }).start(1);
+    //   easing: "linear"
+    // }).start(1);
 
     // cir3.setOrigin([200,300]).animate({ "rotate": 2*Math.PI }, {
     //   duration: 4000,

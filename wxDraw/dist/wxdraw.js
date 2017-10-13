@@ -1317,7 +1317,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 11:13:05
+ * @Last Modified time: 2017-10-13 11:25:38
  * 在这里添加事件 
  */
 
@@ -1356,6 +1356,8 @@ Shape.prototype = {
         if (this.Shape.detected(x, y)) {
             console.log('点击');
             this.bus.dispatch('getDetectedLayers', 'no', this._layerIndex);
+        } else {
+            this.bus.dispatch('getDetectedLayers', 'no', -1); //这是 为了保证 所以层级都检测一遍             
         }
     },
     moveDetect: function moveDetect(x, y) {
@@ -1368,7 +1370,7 @@ Shape.prototype = {
         if (this._getChoosed) {
             this.bus.dispatch('clearDetectedLayers', 'no'); //清空选中数组            
             this.Shape.upDetect();
-            this._getChooed = false;
+            this._getChoosed = false;
         }
     },
 
@@ -1634,7 +1636,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 11:13:22
+ * @Last Modified time: 2017-10-13 11:23:34
  * 主要 引入对象
  * 
  * 
@@ -1753,10 +1755,11 @@ WxDraw.prototype = {
         // console.log(this.animation.animationFragStore2);
     },
     getDetectedLayers: function getDetectedLayers(layers) {
-        this.detectedLayers.push(layers);
-        console.log('LAYERS', this.detectedLayers);
-        console.log('max', Math.max.apply(null, this.detectedLayers));
-        this.store.find(Math.max.apply(null, this.detectedLayers)).getChoosed();
+        this.detectedLayers.push(layers); // 这个地方不能推一次 就 判断一次 应该全部推完了 之后再来判断 
+        if (this.detectedLayers.length == this.store.getLength()) {
+            console.log(this.detectedLayers);
+            this.store.find(Math.max.apply(null, this.detectedLayers)).getChoosed();
+        }
         //   console.log(this.detectedLayers);
     },
     clearDetectedLayers: function clearDetectedLayers() {

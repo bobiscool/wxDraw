@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 11:20:02
+ * @Last Modified time: 2017-10-13 11:25:38
  * 在这里添加事件 
  */
 
@@ -67,7 +67,7 @@ Shape.prototype = {
         if (this._getChoosed) {
         this.bus.dispatch('clearDetectedLayers', 'no');//清空选中数组            
             this.Shape.upDetect();
-            this._getChooed = false;
+            this._getChoosed = false;
         }
 
     },
