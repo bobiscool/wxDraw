@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 13:55:36
+ * @Last Modified time: 2017-10-13 14:13:06
  * cshape 用户自定义的图形
  */
 
@@ -43,6 +43,7 @@ export const Cshape = function (option) {
         minX: 0,
         minY: 0,
     };
+    this.massCenter = this.genMassCenter(this.Option.points);
     this.points = this.genPointsPositiveLoc();
     this.getMax();
     this._isChoosed = false;
@@ -53,6 +54,21 @@ Cshape.prototype = {
     genPointsPositiveLoc: function (x, y) {
          
         return points;
+    },
+    genMassCenter:function(points) {
+        //计算质心 
+        let _allX = 0;
+        let _allY = 0;
+        points.forEach(function(item){
+          _allX+=item[0];
+          _allY+=item[1];
+        });
+
+        return {
+          x: _allX/points.length,
+          y:_allY/points.length
+        }
+
     },
     getMax: function () {
         //绘制 与检测 不能在统一个地方
