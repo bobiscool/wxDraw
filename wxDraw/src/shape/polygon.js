@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 18:09:15
+ * @Last Modified time: 2017-10-13 18:24:42
  */
 
 import { util } from '../util/utils.js';
@@ -41,13 +41,12 @@ export const Polygon = function (option) {
         minX: 0,
         minY: 0,
     };
-    this.points = this.getPoints();
     this.oriPoints = null//拿到最初的点位
-    this.getOriPoints()
+    this.getOriPoints();
     this.getMax();
     this._isChoosed = false;
     this.rotateOrigin = null;
-
+    this._Points = [];//用于检测位置的 点位数组 也是当前位置
 }
 
 Polygon.prototype = {
@@ -60,14 +59,29 @@ Polygon.prototype = {
         // console.log('init xy', x, y);
 
         for (var i = 0; i < this.Option.sides; ++i) {
-            points.push(new Point(this.Option.x + this.Option.r * Math.sin(angle), this.Option.y - this.Option.r * Math.cos(angle)));
+            points.push([this.Option.x + this.Option.r * Math.sin(angle), this.Option.y - this.Option.r * Math.cos(angle)]);
             angle += 2 * Math.PI / this.Option.sides;
         }
         this.oriPoints = points;
     },
+    getPoints: function () {
+        //getPoints修改 现在不用 tranlate+rotate形式 
+        let _points = [];
+        let origin = null;
+        if (!this.rotateOrigin) {
+            origin = [this.Option.x, this.Option.y];
+        } else {
+            origin = this.rotateOrigin;
+        }
+        this.oriPoints.forEach(function (item) {
+            _points.push(this.getPointTodraw(item[0], item[1], origin))
+        }, this);
+        this._Points = _Points;
+        return _points;
+    },
     getMax: function () {
         //绘制 与检测 不能在统一个地方
-        let _Points = this.getPoints(this.Option.x, this.Option.y);
+        let _Points = this.getPoints();
 
         this.max = {
             maxX: 0,
@@ -104,12 +118,12 @@ Polygon.prototype = {
     },
     createPath: function (context, x, y) {
         //创建路径
-        var points = this.getPoints(x, y);
+        var points = this.getPoints();
 
         context.beginPath();
-        context.moveTo(points[0].x, points[0].y);
+        context.moveTo(points[0][0], points[0][1].y);
         for (var i = 1; i < this.Option.sides; ++i) {
-            context.lineTo(points[i].x, points[i].y);
+            context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
     },
@@ -132,36 +146,27 @@ Polygon.prototype = {
         let getchaMatrix = null;
         let origin = null;
         this.getMax();
-
-        if (!this.rotateOrigin) {
-            origin = [this.Option.x, this.Option.y];
-        } else {
-            origin = this.rotateOrigin;
-        }
-        // 
-        context.translate(this.Option.x, this.Option.y);
-
-        context.rotate(this.Option.rotate);
-        this.createPath(context, 0, 0);
+        this.createPath(context);
         // } else {
         /**
          * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
          */
         // console.log('不按原点旋转');
-        context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
-        context.rotate(this.Option.rotate);
-        this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1])
-        // }
+        // context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
+        // context.rotate(this.Option.rotate);
+        // this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1])
+        // // }
+
     },
-    getPointTodraw:function(x,y,origin){
-       //利用矩阵计算点位
+    getPointTodraw: function (x, y, origin) {
+        //利用矩阵计算点位
         let changeMatrix = new Matrix([
             [Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), x - origin[0]],
             [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), y - origin[0]],
             [0, 0, 1]
         ]);
-        let getChangeMatrix= new Matrix([
-            [x],[y],[1]
+        let getChangeMatrix = new Matrix([
+            [x], [y], [1]
         ]);
 
         return changeMatrix.multi(getChangeMatrix).matrixArray;//计算出每一个点变化之后的位置
@@ -209,7 +214,7 @@ Polygon.prototype = {
         // var B = this.points[1];
         var ifInside = false;
 
-        for (var i = 0, j = this.points.length - 1; i < this.points.length; j = i++) {
+        for (var i = 0, j = this._Points.length - 1; i < this._Points.length; j = i++) {
             /**
              * 0 4
                1 0
@@ -217,8 +222,8 @@ Polygon.prototype = {
                3 2
                4 3
              */
-            var Xi = this.points[i].x, Yi = this.points[i].y;
-            var Xj = this.points[j].x, Yj = this.points[j].y;
+            var Xi = this._Points[i][0], Yi = this._Points[i][1];
+            var Xj = this._Points[j][0], Yj = this._Points[j][1];
 
             var insect = ((Yi > y) != (Yj > y)) && (x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi);
 
