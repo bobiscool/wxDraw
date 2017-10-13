@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 14:33:58
+ * @Last Modified time: 2017-10-13 14:35:46
  * cshape 用户自定义的图形
  */
 
@@ -19,7 +19,6 @@ var cOption = {
     strokeStyle: "red",
     points:[[1,1],[20,0],[30,40]],
     rotate: 0,
-    rotateOrigin: null
 }
 
 
@@ -224,9 +223,7 @@ Cshape.prototype = {
         return ifInside;
     },
     updateOption: function (option) {
-        console.log(option);        
         this.Option = util.extend(this.Option,option);
-        console.log(this.Option);
         this.bus.dispatch('update', 'no');
     },
     setRotateOrigin:function(loc){
