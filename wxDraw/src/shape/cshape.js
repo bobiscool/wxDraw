@@ -1,20 +1,23 @@
 /*
  * @Author: Thunderball.Wu 
- * @Date: 2017-09-22 11:32:35 
+ * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 13:29:33
+ * @Last Modified time: 2017-10-13 13:55:36
+ * cshape 用户自定义的图形
  */
+
 
 import { util } from '../util/utils.js';
 
 
-var pOption = {
+var cOption = {
     x: 10,
     y: 10,
-    r: 10,
-    sides: 7,
+    // r: 10,
+    // sides: 7,
     fillStyle: "red",
     strokeStyle: "red",
+    points:[[1,1],[20,0],[30,40]],
     rotate: 0,
     rotateOrigin: null
 }
@@ -29,8 +32,8 @@ function Point(x, y) {
 
 
 
-export const Polygon = function (option) {
-    var _temOption = util.extend(option, pOption);
+export const Cshape = function (option) {
+    var _temOption = util.extend(option, cOption);
 
     this.Option = _temOption;
 
@@ -40,25 +43,15 @@ export const Polygon = function (option) {
         minX: 0,
         minY: 0,
     };
-    this.points = this.getPoints(this.Option.x, this.Option.y);
+    this.points = this.genPointsPositiveLoc();
     this.getMax();
     this._isChoosed = false;
     this.rotateOrigin=null    
 }
 
-Polygon.prototype = {
-    getPoints: function (x, y) {
-        var points = [],
-            angle = this.Option.startAngle || 0;
-
-        // console.log('Option',this.Option);
-        //每次getPoints 要刷新max
-        // console.log('init xy', x, y);
-
-        for (var i = 0; i < this.Option.sides; ++i) {
-            points.push(new Point(x + this.Option.r * Math.sin(angle), y - this.Option.r * Math.cos(angle)));
-            angle += 2 * Math.PI / this.Option.sides;
-        }
+Cshape.prototype = {
+    genPointsPositiveLoc: function (x, y) {
+         
         return points;
     },
     getMax: function () {
