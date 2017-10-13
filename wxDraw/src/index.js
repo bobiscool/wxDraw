@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 11:11:21
+ * @Last Modified time: 2017-10-13 11:20:59
  * 主要 引入对象
  * 
  * 
@@ -27,7 +27,7 @@ import { eventBus } from "./util/eventBus.js"
 function WxDraw(canvas, x, y, w, h) {
 
 
-    
+
     this.canvas = canvas;
     this.wcid = guid();
     this.store = new Store();
@@ -37,11 +37,11 @@ function WxDraw(canvas, x, y, w, h) {
     this.y = y;
     this.w = w;
     this.h = h;
-   // 初始化 动画仓库 接收点 
-    this.bus.add('addAnimation',this,this.addAnimationFrag);
-    this.bus.add('update',this,this.update);
-    this.bus.add('getDetectedLayers',this,this.getDetectedLayers);
-    this.bus.add('clearDetectedLayers',this,this.clearDetectedLayers);
+    // 初始化 动画仓库 接收点 
+    this.bus.add('addAnimation', this, this.addAnimationFrag);
+    this.bus.add('update', this, this.update);
+    this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
+    this.bus.add('clearDetectedLayers', this, this.clearDetectedLayers);
     // console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
@@ -76,13 +76,13 @@ WxDraw.prototype = {
             item.moveDetect(loc.x, loc.y);
             // console.log('item',item)ﬂ
         }, this);
-         
+
         //  console.log(loc);
         this.draw();
         this.canvas.draw();
     },
-    upDetect:function(){
-      this.store.store.forEach(function (item) {
+    upDetect: function () {
+        this.store.store.forEach(function (item) {
             item.upDetect();
         }, this);
     },
@@ -93,13 +93,13 @@ WxDraw.prototype = {
             y: (y - this.y) > 0 ? ((y - this.y) > this.h ? this.h : y - this.y) : this.y,
         }
     },
-    update:function(){
+    update: function () {
         // 用户手动更新 
-           this.draw();
+        this.draw();
         this.canvas.draw();
     },
-    AnimationCenter:function(){
-      
+    AnimationCenter: function () {
+
     },
     /**
      * 更新动画 
@@ -113,37 +113,37 @@ WxDraw.prototype = {
      * @param {any} AnimationWraper  创建好的动画容器
      * @param {any} Shapeid  id
      */
-    addAnimationFrag:function(AnimationWraper,Shapeid){
+    addAnimationFrag: function (AnimationWraper, Shapeid) {
         // console.log(AnimationOption);
         // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
-    
-        if(this.animation.animationFragStore[Shapeid]){
+
+        if (this.animation.animationFragStore[Shapeid]) {
             // 
             // console.log('已经有动画了');
-            this.animation.animationFragStore[Shapeid][this.animation.animationFragStore[Shapeid].length-1].endCallWraper  = AnimationWraper;
+            this.animation.animationFragStore[Shapeid][this.animation.animationFragStore[Shapeid].length - 1].endCallWraper = AnimationWraper;
             this.animation.animationFragStore[Shapeid].push(AnimationWraper);
-        }else{
+        } else {
             // console.log('初始化 ');
-            
+
             this.animation.animationFragStore[Shapeid] = [AnimationWraper];
         }
 
         // console.log(this.animation.animationFragStore2);
-    
+
     },
-    getDetectedLayers:function(layers){
-      this.detectedLayers.push(layers);
-      console.log('LAYERS',this.detectedLayers);
-      console.log('max',Math.max.apply(null,this.detectedLayers));
-    //   this.store.find(Math.max.apply(null,this.detectedLayers)).getChoosed();
-    //   console.log(this.detectedLayers);
+    getDetectedLayers: function (layers) {
+        this.detectedLayers.push(layers);// 这个地方不能推一次 就 判断一次 应该全部推完了 之后再来判断 
+        if (this.detectedLayers.length == this.store.getLength()) {
+            this.store.find(Math.max.apply(null, this.detectedLayers)).getChoosed();
+        }
+        //   console.log(this.detectedLayers);
     },
-    clearDetectedLayers:function(){
+    clearDetectedLayers: function () {
         console.log('清空选中层级');
-      this.detectedLayers=[];//清空选中层级
+        this.detectedLayers = [];//清空选中层级
     }
-   
+
 }
 
 
@@ -152,7 +152,7 @@ WxDraw.prototype = {
 
 
 module.exports = {
-    
+
     WxDraw: WxDraw,
     Shape: Shape,
     AnimationFrame: AnimationFrame()

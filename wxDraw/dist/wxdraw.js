@@ -1317,7 +1317,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 11:03:33
+ * @Last Modified time: 2017-10-13 11:13:05
  * 在这里添加事件 
  */
 
@@ -1361,13 +1361,12 @@ Shape.prototype = {
     moveDetect: function moveDetect(x, y) {
         if (this.draggable && this._getChoosed) {
             console.log('move', this._layerIndex);
-
             this.Shape.moveDetect(x, y);
         }
     },
     upDetect: function upDetect() {
         if (this._getChoosed) {
-            this.bus.dispatch('clearDetectedLayers', 'no'); //清空选中数组
+            this.bus.dispatch('clearDetectedLayers', 'no'); //清空选中数组            
             this.Shape.upDetect();
             this._getChooed = false;
         }
@@ -1635,7 +1634,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 11:09:39
+ * @Last Modified time: 2017-10-13 11:13:22
  * 主要 引入对象
  * 
  * 
@@ -1757,10 +1756,11 @@ WxDraw.prototype = {
         this.detectedLayers.push(layers);
         console.log('LAYERS', this.detectedLayers);
         console.log('max', Math.max.apply(null, this.detectedLayers));
-        //   this.store.find(Math.max.apply(null,this.detectedLayers)).getChoosed();
+        this.store.find(Math.max.apply(null, this.detectedLayers)).getChoosed();
         //   console.log(this.detectedLayers);
     },
     clearDetectedLayers: function clearDetectedLayers() {
+        console.log('清空选中层级');
         this.detectedLayers = []; //清空选中层级
     }
 
