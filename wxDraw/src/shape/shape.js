@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:58:52
+ * @Last Modified time: 2017-10-13 11:03:33
  * 在这里添加事件 
  */
 
@@ -30,7 +30,7 @@ export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     this.aniFragWraper = null;
     //
     this._layerIndex = 0;//用于点击时候的
-    this._getChooed = false;//用于选中
+    this._getChoosed = false;//用于选中
 }
 
 
@@ -56,16 +56,17 @@ Shape.prototype = {
 
     },
     moveDetect: function (x, y) {
-        // console.log('moveDetect')
-        if (this.draggable && this._getChooed) {
+        if (this.draggable && this._getChoosed) {
+        console.log('move',this._layerIndex);
+            
             this.Shape.moveDetect(x, y);
-
         }
     },
     upDetect: function () {
-        if (this._getChooed) {
+        if (this._getChoosed) {
             this.bus.dispatch('clearDetectedLayers', 'no');//清空选中数组
             this.Shape.upDetect();
+            this._getChooed = false;
         }
 
     },
@@ -176,8 +177,9 @@ Shape.prototype = {
         console.log('更新层级', layer);
         this._layerIndex = layer;
     },
-    getChooed: function () {
-        this._getChooed = true;
+    getChoosed: function () {
+        console.log('选中',this._layerIndex);
+        this._getChoosed = true;
     }
 }
 

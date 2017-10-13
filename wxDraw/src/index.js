@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:57:48
+ * @Last Modified time: 2017-10-13 11:11:21
  * 主要 引入对象
  * 
  * 
@@ -134,10 +134,13 @@ WxDraw.prototype = {
     },
     getDetectedLayers:function(layers){
       this.detectedLayers.push(layers);
-      this.store.find(Math.max(...this.detectedLayers)).getChooed();
+      console.log('LAYERS',this.detectedLayers);
+      console.log('max',Math.max.apply(null,this.detectedLayers));
+    //   this.store.find(Math.max.apply(null,this.detectedLayers)).getChoosed();
     //   console.log(this.detectedLayers);
     },
     clearDetectedLayers:function(){
+        console.log('清空选中层级');
       this.detectedLayers=[];//清空选中层级
     }
    

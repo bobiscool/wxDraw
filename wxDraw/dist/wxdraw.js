@@ -54,6 +54,22 @@ Store.prototype = {
     delete: function _delete() {},
     getLength: function getLength() {
         return this.store.length;
+    },
+    find: function find(a, b) {
+        var _tem = null;
+        if (arguments.length == 1) {
+            _tem = this.store[a];
+        }
+
+        if (arguments.length == 2) {
+            this.store.forEach(function (element) {
+                if (element[a] == b) {
+                    _tem = element;
+                }
+            }, this);
+        }
+
+        return _tem;
     }
 
 };
@@ -1301,7 +1317,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:40:36
+ * @Last Modified time: 2017-10-13 11:03:33
  * 在这里添加事件 
  */
 
@@ -1320,6 +1336,7 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.aniFragWraper = null;
     //
     this._layerIndex = 0; //用于点击时候的
+    this._getChoosed = false; //用于选中
 };
 
 Shape.prototype = {
@@ -1342,13 +1359,18 @@ Shape.prototype = {
         }
     },
     moveDetect: function moveDetect(x, y) {
-        // console.log('moveDetect')
-        if (this.draggable) {
+        if (this.draggable && this._getChoosed) {
+            console.log('move', this._layerIndex);
+
             this.Shape.moveDetect(x, y);
         }
     },
     upDetect: function upDetect() {
-        this.Shape.upDetect();
+        if (this._getChoosed) {
+            this.bus.dispatch('clearDetectedLayers', 'no'); //清空选中数组
+            this.Shape.upDetect();
+            this._getChooed = false;
+        }
     },
 
     /**
@@ -1450,6 +1472,10 @@ Shape.prototype = {
     updateLayer: function updateLayer(layer) {
         console.log('更新层级', layer);
         this._layerIndex = layer;
+    },
+    getChoosed: function getChoosed() {
+        console.log('选中', this._layerIndex);
+        this._getChoosed = true;
     }
 };
 
@@ -1609,7 +1635,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:42:44
+ * @Last Modified time: 2017-10-13 11:09:39
  * 主要 引入对象
  * 
  * 
@@ -1640,6 +1666,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('addAnimation', this, this.addAnimationFrag);
     this.bus.add('update', this, this.update);
     this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
+    this.bus.add('clearDetectedLayers', this, this.clearDetectedLayers);
     // console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
@@ -1728,7 +1755,13 @@ WxDraw.prototype = {
     },
     getDetectedLayers: function getDetectedLayers(layers) {
         this.detectedLayers.push(layers);
-        console.log(this.detectedLayers);
+        console.log('LAYERS', this.detectedLayers);
+        console.log('max', Math.max.apply(null, this.detectedLayers));
+        //   this.store.find(Math.max.apply(null,this.detectedLayers)).getChoosed();
+        //   console.log(this.detectedLayers);
+    },
+    clearDetectedLayers: function clearDetectedLayers() {
+        this.detectedLayers = []; //清空选中层级
     }
 
 };
