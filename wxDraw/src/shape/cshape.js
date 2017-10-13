@@ -47,6 +47,7 @@ export const Cshape = function (option) {
     this.points = this.genPointsPositiveLoc();
     this.getMax();
     this._isChoosed = false;
+    
     this.rotateOrigin=null    
 }
 
