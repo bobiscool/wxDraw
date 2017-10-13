@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 14:13:06
+ * @Last Modified time: 2017-10-13 14:33:58
  * cshape 用户自定义的图形
  */
 
@@ -43,18 +43,23 @@ export const Cshape = function (option) {
         minX: 0,
         minY: 0,
     };
-    this.massCenter = this.genMassCenter(this.Option.points);
-    this.points = this.genPointsPositiveLoc();
+    
+    this.massCenter = this.genMassCenter(this.Option.points);// 拿到点位 先计算重心
+    this.posPoints = this.genPointsPositiveLoc();
     this.getMax();
     this._isChoosed = false;
-    
+
     this.rotateOrigin=null    
 }
 
 Cshape.prototype = {
-    genPointsPositiveLoc: function (x, y) {
-         
-        return points;
+    genPointsPositiveLoc: function () {
+        // 计算出所有 点与中心的相对位置
+        let _allPos = [];
+        this.Option.points.forEach(function(item){
+             _allPos.push([this.massCenter-item[0],this.massCenter-item[1]])
+        },this);
+        return _allPos;
     },
     genMassCenter:function(points) {
         //计算质心 
@@ -71,9 +76,16 @@ Cshape.prototype = {
         }
 
     },
+    getPoints:function(x,y){
+        let _points = [];
+        this.posPoints.forEach(function(){
+          _points.push([x-item[0],y-item[1]]);
+       });//计算点位
+        return _points;
+    },
     getMax: function () {
         //绘制 与检测 不能在统一个地方
-        let _Points = this.getPoints(this.Option.x, this.Option.y);
+        let _Points =this.getPoints();
 
         this.max = {
             maxX: 0,
@@ -111,11 +123,11 @@ Cshape.prototype = {
     createPath: function (context, x, y) {
         //创建路径
         var points = this.getPoints(x, y);
-
+      
         context.beginPath();
-        context.moveTo(points[0].x, points[0].y);
-        for (var i = 1; i < this.Option.sides; ++i) {
-            context.lineTo(points[i].x, points[i].y);
+        context.moveTo(points[0][1], points[0][1]);
+        for(var i =1;i<=points.length;i++){
+          context.lineTo(points[i][0],points[i][1]);
         }
         context.closePath();
     },
@@ -136,9 +148,9 @@ Cshape.prototype = {
     _draw: function (context) {
         this.getMax();
         if (!this.rotateOrigin) {
-            context.translate(this.Option.x, this.Option.y);
+            context.translate(this.massCenter[0], this.massCenter[1]);
             context.rotate(this.Option.rotate);
-            this.createPath(context, 0, 0);
+            this.createPath(context, 0, 0); //绘制时候得坐标 与检测点击时候的坐标 是不一样的！！！！！
         } else {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
@@ -146,7 +158,7 @@ Cshape.prototype = {
             // console.log('不按原点旋转');
             context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
-            this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1])
+            this.createPath(context, this.massCenter[0] - this.rotateOrigin[0], this.massCenter[1] - this.rotateOrigin[1])
         }
     },
     move: function (x, y) {
