@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:42:44
+ * @Last Modified time: 2017-10-13 10:57:48
  * 主要 引入对象
  * 
  * 
@@ -41,6 +41,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('addAnimation',this,this.addAnimationFrag);
     this.bus.add('update',this,this.update);
     this.bus.add('getDetectedLayers',this,this.getDetectedLayers);
+    this.bus.add('clearDetectedLayers',this,this.clearDetectedLayers);
     // console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
@@ -133,7 +134,11 @@ WxDraw.prototype = {
     },
     getDetectedLayers:function(layers){
       this.detectedLayers.push(layers);
-      console.log(this.detectedLayers);
+      this.store.find(Math.max(...this.detectedLayers)).getChooed();
+    //   console.log(this.detectedLayers);
+    },
+    clearDetectedLayers:function(){
+      this.detectedLayers=[];//清空选中层级
     }
    
 }

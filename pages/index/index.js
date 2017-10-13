@@ -59,7 +59,7 @@ Page({
 
     var cir1 = new Shape('circle', { x: 40, y: 20, r: 20, fillStyle: "#e3e223" }, true,true)
   
-    var cir2 = new Shape('rect', { x: 20, y: 20, w: 40,h:40, fillStyle: "#e33123" }, false,true)
+    var cir2 = new Shape('rect', { x: 20, y: 20, w: 40,h:40, strokeStyle: "#344323" }, false,true)
 
     var cir3 = new Shape('polygon', {x:70,y:80,r:20,sides:5}, true, true)
 

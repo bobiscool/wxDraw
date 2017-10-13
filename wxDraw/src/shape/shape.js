@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 10:40:36
+ * @Last Modified time: 2017-10-13 10:58:52
  * 在这里添加事件 
  */
 
@@ -30,6 +30,7 @@ export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     this.aniFragWraper = null;
     //
     this._layerIndex = 0;//用于点击时候的
+    this._getChooed = false;//用于选中
 }
 
 
@@ -50,19 +51,23 @@ Shape.prototype = {
         this.Shape.detected(x, y);
         if (this.Shape.detected(x, y)) {
             console.log('点击')
-         this.bus.dispatch('getDetectedLayers','no',this._layerIndex);
+            this.bus.dispatch('getDetectedLayers', 'no', this._layerIndex);
         }
 
     },
     moveDetect: function (x, y) {
         // console.log('moveDetect')
-        if (this.draggable) {
+        if (this.draggable && this._getChooed) {
             this.Shape.moveDetect(x, y);
 
         }
     },
     upDetect: function () {
-        this.Shape.upDetect();
+        if (this._getChooed) {
+            this.bus.dispatch('clearDetectedLayers', 'no');//清空选中数组
+            this.Shape.upDetect();
+        }
+
     },
 
     /**
@@ -143,8 +148,8 @@ Shape.prototype = {
                 this.aniFragWraper.setLoop(a);//设置循环                
             }
 
-            if(typeof a === 'number'){
-                this.aniFragWraper.setLoop(true,a);
+            if (typeof a === 'number') {
+                this.aniFragWraper.setLoop(true, a);
             }
             this.bus.dispatch('addAnimation', "no", this.aniFragWraper, this.Shapeid);
             this.aniFragListId = "";// 每一段动画的id
@@ -163,13 +168,16 @@ Shape.prototype = {
 
         return this;
     },
-    setOrigin:function(loc){
+    setOrigin: function (loc) {
         this.Shape.setRotateOrigin(loc)
         return this;
     },
-    updateLayer:function(layer){
-        console.log('更新层级',layer);
+    updateLayer: function (layer) {
+        console.log('更新层级', layer);
         this._layerIndex = layer;
+    },
+    getChooed: function () {
+        this._getChooed = true;
     }
 }
 
