@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 14:35:46
+ * @Last Modified time: 2017-10-13 14:41:08
  * cshape 用户自定义的图形
  */
 
@@ -162,8 +162,8 @@ Cshape.prototype = {
     },
     move: function (x, y) {
 
-        this.Option.x = x;
-        this.Option.y = y;
+        this.massCenter[0] = x;
+        this.massCenter[1] = y;
         // console.log('---------------', this.Option);
     },
     detected: function (x, y) {
