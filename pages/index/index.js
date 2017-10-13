@@ -144,7 +144,7 @@ Page({
       easing: "linear"
     }).start(1);
 
-    cir3.updateOption({rotateOrigin:[40,40]}).animate({ "rotate": "-=200" }, {
+    cir3.setOrigin([500,40]).animate({ "rotate": "-=200" }, {
       duration: 20000,
       onLooping: function () {
         console.log('动画2'
