@@ -2,10 +2,11 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 13:29:33
+ * @Last Modified time: 2017-10-13 17:21:12
  */
 
 import { util } from '../util/utils.js';
+import { Matrix } from '../util/matrix.js';
 
 
 var pOption = {
@@ -43,7 +44,7 @@ export const Polygon = function (option) {
     this.points = this.getPoints(this.Option.x, this.Option.y);
     this.getMax();
     this._isChoosed = false;
-    this.rotateOrigin=null    
+    this.rotateOrigin = null
 }
 
 Polygon.prototype = {
@@ -124,20 +125,37 @@ Polygon.prototype = {
         context.restore();
     },
     _draw: function (context) {
+        let changeMatrix = null;
+        let getchaMatrix = null;
+        let origin = null;
         this.getMax();
+
         if (!this.rotateOrigin) {
-            context.translate(this.Option.x, this.Option.y);
-            context.rotate(this.Option.rotate);
-            this.createPath(context, 0, 0);
+            origin = [this.Option.x, this.Option.y];
         } else {
-            /**
-             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-             */
-            // console.log('不按原点旋转');
-            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
-            context.rotate(this.Option.rotate);
-            this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1])
+            origin = this.rotateOrigin;
         }
+        changeMatrix = new Matrix([
+            [Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), x - origin[0]],
+            [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), x - origin[0]],
+            [0, 0, 1],
+        ])
+        context.translate(this.Option.x, this.Option.y);
+
+        context.rotate(this.Option.rotate);
+        this.createPath(context, 0, 0);
+        // } else {
+        /**
+         * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+         */
+        // console.log('不按原点旋转');
+        context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
+        context.rotate(this.Option.rotate);
+        this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1])
+        // }
+    },
+    getPointTodraw:function(){
+       //利用矩阵计算点位
     },
     move: function (x, y) {
 
@@ -163,7 +181,7 @@ Polygon.prototype = {
             }
         }
 
-      return false;
+        return false;
     },
     moveDetect: function (x, y) {
 
@@ -202,13 +220,13 @@ Polygon.prototype = {
         return ifInside;
     },
     updateOption: function (option) {
-        console.log(option);        
-        this.Option = util.extend(this.Option,option);
+        console.log(option);
+        this.Option = util.extend(this.Option, option);
         console.log(this.Option);
         this.bus.dispatch('update', 'no');
     },
-    setRotateOrigin:function(loc){
-        this.rotateOrigin= loc;
+    setRotateOrigin: function (loc) {
+        this.rotateOrigin = loc;
     }
 
 
