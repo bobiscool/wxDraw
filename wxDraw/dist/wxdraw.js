@@ -401,7 +401,7 @@ var Matrix = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-14 17:33:12
+ * @Last Modified time: 2017-10-14 17:39:17
  */
 
 var pOption = {
@@ -505,7 +505,7 @@ Polygon.prototype = {
         var points = this.getPoints();
 
         context.beginPath();
-        context.moveTo(points[0][0], points[0][1].y);
+        context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < this.Option.sides; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
@@ -542,6 +542,7 @@ Polygon.prototype = {
         //利用矩阵计算点位
         var tx = x - origin[0];
         var ty = y - origin[1];
+        console.log(origin);
         var changeMatrix = new Matrix([[Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), (1 - Math.cos(this.Option.rotate)) * tx + ty * Math.sin(this.Option.rotate)], [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), (1 - Math.cos(this.Option.rotate)) * ty - tx * Math.sin(this.Option.rotate)], [0, 0, 1]]);
         var getChangeMatrix = new Matrix([[x], [y], [1]]);
 

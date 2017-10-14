@@ -61,7 +61,7 @@ Page({
   
     var cir2 = new Shape('rect', { x: 20, y: 20, w: 40, h: 40, strokeStyle: "#344323", rotate: Math.PI / 4}, false,true)
 
-    var cir3 = new Shape('polygon', { x: 70, y: 80, r: 20, sides: 5,rotate: 0}, true, true)
+    var cir3 = new Shape('polygon', { x: 100, y: 500, r: 20, sides: 5,rotate: -Math.PI/20}, true, true)
 
 
     console.log(cir3);
