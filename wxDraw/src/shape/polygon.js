@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-14 17:33:12
+ * @Last Modified time: 2017-10-14 17:36:44
  */
 
 import { util,matrixToarray } from '../util/utils.js';
@@ -124,7 +124,7 @@ Polygon.prototype = {
         var points = this.getPoints();
 
         context.beginPath();
-        context.moveTo(points[0][0], points[0][1].y);
+        context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < this.Option.sides; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }

@@ -401,7 +401,7 @@ var Matrix = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-14 17:21:31
+ * @Last Modified time: 2017-10-14 17:33:12
  */
 
 var pOption = {
@@ -540,7 +540,9 @@ Polygon.prototype = {
     },
     getPointTodraw: function getPointTodraw(x, y, origin) {
         //利用矩阵计算点位
-        var changeMatrix = new Matrix([[Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), x - origin[0]], [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), y - origin[1]], [0, 0, 1]]);
+        var tx = x - origin[0];
+        var ty = y - origin[1];
+        var changeMatrix = new Matrix([[Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), (1 - Math.cos(this.Option.rotate)) * tx + ty * Math.sin(this.Option.rotate)], [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), (1 - Math.cos(this.Option.rotate)) * ty - tx * Math.sin(this.Option.rotate)], [0, 0, 1]]);
         var getChangeMatrix = new Matrix([[x], [y], [1]]);
 
         console.log('旋转计算', changeMatrix.multi(getChangeMatrix));
