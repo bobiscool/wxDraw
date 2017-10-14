@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 18:43:46
+ * @Last Modified time: 2017-10-14 17:33:12
  */
 
 import { util,matrixToarray } from '../util/utils.js';
@@ -74,10 +74,12 @@ Polygon.prototype = {
             origin = this.rotateOrigin;
         }
         this.oriPoints.forEach(function (item) {
+            console.log('item',item);
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
         
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
+        console.log(this._Points);
         return this._Points;
     },
     getMax: function () {
@@ -161,9 +163,11 @@ Polygon.prototype = {
     },
     getPointTodraw: function (x, y, origin) {
         //利用矩阵计算点位
+        let tx = x - origin[0];
+        let ty = y - origin[1];
         let changeMatrix = new Matrix([
-            [Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), x - origin[0]],
-            [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), y - origin[0]],
+            [Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), (1-Math.cos(this.Option.rotate))*tx + ty*Math.sin(this.Option.rotate)],
+            [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), (1-Math.cos(this.Option.rotate))*ty - tx*Math.sin(this.Option.rotate)],
             [0, 0, 1]
         ]);
         let getChangeMatrix = new Matrix([
@@ -171,6 +175,8 @@ Polygon.prototype = {
         ]);
        
         console.log('旋转计算',changeMatrix.multi(getChangeMatrix));
+        console.log('旋转计算2',getChangeMatrix);
+        console.log('旋转计算3',changeMatrix);
         
         return changeMatrix.multi(getChangeMatrix).matrixArray;//计算出每一个点变化之后的位置
     },

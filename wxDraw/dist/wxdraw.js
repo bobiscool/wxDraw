@@ -401,7 +401,7 @@ var Matrix = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 18:36:48
+ * @Last Modified time: 2017-10-14 17:21:31
  */
 
 var pOption = {
@@ -459,19 +459,13 @@ Polygon.prototype = {
             origin = this.rotateOrigin;
         }
         this.oriPoints.forEach(function (item) {
+            console.log('item', item);
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
-        this._Points = matrixToarray(_points);
+        this._Points = matrixToarray(_points); //除掉矩阵多余的部分
+        console.log(this._Points);
         return this._Points;
-    },
-    matrixToarray: function matrixToarray$$1(a) {
-        var _points = []; //将矩阵洗成 点位数组
-        a.forEach(function (item) {
-            _points.push([item[0], item[1]]);
-        });
-
-        return _points;
     },
     getMax: function getMax() {
         //绘制 与检测 不能在统一个地方
@@ -546,8 +540,12 @@ Polygon.prototype = {
     },
     getPointTodraw: function getPointTodraw(x, y, origin) {
         //利用矩阵计算点位
-        var changeMatrix = new Matrix([[Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), x - origin[0]], [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), y - origin[0]], [0, 0, 1]]);
+        var changeMatrix = new Matrix([[Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), x - origin[0]], [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), y - origin[1]], [0, 0, 1]]);
         var getChangeMatrix = new Matrix([[x], [y], [1]]);
+
+        console.log('旋转计算', changeMatrix.multi(getChangeMatrix));
+        console.log('旋转计算2', getChangeMatrix);
+        console.log('旋转计算3', changeMatrix);
 
         return changeMatrix.multi(getChangeMatrix).matrixArray; //计算出每一个点变化之后的位置
     },
@@ -1803,7 +1801,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 11:32:52
+ * @Last Modified time: 2017-10-14 17:14:52
  * 主要 引入对象
  * 
  * 
@@ -1836,7 +1834,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
     this.bus.add('clearDetectedLayers', this, this.clearDetectedLayers);
     // console.log(this.bus);
-    this.animation.start();
+    // this.animation.start();
     Shape.bus = this.bus;
     this.detectedLayers = [];
 }
