@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-14 18:12:16
+ * @Last Modified time: 2017-10-14 18:12:38
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -170,7 +170,7 @@ Polygon.prototype = {
         console.log(origin);
         let changeMatrix = new Matrix([
             [Math.cos(angle), -Math.sin(angle), (1-Math.cos(angle))*tx + ty*Math.sin(angle)],
-            [Math.sin(angle), Math.cos(angle), -(1-Math.cos(angle))*ty - tx*Math.sin(angle)],
+            [Math.sin(angle), Math.cos(angle), -1*(1-Math.cos(angle))*ty - tx*Math.sin(angle)],
             [0, 0, 1]
         ]);
         //公式 源于 https://math.stackexchange.com/questions/2093314/rotation-matrix-and-of-rotation-around-a-point
