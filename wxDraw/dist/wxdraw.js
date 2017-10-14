@@ -401,7 +401,7 @@ var Matrix = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-14 17:39:17
+ * @Last Modified time: 2017-10-14 17:59:29
  */
 
 var pOption = {
@@ -465,6 +465,7 @@ Polygon.prototype = {
 
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
         console.log(this._Points);
+        console.log(this.oriPoints);
         return this._Points;
     },
     getMax: function getMax() {
@@ -540,10 +541,14 @@ Polygon.prototype = {
     },
     getPointTodraw: function getPointTodraw(x, y, origin) {
         //利用矩阵计算点位
-        var tx = x - origin[0];
-        var ty = y - origin[1];
+        var angle = this.Option.rotate;
         console.log(origin);
-        var changeMatrix = new Matrix([[Math.cos(this.Option.rotate), -Math.sin(this.Option.rotate), (1 - Math.cos(this.Option.rotate)) * tx + ty * Math.sin(this.Option.rotate)], [Math.sin(this.Option.rotate), Math.cos(this.Option.rotate), (1 - Math.cos(this.Option.rotate)) * ty - tx * Math.sin(this.Option.rotate)], [0, 0, 1]]);
+        // let changeMatrix = new Matrix([
+        //     [Math.cos(angle), -Math.sin(angle), (1-Math.cos(angle))*tx + ty*Math.sin(angle)],
+        //     [Math.sin(angle), Math.cos(angle), (1-Math.cos(angle))*ty - tx*Math.sin(angle)],
+        //     [0, 0, 1]
+        // ]);
+        var changeMatrix = new Matrix([[Math.cos(angle), -Math.sin(angle), 0], [Math.sin(angle), Math.cos(angle), 0], [0, 0, 1]]);
         var getChangeMatrix = new Matrix([[x], [y], [1]]);
 
         console.log('旋转计算', changeMatrix.multi(getChangeMatrix));

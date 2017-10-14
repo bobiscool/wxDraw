@@ -69,4 +69,6 @@ animate之后 如何继续调animate？ 在目标模式下不会有什么 问题
 - 投影轴定理
 - pnp算法
 - 矩阵变换
-  点位按照 某个点旋转 [->](http://blog.csdn.net/csxiaoshui/article/details/65446125)
+  点位按照 某个点旋转 [->](http://blog.csdn.net/csxiaoshui/article/details/65446125) 这个有问题 ！！！
+   还有这个 。。。 不用矩阵也行 [](https://stackoverflow.com/questions/2259476/rotating-a-point-about-another-point-2d)
+   [看这个](https://math.stackexchange.com/questions/2093314/rotation-matrix-and-of-rotation-around-a-point)
