@@ -63,7 +63,7 @@ Page({
 
     var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
-    var cir3 = new Shape('polygon', { x: 0, y: 300, r: 100, sides: 7, rotate: Math.PI }, true, true)
+    var cir3 = new Shape('polygon', { x: 0, y: 300, r: 100, sides: 7, rotate: 100*Math.PI }, true, true)
         
     // cir3.setOrigin([40,40])
     console.log(cir3);
