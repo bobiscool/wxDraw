@@ -401,7 +401,7 @@ var Matrix = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-14 17:59:29
+ * @Last Modified time: 2017-10-15 17:24:57
  */
 
 var pOption = {
@@ -458,8 +458,10 @@ Polygon.prototype = {
         } else {
             origin = this.rotateOrigin;
         }
+
+        console.log('item', origin);
+
         this.oriPoints.forEach(function (item) {
-            console.log('item', item);
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
@@ -541,21 +543,38 @@ Polygon.prototype = {
     },
     getPointTodraw: function getPointTodraw(x, y, origin) {
         //利用矩阵计算点位
+        var tx = origin[0] - x;
+        var ty = origin[1] - y;
         var angle = this.Option.rotate;
         console.log(origin);
+        console.log(tx);
+        console.log(ty);
         // let changeMatrix = new Matrix([
-        //     [Math.cos(angle), -Math.sin(angle), (1-Math.cos(angle))*tx + ty*Math.sin(angle)],
-        //     [Math.sin(angle), Math.cos(angle), (1-Math.cos(angle))*ty - tx*Math.sin(angle)],
+        //     [Math.cos(angle), -Math.sin(angle), (Math.cos(angle)-1)*tx - ty*Math.sin(angle)],
+        //     [Math.sin(angle), Math.cos(angle), (Math.cos(angle)-1)*ty + tx*Math.sin(angle)],
         //     [0, 0, 1]
         // ]);
-        var changeMatrix = new Matrix([[Math.cos(angle), -Math.sin(angle), 0], [Math.sin(angle), Math.cos(angle), 0], [0, 0, 1]]);
+        //公式 源于 https://math.stackexchange.com/questions/2093314/rotation-matrix-and-of-rotation-around-a-point
+        var AtranslateMatrix = new Matrix([[1, 0, origin[0]], [0, origin[1], 0], [0, 0, 1]]); //平移
+
+        var BtranslateMatrix = new Matrix([[1, 0, -origin[0]], [0, -origin[1], 0], [0, 0, 1]]); //平移
+
+        var rotateMatrix = new Matrix([[Math.cos(angle), Math.sin(angle), 0], [-Math.sin(angle), Math.cos(angle), 0], [0, 0, 1]]); //旋转
+
+
         var getChangeMatrix = new Matrix([[x], [y], [1]]);
 
-        console.log('旋转计算', changeMatrix.multi(getChangeMatrix));
-        console.log('旋转计算2', getChangeMatrix);
-        console.log('旋转计算3', changeMatrix);
+        // console.log('平移旋转计算', AtranslateMatrix.multi(getChangeMatrix));
 
-        return changeMatrix.multi(getChangeMatrix).matrixArray; //计算出每一个点变化之后的位置
+        // console.log(x,y);
+        console.log('A', AtranslateMatrix.multi(rotateMatrix).multi(BtranslateMatrix));
+        var _temMatrix = AtranslateMatrix.multi(rotateMatrix).multi(BtranslateMatrix).multi(getChangeMatrix);
+        var _roMatrix = rotateMatrix.multi(getChangeMatrix);
+        // console.log('平移旋转计算', _temMatrix);
+        // console.log('旋转计算2', getChangeMatrix);
+        // console.log('旋转计算3', changeMatrix);
+
+        return _temMatrix.matrixArray; //计算出每一个点变化之后的位置
     },
     move: function move(x, y) {
 
@@ -1809,7 +1828,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-14 17:14:52
+ * @Last Modified time: 2017-10-14 21:50:19
  * 主要 引入对象
  * 
  * 
