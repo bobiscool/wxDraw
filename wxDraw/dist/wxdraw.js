@@ -401,7 +401,7 @@ var Matrix = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-15 17:24:57
+ * @Last Modified time: 2017-10-15 17:42:47
  */
 
 var pOption = {
@@ -543,8 +543,8 @@ Polygon.prototype = {
     },
     getPointTodraw: function getPointTodraw(x, y, origin) {
         //利用矩阵计算点位
-        var tx = origin[0] - x;
-        var ty = origin[1] - y;
+        var tx = -origin[0] + x;
+        var ty = -origin[1] + y;
         var angle = this.Option.rotate;
         console.log(origin);
         console.log(tx);
@@ -555,21 +555,45 @@ Polygon.prototype = {
         //     [0, 0, 1]
         // ]);
         //公式 源于 https://math.stackexchange.com/questions/2093314/rotation-matrix-and-of-rotation-around-a-point
-        var AtranslateMatrix = new Matrix([[1, 0, origin[0]], [0, origin[1], 0], [0, 0, 1]]); //平移
+        // let AtranslateMatrix = new Matrix([
+        //     [1, 0, origin[0]],
+        //     [0, origin[1], 0],
+        //     [0, 0, 1]
+        // ]);//平移
 
-        var BtranslateMatrix = new Matrix([[1, 0, -origin[0]], [0, -origin[1], 0], [0, 0, 1]]); //平移
+        // let BtranslateMatrix = new Matrix([
+        //     [1, 0, -origin[0]],
+        //     [0, -origin[1], 0],
+        //     [0, 0, 1]
+        // ]);//平移
 
-        var rotateMatrix = new Matrix([[Math.cos(angle), Math.sin(angle), 0], [-Math.sin(angle), Math.cos(angle), 0], [0, 0, 1]]); //旋转
+        // let rotateMatrix = new Matrix([
+        //     [Math.cos(angle), Math.sin(angle), 0],
+        //     [-Math.sin(angle), Math.cos(angle), 0],
+        //     [0, 0, 1]
+        // ]);//旋转
 
 
-        var getChangeMatrix = new Matrix([[x], [y], [1]]);
+        // let getChangeMatrix = new Matrix([
+        //     [x], [y], [1]
+        // ]);
+
+
+        var AtranslateMatrix = new Matrix([[origin[0]], [origin[1]]]); //平移
+
+
+        var rotateMatrix = new Matrix([[Math.cos(angle), Math.sin(angle)], [-Math.sin(angle), Math.cos(angle)]]); //旋转
+
+
+        var getChangeMatrix = new Matrix([[tx], [ty]]);
 
         // console.log('平移旋转计算', AtranslateMatrix.multi(getChangeMatrix));
 
         // console.log(x,y);
-        console.log('A', AtranslateMatrix.multi(rotateMatrix).multi(BtranslateMatrix));
-        var _temMatrix = AtranslateMatrix.multi(rotateMatrix).multi(BtranslateMatrix).multi(getChangeMatrix);
-        var _roMatrix = rotateMatrix.multi(getChangeMatrix);
+        console.log('A', rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix));
+        var _temMatrix = rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix);
+        // let _temMatrix = AtranslateMatrix.multi(rotateMatrix).multi(BtranslateMatrix).multi(getChangeMatrix);
+        // let _roMatrix = rotateMatrix.multi(getChangeMatrix);
         // console.log('平移旋转计算', _temMatrix);
         // console.log('旋转计算2', getChangeMatrix);
         // console.log('旋转计算3', changeMatrix);

@@ -63,9 +63,9 @@ Page({
 
     var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
-    var cir3 = new Shape('polygon', { x: 0, y: 300, r: 10, sides: 5, rotate: 0 }, true, true)
+    var cir3 = new Shape('polygon', { x: 0, y: 300, r: 100, sides: 7, rotate: Math.PI }, true, true)
         
-    cir3.setOrigin([40,40])
+    // cir3.setOrigin([40,40])
     console.log(cir3);
     this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir3);
