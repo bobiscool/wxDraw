@@ -961,7 +961,7 @@ Rect.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:19:24
+ * @Last Modified time: 2017-10-16 14:24:46
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -1037,9 +1037,10 @@ Cshape.prototype = {
     },
     getOriPoints: function getOriPoints(x, y) {
         var _points = [];
+
         this.posPoints.forEach(function (item) {
-            _points.push([x - item[0], y - item[1]]);
-        }); //计算点位
+            _points.push([this.massCenter.x - item[0], this.massCenter.y - item[1]]);
+        }, this); //计算点位
         this.oriPoints = _points;
     },
     genPoints: function genPoints() {
@@ -1137,8 +1138,8 @@ Cshape.prototype = {
     },
     move: function move(x, y) {
 
-        this.massCenter[0] = x;
-        this.massCenter[1] = y;
+        this.massCenter.x = x;
+        this.massCenter.y = y;
         // console.log('---------------', this.Option);
     },
     detected: function detected(x, y) {
@@ -1166,6 +1167,8 @@ Cshape.prototype = {
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
             this.getOriPoints();
+            console.log(this.massCenter);
+            console.log(this.oriPoints);
             this.genPoints();
             this.getMax();
         }
