@@ -751,7 +751,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 19:19:28
+ * @Last Modified time: 2017-10-16 19:32:13
  * 普通形状
  * 
  */
@@ -869,7 +869,7 @@ Circle.prototype = {
 
 };var Rect = function Rect(option) {
     var _temOption = util.extend(option, rOption);
-    // console.log(_temOption);
+    console.log(_temOption);
     this.Option = _temOption;
     this._isChoosed = false;
     this._offsetX = 0;
@@ -913,8 +913,9 @@ Rect.prototype = {
         context.restore();
     },
     _draw: function _draw(context) {
+        this.getOriPoints();
         this.getPoints(); //拿到所有真实点
-        console.log('_POINTS', this.Option);
+        // console.log('_POINTS',this.Option);
         this.getMax(); //所有真实点max min
         this.createPath(context); //绘制
     },
@@ -990,7 +991,7 @@ Rect.prototype = {
         //创建路径
         console.log('创建路径');
         var points = this._Points;
-        console.log(points);
+        // console.log(points);
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < points.length; ++i) {

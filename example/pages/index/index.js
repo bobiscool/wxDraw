@@ -141,13 +141,13 @@ Page({
 
 
 
-    // cir2.animate({ "x": "+=200"}, {
-    //   duration: 1000,
-    //   onLooping: function () {
-    //      console.log('动画1');
-    //   },
-    //   easing: "easeTo"
-    // }).start();
+    cir2.animate({ "x": "+=200"}, {
+      duration: 1000,
+      onLooping: function () {
+         console.log('动画1');
+      },
+      easing: "easeTo"
+    }).start();
 
     // cir3.animate({ "y": "+=200"}, {
     //   duration: 1000,
