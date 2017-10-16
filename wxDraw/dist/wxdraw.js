@@ -961,7 +961,7 @@ Rect.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:36:07
+ * @Last Modified time: 2017-10-16 15:31:35
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -1131,6 +1131,9 @@ Cshape.prototype = {
         context.restore();
     },
     _draw: function _draw(context) {
+        console.log(this.massCenter);
+        console.log(this.oriPoints);
+        this.getOriPoints();
         this.genPoints(); //拿到所有真实点
         // console.log('_POINTS',this._Points);
         this.getMax(); //所有真实点max min
@@ -1503,7 +1506,7 @@ var specialOption = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 15:17:56
+ * @Last Modified time: 2017-10-16 15:26:44
  */
 
 var FRAGOPTION = {
@@ -1638,7 +1641,8 @@ AnimationFrag.prototype = {
         if (!this.started && !this.complete) {
             if (!this.genFlag) {
                 // 如果是 单点动画
-                this.source = this.object.Shape.Option[this.atrribute]; // 最初动画开始的属性            
+                // this.source = this.object.Shape.Option[this.atrribute];// 最初动画开始的属性
+                this.source = this.object.Shape.Option[this.atrribute] ? this.object.Shape.Option[this.atrribute] : this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute]; //两种拿取source得方法
             }
             this.started = true;
             this.running = true;
@@ -1677,12 +1681,13 @@ AnimationFrag.prototype = {
         var _self = this;
         // console.log(_self);
         _keys.forEach(function (item) {
-            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] ? _self.object.Shape.Option[item] : _self.object.Shape[specialOption[_self.object.type][item]][item] });
+            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] ? _self.object.Shape.Option[item] : _self.object.Shape[specialOption[_self.object.type][item]][item] }); //两种拿取source得方法
         });
     },
     updateSourceAndtarget: function updateSourceAndtarget() {
         if (!this.genFlag) {
-            this.source = this.object.Shape.Option[this.atrribute];
+            this.source = this.object.Shape.Option[this.atrribute] ? this.object.Shape.Option[this.atrribute] : this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute]; //两种拿取source得方法
+
             this.incre = genExe(this.exe, this.atrribute, this.object);
         } else {
             // this.atrributeList.forEach(function(item){

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 15:22:37
+ * @Last Modified time: 2017-10-16 15:26:44
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -148,7 +148,8 @@ AnimationFrag.prototype = {
         }
         if (!this.started && !this.complete) {
             if (!this.genFlag) { // 如果是 单点动画
-                this.source = this.object.Shape.Option[this.atrribute];// 最初动画开始的属性            
+                // this.source = this.object.Shape.Option[this.atrribute];// 最初动画开始的属性
+                this.source = this.object.Shape.Option[this.atrribute] ? this.object.Shape.Option[this.atrribute] : this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute];//两种拿取source得方法
             }
             this.started = true;
             this.running = true;
@@ -191,14 +192,14 @@ AnimationFrag.prototype = {
         var _self = this;
         // console.log(_self);
         _keys.forEach(function (item) {
-            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item]?_self.object.Shape.Option[item]:_self.object.Shape[specialOption[_self.object.type][item]][item] });//两种拿取source得方法
+            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] ? _self.object.Shape.Option[item] : _self.object.Shape[specialOption[_self.object.type][item]][item] });//两种拿取source得方法
         });
 
     },
     updateSourceAndtarget: function () {
         if (!this.genFlag) {
-            this.source =this.object.Shape.Option[item]?this.object.Shape.Option[item]:this.object.Shape[specialOption[this.object.type][item]][item];//两种拿取source得方法
-        
+            this.source = this.object.Shape.Option[this.atrribute] ? this.object.Shape.Option[this.atrribute] : this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute];//两种拿取source得方法
+
             this.incre = genExe(this.exe, this.atrribute, this.object);
         } else {
             // this.atrributeList.forEach(function(item){
