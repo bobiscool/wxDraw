@@ -104,7 +104,7 @@ Page({
     // //   });
 
 
-    cir1.animate({"y":500}, {
+    cir1.animate("y","+=500", {
         duration: 10000,
         onLooping: function () {
           console.log('----');
