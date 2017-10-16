@@ -2223,7 +2223,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 10:38:33
+ * @Last Modified time: 2017-10-16 16:43:03
  * 主要 引入对象
  * 
  * 
@@ -2256,7 +2256,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
     this.bus.add('clearDetectedLayers', this, this.clearDetectedLayers);
     // console.log(this.bus);
-    this.animation.start();
+    // this.animation.start();
     Shape.bus = this.bus;
     this.detectedLayers = [];
 }

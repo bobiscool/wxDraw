@@ -1,9 +1,13 @@
 <!--index.wxml-->
+sdasdsadsadasd
+asdasdasdsadsad
 <view class="container">
- <canvas style="width: 400px; height: 500px;border:1px solid black;" canvas-id="first"
+ <canvas style="width: 400px; height: 500px;border:1px;position:absolute;top:0; solid black;" canvas-id="first"
   disable-scroll=true
   bindtouchstart="bindtouchstart"
   bindtouchmove="bindtouchmove"  
   bindtouchend="bindtouchend"
   ></canvas>
+  
+  
 </view>

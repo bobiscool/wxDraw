@@ -5,7 +5,7 @@ var WxDraw = require("../../utils/wxdraw.js").WxDraw;
 var Shape = require("../../utils/wxdraw.js").Shape;
 var AnimationFrame = require("../../utils/wxdraw.js").AnimationFrame;
 
-console.log(cancelAnimationFrame);
+// console.log(cancelAnimationFrame);
 
 Page({
   data: {
@@ -46,7 +46,7 @@ Page({
     /** 
      * 
      */
-    console.log(requestAnimationFrame);
+    // console.log(requestAnimationFrame);
     var context = wx.createCanvasContext('first')
 
     this.wxCanvas = new WxDraw(context,0,0,400,500);
