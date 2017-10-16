@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 10:37:18
+ * @Last Modified time: 2017-10-16 14:00:32
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -36,10 +36,10 @@ export const Polygon = function (option) {
     this.Option = _temOption;
 
     this.max = {
-        maxX: 0,
-        maxY: 0,
-        minX: 0,
-        minY: 0,
+        maxX: null,
+        maxY: null,
+        minX: null,
+        minY: null,
     };
     this.oriPoints = null//拿到最初的点位
     this._Points = [];//用于检测位置的 点位数组 也是当前位置
@@ -75,7 +75,7 @@ Polygon.prototype = {
         }
 
         console.log('item', origin);
-        
+
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
@@ -90,17 +90,17 @@ Polygon.prototype = {
         let _Points = this._Points;
 
         this.max = {
-            maxX: 0,
-            maxY: 0,
-            minX: 0,
-            minY: 0,
+             maxX: null,
+        maxY: null,
+        minX: null,
+        minY: null,
         };
 
         _Points.forEach(function (element) {
             if (element[0] > this.max.maxX) {
                 this.max.maxX = element[0];
             }
-            if (!this.max.minX) {
+            if (!this.max.minX&&this.max.minX!==0) {
                 this.max.minX = element[0];
             }
             if (this.max.minX && element[0] < this.max.minX) {
@@ -112,7 +112,7 @@ Polygon.prototype = {
             if (element[1] > this.max.maxY) {
                 this.max.maxY = element[1];
             }
-            if (!this.max.minY) {
+            if (!this.max.minY&&this.max.minY!==0) {
                 this.max.minY = element[1];
             }
             if (this.max.minY && element[1] < this.max.minY) {
@@ -237,7 +237,7 @@ Polygon.prototype = {
 
 
         //将所有变化 都转到 Point对象去了 
-        return new Point(x,y).rotate(origin,angle);//计算出每一个点变化之后的位置
+        return new Point(x, y).rotate(origin, angle);//计算出每一个点变化之后的位置
     },
     move: function (x, y) {
 

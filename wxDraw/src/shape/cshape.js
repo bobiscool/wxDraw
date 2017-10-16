@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 13:57:49
+ * @Last Modified time: 2017-10-16 14:00:16
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -142,7 +142,7 @@ Cshape.prototype = {
             if (element[1] > this.max.maxY) {
                 this.max.maxY = element[1];
             }
-            if (!this.max.minY&&this.max.minX!==0) {
+            if (!this.max.minY&&this.max.minY!==0) {
                 this.max.minY = element[1];
             }
             if (this.max.minY && element[1] < this.max.minY) {
