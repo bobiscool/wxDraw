@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 13:30:24
+ * @Last Modified time: 2017-10-16 13:57:49
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -19,13 +19,13 @@ import { util } from '../util/utils.js';
 import { Point } from "./mixins/points.js"
 
 var cOption = {
-    x: 10,
-    y: 10,
+    // x: 10,
+    // y: 10,
     // r: 10,
     // sides: 7,
     fillStyle: "red",
     strokeStyle: "red",
-    points: [[1, 1], [20, 0], [30, 40]],
+    points: [[1, 1], [200, -1], [300, 400]],
     rotate: 0,
 }
 
@@ -37,18 +37,22 @@ export const Cshape = function (option) {
     this.Option = _temOption;
 
     this.max = {
-        maxX: 0,
-        maxY: 0,
-        minX: 0,
-        minY: 0,
+        maxX: null,
+        maxY: null,
+        minX: null,
+        minY: null,
     };
 
     this.massCenter = this.genMassCenter(this.Option.points);// 拿到点位 先计算重心
     this.posPoints = this.genPointsPositiveLoc();
+        console.log(this.massCenter);
+        console.log(this.posPoints);
+    
     this.oriPoints =this.Option.points; 
-    this._Points = [];//用于绘制的点 
+    this._Points = this.Option.points;//用于绘制的点 
     // this.getOriPoints();
     this.getMax();
+    console.log(this.max);
     this._isChoosed = false;
 
     this.rotateOrigin = null
@@ -60,7 +64,7 @@ Cshape.prototype = {
         // 不能放大 缩小
         let _allPos = [];
         this.Option.points.forEach(function (item) {
-            _allPos.push([this.massCenter - item[0], this.massCenter - item[1]])
+            _allPos.push([this.massCenter.x- item[0], this.massCenter.y- item[1]])
         }, this);
         return _allPos;
     },
@@ -72,7 +76,7 @@ Cshape.prototype = {
             _allX += item[0];
             _allY += item[1];
         });
-
+     
         return {
             x: _allX / points.length,
             y: _allY / points.length
@@ -81,7 +85,7 @@ Cshape.prototype = {
     },
     getOriPoints: function (x, y) {
         let _points = [];
-        this.posPoints.forEach(function () {
+        this.posPoints.forEach(function (item) {
             _points.push([x - item[0], y - item[1]]);
         });//计算点位
         this.oriPoints = _points;
@@ -115,17 +119,18 @@ Cshape.prototype = {
         let _Points = this._Points;
 
         this.max = {
-            maxX: 0,
-            maxY: 0,
-            minX: 0,
-            minY: 0,
+            maxX: null,
+            maxY: null,
+            minX: null,
+            minY: null,
         };
 
         _Points.forEach(function (element) {
+            console.log('el',element[1]);
             if (element[0] > this.max.maxX) {
                 this.max.maxX = element[0];
             }
-            if (!this.max.minX) {
+            if (!this.max.minX&&this.max.minX!==0) {
                 this.max.minX = element[0];
             }
             if (this.max.minX && element[0] < this.max.minX) {
@@ -137,7 +142,7 @@ Cshape.prototype = {
             if (element[1] > this.max.maxY) {
                 this.max.maxY = element[1];
             }
-            if (!this.max.minY) {
+            if (!this.max.minY&&this.max.minX!==0) {
                 this.max.minY = element[1];
             }
             if (this.max.minY && element[1] < this.max.minY) {
@@ -147,13 +152,17 @@ Cshape.prototype = {
 
 
     },
-    createPath: function (context, x, y) {
+    createPath: function (context) {
         //创建路径
         var points = this._Points;
-
+        console.log(points[0][1], points[0][1]);
+        if(points.length<=0){
+            return false;
+        }
         context.beginPath();
-        context.moveTo(points[0][1], points[0][1]);
-        for (var i = 1; i <= points.length; i++) {
+        console.log(points.length);
+        context.moveTo(points[0][0], points[0][1]);
+        for (var i = 1; i < points.length; i++) {
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();

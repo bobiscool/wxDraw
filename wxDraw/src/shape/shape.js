@@ -3,13 +3,13 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 11:28:24
+ * @Last Modified time: 2017-10-16 13:32:10
  * 在这里添加事件 
  */
 
 import { Polygon } from './polygon.js';
 import { Rect, Circle } from './normalShape.js';
-import { Cshape } from './normalShape.js';
+import { Cshape } from './cshape.js';
 import { AnimationTimer } from '../animation/animationTimer.js';
 import { AnimationFrag } from '../animation/animationFrag.js';
 import { guid } from "../util/utils.js";
@@ -200,7 +200,7 @@ var shapeTypes = {
     'polygon': function (option) {
         return new Polygon(option);
     },
-    'cshape':function(){
+    'cshape':function(option){
         return new Cshape(option);
     }
 }
