@@ -67,7 +67,7 @@ animate之后 如何继续调animate？ 在目标模式下不会有什么 问题
 
 
 - 投影轴定理
-- pnp算法
+- pnp算法 点在多边形 内部算法 ![ZHE](http://blog.csdn.net/hjh2005/article/details/9246967)
 - 矩阵变换
   点位按照 某个点旋转 [->](http://blog.csdn.net/csxiaoshui/article/details/65446125) 这个有问题 ！！！
    还有这个 。。。 不用矩阵也行 [](https://stackoverflow.com/questions/2259476/rotating-a-point-about-another-point-2d)
@@ -75,3 +75,6 @@ animate之后 如何继续调animate？ 在目标模式下不会有什么 问题
 
 
 ### 函数还是 定义得 对外留接口 少点隐形的内部变量
+
+
+### 万一用户是凹多边形呢 
