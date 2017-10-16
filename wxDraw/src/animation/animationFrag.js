@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 15:20:36
+ * @Last Modified time: 2017-10-16 15:22:37
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -197,7 +197,8 @@ AnimationFrag.prototype = {
     },
     updateSourceAndtarget: function () {
         if (!this.genFlag) {
-            this.source = this.object.Shape.Option[this.atrribute];
+            this.source =this.object.Shape.Option[item]?this.object.Shape.Option[item]:this.object.Shape[specialOption[this.object.type][item]][item];//两种拿取source得方法
+        
             this.incre = genExe(this.exe, this.atrribute, this.object);
         } else {
             // this.atrributeList.forEach(function(item){
