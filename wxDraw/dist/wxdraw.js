@@ -401,7 +401,7 @@ var Matrix = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-15 23:33:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 10:45:15
+ * @Last Modified time: 2017-10-16 19:24:23
  * 关于点的一些方法 特别是 点相对于某点旋转之后 的
  * 
  */
@@ -751,7 +751,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 18:36:40
+ * @Last Modified time: 2017-10-16 19:19:28
  * 普通形状
  * 
  */
@@ -914,7 +914,7 @@ Rect.prototype = {
     },
     _draw: function _draw(context) {
         this.getPoints(); //拿到所有真实点
-        // console.log('_POINTS',this._Points);
+        console.log('_POINTS', this.Option);
         this.getMax(); //所有真实点max min
         this.createPath(context); //绘制
     },
@@ -937,7 +937,7 @@ Rect.prototype = {
             origin = this.rotateOrigin;
         }
 
-        // console.log('item', origin);
+        console.log('item', origin);
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin));

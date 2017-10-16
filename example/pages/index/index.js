@@ -65,11 +65,11 @@ Page({
         [131, 40], [90, -12], [0, 400],
         [13, 6], [70, -17], [30, 42]]}, true,true)
   
-    var cir2 = new Shape('rect', { x: 60, y: 60, w: 40, h: 40, strokeStyle: "#344323", rotate: 0}, false,true)
+    var cir2 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, strokeStyle: "#344323", rotate: 200}, false,true)
 
     var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
-    var cir3 = new Shape('polygon', { x: 300, y: 300, r: 100, sides: 7, rotate: Math.PI/4 }, true, true)
+    var cir3 = new Shape('polygon', { x: 330, y: 300, r: 100, sides: 7, rotate: Math.PI/4 }, true, true)
         
     // cir3.setOrigin([40,40])
     console.log(cir3);
@@ -141,16 +141,10 @@ Page({
 
 
 
-    // cir3.animate({ "x": "+=200"}, {
+    // cir2.animate({ "x": "+=200"}, {
     //   duration: 1000,
     //   onLooping: function () {
     //      console.log('动画1');
-    //   },
-    //   easing: "easeTo"
-    // }).animate({ "x": "-=200"}, {
-    //   duration: 1000,
-    //   onLooping: function () {
-    //     console.log('动画1');
     //   },
     //   easing: "easeTo"
     // }).start();
