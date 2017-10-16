@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:57:20
+ * @Last Modified time: 2017-10-16 15:10:34
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -34,7 +34,7 @@ function genExe(exe, atrribute, object) {
         if (object.Shape.Option[atrribute]) {
             temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
         } else {
-            temAtrr = parseFloat(exe) - parseFloat(object.Shape[specialOption[atrribute]][atrribute]);//一些特殊的属性
+            temAtrr = parseFloat(exe) - parseFloat(object.Shape[specialOption[object.type][atrribute]][atrribute]);//一些特殊的属性
 
         }
         // console.log('temAtrr', temAtrr);
@@ -56,6 +56,9 @@ function genExe(exe, atrribute, object) {
 
 }
 
+function getSpecialAtrribute(object, atrribute) {
+    return object.Shape[specialOption[object.type][atrribute]][atrribute];//一些特殊的属性
+}
 
 export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     // 这里是动画碎片 更改 obj的地方 但是 问题就在这里 这应该是 最简单的功能 就是对比目标 
@@ -162,10 +165,22 @@ AnimationFrag.prototype = {
         // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
         // console.log('cx', this.object.Shape[this.atrribute]);
         if (!this.genFlag) {
-            this.object.Shape.Option[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+            if (this.object.Shape.Option[this.atrribute]) {
+                this.object.Shape.Option[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+
+            } else {
+                this.object.Shape[specialOption[object.type][atrribute]][atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+            }
         } else {
             this.atrributeList.forEach(function (item) {
-                this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+
+                if (this.object.Shape.Option[item.attr]) {
+                    this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+
+                } else {
+                    this.object.Shape[specialOption[object.type][item.attr]][item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+                }
+                // this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
             }, this);
         }
     },
