@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:24:46
+ * @Last Modified time: 2017-10-16 14:36:07
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -25,7 +25,13 @@ var cOption = {
     // sides: 7,
     fillStyle: "red",
     strokeStyle: "red",
-    points: [[1, 1], [200, -1], [300, 400]],
+    points: [
+        [145, 30], [0, -211], [300, 400],
+        [113, 50], [30, -31], [3, 40],
+        [123, 90], [20, -1], [30, 60],
+        [131, 40], [90, -12], [0, 400],
+        [13, 6], [70, -17], [30, 42],
+],
     rotate: 0,
 }
 
