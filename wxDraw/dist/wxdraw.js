@@ -399,9 +399,59 @@ var Matrix = function () {
 
 /*
  * @Author: Thunderball.Wu 
+ * @Date: 2017-10-15 23:33:37 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-16 09:38:56
+ * 关于点的一些方法 
+ * 
+ */
+
+var Point = function () {
+    function Point(x, y) {
+        classCallCheck(this, Point);
+
+        this.x = x;
+        this.y = y;
+    }
+
+    createClass(Point, [{
+        key: 'translate',
+        value: function translate(dx, dy) {
+            this.x += dx;
+            this.y += dy;
+        }
+    }, {
+        key: 'rotate',
+        value: function rotate(origin, angle) {
+
+            if (origin) {
+                var tx = -origin[0] + this.x;
+                var ty = -origin[1] + this.y;
+                var AtranslateMatrix = new Matrix([[origin[0]], [origin[1]]]); //平移
+
+
+                var rotateMatrix = new Matrix([[Math.cos(angle), -Math.sin(angle)], [Math.sin(angle), Math.cos(angle)]]); //旋转
+
+                var getChangeMatrix = new Matrix([[tx], [ty]]);
+
+                var _temMatrix = rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix);
+                return _temMatrix.matrixArray;
+            }
+        }
+    }, {
+        key: 'scale',
+        value: function scale() {
+            //现在 还不用 
+        }
+    }]);
+    return Point;
+}();
+
+/*
+ * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-15 17:42:47
+ * @Last Modified time: 2017-10-16 10:09:22
  */
 
 var pOption = {
@@ -413,9 +463,14 @@ var pOption = {
     strokeStyle: "red",
     rotate: 0,
     rotateOrigin: null
-};
 
-var Polygon = function Polygon(option) {
+    // function Point(x, y) {
+    //     this.x = x;
+    //     this.y = y;
+    // }
+
+
+};var Polygon = function Polygon(option) {
     var _temOption = util.extend(option, pOption);
 
     this.Option = _temOption;
@@ -428,8 +483,8 @@ var Polygon = function Polygon(option) {
     };
     this.oriPoints = null; //拿到最初的点位
     this._Points = []; //用于检测位置的 点位数组 也是当前位置
-    this.getOriPoints();
-    this.getMax();
+    this.getOriPoints(); //拿到原始点 
+    this.getMax(this.oriPoints); //根据原始点 
     this._isChoosed = false;
     this.rotateOrigin = null;
 };
@@ -466,13 +521,13 @@ Polygon.prototype = {
         }, this);
 
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
-        console.log(this._Points);
-        console.log(this.oriPoints);
-        return this._Points;
+        // console.log(this._Points);
+        // console.log(this.oriPoints);
+        return this._Points; //除掉矩阵多余的部分;
     },
     getMax: function getMax() {
         //绘制 与检测 不能在统一个地方
-        var _Points = this.getPoints();
+        var _Points = this._Points;
 
         this.max = {
             maxX: 0,
@@ -482,30 +537,30 @@ Polygon.prototype = {
         };
 
         _Points.forEach(function (element) {
-            if (element.x > this.max.maxX) {
-                this.max.maxX = element.x;
+            if (element[0] > this.max.maxX) {
+                this.max.maxX = element[0];
             }
             if (!this.max.minX) {
-                this.max.minX = element.x;
+                this.max.minX = element[0];
             }
-            if (this.max.minX && element.x < this.max.minX) {
-                this.max.minX = element.x;
+            if (this.max.minX && element[0] < this.max.minX) {
+                this.max.minX = element[0];
             }
 
-            if (element.y > this.max.maxY) {
-                this.max.maxY = element.y;
+            if (element[1] > this.max.maxY) {
+                this.max.maxY = element[1];
             }
             if (!this.max.minY) {
-                this.max.minY = element.y;
+                this.max.minY = element[1];
             }
-            if (this.max.minY && element.y < this.max.minY) {
-                this.max.minY = element.y;
+            if (this.max.minY && element[1] < this.max.minY) {
+                this.max.minY = element[1];
             }
         }, this);
     },
-    createPath: function createPath(context, x, y) {
+    createPath: function createPath(context) {
         //创建路径
-        var points = this.getPoints();
+        var points = this._Points;
 
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
@@ -529,8 +584,10 @@ Polygon.prototype = {
         context.restore();
     },
     _draw: function _draw(context) {
-        this.getMax();
-        this.createPath(context);
+        this.getPoints(); //拿到所有真实点
+        // console.log('_POINTS',this._Points);
+        this.getMax(); //所有真实点max min
+        this.createPath(context); //绘制
         // } else {
         /**
          * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
@@ -543,12 +600,14 @@ Polygon.prototype = {
     },
     getPointTodraw: function getPointTodraw(x, y, origin) {
         //利用矩阵计算点位
-        var tx = -origin[0] + x;
-        var ty = -origin[1] + y;
+        // let tx = -origin[0] + x;
+        // let ty = -origin[1] + y;
+        // let ox = x;
+        // let oy = x;
         var angle = this.Option.rotate;
-        console.log(origin);
-        console.log(tx);
-        console.log(ty);
+        // console.log(origin);
+        // console.log(tx);
+        // console.log(ty);
         // let changeMatrix = new Matrix([
         //     [Math.cos(angle), -Math.sin(angle), (Math.cos(angle)-1)*tx - ty*Math.sin(angle)],
         //     [Math.sin(angle), Math.cos(angle), (Math.cos(angle)-1)*ty + tx*Math.sin(angle)],
@@ -579,26 +638,36 @@ Polygon.prototype = {
         // ]);
 
 
-        var AtranslateMatrix = new Matrix([[origin[0]], [origin[1]]]); //平移
+        //    let AtranslateMatrix = new Matrix([
+        //     [origin[0]],
+        //     [origin[1]]
+        // ]);//平移
 
 
-        var rotateMatrix = new Matrix([[Math.cos(angle), Math.sin(angle)], [-Math.sin(angle), Math.cos(angle)]]); //旋转
+        // let rotateMatrix = new Matrix([
+        //     [Math.cos(angle), Math.sin(angle)],
+        //     [-Math.sin(angle), Math.cos(angle)]
+        // ]);//旋转
 
 
-        var getChangeMatrix = new Matrix([[tx], [ty]]);
+        // let getChangeMatrix = new Matrix([
+        //     [tx], [ty]
+        // ]);
 
-        // console.log('平移旋转计算', AtranslateMatrix.multi(getChangeMatrix));
+        // // console.log('平移旋转计算', AtranslateMatrix.multi(getChangeMatrix));
 
-        // console.log(x,y);
-        console.log('A', rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix));
-        var _temMatrix = rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix);
+        // // console.log(x,y);
+        // console.log('A',rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix))
+        // let _temMatrix = rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix);
         // let _temMatrix = AtranslateMatrix.multi(rotateMatrix).multi(BtranslateMatrix).multi(getChangeMatrix);
         // let _roMatrix = rotateMatrix.multi(getChangeMatrix);
         // console.log('平移旋转计算', _temMatrix);
         // console.log('旋转计算2', getChangeMatrix);
         // console.log('旋转计算3', changeMatrix);
 
-        return _temMatrix.matrixArray; //计算出每一个点变化之后的位置
+
+        //将所有变化 都转到 Point对象去了 
+        return new Point(x, y).rotate(origin, angle); //计算出每一个点变化之后的位置
     },
     move: function move(x, y) {
 
@@ -610,11 +679,11 @@ Polygon.prototype = {
         // pnpoly 算法区域
 
         // 首先找到 最大x 最小x 最大y 最小y
-        // console.log('多边形点击',x,y,this.max)
+        console.log('多边形点击', x, y, this.max);
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             console.log('点中');
-            this.points = this.getPoints(this.Option.x, this.Option.y);
+            // this.points = this._Points;
 
             this._offsetX = this.Option.x - x;
             this._offsetY = this.Option.y - y;
@@ -630,6 +699,7 @@ Polygon.prototype = {
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
+            this.getPoints();
             this.getMax();
         }
     },

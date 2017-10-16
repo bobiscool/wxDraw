@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-15 23:33:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 00:07:46
+ * @Last Modified time: 2017-10-16 09:38:56
  * 关于点的一些方法 
  * 
  */
@@ -22,8 +22,8 @@ export class Point {
     rotate(origin,angle) {
 
         if (origin) {
-            let tx = -origin[0] + x;
-            let ty = -origin[1] + y;
+            let tx = -origin[0] + this.x;
+            let ty = -origin[1] + this.y;
             let AtranslateMatrix = new Matrix([
                 [origin[0]],
                 [origin[1]]
@@ -31,15 +31,15 @@ export class Point {
 
 
             let rotateMatrix = new Matrix([
-                [Math.cos(angle), Math.sin(angle)],
-                [-Math.sin(angle), Math.cos(angle)]
+                [Math.cos(angle), -Math.sin(angle)],
+                [Math.sin(angle), Math.cos(angle)]
             ]);//旋转
 
             let getChangeMatrix = new Matrix([
                 [tx], [ty]
             ]);
             
-            _temMatrix = rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix);
+            let _temMatrix = rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix);
             return _temMatrix.matrixArray;
         }
     }
