@@ -2,11 +2,12 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 17:49:46
+ * @Last Modified time: 2017-10-16 14:57:20
  */
 
 import { AnimationTimer } from "./animationTimer.js"
 import { util } from '../util/utils.js';
+import { specialOption } from './specialAtrribute.js';
 
 
 var FRAGOPTION = {
@@ -27,9 +28,16 @@ var FRAGOPTION = {
 
 function genExe(exe, atrribute, object) {
     console.log('exe', exe);
-    if (!isNaN(Number(exe))) {
-        let temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
-        console.log('temAtrr', temAtrr);
+
+    if (!isNaN(Number(exe))) {//表达式 是个数字
+        let temAtrr;
+        if (object.Shape.Option[atrribute]) {
+            temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
+        } else {
+            temAtrr = parseFloat(exe) - parseFloat(object.Shape[specialOption[atrribute]][atrribute]);//一些特殊的属性
+
+        }
+        // console.log('temAtrr', temAtrr);
         return temAtrr;
     }
 
@@ -128,7 +136,7 @@ AnimationFrag.prototype = {
             //     // 更新 endcall的 source
             //     this.endCallFrag.updateAnimation(); // 朝后调用
             // }//@todo 有了 wraper 这里的 超后调用就可以 拆掉了
-           
+
             this._aniWrapbus.dispatch('fragAniOver', 'no', 'me');// 这里不需要传一个 特定的 东西
 
 
@@ -190,7 +198,7 @@ AnimationFrag.prototype = {
         this.complete = false;
         this.running = false;
         this.started = false;
-        this.timer = new AnimationTimer(this.oriOption.duration,this.oriOption.easing);
+        this.timer = new AnimationTimer(this.oriOption.duration, this.oriOption.easing);
     }
 }
 
