@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 11:22:56
+ * @Last Modified time: 2017-10-16 11:33:34
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -122,26 +122,26 @@ Cshape.prototype = {
         };
 
         _Points.forEach(function (element) {
-            if (element.x > this.max.maxX) {
-                this.max.maxX = element.x;
+            if (element[0] > this.max.maxX) {
+                this.max.maxX = element[0];
             }
             if (!this.max.minX) {
-                this.max.minX = element.x;
+                this.max.minX = element[0];
             }
-            if (this.max.minX && element.x < this.max.minX) {
-                this.max.minX = element.x;
+            if (this.max.minX && element[0] < this.max.minX) {
+                this.max.minX = element[0];
             }
 
 
 
-            if (element.y > this.max.maxY) {
-                this.max.maxY = element.y;
+            if (element[1] > this.max.maxY) {
+                this.max.maxY = element[1];
             }
             if (!this.max.minY) {
-                this.max.minY = element.y;
+                this.max.minY = element[1];
             }
-            if (this.max.minY && element.y < this.max.minY) {
-                this.max.minY = element.y;
+            if (this.max.minY && element[1] < this.max.minY) {
+                this.max.minY = element[1];
             }
         }, this);
 
@@ -218,6 +218,8 @@ Cshape.prototype = {
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
+            this.getOriPoints();
+            this.getPoints();
             this.getMax();
         }
 
