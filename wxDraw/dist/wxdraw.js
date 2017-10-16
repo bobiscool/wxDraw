@@ -451,7 +451,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 10:09:22
+ * @Last Modified time: 2017-10-16 10:18:59
  */
 
 var pOption = {
@@ -673,7 +673,7 @@ Polygon.prototype = {
 
         this.Option.x = x;
         this.Option.y = y;
-        // console.log('---------------', this.Option);
+        console.log('-------move--------', this.Option);
     },
     detected: function detected(x, y) {
         // pnpoly 算法区域
@@ -730,7 +730,7 @@ Polygon.prototype = {
             if (insect) ifInside = !ifInside;
         }
 
-        console.log(ifInside);
+        // console.log(ifInside);
         return ifInside;
     },
 

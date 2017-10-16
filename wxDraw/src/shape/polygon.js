@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 10:12:31
+ * @Last Modified time: 2017-10-16 10:26:51
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -75,7 +75,7 @@ Polygon.prototype = {
         }
 
         console.log('item', origin);
-
+        
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
@@ -243,7 +243,7 @@ Polygon.prototype = {
 
         this.Option.x = x;
         this.Option.y = y;
-        // console.log('---------------', this.Option);
+        console.log('-------move--------', this.Option);
     },
     detected: function (x, y) {
         // pnpoly 算法区域
@@ -269,8 +269,9 @@ Polygon.prototype = {
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getPoints();
-            this.getMax();
+            this.getOriPoints();//拿到原始点
+            this.getPoints();//拿到变化点
+            this.getMax();//拿到
         }
 
     },
