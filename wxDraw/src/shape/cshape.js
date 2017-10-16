@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 11:12:05
+ * @Last Modified time: 2017-10-16 11:21:35
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -50,9 +50,9 @@ export const Cshape = function (option) {
 
     this.massCenter = this.genMassCenter(this.Option.points);// 拿到点位 先计算重心
     this.posPoints = this.genPointsPositiveLoc();
-    this.oriPoints =[]; 
+    this.oriPoints =this.Option.points; 
     this._Points = [];//用于绘制的点 
-    this.getOriPoints();
+    // this.getOriPoints();
     this.getMax();
     this._isChoosed = false;
 
@@ -61,7 +61,8 @@ export const Cshape = function (option) {
 
 Cshape.prototype = {
     genPointsPositiveLoc: function () {
-        // 计算出所有 点与中心的相对位置
+        // 计算出所有 点与中心的相对位置 只用一次。。。 之后不再用 所以 cshaoe
+        // 不能放大 缩小
         let _allPos = [];
         this.Option.points.forEach(function (item) {
             _allPos.push([this.massCenter - item[0], this.massCenter - item[1]])
@@ -99,7 +100,7 @@ Cshape.prototype = {
             origin = this.rotateOrigin;
         }
 
-        console.log('item', origin);
+        // console.log('item', origin);
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
