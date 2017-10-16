@@ -451,7 +451,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:00:32
+ * @Last Modified time: 2017-10-16 14:15:36
  */
 
 var pOption = {
@@ -514,7 +514,7 @@ Polygon.prototype = {
             origin = this.rotateOrigin;
         }
 
-        console.log('item', origin);
+        // console.log('item', origin);
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin));
@@ -961,7 +961,7 @@ Rect.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:08:03
+ * @Last Modified time: 2017-10-16 14:19:24
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -1057,7 +1057,7 @@ Cshape.prototype = {
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
-        console.log('points', _points);
+        // console.log('points',_points);
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
         // console.log(this._Points);
         // console.log(this.oriPoints);
@@ -1079,7 +1079,7 @@ Cshape.prototype = {
         };
 
         _Points.forEach(function (element) {
-            console.log('el', element[1]);
+            // console.log('el',element[1]);
             if (element[0] > this.max.maxX) {
                 this.max.maxX = element[0];
             }
@@ -1104,12 +1104,11 @@ Cshape.prototype = {
     createPath: function createPath(context) {
         //创建路径
         var points = this._Points;
-        console.log(points[0][1], points[0][1]);
         if (points.length <= 0) {
             return false;
         }
         context.beginPath();
-        console.log(points.length);
+        // console.log(points.length);
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < points.length; i++) {
             context.lineTo(points[i][0], points[i][1]);
@@ -1150,10 +1149,10 @@ Cshape.prototype = {
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             console.log('点中');
-            this.points = this.genPoints(this.Option.x, this.Option.y);
+            // this.points = this.genPoints(this.Option.x, this.Option.y);
 
-            this._offsetX = this.Option.x - x;
-            this._offsetY = this.Option.y - y;
+            this._offsetX = this.massCenter.x - x;
+            this._offsetY = this.massCenter.y - y;
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
@@ -1167,7 +1166,7 @@ Cshape.prototype = {
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
             this.getOriPoints();
-            this.getPoints();
+            this.genPoints();
             this.getMax();
         }
     },
@@ -1180,7 +1179,7 @@ Cshape.prototype = {
         // var B = this.points[1];
         var ifInside = false;
 
-        for (var i = 0, j = this.points.length - 1; i < this.points.length; j = i++) {
+        for (var i = 0, j = this._Points.length - 1; i < this._Points.length; j = i++) {
             /**
              * 0 4
                1 0
@@ -1188,10 +1187,10 @@ Cshape.prototype = {
                3 2
                4 3
              */
-            var Xi = this.points[i].x,
-                Yi = this.points[i].y;
-            var Xj = this.points[j].x,
-                Yj = this.points[j].y;
+            var Xi = this._Points[i][0],
+                Yi = this._Points[i][1];
+            var Xj = this._Points[j][0],
+                Yj = this._Points[j][1];
 
             var insect = Yi > y != Yj > y && x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi;
 

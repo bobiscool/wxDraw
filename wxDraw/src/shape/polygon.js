@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:00:32
+ * @Last Modified time: 2017-10-16 14:15:36
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -74,7 +74,7 @@ Polygon.prototype = {
             origin = this.rotateOrigin;
         }
 
-        console.log('item', origin);
+        // console.log('item', origin);
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))

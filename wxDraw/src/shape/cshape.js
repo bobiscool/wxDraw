@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:09:26
+ * @Last Modified time: 2017-10-16 14:19:24
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -105,7 +105,7 @@ Cshape.prototype = {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
        
-        console.log('points',_points);
+        // console.log('points',_points);
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
         // console.log(this._Points);
         // console.log(this.oriPoints);
@@ -127,7 +127,7 @@ Cshape.prototype = {
         };
 
         _Points.forEach(function (element) {
-            console.log('el',element[1]);
+            // console.log('el',element[1]);
             if (element[0] > this.max.maxX) {
                 this.max.maxX = element[0];
             }
@@ -160,7 +160,7 @@ Cshape.prototype = {
             return false;
         }
         context.beginPath();
-        console.log(points.length);
+        // console.log(points.length);
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < points.length; i++) {
             context.lineTo(points[i][0], points[i][1]);
@@ -203,8 +203,8 @@ Cshape.prototype = {
             console.log('点中');
             // this.points = this.genPoints(this.Option.x, this.Option.y);
 
-            this._offsetX = this.Option.x - x;
-            this._offsetY = this.Option.y - y;
+            this._offsetX = this.massCenter.x - x;
+            this._offsetY = this.massCenter.y - y;
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
@@ -232,7 +232,7 @@ Cshape.prototype = {
         // var B = this.points[1];
         var ifInside = false;
 
-        for (var i = 0, j = this.points.length - 1; i < this.points.length; j = i++) {
+        for (var i = 0, j = this._Points.length - 1; i < this._Points.length; j = i++) {
             /**
              * 0 4
                1 0
@@ -240,8 +240,8 @@ Cshape.prototype = {
                3 2
                4 3
              */
-            var Xi = this.points[i].x, Yi = this.points[i].y;
-            var Xj = this.points[j].x, Yj = this.points[j].y;
+            var Xi = this._Points[i][0], Yi = this._Points[i][1];
+            var Xj = this._Points[j][0], Yj = this._Points[j][1];
 
             var insect = ((Yi > y) != (Yj > y)) && (x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi);
 
