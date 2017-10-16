@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 15:31:35
+ * @Last Modified time: 2017-10-16 15:50:59
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -189,8 +189,8 @@ Cshape.prototype = {
         context.restore();
     },
     _draw: function (context) {
-        console.log(this.massCenter);
-       console.log(this.oriPoints);
+        // console.log(this.massCenter);
+    //    console.log(this.oriPoints);
        this.getOriPoints();
          this.genPoints();//拿到所有真实点
         // console.log('_POINTS',this._Points);
