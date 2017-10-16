@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 11:21:35
+ * @Last Modified time: 2017-10-16 11:22:56
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -28,11 +28,6 @@ var cOption = {
     points: [[1, 1], [20, 0], [30, 40]],
     rotate: 0,
 }
-
-
-
-
-
 
 
 
