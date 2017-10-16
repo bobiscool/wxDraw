@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 18:02:13
+ * @Last Modified time: 2017-10-16 10:39:54
  * 动画 对象 接管所有动画
  */
 
@@ -78,7 +78,7 @@ Animation.prototype = {
         }
     },
     wraperAniComplete: function (afID, shaId) {
-        console.log(afID, shaId);
+        // console.log(afID, shaId);
         if (this.wraperAniCompleteOb[shaId]) {
             this.wraperAniCompleteOb[shaId].push(afID);
 

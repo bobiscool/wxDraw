@@ -63,7 +63,7 @@ Page({
 
     var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
-    var cir3 = new Shape('polygon', { x: 0, y: 300, r: 100, sides: 7, rotate: Math.PI/6 }, true, true)
+    var cir3 = new Shape('polygon', { x: 300, y: 300, r: 100, sides: 7, rotate: Math.PI/4 }, true, true)
         
     // cir3.setOrigin([40,40])
     console.log(cir3);
@@ -99,12 +99,12 @@ Page({
 
 
     cir3.animate({'rotate':Math.PI}, {
-        duration: 2000,
+        duration: 3000,
         onLooping: function () {
           console.log('----');
         },
         easing: "bouncePast"
-    })
+    }).start(19);
     // .animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
     //   duration: 2000,
     //   onLooping: function () {

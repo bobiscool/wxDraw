@@ -451,7 +451,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 10:18:59
+ * @Last Modified time: 2017-10-16 10:37:18
  */
 
 var pOption = {
@@ -673,16 +673,16 @@ Polygon.prototype = {
 
         this.Option.x = x;
         this.Option.y = y;
-        console.log('-------move--------', this.Option);
+        // console.log('-------move--------', this.Option);
     },
     detected: function detected(x, y) {
         // pnpoly 算法区域
 
         // 首先找到 最大x 最小x 最大y 最小y
-        console.log('多边形点击', x, y, this.max);
+        // console.log('多边形点击',x,y,this.max)
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
-            console.log('点中');
+            // console.log('点中');
             // this.points = this._Points;
 
             this._offsetX = this.Option.x - x;
@@ -699,8 +699,9 @@ Polygon.prototype = {
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getPoints();
-            this.getMax();
+            this.getOriPoints(); //拿到原始点
+            this.getPoints(); //拿到变化点
+            this.getMax(); //拿到边界点
         }
     },
     upDetect: function upDetect() {
@@ -735,9 +736,9 @@ Polygon.prototype = {
     },
 
     updateOption: function updateOption(option) {
-        console.log(option);
+        // console.log(option);
         this.Option = util.extend(this.Option, option);
-        console.log(this.Option);
+        // console.log(this.Option);
         this.bus.dispatch('update', 'no');
     },
     setRotateOrigin: function setRotateOrigin(loc) {
@@ -1922,7 +1923,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-14 21:50:19
+ * @Last Modified time: 2017-10-16 10:38:33
  * 主要 引入对象
  * 
  * 
@@ -1955,7 +1956,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
     this.bus.add('clearDetectedLayers', this, this.clearDetectedLayers);
     // console.log(this.bus);
-    // this.animation.start();
+    this.animation.start();
     Shape.bus = this.bus;
     this.detectedLayers = [];
 }

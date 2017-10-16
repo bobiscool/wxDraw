@@ -2,8 +2,16 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 14:41:08
+ * @Last Modified time: 2017-10-16 10:52:20
  * cshape 用户自定义的图形
+ * 拿到形状点位后 
+ * 算出中心 
+ * 算出相对 距离
+ * 然后 点位旋转 如果没有旋中心 那就围着中心点旋转
+ * 如果被移动了 那就是中心点移动
+ * 然后 计算出相对点ori
+ * 然后计算出真实点
+ * 
  */
 
 
@@ -75,12 +83,15 @@ Cshape.prototype = {
         }
 
     },
-    getPoints:function(x,y){
+    getOriPoints:function(x,y){
         let _points = [];
         this.posPoints.forEach(function(){
           _points.push([x-item[0],y-item[1]]);
        });//计算点位
         return _points;
+    },
+    genPoints:function(){
+      
     },
     getMax: function () {
         //绘制 与检测 不能在统一个地方

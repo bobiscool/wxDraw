@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 10:26:51
+ * @Last Modified time: 2017-10-16 10:37:18
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -243,16 +243,16 @@ Polygon.prototype = {
 
         this.Option.x = x;
         this.Option.y = y;
-        console.log('-------move--------', this.Option);
+        // console.log('-------move--------', this.Option);
     },
     detected: function (x, y) {
         // pnpoly 算法区域
 
         // 首先找到 最大x 最小x 最大y 最小y
-        console.log('多边形点击',x,y,this.max)
+        // console.log('多边形点击',x,y,this.max)
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
-            console.log('点中');
+            // console.log('点中');
             // this.points = this._Points;
 
             this._offsetX = this.Option.x - x;
@@ -271,7 +271,7 @@ Polygon.prototype = {
             this.move(x + this._offsetX, y + this._offsetY);
             this.getOriPoints();//拿到原始点
             this.getPoints();//拿到变化点
-            this.getMax();//拿到
+            this.getMax();//拿到边界点
         }
 
     },
@@ -304,9 +304,9 @@ Polygon.prototype = {
         return ifInside;
     },
     updateOption: function (option) {
-        console.log(option);
+        // console.log(option);
         this.Option = util.extend(this.Option, option);
-        console.log(this.Option);
+        // console.log(this.Option);
         this.bus.dispatch('update', 'no');
     },
     setRotateOrigin: function (loc) {
