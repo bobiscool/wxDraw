@@ -751,7 +751,7 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 18:26:22
+ * @Last Modified time: 2017-10-16 18:36:40
  * 普通形状
  * 
  */
@@ -923,8 +923,8 @@ Rect.prototype = {
 
         points.push([this.Option.x - this.Option.w / 2, this.Option.y - this.Option.h / 2]);
         points.push([this.Option.x - this.Option.w / 2, this.Option.y + this.Option.h / 2]);
-        points.push([this.Option.x + this.Option.w / 2, this.Option.y - this.Option.h / 2]);
         points.push([this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2]);
+        points.push([this.Option.x + this.Option.w / 2, this.Option.y - this.Option.h / 2]);
 
         this.oriPoints = points;
     },
@@ -993,7 +993,7 @@ Rect.prototype = {
         console.log(points);
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
-        for (var i = 1; i < this.Option.sides; ++i) {
+        for (var i = 1; i < points.length; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
@@ -1049,7 +1049,7 @@ Rect.prototype = {
     moveDetect: function moveDetect(x, y) {
 
         if (this._isChoosed == true) {
-            this.move(x - this._offsetX, y - this._offsetY);
+            this.move(x + this._offsetX, y + this._offsetY);
             this.getOriPoints(); //拿到原始点
             this.getPoints(); //拿到变化点
             this.getMax(); //拿到边界点
