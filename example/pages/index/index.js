@@ -1,9 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var WxDraw = require("../../wxDraw/dist/wxdraw.js").WxDraw;
-var Shape = require("../../wxDraw/dist/wxdraw.js").Shape;
-var AnimationFrame = require("../../wxDraw/dist/wxdraw.js").AnimationFrame;
+var WxDraw = require("../../utils/wxdraw.js").WxDraw;
+var Shape = require("../../utils/wxdraw.js").Shape;
+var AnimationFrame = require("../../utils/wxdraw.js").AnimationFrame;
 
 console.log(cancelAnimationFrame);
 
