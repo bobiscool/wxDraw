@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:08:03
+ * @Last Modified time: 2017-10-16 14:09:26
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -156,7 +156,6 @@ Cshape.prototype = {
     createPath: function (context) {
         //创建路径
         var points = this._Points;
-        console.log(points[0][1], points[0][1]);
         if(points.length<=0){
             return false;
         }
@@ -202,7 +201,7 @@ Cshape.prototype = {
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             console.log('点中');
-            this.points = this.genPoints(this.Option.x, this.Option.y);
+            // this.points = this.genPoints(this.Option.x, this.Option.y);
 
             this._offsetX = this.Option.x - x;
             this._offsetY = this.Option.y - y;
@@ -219,7 +218,7 @@ Cshape.prototype = {
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
             this.getOriPoints();
-            this.getPoints();
+            this.genPoints();
             this.getMax();
         }
 
