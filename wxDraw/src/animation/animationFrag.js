@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 15:10:34
+ * @Last Modified time: 2017-10-16 15:16:35
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -169,7 +169,7 @@ AnimationFrag.prototype = {
                 this.object.Shape.Option[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
 
             } else {
-                this.object.Shape[specialOption[object.type][atrribute]][atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+                this.object.Shape[specialOption[this.object.type][atrribute]][atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
             }
         } else {
             this.atrributeList.forEach(function (item) {
@@ -178,7 +178,8 @@ AnimationFrag.prototype = {
                     this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
 
                 } else {
-                    this.object.Shape[specialOption[object.type][item.attr]][item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+                    this.object.Shape[specialOption[this.object.type][item.attr]][item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+                    console.log(this);
                 }
                 // this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
             }, this);
@@ -190,7 +191,7 @@ AnimationFrag.prototype = {
         var _self = this;
         // console.log(_self);
         _keys.forEach(function (item) {
-            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] });
+            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item]?_self.object.Shape.Option[item]:_self.object.Shape[specialOption[this.object.type][item]][item] });
         });
 
     },

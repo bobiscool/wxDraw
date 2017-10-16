@@ -104,7 +104,7 @@ Page({
     // //   });
 
 
-    cir1.animate({'rotate':Math.PI}, {
+    cir1.animate({'x':400}, {
         duration: 3000,
         onLooping: function () {
           console.log('----');

@@ -961,7 +961,7 @@ Rect.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:24:46
+ * @Last Modified time: 2017-10-16 14:36:07
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -980,7 +980,7 @@ var cOption$1 = {
     // sides: 7,
     fillStyle: "red",
     strokeStyle: "red",
-    points: [[1, 1], [200, -1], [300, 400]],
+    points: [[145, 30], [0, -211], [300, 400], [113, 50], [30, -31], [3, 40], [123, 90], [20, -1], [30, 60], [131, 40], [90, -12], [0, 400], [13, 6], [70, -17], [30, 42]],
     rotate: 0
 };
 
@@ -1485,9 +1485,25 @@ AnimationTimer.prototype = {
 
 /*
  * @Author: Thunderball.Wu 
+ * @Date: 2017-10-16 14:46:52 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-16 15:11:52
+ * 添加一个特殊属性库 用于支持 有一些不在Option
+ * 里面的属性
+ */
+
+var specialOption = {
+    "cshape": {
+        "x": "massCenter", //用于平移用的
+        "y": "massCenter"
+    }
+};
+
+/*
+ * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 17:49:46
+ * @Last Modified time: 2017-10-16 15:14:49
  */
 
 var FRAGOPTION = {
@@ -1508,9 +1524,16 @@ var FRAGOPTION = {
 
 function genExe(exe, atrribute, object) {
     console.log('exe', exe);
+
     if (!isNaN(Number(exe))) {
-        var temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
-        console.log('temAtrr', temAtrr);
+        //表达式 是个数字
+        var temAtrr = void 0;
+        if (object.Shape.Option[atrribute]) {
+            temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
+        } else {
+            temAtrr = parseFloat(exe) - parseFloat(object.Shape[specialOption[object.type][atrribute]][atrribute]); //一些特殊的属性
+        }
+        // console.log('temAtrr', temAtrr);
         return temAtrr;
     }
 
@@ -1564,7 +1587,7 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) 
     this.duration = _temOption.duration;
     this.atrribute = atrribute;
     this.atrributeList = []; // 如果atrribute是对象的形式
-    if ((typeof atrribute === "undefined" ? "undefined" : _typeof(atrribute)) == "object") {
+    if ((typeof atrribute === 'undefined' ? 'undefined' : _typeof(atrribute)) == "object") {
         this.genFlag = true;
 
         this.genAtrributeList(atrribute);
@@ -1630,10 +1653,21 @@ AnimationFrag.prototype = {
         // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
         // console.log('cx', this.object.Shape[this.atrribute]);
         if (!this.genFlag) {
-            this.object.Shape.Option[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+            if (this.object.Shape.Option[this.atrribute]) {
+                this.object.Shape.Option[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+            } else {
+                this.object.Shape[specialOption[this.object.type][atrribute]][atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+            }
         } else {
             this.atrributeList.forEach(function (item) {
-                this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+
+                if (this.object.Shape.Option[item.attr]) {
+                    this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+                } else {
+                    this.object.Shape[specialOption[this.object.type][item.attr]][item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+                    console.log(this);
+                }
+                // this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
             }, this);
         }
     },
@@ -1748,7 +1782,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 18:34:26
+ * @Last Modified time: 2017-10-16 15:12:34
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 

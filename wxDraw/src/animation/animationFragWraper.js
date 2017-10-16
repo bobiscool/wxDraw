@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:51:11
+ * @Last Modified time: 2017-10-16 15:12:34
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -12,7 +12,6 @@
 
 import { eventBus } from "../util/eventBus"
 import { util } from "../util/utils.js"
-import { specialOption } from "./specialOption"
 
 export var AniFragWrap = function (bus, id, object) {
     this.runing = false;
