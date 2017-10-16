@@ -41,7 +41,7 @@ var util = {
     }
 };
 
-var matrixToarray$1 = function matrixToarray(a) {
+var matrixToarray = function matrixToarray(a) {
     var _points = []; //将矩阵洗成 点位数组
     a.forEach(function (item) {
         _points.push([item[0][0], item[1][0]]);
@@ -451,7 +451,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 10:37:18
+ * @Last Modified time: 2017-10-16 14:00:32
  */
 
 var pOption = {
@@ -476,10 +476,10 @@ var pOption = {
     this.Option = _temOption;
 
     this.max = {
-        maxX: 0,
-        maxY: 0,
-        minX: 0,
-        minY: 0
+        maxX: null,
+        maxY: null,
+        minX: null,
+        minY: null
     };
     this.oriPoints = null; //拿到最初的点位
     this._Points = []; //用于检测位置的 点位数组 也是当前位置
@@ -520,7 +520,7 @@ Polygon.prototype = {
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
-        this._Points = matrixToarray$1(_points); //除掉矩阵多余的部分
+        this._Points = matrixToarray(_points); //除掉矩阵多余的部分
         // console.log(this._Points);
         // console.log(this.oriPoints);
         return this._Points; //除掉矩阵多余的部分;
@@ -530,17 +530,17 @@ Polygon.prototype = {
         var _Points = this._Points;
 
         this.max = {
-            maxX: 0,
-            maxY: 0,
-            minX: 0,
-            minY: 0
+            maxX: null,
+            maxY: null,
+            minX: null,
+            minY: null
         };
 
         _Points.forEach(function (element) {
             if (element[0] > this.max.maxX) {
                 this.max.maxX = element[0];
             }
-            if (!this.max.minX) {
+            if (!this.max.minX && this.max.minX !== 0) {
                 this.max.minX = element[0];
             }
             if (this.max.minX && element[0] < this.max.minX) {
@@ -550,7 +550,7 @@ Polygon.prototype = {
             if (element[1] > this.max.maxY) {
                 this.max.maxY = element[1];
             }
-            if (!this.max.minY) {
+            if (!this.max.minY && this.max.minY !== 0) {
                 this.max.minY = element[1];
             }
             if (this.max.minY && element[1] < this.max.minY) {
@@ -961,7 +961,7 @@ Rect.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 13:57:49
+ * @Last Modified time: 2017-10-16 14:08:03
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -1046,7 +1046,7 @@ Cshape.prototype = {
         var _points = [];
         var origin = null;
         if (!this.rotateOrigin) {
-            origin = [this.Option.x, this.Option.y];
+            origin = [this.massCenter.x, this.massCenter.y];
         } else {
             origin = this.rotateOrigin;
         }
@@ -1057,6 +1057,7 @@ Cshape.prototype = {
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
+        console.log('points', _points);
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
         // console.log(this._Points);
         // console.log(this.oriPoints);
@@ -1092,7 +1093,7 @@ Cshape.prototype = {
             if (element[1] > this.max.maxY) {
                 this.max.maxY = element[1];
             }
-            if (!this.max.minY && this.max.minX !== 0) {
+            if (!this.max.minY && this.max.minY !== 0) {
                 this.max.minY = element[1];
             }
             if (this.max.minY && element[1] < this.max.minY) {
@@ -1130,20 +1131,10 @@ Cshape.prototype = {
         context.restore();
     },
     _draw: function _draw(context) {
-        this.getMax();
-        if (!this.rotateOrigin) {
-            context.translate(this.massCenter[0], this.massCenter[1]);
-            context.rotate(this.Option.rotate);
-            this.createPath(context, 0, 0); //绘制时候得坐标 与检测点击时候的坐标 是不一样的！！！！！
-        } else {
-            /**
-             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-             */
-            // console.log('不按原点旋转');
-            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
-            context.rotate(this.Option.rotate);
-            this.createPath(context, this.massCenter[0] - this.rotateOrigin[0], this.massCenter[1] - this.rotateOrigin[1]);
-        }
+        this.genPoints(); //拿到所有真实点
+        // console.log('_POINTS',this._Points);
+        this.getMax(); //所有真实点max min
+        this.createPath(context); //绘制
     },
     move: function move(x, y) {
 
@@ -1159,7 +1150,7 @@ Cshape.prototype = {
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             console.log('点中');
-            this.points = this.getPoints(this.Option.x, this.Option.y);
+            this.points = this.genPoints(this.Option.x, this.Option.y);
 
             this._offsetX = this.Option.x - x;
             this._offsetY = this.Option.y - y;

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:00:16
+ * @Last Modified time: 2017-10-16 14:08:03
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -15,7 +15,7 @@
  */
 
 
-import { util } from '../util/utils.js';
+import { util, matrixToarray } from '../util/utils.js';
 import { Point } from "./mixins/points.js"
 
 var cOption = {
@@ -94,7 +94,7 @@ Cshape.prototype = {
         let _points = [];
         let origin = null;
         if (!this.rotateOrigin) {
-            origin = [this.Option.x, this.Option.y];
+            origin = [this.massCenter.x, this.massCenter.y];
         } else {
             origin = this.rotateOrigin;
         }
@@ -104,7 +104,8 @@ Cshape.prototype = {
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
-
+       
+        console.log('points',_points);
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
         // console.log(this._Points);
         // console.log(this.oriPoints);
@@ -182,20 +183,10 @@ Cshape.prototype = {
         context.restore();
     },
     _draw: function (context) {
-        this.getMax();
-        if (!this.rotateOrigin) {
-            context.translate(this.massCenter[0], this.massCenter[1]);
-            context.rotate(this.Option.rotate);
-            this.createPath(context, 0, 0); //绘制时候得坐标 与检测点击时候的坐标 是不一样的！！！！！
-        } else {
-            /**
-             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
-             */
-            // console.log('不按原点旋转');
-            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
-            context.rotate(this.Option.rotate);
-            this.createPath(context, this.massCenter[0] - this.rotateOrigin[0], this.massCenter[1] - this.rotateOrigin[1])
-        }
+         this.genPoints();//拿到所有真实点
+        // console.log('_POINTS',this._Points);
+        this.getMax();//所有真实点max min
+        this.createPath(context);//绘制
     },
     move: function (x, y) {
 
@@ -211,7 +202,7 @@ Cshape.prototype = {
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             console.log('点中');
-            this.points = this.getPoints(this.Option.x, this.Option.y);
+            this.points = this.genPoints(this.Option.x, this.Option.y);
 
             this._offsetX = this.Option.x - x;
             this._offsetY = this.Option.y - y;
