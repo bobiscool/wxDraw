@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 11:33:34
+ * @Last Modified time: 2017-10-16 13:30:24
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -149,7 +149,7 @@ Cshape.prototype = {
     },
     createPath: function (context, x, y) {
         //创建路径
-        var points = this.getPoints(x, y);
+        var points = this._Points;
 
         context.beginPath();
         context.moveTo(points[0][1], points[0][1]);
