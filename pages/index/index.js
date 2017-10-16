@@ -104,13 +104,13 @@ Page({
     // //   });
 
 
-    cir1.animate({'x':400}, {
-        duration: 3000,
+    cir1.animate({"y":500}, {
+        duration: 10000,
         onLooping: function () {
           console.log('----');
         },
         easing: "bouncePast"
-    }).start(19);
+    }).start();
     // .animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
     //   duration: 2000,
     //   onLooping: function () {

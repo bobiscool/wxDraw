@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 15:16:35
+ * @Last Modified time: 2017-10-16 15:20:36
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -191,7 +191,7 @@ AnimationFrag.prototype = {
         var _self = this;
         // console.log(_self);
         _keys.forEach(function (item) {
-            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item]?_self.object.Shape.Option[item]:_self.object.Shape[specialOption[this.object.type][item]][item] });
+            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item]?_self.object.Shape.Option[item]:_self.object.Shape[specialOption[_self.object.type][item]][item] });//两种拿取source得方法
         });
 
     },

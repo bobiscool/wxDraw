@@ -1503,7 +1503,7 @@ var specialOption = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 15:14:49
+ * @Last Modified time: 2017-10-16 15:17:56
  */
 
 var FRAGOPTION = {
@@ -1677,7 +1677,7 @@ AnimationFrag.prototype = {
         var _self = this;
         // console.log(_self);
         _keys.forEach(function (item) {
-            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] });
+            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] ? _self.object.Shape.Option[item] : _self.object.Shape[specialOption[_self.object.type][item]][item] });
         });
     },
     updateSourceAndtarget: function updateSourceAndtarget() {
