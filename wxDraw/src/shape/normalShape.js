@@ -2,11 +2,11 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 18:01:08
+ * @Last Modified time: 2017-10-16 18:31:48
  * 普通形状
  * 
  */
-import { util } from '../util/utils.js';
+import { util, matrixToarray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js" //准备把rect 改成 点形式
 
@@ -262,11 +262,12 @@ Rect.prototype = {
     },
     createPath: function (context) {
         //创建路径
+        console.log('创建路径');
         var points = this._Points;
-
+console.log(points);
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
-        for (var i = 1; i < this.Option.sides; ++i) {
+        for (var i = 1; i < points.length; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
