@@ -98,13 +98,13 @@ Page({
     // //   });
 
 
-    // cir3.animate({'rotate':Math.PI}, {
-    //     duration: 3000,
-    //     onLooping: function () {
-    //       console.log('----');
-    //     },
-    //     easing: "bouncePast"
-    // }).start(19);
+    cir1.animate({'rotate':Math.PI}, {
+        duration: 3000,
+        onLooping: function () {
+          console.log('----');
+        },
+        easing: "bouncePast"
+    }).start(19);
     // .animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
     //   duration: 2000,
     //   onLooping: function () {
