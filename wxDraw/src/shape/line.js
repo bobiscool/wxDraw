@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 18:10:30
+ * @Last Modified time: 2017-10-17 18:16:55
  * 线条 
  */
 
@@ -22,7 +22,7 @@ var lOption = {
 
 export class Line {
     constructor() {
-       
+       let _temOption = util.extend()
     }
     /**
      * 线的质心
