@@ -1608,7 +1608,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 11:46:14
+ * @Last Modified time: 2017-10-17 13:53:46
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -1624,12 +1624,12 @@ var specialAtrr = { //一些特殊的属性值的更改
     "fillStyle": {
         get: function get(val) {
             var _val = val.split('#')[1];
-            console.log(_val);
-            return parseInt(_val, 10);
+            console.log('_val', parseInt(_val, 16));
+            return parseInt(_val, 16);
         },
         set: function set(val) {
             console.log(val);
-            var _val = "#" + parseInt(val, 16);
+            var _val = "#" + val.toString(16);
             return _val;
         }
     },
@@ -1649,7 +1649,7 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 13:44:13
+ * @Last Modified time: 2017-10-17 13:47:01
  */
 
 var FRAGOPTION = {
@@ -1670,14 +1670,16 @@ var FRAGOPTION = {
 
 function genExe(exe, atrribute, object) {
     console.log('exe', exe);
+    console.log('exe', exe.indexOf('#'));
 
-    if (!isNaN(Number(exe)) || exe.indexOf('#') === 1) {
+    if (!isNaN(Number(exe)) || exe.indexOf('#') === 0) {
         //表达式 是个数字
         var temAtrr = void 0;
         if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
-            console.log('特殊属性 颜色');
             if (specialAtrr[atrribute]) {
                 //特殊属性 比如颜色
+                console.log('特殊属性 颜色', specialAtrr[atrribute].get(exe));
+                console.log('特殊属性 颜色', specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
 
                 temAtrr = specialAtrr[atrribute].get(exe) - specialAtrr[atrribute].get(object.Shape.Option[atrribute]);
             } else {
@@ -1686,7 +1688,7 @@ function genExe(exe, atrribute, object) {
         } else {
             temAtrr = parseFloat(exe) - parseFloat(object.Shape[specialOption[object.type][atrribute]][atrribute]); //一些特殊的属性
         }
-        // console.log('temAtrr', temAtrr);
+        console.log('temAtrr', temAtrr);
         return temAtrr;
     }
 

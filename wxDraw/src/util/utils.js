@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-13 18:38:11
+ * @Last Modified time: 2017-10-17 14:09:50
  * 
  * 工具库
  */
@@ -71,3 +71,14 @@ export const util = {
 
        return _points;
     }
+
+
+  // 将 16进制 颜色 转成 rgb 用于渐变 https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+  
+  export const hex2rgb = function(val){
+      var regex = /$#?([a-f\d]{2}([a-f\d]{2}([a-f\d]{2})/i 
+  }
+
+  export const rgb2hex = function(){
+   
+  }

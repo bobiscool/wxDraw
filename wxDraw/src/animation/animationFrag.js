@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 13:45:05
+ * @Last Modified time: 2017-10-17 13:47:01
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -33,9 +33,10 @@ function genExe(exe, atrribute, object) {
     if (!isNaN(Number(exe))||exe.indexOf('#')===0) {//表达式 是个数字
         let temAtrr;
         if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
-                console.log('特殊属性 颜色');
             if (specialAtrr[atrribute]) {//特殊属性 比如颜色
-            
+                console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
+                console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
+               
                 temAtrr = specialAtrr[atrribute].get(exe) - specialAtrr[atrribute].get(object.Shape.Option[atrribute]);
             } else {
                 temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
@@ -43,7 +44,7 @@ function genExe(exe, atrribute, object) {
         } else {
             temAtrr = parseFloat(exe) - parseFloat(object.Shape[specialOption[object.type][atrribute]][atrribute]);//一些特殊的属性
         }
-        // console.log('temAtrr', temAtrr);
+        console.log('temAtrr', temAtrr);
         return temAtrr;
     }
 
