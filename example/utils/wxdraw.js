@@ -4,7 +4,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 15:29:38
+ * @Last Modified time: 2017-10-17 15:33:05
  * 
  * 工具库
  */
@@ -69,7 +69,7 @@ var hex2rgb = function hex2rgb(val) {
 var rgb2hex = function rgb2hex(r, g, b) {
     console.log(r, g, b);
     console.log('1666666', ((1 << 24) + (r << 16) + (g << 8) + b).toString(16));
-    return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).subStr(1); // << 是javascript左移运算符 
+    return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).substr(1); // << 是javascript左移运算符 
     /**
      * 1<<24 是为了防止 在r 为0的时候 左移被忽略 所以添加一个1 来保底
      * 然后 r 占在最高位 所以 左移16位（这个 16位其实是 2进制里面左移） 以此类推
