@@ -1624,7 +1624,7 @@ var specialOption = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 19:34:58
+ * @Last Modified time: 2017-10-17 10:07:02
  */
 
 var FRAGOPTION = {
@@ -1783,12 +1783,12 @@ AnimationFrag.prototype = {
             }
         } else {
             this.atrributeList.forEach(function (item) {
-
-                if (this.object.Shape.Option[item.attr] || this.object.Shape.Option[this.atrr] == 0) {
+                console.log(this.object.Shape.Option[this.attr]);
+                if (this.object.Shape.Option[item.attr] || this.object.Shape.Option[item.attr] == 0) {
                     this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
                 } else {
+                    console.log(item);
                     this.object.Shape[specialOption[this.object.type][item.attr]][item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
-                    // console.log(this);
                 }
                 // this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
             }, this);
@@ -1800,7 +1800,7 @@ AnimationFrag.prototype = {
         var _self = this;
         // console.log(_self);
         _keys.forEach(function (item) {
-            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] ? _self.object.Shape.Option[item] : _self.object.Shape[specialOption[_self.object.type][item]][item] }); //两种拿取source得方法
+            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] || _self.object.Shape.Option[item] == 0 ? _self.object.Shape.Option[item] : _self.object.Shape[specialOption[_self.object.type][item]][item] }); //两种拿取source得方法
         });
     },
     updateSourceAndtarget: function updateSourceAndtarget() {

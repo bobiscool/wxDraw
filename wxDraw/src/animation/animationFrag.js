@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 19:36:37
+ * @Last Modified time: 2017-10-17 10:07:02
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -175,13 +175,13 @@ AnimationFrag.prototype = {
             }
         } else {
             this.atrributeList.forEach(function (item) {
-
-                if (this.object.Shape.Option[item.attr]||this.object.Shape.Option[this.atrr]==0) {
+                 console.log(this.object.Shape.Option[this.attr]);
+                if (this.object.Shape.Option[item.attr]||this.object.Shape.Option[item.attr]==0) {
                     this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
 
                 } else {
+                    console.log(item);                    
                     this.object.Shape[specialOption[this.object.type][item.attr]][item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
-                    // console.log(this);
                 }
                 // this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
             }, this);

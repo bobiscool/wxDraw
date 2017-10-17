@@ -141,12 +141,12 @@ Page({
 
 
 
-    cir2.animate({ "x": "+=200"}, {
+    cir2.animate({ "x": "+=400"}, {
       duration: 1000,
       onLooping: function () {
          console.log('动画1');
       },
-      easing: "easeTo"
+      easing: "bouncePast"
     }).start();
 
     // cir3.animate({ "y": "+=200"}, {
