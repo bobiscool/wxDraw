@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 19:32:13
+ * @Last Modified time: 2017-10-17 16:20:41
  * 普通形状
  * 
  */
@@ -12,7 +12,7 @@ import { Point } from "./mixins/points.js" //准备把rect 改成 点形式
 
 
 var cOption = {
-    fillStyle: "red",
+    fillStyle: "#000000",
     strokeStyle: "red",
     x: 10,
     y: 10,
@@ -27,8 +27,8 @@ var rOption = {
     y: 10,
     w: 10,
     h: 10,
-    fillStyle: "red",
-    strokeStyle: "red",
+    fillStyle: "#000000",
+    strokeStyle: "#000000",
     rotate: 0,
 }
 

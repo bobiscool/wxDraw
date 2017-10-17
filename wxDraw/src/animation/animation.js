@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 10:39:54
+ * @Last Modified time: 2017-10-17 16:13:09
  * 动画 对象 接管所有动画
  */
 
@@ -74,7 +74,7 @@ Animation.prototype = {
           this.animationCompleteList.push(who);
         if (Object.keys(this.wraperAniCompleteOb).length === Object.keys(this.animationFragStore).length) {
             this.running = false;// 动画执行 结束
-            console.log('结束动画')
+            // console.log('结束动画')
         }
     },
     wraperAniComplete: function (afID, shaId) {
@@ -91,6 +91,6 @@ Animation.prototype = {
         if (this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length) {
             this.bus.dispatch('animationComplete', 'no', shaId);// 某一个物件的动画完成
         }
-        console.log('wraperAniComplete', this.wraperAniCompleteOb);
+        // console.log('wraperAniComplete', this.wraperAniCompleteOb);
     }
 }

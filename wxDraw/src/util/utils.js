@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 15:33:05
+ * @Last Modified time: 2017-10-17 16:19:10
  * 
  * 工具库
  */
@@ -77,11 +77,7 @@ export const util = {
   
   export const hex2rgb = function(val){
       var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(val);
-      console.log('hex2rgb',{
-          r:parseInt(result[1],16),
-          g:parseInt(result[2],16),
-          b:parseInt(result[3],16)
-      });
+      console.log('hex2rgb',result);
       return result?{
           r:parseInt(result[1],16),
           g:parseInt(result[2],16),

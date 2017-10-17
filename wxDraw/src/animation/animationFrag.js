@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 15:37:11
+ * @Last Modified time: 2017-10-17 16:11:37
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -28,7 +28,7 @@ var FRAGOPTION = {
 
 function genExe(exe, atrribute, object) {
     console.log('exe', exe);
-    console.log('exe', exe.indexOf('#'));
+    // console.log('exe', exe.indexOf('#'));
     
     if (!isNaN(Number(exe))||exe.indexOf('#')===0) {//表达式 是个数字
         let temAtrr;

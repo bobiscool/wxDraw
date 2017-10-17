@@ -4,7 +4,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 15:33:05
+ * @Last Modified time: 2017-10-17 16:19:10
  * 
  * 工具库
  */
@@ -54,11 +54,7 @@ var matrixToarray = function matrixToarray(a) {
 
 var hex2rgb = function hex2rgb(val) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(val);
-    console.log('hex2rgb', {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    });
+    console.log('hex2rgb', result);
     return result ? {
         r: parseInt(result[1], 16),
         g: parseInt(result[2], 16),
@@ -1689,7 +1685,7 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 15:37:11
+ * @Last Modified time: 2017-10-17 16:11:37
  */
 
 var FRAGOPTION = {
@@ -1710,7 +1706,7 @@ var FRAGOPTION = {
 
 function genExe(exe, atrribute, object) {
     console.log('exe', exe);
-    console.log('exe', exe.indexOf('#'));
+    // console.log('exe', exe.indexOf('#'));
 
     if (!isNaN(Number(exe)) || exe.indexOf('#') === 0) {
         //表达式 是个数字
@@ -2354,7 +2350,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 10:39:54
+ * @Last Modified time: 2017-10-17 16:13:09
  * 动画 对象 接管所有动画
  */
 
@@ -2417,7 +2413,7 @@ Animation.prototype = {
         this.animationCompleteList.push(who);
         if (Object.keys(this.wraperAniCompleteOb).length === Object.keys(this.animationFragStore).length) {
             this.running = false; // 动画执行 结束
-            console.log('结束动画');
+            // console.log('结束动画')
         }
     },
     wraperAniComplete: function wraperAniComplete(afID, shaId) {
@@ -2433,7 +2429,7 @@ Animation.prototype = {
         if (this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length) {
             this.bus.dispatch('animationComplete', 'no', shaId); // 某一个物件的动画完成
         }
-        console.log('wraperAniComplete', this.wraperAniCompleteOb);
+        // console.log('wraperAniComplete', this.wraperAniCompleteOb);
     }
 };
 

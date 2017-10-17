@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:15:36
+ * @Last Modified time: 2017-10-17 16:20:47
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -14,8 +14,8 @@ var pOption = {
     y: 10,
     r: 10,
     sides: 7,
-    fillStyle: "red",
-    strokeStyle: "red",
+    fillStyle: "#000000",//不要手残乱改
+    strokeStyle: "#000000",//不要手残
     rotate: 0,
     rotateOrigin: null
 }
