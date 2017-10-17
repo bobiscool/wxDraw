@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 16:24:49
+ * @Last Modified time: 2017-10-17 16:25:44
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -146,6 +146,7 @@ Polygon.prototype = {
         context.setFillStyle(this.Option.fillStyle);
         context.fill();
         context.restore();
+        
     },
     _draw: function (context) {
         let changeMatrix = null;
