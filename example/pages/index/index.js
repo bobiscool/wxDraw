@@ -65,7 +65,7 @@ Page({
         [131, 40], [90, -12], [0, 400],
         [13, 6], [70, -17], [30, 42]]}, true,true)
   
-    var cir2 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, strokeStyle: "#344323", rotate: 200}, false,true)
+    var cir2 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, strokeStyle: "RGB(200,200,200)", rotate: 200}, false,true)
 
     var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
@@ -141,13 +141,19 @@ Page({
 
 
 
-    cir2.animate({ "x": "+=400"}, {
-      duration: 1000,
+    cir2.animate({ "x": "+=300"}, {
+      duration: 5000,
       onLooping: function () {
          console.log('动画1');
       },
       easing: "bouncePast"
-    }).start();
+    }).animate({
+      "rotate":"+="+Math.PI,
+      "y":"+=200",
+      "x":"-=300",
+      "w":"+=20",
+      "h":300
+    },{duration:2000}).start();
 
     // cir3.animate({ "y": "+=200"}, {
     //   duration: 1000,
