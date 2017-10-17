@@ -141,7 +141,7 @@ Page({
 
 
 
-    cir2.animate({ "x": "+=300", fillStyle:"#ff0000"}, {
+    cir2.animate( "fillStyle","#ff0000", {
       duration: 5000,
       onLooping: function () {
          console.log('动画1');

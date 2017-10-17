@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 15:18:00
+ * @Last Modified time: 2017-10-17 15:37:11
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -160,7 +160,7 @@ AnimationFrag.prototype = {
                 this.source = this.object.Shape.Option[this.atrribute] || this.object.Shape.Option[this.atrribute] == 0 ? this.object.Shape.Option[this.atrribute] : this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute];//两种拿取source得方法
 
                 if (specialAtrr[this.atrribute]) {//特殊属性 比如颜色
-                    this.source = specialAtrr[this.atrribute].get(object.Shape.Option[this.atrribute]);
+                    this.source = specialAtrr[this.atrribute].get(this.object.Shape.Option[this.atrribute]);
                 }
             }
             this.started = true;
@@ -229,7 +229,7 @@ AnimationFrag.prototype = {
             this.source = this.object.Shape.Option[this.atrribute] || this.object.Shape.Option[this.atrribute] == 0 ? this.object.Shape.Option[this.atrribute] : this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute];//两种拿取source得方法
 
             if (specialAtrr[this.atrribute]) {//特殊属性 比如颜色
-                this.source = specialAtrr[this.atrribute].get(object.Shape.Option[this.atrribute]);
+                this.source = specialAtrr[this.atrribute].get(this.object.Shape.Option[this.atrribute]);
             }
             this.incre = genExe(this.exe, this.atrribute, this.object);
         } else {
