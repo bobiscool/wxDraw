@@ -1649,7 +1649,7 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 13:42:05
+ * @Last Modified time: 2017-10-17 13:44:13
  */
 
 var FRAGOPTION = {
@@ -1671,7 +1671,7 @@ var FRAGOPTION = {
 function genExe(exe, atrribute, object) {
     console.log('exe', exe);
 
-    if (!isNaN(Number(exe)) || !isNaN(parseInt(exe.split('#')[1]))) {
+    if (!isNaN(Number(exe)) || exe.indexOf('#') === 1) {
         //表达式 是个数字
         var temAtrr = void 0;
         if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
