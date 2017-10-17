@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 11:28:18
+ * @Last Modified time: 2017-10-17 11:46:14
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -18,9 +18,11 @@ export const specialAtrr = {//一些特殊的属性值的更改
     "fillStyle":{
         get:function(val){
            let _val = val.split('#')[1];
+           console.log(_val);
            return parseInt(_val,10);
         },
         set:function(val){
+           console.log(val);
            let _val = "#"+parseInt(val,16);
            return _val;
         }

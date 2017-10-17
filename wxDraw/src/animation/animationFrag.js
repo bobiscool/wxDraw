@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 11:43:09
+ * @Last Modified time: 2017-10-17 13:42:05
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -29,10 +29,12 @@ var FRAGOPTION = {
 function genExe(exe, atrribute, object) {
     console.log('exe', exe);
 
-    if (!isNaN(Number(exe))) {//表达式 是个数字
+    if (!isNaN(Number(exe))||!isNaN(parseInt(exe.split('#')[1]))) {//表达式 是个数字
         let temAtrr;
         if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
+                console.log('特殊属性 颜色');
             if (specialAtrr[atrribute]) {//特殊属性 比如颜色
+            
                 temAtrr = specialAtrr[atrribute].get(exe) - specialAtrr[atrribute].get(object.Shape.Option[atrribute]);
             } else {
                 temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
@@ -101,6 +103,7 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     this.atrribute = atrribute;
     this.atrributeList = [];// 如果atrribute是对象的形式
     if (typeof atrribute == "object") {
+        console.log('对象动画');
         this.genFlag = true;
 
         this.genAtrributeList(atrribute);
@@ -186,9 +189,10 @@ AnimationFrag.prototype = {
             }
         } else {
             this.atrributeList.forEach(function (item) {
-                //  console.log(this.object.Shape.Option[this.attr]);
+                 console.log(item);
                 if (this.object.Shape.Option[item.attr] || this.object.Shape.Option[item.attr] == 0) {
                     if (specialAtrr[item.attr]) {
+                        console.log('颜色');
                         this.object.Shape.Option[item.attr] = specialAtrr[item.attr].set(item.source + item.incre * this.timer.getGoesByTime() / this.duration);
                     } else {
                         this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
@@ -207,8 +211,15 @@ AnimationFrag.prototype = {
         var _self = this;
         // console.log(_self);
         _keys.forEach(function (item) {
-            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] || _self.object.Shape.Option[item] == 0 ? _self.object.Shape.Option[item] : _self.object.Shape[specialOption[_self.object.type][item]][item] });//两种拿取source得方法
-        });
+            let source = this.object.Shape.Option[item] || this.object.Shape.Option[item] == 0 ? this.object.Shape.Option[item] : this.object.Shape[specialOption[this.object.type][item]][item];//两种拿取source得方法
+            console.log(specialAtrr[item]);
+            if (specialAtrr[item]) {//特殊属性 比如颜色
+                // console.log("特殊属性");
+                source = specialAtrr[item].get(this.object.Shape.Option[item]);
+                // console.log(source);
+            }
+            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": source });//两种拿取source得方法
+        },this);
 
     },
     updateSourceAndtarget: function () {
