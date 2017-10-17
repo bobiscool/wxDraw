@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 16:20:47
+ * @Last Modified time: 2017-10-17 16:24:49
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -151,6 +151,7 @@ Polygon.prototype = {
         let changeMatrix = null;
         let getchaMatrix = null;
         let origin = null;
+        this.getOriPoints();//拿到所有原始点
         this.getPoints();//拿到所有真实点
         // console.log('_POINTS',this._Points);
         this.getMax();//所有真实点max min

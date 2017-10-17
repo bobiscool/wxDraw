@@ -473,7 +473,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 14:15:36
+ * @Last Modified time: 2017-10-17 16:20:47
  */
 
 var pOption = {
@@ -481,8 +481,8 @@ var pOption = {
     y: 10,
     r: 10,
     sides: 7,
-    fillStyle: "red",
-    strokeStyle: "red",
+    fillStyle: "#000000", //不要手残乱改
+    strokeStyle: "#000000", //不要手残
     rotate: 0,
     rotateOrigin: null
 
@@ -773,12 +773,12 @@ Polygon.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 19:32:13
+ * @Last Modified time: 2017-10-17 16:20:41
  * 普通形状
  * 
  */
 var cOption = {
-    fillStyle: "red",
+    fillStyle: "#000000",
     strokeStyle: "red",
     x: 10,
     y: 10,
@@ -793,8 +793,8 @@ var rOption = {
     y: 10,
     w: 10,
     h: 10,
-    fillStyle: "red",
-    strokeStyle: "red",
+    fillStyle: "#000000",
+    strokeStyle: "#000000",
     rotate: 0
 
     /**
