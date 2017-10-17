@@ -2,12 +2,12 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 11:05:44
+ * @Last Modified time: 2017-10-17 11:39:33
  */
 
 import { AnimationTimer } from "./animationTimer.js"
 import { util } from '../util/utils.js';
-import { specialOption } from './specialAtrribute.js';
+import { specialOption, specialAtrr } from './specialAtrribute.js';
 
 
 var FRAGOPTION = {
@@ -31,11 +31,14 @@ function genExe(exe, atrribute, object) {
 
     if (!isNaN(Number(exe))) {//表达式 是个数字
         let temAtrr;
-        if (object.Shape.Option[atrribute]||object.Shape.Option[atrribute]===0) {
-            temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
+        if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
+            if (specialAtrr[atrribute]) {//特殊属性 比如颜色
+                temAtrr = specialAtrr[atrribute].get(exe) - specialAtrr[atrribute].get(object.Shape.Option[atrribute]);
+            } else {
+                temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
+            }
         } else {
             temAtrr = parseFloat(exe) - parseFloat(object.Shape[specialOption[object.type][atrribute]][atrribute]);//一些特殊的属性
-
         }
         // console.log('temAtrr', temAtrr);
         return temAtrr;
@@ -149,7 +152,7 @@ AnimationFrag.prototype = {
         if (!this.started && !this.complete) {
             if (!this.genFlag) { // 如果是 单点动画
                 // this.source = this.object.Shape.Option[this.atrribute];// 最初动画开始的属性
-                this.source = this.object.Shape.Option[this.atrribute]||this.object.Shape.Option[this.atrribute]==0 ? this.object.Shape.Option[this.atrribute] : this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute];//两种拿取source得方法
+                this.source = this.object.Shape.Option[this.atrribute] || this.object.Shape.Option[this.atrribute] == 0 ? this.object.Shape.Option[this.atrribute] : this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute];//两种拿取source得方法
             }
             this.started = true;
             this.running = true;
@@ -166,21 +169,28 @@ AnimationFrag.prototype = {
         // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
         // console.log('cx', this.object.Shape[this.atrribute]);
         if (!this.genFlag) {
-            if (this.object.Shape.Option[this.atrribute]||this.object.Shape.Option[this.atrribute]==0) {
-                this.object.Shape.Option[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+            if (this.object.Shape.Option[this.atrribute] || this.object.Shape.Option[this.atrribute] == 0) {
+                if (specialAtrr[this.atrribute]) {
+                    this.object.Shape.Option[this.atrribute] = specialAtrr[this.atrribute].set(this.source + this.incre * this.timer.getGoesByTime() / this.duration);
+                } else {
+                    this.object.Shape.Option[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
+                }
 
             } else {
                 this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
-               console.log(this.object);
+                console.log(this.object);
             }
         } else {
             this.atrributeList.forEach(function (item) {
                 //  console.log(this.object.Shape.Option[this.attr]);
-                if (this.object.Shape.Option[item.attr]||this.object.Shape.Option[item.attr]==0) {
-                    this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
-
+                if (this.object.Shape.Option[item.attr] || this.object.Shape.Option[item.attr] == 0) {
+                    if (specialAtrr[item.attr]) {
+                        this.object.Shape.Option[item.attr] = specialAtrr[item.attr].set(item.source + item.incre * this.timer.getGoesByTime() / this.duration);
+                    } else {
+                        this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
+                    }
                 } else {
-                    console.log(item);                    
+                    console.log(item);
                     this.object.Shape[specialOption[this.object.type][item.attr]][item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
                 }
                 // this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
@@ -193,13 +203,13 @@ AnimationFrag.prototype = {
         var _self = this;
         // console.log(_self);
         _keys.forEach(function (item) {
-            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item]||_self.object.Shape.Option[item]==0? _self.object.Shape.Option[item] : _self.object.Shape[specialOption[_self.object.type][item]][item] });//两种拿取source得方法
+            _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": _self.object.Shape.Option[item] || _self.object.Shape.Option[item] == 0 ? _self.object.Shape.Option[item] : _self.object.Shape[specialOption[_self.object.type][item]][item] });//两种拿取source得方法
         });
 
     },
     updateSourceAndtarget: function () {
         if (!this.genFlag) {
-            this.source = this.object.Shape.Option[this.atrribute]||this.object.Shape.Option[this.atrribute]==0? this.object.Shape.Option[this.atrribute] : this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute];//两种拿取source得方法
+            this.source = this.object.Shape.Option[this.atrribute] || this.object.Shape.Option[this.atrribute] == 0 ? this.object.Shape.Option[this.atrribute] : this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute];//两种拿取source得方法
 
             this.incre = genExe(this.exe, this.atrribute, this.object);
         } else {
