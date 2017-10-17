@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 14:25:30
+ * @Last Modified time: 2017-10-17 15:33:05
  * 
  * 工具库
  */
@@ -77,17 +77,23 @@ export const util = {
   
   export const hex2rgb = function(val){
       var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(val);
-      
+      console.log('hex2rgb',{
+          r:parseInt(result[1],16),
+          g:parseInt(result[2],16),
+          b:parseInt(result[3],16)
+      });
       return result?{
           r:parseInt(result[1],16),
-          g:parseInt(result[1],16),
-          b:parseInt(result[1],16)
+          g:parseInt(result[2],16),
+          b:parseInt(result[3],16)
       }:null;
       
   }
 
   export const rgb2hex = function(r,g,b){
-     return  ((1<<24)+(r<<16)+(g<<8)+b).toString(16).subStr(1);// << 是javascript左移运算符 
+      console.log(r,g,b);
+      console.log('1666666',((1<<24)+(r<<16)+(g<<8)+b).toString(16));
+     return  ((1<<24)+(r<<16)+(g<<8)+b).toString(16).substr(1);// << 是javascript左移运算符 
      /**
       * 1<<24 是为了防止 在r 为0的时候 左移被忽略 所以添加一个1 来保底
       * 然后 r 占在最高位 所以 左移16位（这个 16位其实是 2进制里面左移） 以此类推

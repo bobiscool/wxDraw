@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 14:33:35
+ * @Last Modified time: 2017-10-17 15:31:43
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -20,19 +20,30 @@ export const specialOption = {
 export const specialAtrr = {//一些特殊的属性值的更改
     "fillStyle":{
         get:function(val){
+            console.log('hex2wwwwwwrgb',hex2rgb(val));
            return hex2rgb(val);
         },
         set:function(source,incre,timer){
-           let temCo= {
-               r:source.r+Math.floor(incre*timer),
-               g:source.g+Math.floor(incre*timer),
-               b:source.b+Math.floor(incre*timer)
-           } 
-           let _val = "#"+val.toString(16);
+            console.log(source,incre,timer);
+           let temCo= [
+               source.r+Math.floor(incre.r*timer),
+               source.g+Math.floor(incre.g*timer),
+               source.b+Math.floor(incre.b*timer)//超级恶心颜色渐变
+           ] 
+           let _val = '#'+rgb2hex(...temCo)
            return _val;
         },
-        getIncre:function(source,target){
+        getIncre:function(source,target,sub){
            //太恶心了 ！！！
+           if(sub){//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
+              let tarCo = hex2rgb(target);
+              
+              return {
+                  r:tarCo.r -source.r,
+                  g:tarCo.g -source.g,
+                  b:tarCo.b -source.b
+              }
+           }
         }
     },
     "strokeStyle":{

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 13:47:01
+ * @Last Modified time: 2017-10-17 15:18:00
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -34,10 +34,10 @@ function genExe(exe, atrribute, object) {
         let temAtrr;
         if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
             if (specialAtrr[atrribute]) {//特殊属性 比如颜色
-                console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
-                console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
-               
-                temAtrr = specialAtrr[atrribute].get(exe) - specialAtrr[atrribute].get(object.Shape.Option[atrribute]);
+                // console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
+                // console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
+                temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]),exe,true);
+
             } else {
                 temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
             }
@@ -180,7 +180,7 @@ AnimationFrag.prototype = {
         if (!this.genFlag) {
             if (this.object.Shape.Option[this.atrribute] || this.object.Shape.Option[this.atrribute] == 0) {
                 if (specialAtrr[this.atrribute]) {
-                    this.object.Shape.Option[this.atrribute] = specialAtrr[this.atrribute].set(this.source + this.incre * this.timer.getGoesByTime() / this.duration);
+                    this.object.Shape.Option[this.atrribute] = specialAtrr[this.atrribute].set(this.source,this.incre,this.timer.getGoesByTime() / this.duration);
                 } else {
                     this.object.Shape.Option[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
                 }
@@ -191,16 +191,16 @@ AnimationFrag.prototype = {
             }
         } else {
             this.atrributeList.forEach(function (item) {
-                 console.log(item);
+                //  console.log(item);
                 if (this.object.Shape.Option[item.attr] || this.object.Shape.Option[item.attr] == 0) {
                     if (specialAtrr[item.attr]) {
-                        console.log('颜色');
-                        this.object.Shape.Option[item.attr] = specialAtrr[item.attr].set(item.source + item.incre * this.timer.getGoesByTime() / this.duration);
+                        // console.log('颜色');
+                        this.object.Shape.Option[item.attr] = specialAtrr[item.attr].set(item.source,item.incre,this.timer.getGoesByTime() / this.duration);
                     } else {
                         this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
                     }
                 } else {
-                    console.log(item);
+                    // console.log(item);
                     this.object.Shape[specialOption[this.object.type][item.attr]][item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
                 }
                 // this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
@@ -214,7 +214,7 @@ AnimationFrag.prototype = {
         // console.log(_self);
         _keys.forEach(function (item) {
             let source = this.object.Shape.Option[item] || this.object.Shape.Option[item] == 0 ? this.object.Shape.Option[item] : this.object.Shape[specialOption[this.object.type][item]][item];//两种拿取source得方法
-            console.log(specialAtrr[item]);
+            // console.log(specialAtrr[item]);
             if (specialAtrr[item]) {//特殊属性 比如颜色
                 // console.log("特殊属性");
                 source = specialAtrr[item].get(this.object.Shape.Option[item]);
