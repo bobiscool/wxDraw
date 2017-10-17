@@ -473,7 +473,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 16:20:47
+ * @Last Modified time: 2017-10-17 16:25:44
  */
 
 var pOption = {
@@ -606,6 +606,7 @@ Polygon.prototype = {
         context.restore();
     },
     _draw: function _draw(context) {
+        this.getOriPoints(); //拿到所有原始点
         this.getPoints(); //拿到所有真实点
         // console.log('_POINTS',this._Points);
         this.getMax(); //所有真实点max min
