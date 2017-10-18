@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 17:40:03
+ * @Last Modified time: 2017-10-18 16:02:37
  * 主要 引入对象
  * 
  * 
@@ -160,4 +160,4 @@ module.exports = {
     WxDraw: WxDraw,
     Shape: Shape,
     AnimationFrame: AnimationFrame()
-}
+};
