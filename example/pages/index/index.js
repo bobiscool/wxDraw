@@ -57,7 +57,7 @@ Page({
 
     // this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,fillStyle:"#333333"},true));
 
-    var cir1 = new Shape('cshape', {
+    var cir1 = new Shape('line', {
       fillStyle: "#000000", rotate: Math.PI / 2, points: [
         [145, 30], [0, -211], [300, 400],
         [113, 50], [30, -31], [3, 40],
@@ -73,7 +73,7 @@ Page({
         
     // cir3.setOrigin([40,40])
     console.log(cir3);
-    // this.wxCanvas.add(cir1);
+    this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir3);
     
     // cir1.updateOption({x:100})
@@ -165,16 +165,16 @@ Page({
     //   easing: "linear"
     // }).start(1);
 
-    cir3.animate({ "rotate": "+=" + 2 * Math.PI, "fillStyle": "#ff0000",x:"-=400",r:"-=40"}, {
-      duration: 4000,
-      onLooping: function () {
-        console.log('动画2'
+    // cir3.animate({ "rotate": "+=" + 2 * Math.PI, "fillStyle": "#ff0000",x:"-=400",r:"-=40"}, {
+    //   duration: 4000,
+    //   onLooping: function () {
+    //     console.log('动画2'
 
 
-        );
-      },
-      easing: "linear"
-    }).start(200);  
+    //     );
+    //   },
+    //   easing: "linear"
+    // }).start(200);  
     // this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
     // this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
     // this.wxCanvas.add(new Shape('polygon', { sides:876,r:100}))

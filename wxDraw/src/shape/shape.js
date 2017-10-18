@@ -3,11 +3,12 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 13:32:10
+ * @Last Modified time: 2017-10-18 14:26:24
  * 在这里添加事件 
  */
 
 import { Polygon } from './polygon.js';
+import { Line } from './line.js';
 import { Rect, Circle } from './normalShape.js';
 import { Cshape } from './cshape.js';
 import { AnimationTimer } from '../animation/animationTimer.js';
@@ -202,5 +203,8 @@ var shapeTypes = {
     },
     'cshape':function(option){
         return new Cshape(option);
+    },
+    'line':function(option){
+        return new Line(option);
     }
 }

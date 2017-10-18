@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 14:22:46
+ * @Last Modified time: 2017-10-18 14:33:09
  * 线条 
  */
 
@@ -97,6 +97,31 @@ export class Line {
 
         return prePoints.concat(behPoints);//合在一起就是 一个圈了 
     }
+    genPoints() {
+        let _points = [];
+        let origin = null;
+        if (!this.rotateOrigin) {
+            origin = [this.massCenter.x, this.massCenter.y];
+        } else {
+            origin = this.rotateOrigin;
+        }
+
+        // console.log('item', origin);
+
+        this.oriPoints.forEach(function (item) {
+            _points.push(this.getPointTodraw(item[0], item[1], origin))
+        }, this);
+
+        // console.log('points',_points);
+        this._Points = matrixToarray(_points);//除掉矩阵多余的部分
+        // console.log(this._Points);
+        // console.log(this.oriPoints);
+        return this._Points;//除掉矩阵多余的部分;
+    }
+    getPointTodraw(x, y, origin) {
+        let angle = this.Option.rotate;
+        return new Point(x, y).rotate(origin, angle);//计算出每一个点变化之后的位置
+    }
     getMax() {
         //绘制 与检测 不能在统一个地方
         let _Points = this._Points;
@@ -162,6 +187,7 @@ export class Line {
         this.getOriPoints();
         this.genPoints();//拿到所有真实点
         // console.log('_POINTS',this._Points);
+        this.detectPoints = this.getDetectPoints();
         this.getMax();//所有真实点max min
         this.createPath(context);//绘制
     }
@@ -192,6 +218,7 @@ export class Line {
             // console.log(this.massCenter);
             // console.log(this.oriPoints);
             this.genPoints();
+            this.detectPoints =this.getDetectPoints();
             this.getMax();
         }
 
