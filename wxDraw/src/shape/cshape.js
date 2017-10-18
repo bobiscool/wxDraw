@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 13:46:04
+ * @Last Modified time: 2017-10-18 14:19:43
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -158,7 +158,6 @@ Cshape.prototype = {
             }
         }, this);
 
-
     },
     createPath: function (context) {
         //创建路径
@@ -228,8 +227,8 @@ Cshape.prototype = {
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
             this.getOriPoints();
-            console.log(this.massCenter);
-            console.log(this.oriPoints);
+            // console.log(this.massCenter);
+            // console.log(this.oriPoints);
             this.genPoints();
             this.getMax();
         }
@@ -238,7 +237,7 @@ Cshape.prototype = {
     upDetect: function () {
         this._isChoosed = false;
     },
-    _pnpolyTest(x, y) {
+    _pnpolyTest:function(x, y) {
         // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
         // var A = this.points[0];// 拿到前面两个点
         // var B = this.points[1];
@@ -260,7 +259,6 @@ Cshape.prototype = {
             if (insect) ifInside = !ifInside;
         }
 
-        console.log(ifInside);
         return ifInside;
     },
     updateOption: function (option) {

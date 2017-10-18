@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 13:53:18
+ * @Last Modified time: 2017-10-18 14:22:46
  * 线条 
  */
 
@@ -132,7 +132,102 @@ export class Line {
                 this.max.minY = element[1];
             }
         }, this);
+    }
+    createPath(context) {
+        //创建路径
+        var points = this._Points;
+        if (points.length <= 0) {
+            return false;
+        }
+        context.beginPath();
+        // console.log(points.length);
+        context.moveTo(points[0][0], points[0][1]);
+        for (var i = 1; i < points.length; i++) {
+            context.lineTo(points[i][0], points[i][1]);
+        }
+    }
+    stroke(context) {//线条就只有stroke了
+        context.save();
+        this._draw(context);
+        context.setStrokeStyle(this.Option.strokeStyle)
+        context.stroke();
+        context.restore();
+    }
+    fill(context) {
+        this.stroke(context);//这里先这样写吧
+    }
+    _draw(context) {
+        // console.log(this.massCenter);
+        //    console.log(this.oriPoints);
+        this.getOriPoints();
+        this.genPoints();//拿到所有真实点
+        // console.log('_POINTS',this._Points);
+        this.getMax();//所有真实点max min
+        this.createPath(context);//绘制
+    }
+    move(x, y) {
 
+        this.massCenter.x = x;
+        this.massCenter.y = y;
+        // console.log('---------------', this.Option);
+    }
+    detected(x, y) {
+        // pnpoly 算法区域
+        if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
+            this._offsetX = this.massCenter.x - x;
+            this._offsetY = this.massCenter.y - y;
+            if (this._pnpolyTest(x, y)) {
+                this._isChoosed = true;
+                return true;
+            }
+        }
 
+        return false;
+    }
+    moveDetect(x, y) {
+
+        if (this._isChoosed == true) {
+            this.move(x + this._offsetX, y + this._offsetY);
+            this.getOriPoints();
+            // console.log(this.massCenter);
+            // console.log(this.oriPoints);
+            this.genPoints();
+            this.getMax();
+        }
+
+    }
+    upDetect() {
+        this._isChoosed = false;
+    }
+    _pnpolyTest(x, y) {
+        // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
+        // var A = this.points[0];// 拿到前面两个点
+        // var B = this.points[1];
+        var ifInside = false;
+        var Points = this.detectPoints;
+        for (var i = 0, j = Points.length - 1; i < Points.length; j = i++) {
+            /**
+             * 0 4
+               1 0
+               2 1
+               3 2
+               4 3
+             */
+            var Xi = Points[i][0], Yi = Points[i][1];
+            var Xj = Points[j][0], Yj = Points[j][1];
+
+            var insect = ((Yi > y) != (Yj > y)) && (x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi);
+
+            if (insect) ifInside = !ifInside;
+        }
+
+        return ifInside;
+    }
+    updateOption(option) {
+        this.Option = util.extend(this.Option, option);
+        this.bus.dispatch('update', 'no');
+    }
+    setRotateOrigin(loc) {
+        this.rotateOrigin = loc;
     }
 }
