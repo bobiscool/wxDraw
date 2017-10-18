@@ -105,19 +105,13 @@ Page({
     // //   });
 
 
-    // cir1.animate({"y":"+=500",x:"+=300",rotate:"+=2"}, {
-    //     duration: 5000,
-    //     onLooping: function () {
-    //       console.log('----');
-    //     },
-    //     easing: "linear"
-    // }).animate({ "y": "-=500", x: "-=300", rotate: "-=2" }, {
-    //   duration: 5000,
-    //   onLooping: function () {
-    //     console.log('----');
-    //   },
-    //   easing: "linear"
-    //   }).start(100);
+    cir1.animate({rotate: "+=200", strokeStyle:"#429398"}, {
+        duration: 1000,
+        onLooping: function () {
+          console.log('----');
+        },
+        easing: "linear"
+    }).start(1);
     // cir1.animate("y", "-=500", {
     //   duration: 10000,
     //   onLooping: function () {

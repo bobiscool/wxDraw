@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 14:33:09
+ * @Last Modified time: 2017-10-18 14:41:32
  * 线条 
  */
 
@@ -90,7 +90,7 @@ export class Line {
                 prePoints.push(item)
             } else {
                 prePoints.push(item);
-                behPoints.shift([item[0], item[1] - 2]);//行成一个圈用于区域检测
+                behPoints.shift([item[0], item[1] - 5]);//行成一个圈用于区域检测
 
             }
         }, this);
