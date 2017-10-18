@@ -147,6 +147,9 @@ Page({
       animate({ "w": "-=100", "h": "+=40", "fillStyle": "#B3204D", "rotate": "+=10", }, { duration: 4000, easing: "bouncePast" })
       .start();
 
+
+      
+
     // cir3.animate({ "y": "+=200"}, {
     //   duration: 1000,
     //   onLooping: function () {
