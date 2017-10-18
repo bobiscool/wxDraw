@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 13:36:05
+ * @Last Modified time: 2017-10-18 13:53:18
  * 线条 
  */
 
@@ -32,10 +32,16 @@ export class Line {
             minY: null,
         };
         this.massCenter = this.genMassCenter(this.Option.points);// 拿到点位 先计算线段重心
-        this.posPoints =  this.genPointsPositiveLoc();
+        this.posPoints = this.genPointsPositiveLoc();
 
-        this.oriPoints =this.Option.points; 
-        // this.detectPoints = 
+        this.oriPoints = this.Option.points;
+        this._Points = this.Option.points;
+        this.detectPoints = this.getDetectPoints();
+        this.getMax();
+        this._isChoosed = false;
+
+        this.rotateOrigin = null
+
     }
     /**
      * 线的质心
@@ -71,13 +77,62 @@ export class Line {
         // 不能放大 缩小
         let _allPos = [];
         this.Option.points.forEach(function (item) {
-            _allPos.push([this.massCenter.x- item[0], this.massCenter.y- item[1]])
+            _allPos.push([this.massCenter.x - item[0], this.massCenter.y - item[1]])
         }, this);
         return _allPos;
     }
-    getDetectPoints(){
-        this._Points.forEach(function(item,index){
-                  //除了头尾 其余的都要产生 两个对应点
-        });
+    getDetectPoints() {
+        let prePoints = [],
+            behPoints = [];//头尾点
+        this._Points.forEach(function (item, index) {
+            //除了头尾 其余的都要产生 两个对应点
+            if (index == 0 || index == this._Points.length - 1) {
+                prePoints.push(item)
+            } else {
+                prePoints.push(item);
+                behPoints.shift([item[0], item[1] - 2]);//行成一个圈用于区域检测
+
+            }
+        }, this);
+
+        return prePoints.concat(behPoints);//合在一起就是 一个圈了 
+    }
+    getMax() {
+        //绘制 与检测 不能在统一个地方
+        let _Points = this._Points;
+
+        this.max = {
+            maxX: null,
+            maxY: null,
+            minX: null,
+            minY: null,
+        };
+
+        _Points.forEach(function (element) {
+            // console.log('el',element[1]);
+            if (element[0] > this.max.maxX) {
+                this.max.maxX = element[0];
+            }
+            if (!this.max.minX && this.max.minX !== 0) {
+                this.max.minX = element[0];
+            }
+            if (this.max.minX && element[0] < this.max.minX) {
+                this.max.minX = element[0];
+            }
+
+
+
+            if (element[1] > this.max.maxY) {
+                this.max.maxY = element[1];
+            }
+            if (!this.max.minY && this.max.minY !== 0) {
+                this.max.minY = element[1];
+            }
+            if (this.max.minY && element[1] < this.max.minY) {
+                this.max.minY = element[1];
+            }
+        }, this);
+
+
     }
 }
