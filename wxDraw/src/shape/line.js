@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 18:28:26
+ * @Last Modified time: 2017-10-18 13:36:05
  * 线条 
  */
 
@@ -33,6 +33,9 @@ export class Line {
         };
         this.massCenter = this.genMassCenter(this.Option.points);// 拿到点位 先计算线段重心
         this.posPoints =  this.genPointsPositiveLoc();
+
+        this.oriPoints =this.Option.points; 
+        // this.detectPoints = 
     }
     /**
      * 线的质心
@@ -71,5 +74,10 @@ export class Line {
             _allPos.push([this.massCenter.x- item[0], this.massCenter.y- item[1]])
         }, this);
         return _allPos;
+    }
+    getDetectPoints(){
+        this._Points.forEach(function(item,index){
+                  //除了头尾 其余的都要产生 两个对应点
+        });
     }
 }

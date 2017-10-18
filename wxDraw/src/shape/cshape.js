@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 15:50:59
+ * @Last Modified time: 2017-10-18 13:32:44
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -51,8 +51,8 @@ export const Cshape = function (option) {
 
     this.massCenter = this.genMassCenter(this.Option.points);// 拿到点位 先计算重心
     this.posPoints = this.genPointsPositiveLoc();
-        console.log(this.massCenter);
-        console.log(this.posPoints);
+        // console.log(this.massCenter);
+        // console.log(this.posPoints);
     
     this.oriPoints =this.Option.points; 
     this._Points = this.Option.points;//用于绘制的点 
