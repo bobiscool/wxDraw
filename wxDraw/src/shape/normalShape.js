@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:18:33
+ * @Last Modified time: 2017-10-19 18:29:09
  * 普通形状
  * 
  */
@@ -10,6 +10,7 @@ import { util, matrixToarray, objToArray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js"; //准备把rect 改成 点形式
 import { commonAttr,commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
+import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 
 
 
@@ -128,16 +129,7 @@ Circle.prototype = {
         }
         // }
     },
-    upDetect: function () {
-        this._isChoosed = false;
-    },
-    updateOption: function (option) {
-        this.Option = util.extend(option, this.Option);
-        this.bus.dispatch('update', 'no');
-    },
-    setRotateOrigin: function (loc) {
-        this.rotateOrigin = loc;
-    }
+   ...commonMethods
 }
 
 
