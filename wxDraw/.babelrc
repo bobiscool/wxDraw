@@ -1,12 +1,17 @@
-
 {
     "presets": [
         [
-            "es2015",
+            "env",
             {
+                "targets": {
+                    "ie": 8
+                },
                 "modules": false
             }
         ]
     ],
-    "plugins": ["external-helpers","transform-object-rest-spread"]
+    "plugins": [
+        "transform-object-rest-spread",        
+        "external-helpers",
+    ]
 }

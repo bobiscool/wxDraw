@@ -8,7 +8,8 @@ export default {
     plugins: [
         babel({
             exclude: 'node_modules/**',
-            runtimeHelpers: true 
+            runtimeHelpers: true,
+            babelrc: true
         })
     ],
     watch: {
