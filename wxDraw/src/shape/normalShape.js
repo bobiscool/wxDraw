@@ -2,14 +2,14 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:51:29
+ * @Last Modified time: 2017-10-19 18:18:33
  * 普通形状
  * 
  */
 import { util, matrixToarray, objToArray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
-import { Point } from "./mixins/points.js" //准备把rect 改成 点形式
-import { commonAttr } from "./mixins/commonAttr.js" //共有属性
+import { Point } from "./mixins/points.js"; //准备把rect 改成 点形式
+import { commonAttr,commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
 
 
 
@@ -50,8 +50,10 @@ var rOption = {
 export const Circle = function (option) {
     // var _temOption1 = util.mix(option,)
     var _temOption = util.extend(option, cOption);
+    var _temUnOption = util.extend(option, commonUnAttr);
     this.Option = _temOption;
     // console.log(_temOption);
+    this.UnOption = _temUnOption;//不参与动画的属性
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -149,6 +151,7 @@ export const Rect = function (option) {
     var _temOption = util.extend(option, rOption);
     //console.log(_temOption);
     this.Option = _temOption;
+    this.u
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
