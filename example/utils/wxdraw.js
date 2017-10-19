@@ -4,7 +4,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:42:22
+ * @Last Modified time: 2017-10-19 18:37:38
  * 
  * 工具库
  */
@@ -23,7 +23,7 @@ var guid = function guid() {
 };
 
 
-var util = {
+var util$1 = {
     mix: function mix(target, source, overlay) {
         //混合
         target = 'prototype' in target ? target.prototype : target;
@@ -85,11 +85,11 @@ var rgb2hex = function rgb2hex(r, g, b) {
 var objToArray = function objToArray(obj) {
     //对象的值转数组
     var _Arrays = [];
-    console.log(obj);
+    // console.log(obj);
     // console.log( Object.keys(obj));
-    // Object.keys(obj).forEach(function(item){
-    //   _Arrays.push(obj[item]);
-    // });
+    Object.keys(obj).forEach(function (item) {
+        _Arrays.push(obj[item]);
+    });
 
     return _Arrays;
 };
@@ -529,7 +529,7 @@ var pOption = {
 
 
 };var Polygon = function Polygon(option) {
-    var _temOption = util.extend(option, pOption);
+    var _temOption = util$1.extend(option, pOption);
     console.log(_temOption);
     this.Option = _temOption;
 
@@ -796,7 +796,7 @@ Polygon.prototype = {
 
     updateOption: function updateOption(option) {
         // //console.log(option);
-        this.Option = util.extend(this.Option, option);
+        this.Option = util$1.extend(this.Option, option);
         // //console.log(this.Option);
         this.bus.dispatch('update', 'no');
     },
@@ -824,7 +824,7 @@ var Line = function () {
     function Line(option) {
         classCallCheck(this, Line);
 
-        var _temOption = util.extend(lOption, option);
+        var _temOption = util$1.extend(lOption, option);
         this.Option = _temOption;
         this.max = {
             maxX: null,
@@ -1084,7 +1084,7 @@ var Line = function () {
     }, {
         key: 'updateOption',
         value: function updateOption(option) {
-            this.Option = util.extend(this.Option, option);
+            this.Option = util$1.extend(this.Option, option);
             this.bus.dispatch('update', 'no');
         }
     }, {
@@ -1100,12 +1100,13 @@ var Line = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 16:56:25
+ * @Last Modified time: 2017-10-19 18:03:36
  * 常用的一些属性
  * 
  */
 
 var commonAttr = {
+    //这些样式是可以被动画来设置的
     lineWidth: 12, //线宽
     Shadow: {
         offsetX: 5,
@@ -1116,11 +1117,53 @@ var commonAttr = {
 
 };
 
+var commonUnAttr = { //这些样式只能单独设定 
+    lineCap: "", // lineCap	String	'butt'、'round'、'square'	线条的结束端点样式
+    lineJoin: "", //lineJoin	String	'bevel'、'round'、'miter'	线条的结束交点样式
+    miterLimit: "" //最大斜接长度
+};
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-10-19 18:04:13 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-19 18:28:43
+ * 一些都有的方法 都放到这里
+ */
+
+var commonMethods = {
+    updateOption: function updateOption(option) {
+        //这个更新属性 是不是有点问题 好像和set属性重复了
+        this.Option = util.extend(option, this.Option);
+        this.UnOption = util.extend(option, this.UnOption);
+        this.bus.dispatch('update', 'no');
+    },
+    upDetect: function upDetect() {
+        this._isChoosed = false;
+    },
+    /**
+     * 
+     * 
+     * @param {any} lineCap 线端点
+     * @param {any} lineJoin 线连接
+     * @param {any} lineDash 虚线
+     */
+    // setLine: function (lineCap, lineJoin, lineDash) { //设置线
+    //     this.UnOption.lineCap = lineCap;
+    //     this.UnOption.lineJoin = lineJoin;
+    //     this.UnOption.lineDash = lineDash;
+    // },
+    setRotateOrigin: function setRotateOrigin(loc) {
+        //设置旋转中心
+        this.rotateOrigin = loc;
+    }
+};
+
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:39:55
+ * @Last Modified time: 2017-10-19 18:36:44
  * 普通形状
  * 
  */
@@ -1153,22 +1196,26 @@ var rOption = _extends({
  */
 var Circle = function Circle(option) {
     // var _temOption1 = util.mix(option,)
-    var _temOption = util.extend(option, cOption);
+    var _temOption = util$1.extend(option, cOption);
+    var _temUnOption = util$1.extend(option, commonUnAttr);
     this.Option = _temOption;
     // console.log(_temOption);
+    this.UnOption = _temUnOption; //不参与动画的属性
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
     this.rotateOrigin = null;
 };
 
-Circle.prototype = {
+Circle.prototype = _extends({
     stroke: function stroke(context) {
         context.save();
         context.beginPath();
         this._draw(context);
         context.closePath();
+
         context.setStrokeStyle(this.Option.strokeStyle);
+        context.setLinewidth(this.Option.lineWidth);
         context.stroke();
 
         context.restore();
@@ -1179,8 +1226,13 @@ Circle.prototype = {
         this._draw(context);
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
-        console.log(objToArray(this.Option.Shandow));
-        // context.setShandow(...objToArray(this.Option.Shandow));
+        // console.log(this.Option);
+        if (this.Option.Shadow && this.Option.Shadow.offsetX) {
+            console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
+
+        // console.log(objToArray(this.Option.Shandow));
         context.fill();
         context.restore();
     },
@@ -1223,26 +1275,18 @@ Circle.prototype = {
             this.move(x + this._offsetX, y + this._offsetY);
         }
         // }
-    },
-    upDetect: function upDetect() {
-        this._isChoosed = false;
-    },
-    updateOption: function updateOption(option) {
-        this.Option = util.extend(option, this.Option);
-        this.bus.dispatch('update', 'no');
-    },
-    setRotateOrigin: function setRotateOrigin(loc) {
-        this.rotateOrigin = loc;
     }
+}, commonMethods);
 
-    /**
-     * 方块
-     */
+/**
+ * 方块
+ */
 
-};var Rect = function Rect(option) {
-    var _temOption = util.extend(option, rOption);
+var Rect = function Rect(option) {
+    var _temOption = util$1.extend(option, rOption);
     //console.log(_temOption);
     this.Option = _temOption;
+    this.u;
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -1433,7 +1477,7 @@ Rect.prototype = {
     },
     updateOption: function updateOption(option) {
 
-        this.Option = util.extend(option, this.Option);
+        this.Option = util$1.extend(option, this.Option);
         this.bus.dispatch('update', 'no');
     },
     setRotateOrigin: function setRotateOrigin(loc) {
@@ -1475,7 +1519,7 @@ var cOption$1 = {
 };
 
 var Cshape = function Cshape(option) {
-    var _temOption = util.extend(option, cOption$1);
+    var _temOption = util$1.extend(option, cOption$1);
 
     this.Option = _temOption;
 
@@ -1696,7 +1740,7 @@ Cshape.prototype = {
         return ifInside;
     },
     updateOption: function updateOption(option) {
-        this.Option = util.extend(this.Option, option);
+        this.Option = util$1.extend(this.Option, option);
         this.bus.dispatch('update', 'no');
     },
     setRotateOrigin: function setRotateOrigin(loc) {
@@ -2118,7 +2162,7 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) 
     // ATRRIBUTE 是对象的时候 那就是几个属性 一起改变
 
 
-    var _temOption = util.extend(option, FRAGOPTION);
+    var _temOption = util$1.extend(option, FRAGOPTION);
     this.object = object;
     this.source = 0;
     this.genFlag = false;
@@ -2393,7 +2437,7 @@ var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.loopTimes = false;
     this.looped = 0;
     this.object = object;
-    this.oriOption = util.extend({}, object.Shape.Option); // 记录最初的样式
+    this.oriOption = util$1.extend({}, object.Shape.Option); // 记录最初的样式
     this.endCallWraper = null;
     this.firstTime = true;
 };
@@ -2413,7 +2457,7 @@ AniFragWrap.prototype = {
         // //console.log(this.stoped);
         if (this.firstTime) {
             this.firstTime = false;
-            this.oriOption = util.extend({}, this.object.Shape.Option);
+            this.oriOption = util$1.extend({}, this.object.Shape.Option);
         }
         if (this.stoped) {
             if (this.endCallWraper) {

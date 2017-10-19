@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:29:09
+ * @Last Modified time: 2017-10-19 18:36:44
  * 普通形状
  * 
  */
@@ -81,8 +81,10 @@ Circle.prototype = {
         this._draw(context);
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
-        if (this.Option.Shandow && this.Option.Shandow.x) {
-            context.setShandow(...objToArray(this.Option.Shandow));
+        // console.log(this.Option);
+        if (this.Option.Shadow && this.Option.Shadow.offsetX) {
+            console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX,this.Option.Shadow.offsetY,this.Option.Shadow.blur,this.Option.Shadow.color);
         }
         
         // console.log(objToArray(this.Option.Shandow));

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:42:22
+ * @Last Modified time: 2017-10-19 18:37:38
  * 
  * 工具库
  */
@@ -108,11 +108,11 @@ export const util = {
 
   export const objToArray = function(obj){ //对象的值转数组
     let _Arrays=[];
-        console.log(obj);
+        // console.log(obj);
         // console.log( Object.keys(obj));
-        // Object.keys(obj).forEach(function(item){
-        //   _Arrays.push(obj[item]);
-        // });
+        Object.keys(obj).forEach(function(item){
+          _Arrays.push(obj[item]);
+        });
 
         return _Arrays;
   }
