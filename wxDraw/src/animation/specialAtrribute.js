@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 14:36:38
+ * @Last Modified time: 2017-10-19 19:14:16
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -64,6 +64,50 @@ export const specialAtrr = {//一些特殊的属性值的更改
             ]
             let _val = '#' + rgb2hex(...temCo)
             return _val;
+        },
+        getIncre: function (source, target, sub) {
+            //太恶心了 ！！！
+            if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
+                let tarCo = hex2rgb(target);
+
+                return {
+                    r: tarCo.r - source.r,
+                    g: tarCo.g - source.g,
+                    b: tarCo.b - source.b
+                }
+            }
+        }
+    },
+    "Shadow": {
+        // 卧槽 再次刷新了 我自己恶心自己的底线 。。。。 Shadow里面继续颜色改变
+        get: function (val) {
+            let _temSh = {
+                offsetX: source.offsetX,
+                offsetY: source.offsetY,
+                blur: source.blur,
+                color: hex2rgb(val.color)
+            }
+
+            return _temSh;
+        },
+        set: function (source, incre, timer) {
+            // //console.log(source, incre, timer);
+
+            let _temCo = [
+                source.color.r + Math.floor(incre.color.r * timer),
+                source.color.g + Math.floor(incre.color.g * timer),
+                source.color.b + Math.floor(incre.color.b * timer)//超级恶心颜色渐变
+            ]
+
+            let _temCoH = '#' + rgb2hex(...temCo); 
+            let _temSha = {
+                offsetX: source.offsetX + Math.floor(incre.offsetX * timer),
+                offsetY: source.offsetY + Math.floor(incre.offsetY * timer),
+                blur: source.blur + Math.floor(incre.blur * timer),
+                color: _temCoH
+            }
+            // let _val = '#' + rgb2hex(...temCo)
+            return _temSha;
         },
         getIncre: function (source, target, sub) {
             //太恶心了 ！！！

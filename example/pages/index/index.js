@@ -69,7 +69,7 @@ Page({
 
     var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
-    var cir3 = new Shape('circle', { x: 330, y: 300, r: 100, sides: 10,jj:10, rotate: Math.PI/4,Shadow:{
+    var cir3 = new Shape('circle', { x: 330, y: 300, r: 100, sides: 10, rotate: Math.PI/4,Shadow:{
       color:"#3299BB"
     } }, false, true)
         
@@ -152,17 +152,17 @@ Page({
 
       
 
-    // cir3.animate({ "y": "+=200"}, {
-    //   duration: 1000,
-    //   onLooping: function () {
-    //     console.log('动画2'
+    cir3.animate({ "lineWidth": "+=200"}, {
+      duration: 1000,
+      onLooping: function () {
+        console.log('动画2'
         
         
-    //     );
-    //   },
+        );
+      },
    
-    //   easing: "linear"
-    // }).start(1);
+      easing: "linear"
+    }).start(1);
 
     // cir3.animate({ "rotate": "+=" + 2 * Math.PI, "fillStyle": "#ff0000",x:"-=400",r:"-=40"}, {
     //   duration: 4000,

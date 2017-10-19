@@ -301,18 +301,6 @@ var rgb2hex = function rgb2hex(r, g, b) {
      */
 };
 
-var objToArray = function objToArray(obj) {
-    //对象的值转数组
-    var _Arrays = [];
-    // console.log(obj);
-    // console.log( Object.keys(obj));
-    Object.keys(obj).forEach(function (item) {
-        _Arrays.push(obj[item]);
-    });
-
-    return _Arrays;
-};
-
 var Store = function Store() {
     this.store = [];
 };
@@ -1167,7 +1155,7 @@ var commonMethods = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:36:44
+ * @Last Modified time: 2017-10-19 18:57:44
  * 普通形状
  * 
  */
@@ -1219,7 +1207,11 @@ Circle.prototype = _extends({
         context.closePath();
 
         context.setStrokeStyle(this.Option.strokeStyle);
-        context.setLinewidth(this.Option.lineWidth);
+        context.setLineWidth(this.Option.lineWidth);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.stroke();
 
         context.restore();
@@ -1231,8 +1223,8 @@ Circle.prototype = _extends({
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
         // console.log(this.Option);
-        if (this.Option.Shadow && this.Option.Shadow.offsetX) {
-            console.log(objToArray(this.Option.Shadow));
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
         }
 

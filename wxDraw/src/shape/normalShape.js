@@ -2,14 +2,14 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:51:10
+ * @Last Modified time: 2017-10-19 18:57:44
  * 普通形状
  * 
  */
 import { util, matrixToarray, objToArray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js"; //准备把rect 改成 点形式
-import { commonAttr,commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
+import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 
 
@@ -68,9 +68,13 @@ Circle.prototype = {
         context.beginPath();
         this._draw(context);
         context.closePath();
-        
+
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.stroke();
 
         context.restore();
@@ -82,11 +86,11 @@ Circle.prototype = {
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
         // console.log(this.Option);
-        if (this.Option.Shadow && this.Option.Shadow.offsetX) {
-            console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX,this.Option.Shadow.offsetY,this.Option.Shadow.blur,this.Option.Shadow.color);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
         }
-        
+
         // console.log(objToArray(this.Option.Shandow));
         context.fill();
         context.restore();
@@ -131,7 +135,7 @@ Circle.prototype = {
         }
         // }
     },
-   ...commonMethods
+    ...commonMethods
 }
 
 
