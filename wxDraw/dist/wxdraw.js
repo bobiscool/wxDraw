@@ -4,7 +4,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:15:52
+ * @Last Modified time: 2017-10-19 17:16:13
  * 
  * 工具库
  */
@@ -47,7 +47,7 @@ var util = {
                     source[key] = target[key];
                 }
         }
-        return target;
+        return source;
     }
 };
 

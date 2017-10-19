@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:16:13
+ * @Last Modified time: 2017-10-19 17:20:46
  * 
  * 工具库
  */
@@ -53,8 +53,8 @@ export const util = {
     /**
      * 
      * 
-     * @param {any} target 被覆盖者
-     * @param {any} source 覆盖者
+     * @param {any} target 覆盖者
+     * @param {any} source 被覆盖者
      * @param {any} overlay 是否全部抹掉
      * @returns 
      */
