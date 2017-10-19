@@ -219,7 +219,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:42:04
+ * @Last Modified time: 2017-10-19 18:44:06
  * 
  * 工具库
  */
@@ -259,8 +259,8 @@ var util$1 = {
         for (var key in target) {
             if (source.hasOwnProperty(key)) //如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
                 {
-                    if (_typeof(source[key]) == "object") {
-                        util$1.extend(target[key], source[key]);
+                    if (_typeof(source[key]) == "object" && !(source[key] instanceof Array)) {
+                        util$1.extend(target[key], source[key]); //递归
                     } else {
                         source[key] = target[key];
                     }

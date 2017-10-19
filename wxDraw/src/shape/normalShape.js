@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:36:44
+ * @Last Modified time: 2017-10-19 18:51:10
  * 普通形状
  * 
  */
@@ -70,7 +70,7 @@ Circle.prototype = {
         context.closePath();
         
         context.setStrokeStyle(this.Option.strokeStyle);
-        context.setLinewidth(this.Option.lineWidth);
+        context.setLineWidth(this.Option.lineWidth);
         context.stroke();
 
         context.restore();
