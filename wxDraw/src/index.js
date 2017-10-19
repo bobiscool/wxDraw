@@ -2,10 +2,15 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 16:11:49
+ * @Last Modified time: 2017-10-19 15:22:45
  * 主要 引入对象
  * 
- * 
+ * 写给开发者的:
+ * 特别注意 
+ *  由于微信小程序不稳定  注释太多,console太多会导致小程序无法加载此文件 
+ *  如果是准备真机运行 建议使用 wxdraw的压缩版本
+ *  还有在有些实机( 比如我的一加3 )小程序里面 使用console.log 一个构造函数 会显示null
+ *  实际上是拿到了的，具体原因，还要找微信官方开发者解释
  */
 
 import { guid } from "./util/utils.js";

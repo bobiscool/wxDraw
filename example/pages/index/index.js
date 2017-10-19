@@ -1,9 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var WxDraw = require("../../utils/wxdraw.js").WxDraw;
-var Shape = require("../../utils/wxdraw.js").Shape;
-var AnimationFrame = require("../../utils/wxdraw.js").AnimationFrame;
+var WxDraw = require("../../utils/wxdraw.min.js").WxDraw;
+var Shape = require("../../utils/wxdraw.min.js").Shape;
+var AnimationFrame = require("../../utils/wxdraw.min.js").AnimationFrame;
 
 // console.log(cancelAnimationFrame);
 
@@ -105,13 +105,13 @@ Page({
     // //   });
 
 
-    cir1.animate({rotate: "+=200", strokeStyle:"#429398"}, {
-        duration: 1000,
-        onLooping: function () {
-          console.log('----');
-        },
-        easing: "linear"
-    }).start(1);
+    // cir1.animate({rotate: "+=200", strokeStyle:"#429398"}, {
+    //     duration: 1000,
+    //     onLooping: function () {
+    //       console.log('----');
+    //     },
+    //     easing: "linear"
+    // }).start(1);
     // cir1.animate("y", "-=500", {
     //   duration: 10000,
     //   onLooping: function () {
