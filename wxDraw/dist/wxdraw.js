@@ -2018,7 +2018,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 14:36:38
+ * @Last Modified time: 2017-10-19 19:23:28
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -2036,11 +2036,11 @@ var specialOption = {
 
 var specialAtrr = { //一些特殊的属性值的更改
     "fillStyle": {
-        get: function get(val) {
+        get: function get$$1(val) {
             // //console.log('hex2wwwwwwrgb', hex2rgb(val));
             return hex2rgb(val);
         },
-        set: function set(source, incre, timer) {
+        set: function set$$1(source, incre, timer) {
             // //console.log(source, incre, timer);
             var temCo = [source.r + Math.floor(incre.r * timer), source.g + Math.floor(incre.g * timer), source.b + Math.floor(incre.b * timer) //超级恶心颜色渐变
             ];
@@ -2062,11 +2062,11 @@ var specialAtrr = { //一些特殊的属性值的更改
         }
     },
     "strokeStyle": {
-        get: function get(val) {
+        get: function get$$1(val) {
             // //console.log('hex2wwwwwwrgb', hex2rgb(val));
             return hex2rgb(val);
         },
-        set: function set(source, incre, timer) {
+        set: function set$$1(source, incre, timer) {
             // //console.log(source, incre, timer);
             var temCo = [source.r + Math.floor(incre.r * timer), source.g + Math.floor(incre.g * timer), source.b + Math.floor(incre.b * timer) //超级恶心颜色渐变
             ];
@@ -2086,6 +2086,52 @@ var specialAtrr = { //一些特殊的属性值的更改
                 };
             }
         }
+    },
+    "Shadow": {
+        // 卧槽 再次刷新了 我自己恶心自己的底线 。。。。 Shadow里面继续颜色改变
+        get: function get$$1(val) {
+            var _temSh = {
+                offsetX: val.offsetX,
+                offsetY: val.offsetY,
+                blur: val.blur,
+                color: hex2rgb(val.color)
+            };
+
+            return _temSh;
+        },
+        set: function set$$1(source, incre, timer) {
+            // //console.log(source, incre, timer);
+
+            var _temCoH = '#' + rgb2hex.apply(undefined, toConsumableArray(temCo));
+            var _temSha = {
+                offsetX: source.offsetX + incre.offsetX * timer,
+                offsetY: source.offsetY + incre.offsetY * timer,
+                blur: source.blur + incre.blur * timer,
+                color: _temCoH
+                // let _val = '#' + rgb2hex(...temCo)
+            };return _temSha;
+        },
+        getIncre: function getIncre(source, target, sub) {
+            //太恶心了 ！！！ 特殊属性全是 差值形式 不然要恶心死我
+            // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
+            var tarCo = hex2rgb(target.color);
+
+            console.log('ssssss', source);
+            var increCo = {
+                r: tarCo.r - source.color.r,
+                g: tarCo.g - source.color.g,
+                b: tarCo.b - source.color.b
+
+                // }
+
+
+            };return {
+                offsetX: target.offsetX - source.offsetX,
+                offsetY: target.offsetY - source.offsetY,
+                blur: target.blur - source.blur,
+                color: increCo
+            };
+        }
     }
 };
 
@@ -2093,7 +2139,7 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 16:11:37
+ * @Last Modified time: 2017-10-19 19:26:01
  */
 
 var FRAGOPTION = {
@@ -2113,10 +2159,10 @@ var FRAGOPTION = {
 };
 
 function genExe(exe, atrribute, object) {
-    //console.log('exe', exe);
+    console.log('exe', exe);
     // //console.log('exe', exe.indexOf('#'));
 
-    if (!isNaN(Number(exe)) || exe.indexOf('#') === 0) {
+    if (!isNaN(Number(exe)) || String(exe).indexOf('#') === 0) {
         //表达式 是个数字
         var temAtrr = void 0;
         if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {

@@ -152,7 +152,10 @@ Page({
 
       
 
-    cir3.animate({ "lineWidth": "+=200"}, {
+    cir3.animate({
+      "lineWidth": "+=200", Shadow: {
+        color: "#3299BB"
+      }}, {
       duration: 1000,
       onLooping: function () {
         console.log('动画2'

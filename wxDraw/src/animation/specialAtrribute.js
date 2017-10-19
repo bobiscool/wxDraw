@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 19:19:21
+ * @Last Modified time: 2017-10-19 19:23:28
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -82,9 +82,9 @@ export const specialAtrr = {//一些特殊的属性值的更改
         // 卧槽 再次刷新了 我自己恶心自己的底线 。。。。 Shadow里面继续颜色改变
         get: function (val) {
             let _temSh = {
-                offsetX: source.offsetX,
-                offsetY: source.offsetY,
-                blur: source.blur,
+                offsetX: val.offsetX,
+                offsetY: val.offsetY,
+                blur: val.blur,
                 color: hex2rgb(val.color)
             }
 
@@ -114,10 +114,11 @@ export const specialAtrr = {//一些特殊的属性值的更改
             // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
                 let tarCo = hex2rgb(target.color);
                  
+                console.log('ssssss',source);
                 let increCo={
-                    r: tarCo.r - source.r,
-                    g: tarCo.g - source.g,
-                    b: tarCo.b - source.b
+                    r: tarCo.r - source.color.r,
+                    g: tarCo.g - source.color.g,
+                    b: tarCo.b - source.color.b
                 }
 
 

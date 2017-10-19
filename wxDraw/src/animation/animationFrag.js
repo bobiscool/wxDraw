@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 16:11:37
+ * @Last Modified time: 2017-10-19 19:26:01
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -27,10 +27,10 @@ var FRAGOPTION = {
 }
 
 function genExe(exe, atrribute, object) {
-    //console.log('exe', exe);
+    console.log('exe', exe);
     // //console.log('exe', exe.indexOf('#'));
     
-    if (!isNaN(Number(exe))||exe.indexOf('#')===0) {//表达式 是个数字
+    if (!isNaN(Number(exe))||String(exe).indexOf('#')===0) {//表达式 是个数字
         let temAtrr;
         if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
             if (specialAtrr[atrribute]) {//特殊属性 比如颜色
