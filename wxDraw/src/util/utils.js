@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 18:17:52
+ * @Last Modified time: 2017-10-19 17:16:13
  * 
  * 工具库
  */
@@ -53,21 +53,22 @@ export const util = {
     /**
      * 
      * 
-     * @param {any} target 被覆盖
+     * @param {any} target 被覆盖者
      * @param {any} source 覆盖者
      * @param {any} overlay 是否全部抹掉
      * @returns 
      */
-    extend(target, source, overlay) {
-        for (var key in source) {
-            if (source.hasOwnProperty(key)
-                && (overlay ? source[key] != null : target[key] == null)
-            ) {
-                target[key] = source[key];
+    extend(target, source) {
+        for (var key in target) {
+            if (source.hasOwnProperty(key))//如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
+             {
+                source[key] = target[key]; 
             }
         }
-        return target;
+        return source;
     },
+
+
 }
 
 

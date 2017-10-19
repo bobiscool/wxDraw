@@ -2,13 +2,15 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 16:20:41
+ * @Last Modified time: 2017-10-19 17:10:55
  * 普通形状
  * 
  */
 import { util, matrixToarray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js" //准备把rect 改成 点形式
+import { commonAttr } from "./mixins/commonAttr.js" //共有属性
+
 
 
 var cOption = {
@@ -21,6 +23,7 @@ var cOption = {
     eA: Math.PI * 2,
     counterclockwise: false,
     rotate: 0,
+    ...commonAttr
 }
 var rOption = {
     x: 10,
@@ -30,6 +33,7 @@ var rOption = {
     fillStyle: "#000000",
     strokeStyle: "#000000",
     rotate: 0,
+    ...commonAttr    
 }
 
 
@@ -44,6 +48,7 @@ var rOption = {
  * 
  */
 export const Circle = function (option) {
+    // var _temOption1 = util.mix(option,)
     var _temOption = util.extend(option, cOption);
     this.Option = _temOption;
 

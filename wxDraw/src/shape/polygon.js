@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 16:25:44
+ * @Last Modified time: 2017-10-19 17:13:24
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -32,7 +32,7 @@ var pOption = {
 
 export const Polygon = function (option) {
     var _temOption = util.extend(option, pOption);
-
+    console.log(_temOption);
     this.Option = _temOption;
 
     this.max = {

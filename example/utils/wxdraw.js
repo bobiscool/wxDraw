@@ -4,7 +4,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 18:17:52
+ * @Last Modified time: 2017-10-19 17:15:52
  * 
  * 工具库
  */
@@ -35,16 +35,17 @@ var util = {
     /**
      * 
      * 
-     * @param {any} target 被覆盖
+     * @param {any} target 被覆盖者
      * @param {any} source 覆盖者
      * @param {any} overlay 是否全部抹掉
      * @returns 
      */
-    extend: function extend(target, source, overlay) {
-        for (var key in source) {
-            if (source.hasOwnProperty(key) && (overlay ? source[key] != null : target[key] == null)) {
-                target[key] = source[key];
-            }
+    extend: function extend(target, source) {
+        for (var key in target) {
+            if (source.hasOwnProperty(key)) //如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
+                {
+                    source[key] = target[key];
+                }
         }
         return target;
     }
@@ -63,7 +64,7 @@ var matrixToarray = function matrixToarray(a) {
 
 var hex2rgb = function hex2rgb(val) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(val);
-    console.log('hex2rgb', result);
+    //console.log('hex2rgb',result);
     return result ? {
         r: parseInt(result[1], 16),
         g: parseInt(result[2], 16),
@@ -72,8 +73,8 @@ var hex2rgb = function hex2rgb(val) {
 };
 
 var rgb2hex = function rgb2hex(r, g, b) {
-    console.log(r, g, b);
-    console.log('1666666', ((1 << 24) + (r << 16) + (g << 8) + b).toString(16));
+    //console.log(r,g,b);
+    //console.log('1666666',((1<<24)+(r<<16)+(g<<8)+b).toString(16));
     return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).substr(1); // << 是javascript左移运算符 
     /**
      * 1<<24 是为了防止 在r 为0的时候 左移被忽略 所以添加一个1 来保底
@@ -271,6 +272,20 @@ var createClass = function () {
 
 
 
+var _extends = Object.assign || function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+
+    for (var key in source) {
+      if (Object.prototype.hasOwnProperty.call(source, key)) {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  return target;
+};
+
 
 
 
@@ -341,7 +356,7 @@ var Matrix = function () {
     }
 
     createClass(Matrix, [{
-        key: 'multi',
+        key: "multi",
         value: function multi(matrix) {
             //矩阵乘法
             var Points = [];
@@ -350,9 +365,9 @@ var Matrix = function () {
                 this.matrixArray.forEach(function (everyM, _index) {
                     //将每一行拎出来
                     // 好久没接触过 矩阵，。。头都写大了。。。
-                    // console.log(everyM);
+                    // //console.log(everyM);
                     Points.push([]);
-                    // console.log(matrix.n);
+                    // //console.log(matrix.n);
                     for (var i = 0; i < matrix.n; i++) {
                         //要乘多少次
                         // 拿到这一列所有 其实这一列所有 就是 
@@ -362,19 +377,19 @@ var Matrix = function () {
                             _p += _everN * matrix.matrixArray[index][i]; //最小城乘数因子
                         });
 
-                        // console.log(_p);
+                        // //console.log(_p);
                         Points[_index][i] = _p; //😓
                     }
                 }, this);
 
                 return new Matrix(Points);
             } else {
-                console.log('两个矩阵没法计算'); // 必须前一个n 等于后一个m才能计算
+                //console.log('两个矩阵没法计算');// 必须前一个n 等于后一个m才能计算
                 return false;
             }
         }
     }, {
-        key: 'add',
+        key: "add",
         value: function add(matrix) {
             //加法
             var Points = [];
@@ -392,7 +407,7 @@ var Matrix = function () {
             }
         }
     }, {
-        key: 'sub',
+        key: "sub",
         value: function sub(matrix) {
             //减法
             var Points = [];
@@ -426,7 +441,7 @@ var Matrix = function () {
 // ]);
 
 
-// console.log(a.add(b).matrixArray)
+// //console.log(a.add(b).matrixArray)
 
 /*
  * @Author: Thunderball.Wu 
@@ -482,7 +497,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 16:25:44
+ * @Last Modified time: 2017-10-19 17:13:24
  */
 
 var pOption = {
@@ -503,7 +518,7 @@ var pOption = {
 
 };var Polygon = function Polygon(option) {
     var _temOption = util.extend(option, pOption);
-
+    console.log(_temOption);
     this.Option = _temOption;
 
     this.max = {
@@ -525,9 +540,9 @@ Polygon.prototype = {
         var points = [],
             angle = this.Option.startAngle || 0;
 
-        // console.log('Option',this.Option);
+        // //console.log('Option',this.Option);
         //每次getPoints 要刷新max
-        // console.log('init xy', x, y);
+        // //console.log('init xy', x, y);
 
         for (var i = 0; i < this.Option.sides; ++i) {
             points.push([this.Option.x + this.Option.r * Math.sin(angle), this.Option.y - this.Option.r * Math.cos(angle)]);
@@ -545,15 +560,15 @@ Polygon.prototype = {
             origin = this.rotateOrigin;
         }
 
-        // console.log('item', origin);
+        // //console.log('item', origin);
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
-        // console.log(this._Points);
-        // console.log(this.oriPoints);
+        // //console.log(this._Points);
+        // //console.log(this.oriPoints);
         return this._Points; //除掉矩阵多余的部分;
     },
     getMax: function getMax() {
@@ -617,14 +632,14 @@ Polygon.prototype = {
     _draw: function _draw(context) {
         this.getOriPoints(); //拿到所有原始点
         this.getPoints(); //拿到所有真实点
-        // console.log('_POINTS',this._Points);
+        // //console.log('_POINTS',this._Points);
         this.getMax(); //所有真实点max min
         this.createPath(context); //绘制
         // } else {
         /**
          * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
          */
-        // console.log('不按原点旋转');
+        // //console.log('不按原点旋转');
         // context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
         // context.rotate(this.Option.rotate);
         // this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1])
@@ -637,9 +652,9 @@ Polygon.prototype = {
         // let ox = x;
         // let oy = x;
         var angle = this.Option.rotate;
-        // console.log(origin);
-        // console.log(tx);
-        // console.log(ty);
+        // //console.log(origin);
+        // //console.log(tx);
+        // //console.log(ty);
         // let changeMatrix = new Matrix([
         //     [Math.cos(angle), -Math.sin(angle), (Math.cos(angle)-1)*tx - ty*Math.sin(angle)],
         //     [Math.sin(angle), Math.cos(angle), (Math.cos(angle)-1)*ty + tx*Math.sin(angle)],
@@ -686,16 +701,16 @@ Polygon.prototype = {
         //     [tx], [ty]
         // ]);
 
-        // // console.log('平移旋转计算', AtranslateMatrix.multi(getChangeMatrix));
+        // // //console.log('平移旋转计算', AtranslateMatrix.multi(getChangeMatrix));
 
-        // // console.log(x,y);
-        // console.log('A',rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix))
+        // // //console.log(x,y);
+        // //console.log('A',rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix))
         // let _temMatrix = rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix);
         // let _temMatrix = AtranslateMatrix.multi(rotateMatrix).multi(BtranslateMatrix).multi(getChangeMatrix);
         // let _roMatrix = rotateMatrix.multi(getChangeMatrix);
-        // console.log('平移旋转计算', _temMatrix);
-        // console.log('旋转计算2', getChangeMatrix);
-        // console.log('旋转计算3', changeMatrix);
+        // //console.log('平移旋转计算', _temMatrix);
+        // //console.log('旋转计算2', getChangeMatrix);
+        // //console.log('旋转计算3', changeMatrix);
 
 
         //将所有变化 都转到 Point对象去了 
@@ -705,16 +720,16 @@ Polygon.prototype = {
 
         this.Option.x = x;
         this.Option.y = y;
-        // console.log('-------move--------', this.Option);
+        // //console.log('-------move--------', this.Option);
     },
     detected: function detected(x, y) {
         // pnpoly 算法区域
 
         // 首先找到 最大x 最小x 最大y 最小y
-        // console.log('多边形点击',x,y,this.max)
+        // //console.log('多边形点击',x,y,this.max)
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
-            // console.log('点中');
+            // //console.log('点中');
             // this.points = this._Points;
 
             this._offsetX = this.Option.x - x;
@@ -763,14 +778,14 @@ Polygon.prototype = {
             if (insect) ifInside = !ifInside;
         }
 
-        // console.log(ifInside);
+        // //console.log(ifInside);
         return ifInside;
     },
 
     updateOption: function updateOption(option) {
-        // console.log(option);
+        // //console.log(option);
         this.Option = util.extend(this.Option, option);
-        // console.log(this.Option);
+        // //console.log(this.Option);
         this.bus.dispatch('update', 'no');
     },
     setRotateOrigin: function setRotateOrigin(loc) {
@@ -888,16 +903,16 @@ var Line = function () {
                 origin = this.rotateOrigin;
             }
 
-            // console.log('item', origin);
+            // //console.log('item', origin);
 
             this.oriPoints.forEach(function (item) {
                 _points.push(this.getPointTodraw(item[0], item[1], origin));
             }, this);
 
-            // console.log('points',_points);
+            // //console.log('points',_points);
             this._Points = matrixToarray(_points); //除掉矩阵多余的部分
-            // console.log(this._Points);
-            // console.log(this.oriPoints);
+            // //console.log(this._Points);
+            // //console.log(this.oriPoints);
             return this._Points; //除掉矩阵多余的部分;
         }
     }, {
@@ -920,7 +935,7 @@ var Line = function () {
             };
 
             _Points.forEach(function (element) {
-                // console.log('el',element[1]);
+                // //console.log('el',element[1]);
                 if (element[0] > this.max.maxX) {
                     this.max.maxX = element[0];
                 }
@@ -951,7 +966,7 @@ var Line = function () {
                 return false;
             }
             context.beginPath();
-            // console.log(points.length);
+            // //console.log(points.length);
             context.moveTo(points[0][0], points[0][1]);
             for (var i = 1; i < points.length; i++) {
                 context.lineTo(points[i][0], points[i][1]);
@@ -975,11 +990,11 @@ var Line = function () {
     }, {
         key: '_draw',
         value: function _draw(context) {
-            // console.log(this.massCenter);
-            //    console.log(this.oriPoints);
+            // //console.log(this.massCenter);
+            //    //console.log(this.oriPoints);
             this.getOriPoints();
             this.genPoints(); //拿到所有真实点
-            // console.log('_POINTS',this._Points);
+            // //console.log('_POINTS',this._Points);
             this.detectPoints = this.getDetectPoints();
             this.getMax(); //所有真实点max min
             this.createPath(context); //绘制
@@ -990,7 +1005,7 @@ var Line = function () {
 
             this.massCenter.x = x;
             this.massCenter.y = y;
-            // console.log('---------------', this.Option);
+            // //console.log('---------------', this.Option);
         }
     }, {
         key: 'detected',
@@ -1014,8 +1029,8 @@ var Line = function () {
             if (this._isChoosed == true) {
                 this.move(x + this._offsetX, y + this._offsetY);
                 this.getOriPoints();
-                // console.log(this.massCenter);
-                // console.log(this.oriPoints);
+                // //console.log(this.massCenter);
+                // //console.log(this.oriPoints);
                 this.genPoints();
                 this.detectPoints = this.getDetectPoints();
                 this.getMax();
@@ -1071,13 +1086,33 @@ var Line = function () {
 
 /*
  * @Author: Thunderball.Wu 
+ * @Date: 2017-10-19 16:52:13 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-19 16:56:25
+ * 常用的一些属性
+ * 
+ */
+
+var commonAttr = {
+    lineWidth: 12, //线宽
+    Shadow: {
+        offsetX: 5,
+        offsetY: 5,
+        blur: 5,
+        color: "#000000"
+    }
+
+};
+
+/*
+ * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 16:20:41
+ * @Last Modified time: 2017-10-19 17:10:55
  * 普通形状
  * 
  */
-var cOption = {
+var cOption = _extends({
     fillStyle: "#000000",
     strokeStyle: "red",
     x: 10,
@@ -1087,8 +1122,8 @@ var cOption = {
     eA: Math.PI * 2,
     counterclockwise: false,
     rotate: 0
-};
-var rOption = {
+}, commonAttr);
+var rOption = _extends({
     x: 10,
     y: 10,
     w: 10,
@@ -1096,14 +1131,16 @@ var rOption = {
     fillStyle: "#000000",
     strokeStyle: "#000000",
     rotate: 0
+}, commonAttr);
 
-    /**
-     * 
-     * 圆圈
-     * @param {any} option  配置项
-     * 
-     */
-};var Circle = function Circle(option) {
+/**
+ * 
+ * 圆圈
+ * @param {any} option  配置项
+ * 
+ */
+var Circle = function Circle(option) {
+    // var _temOption1 = util.mix(option,)
     var _temOption = util.extend(option, cOption);
     this.Option = _temOption;
 
@@ -1149,7 +1186,7 @@ Circle.prototype = {
         }
     },
     move: function move(x, y) {
-        // console.log('move', x, y);
+        // //console.log('move', x, y);
         this.Option.x = x;
         this.Option.y = y;
     },
@@ -1158,8 +1195,8 @@ Circle.prototype = {
         if (Math.pow(_self.Option.x - x, 2) + Math.pow(_self.Option.y - y, 2) <= Math.pow(_self.Option.r, 2)) {
             this._offsetX = _self.Option.x - x;
             this._offsetY = _self.Option.y - y;
-            console.log('x', this._offsetX);
-            console.log('y', this._offsetY);
+            //console.log('x', this._offsetX);
+            //console.log('y', this._offsetY);
             this._isChoosed = true;
             return true; // 点击
         }
@@ -1191,7 +1228,7 @@ Circle.prototype = {
 
 };var Rect = function Rect(option) {
     var _temOption = util.extend(option, rOption);
-    console.log(_temOption);
+    //console.log(_temOption);
     this.Option = _temOption;
     this._isChoosed = false;
     this._offsetX = 0;
@@ -1237,7 +1274,7 @@ Rect.prototype = {
     _draw: function _draw(context) {
         this.getOriPoints();
         this.getPoints(); //拿到所有真实点
-        // console.log('_POINTS',this.Option);
+        // //console.log('_POINTS',this.Option);
         this.getMax(); //所有真实点max min
         this.createPath(context); //绘制
     },
@@ -1260,15 +1297,15 @@ Rect.prototype = {
             origin = this.rotateOrigin;
         }
 
-        console.log('item', origin);
+        //console.log('item', origin);
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
-        // console.log(this._Points);
-        // console.log(this.oriPoints);
+        // //console.log(this._Points);
+        // //console.log(this.oriPoints);
         return this._Points; //除掉矩阵多余的部分;
     },
     getPointTodraw: function getPointTodraw(x, y, origin) {
@@ -1311,9 +1348,9 @@ Rect.prototype = {
     },
     createPath: function createPath(context) {
         //创建路径
-        console.log('创建路径');
+        //console.log('创建路径');
         var points = this._Points;
-        // console.log(points);
+        // //console.log(points);
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < points.length; ++i) {
@@ -1345,7 +1382,7 @@ Rect.prototype = {
             if (insect) ifInside = !ifInside;
         }
 
-        // console.log(ifInside);
+        // //console.log(ifInside);
         return ifInside;
     },
 
@@ -1354,11 +1391,11 @@ Rect.prototype = {
         this.Option.y = y;
     },
     detected: function detected(x, y) {
-        // console.log('检测方块', x, y);
-        // console.log('方块', this.Option);
+        // //console.log('检测方块', x, y);
+        // //console.log('方块', this.Option);
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
-            // console.log('点中');
+            // //console.log('点中');
             // this.points = this._Points;
 
             this._offsetX = this.Option.x - x;
@@ -1438,14 +1475,14 @@ var Cshape = function Cshape(option) {
 
     this.massCenter = this.genMassCenter(this.Option.points); // 拿到点位 先计算重心
     this.posPoints = this.genPointsPositiveLoc();
-    // console.log(this.massCenter);
-    // console.log(this.posPoints);
+    // //console.log(this.massCenter);
+    // //console.log(this.posPoints);
 
     this.oriPoints = this.Option.points;
     this._Points = this.Option.points; //用于绘制的点 
     // this.getOriPoints();
     this.getMax();
-    // console.log(this.max);
+    // //console.log(this.max);
     this._isChoosed = false;
 
     this.rotateOrigin = null;
@@ -1492,16 +1529,16 @@ Cshape.prototype = {
             origin = this.rotateOrigin;
         }
 
-        // console.log('item', origin);
+        // //console.log('item', origin);
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
-        // console.log('points',_points);
+        // //console.log('points',_points);
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
-        // console.log(this._Points);
-        // console.log(this.oriPoints);
+        // //console.log(this._Points);
+        // //console.log(this.oriPoints);
         return this._Points; //除掉矩阵多余的部分;
     },
     getPointTodraw: function getPointTodraw(x, y, origin) {
@@ -1520,7 +1557,7 @@ Cshape.prototype = {
         };
 
         _Points.forEach(function (element) {
-            // console.log('el',element[1]);
+            // //console.log('el',element[1]);
             if (element[0] > this.max.maxX) {
                 this.max.maxX = element[0];
             }
@@ -1549,7 +1586,7 @@ Cshape.prototype = {
             return false;
         }
         context.beginPath();
-        // console.log(points.length);
+        // //console.log(points.length);
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < points.length; i++) {
             context.lineTo(points[i][0], points[i][1]);
@@ -1571,11 +1608,11 @@ Cshape.prototype = {
         context.restore();
     },
     _draw: function _draw(context) {
-        // console.log(this.massCenter);
-        //    console.log(this.oriPoints);
+        // //console.log(this.massCenter);
+        //    //console.log(this.oriPoints);
         this.getOriPoints();
         this.genPoints(); //拿到所有真实点
-        // console.log('_POINTS',this._Points);
+        // //console.log('_POINTS',this._Points);
         this.getMax(); //所有真实点max min
         this.createPath(context); //绘制
     },
@@ -1583,16 +1620,16 @@ Cshape.prototype = {
 
         this.massCenter.x = x;
         this.massCenter.y = y;
-        // console.log('---------------', this.Option);
+        // //console.log('---------------', this.Option);
     },
     detected: function detected(x, y) {
         // pnpoly 算法区域
 
         // 首先找到 最大x 最小x 最大y 最小y
-        // console.log('多边形点击',x,y,this.max)
+        // //console.log('多边形点击',x,y,this.max)
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
-            console.log('点中');
+            //console.log('点中');
             // this.points = this.genPoints(this.Option.x, this.Option.y);
 
             this._offsetX = this.massCenter.x - x;
@@ -1610,8 +1647,8 @@ Cshape.prototype = {
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
             this.getOriPoints();
-            // console.log(this.massCenter);
-            // console.log(this.oriPoints);
+            // //console.log(this.massCenter);
+            // //console.log(this.oriPoints);
             this.genPoints();
             this.getMax();
         }
@@ -1907,15 +1944,15 @@ AnimationTimer.prototype = {
     getGoesByTime: function getGoesByTime() {
         //注意这里的时间与 watch 里面的时间不是同一概念 这里面还有扭曲时间 用于产生不同的动画效果的
         var goesBytime = this.watch.getGoesByTime();
-        // console.log(goesBytime);
+        // //console.log(goesBytime);
         var aniPercent = goesBytime / this.duration; //动画进行的程度
 
 
         if (!this.watch.running) return undefined; //没有运行 那就没有
         if (!this.timeFunc) return goesBytime; //如果没有时间函数那就直接返回正常的 时间
         //关键点
-        // console.log('扭曲时间',EasingFunctions[this.timeFunc](aniPercent)/aniPercent);
-        // console.log('扭曲时间',this.timeFunc);
+        // //console.log('扭曲时间',EasingFunctions[this.timeFunc](aniPercent)/aniPercent);
+        // //console.log('扭曲时间',this.timeFunc);
         return goesBytime * (EasingFunctions[this.timeFunc](aniPercent) / aniPercent); //时间扭曲
     },
     isOver: function isOver() {
@@ -1947,11 +1984,11 @@ var specialOption = {
 var specialAtrr = { //一些特殊的属性值的更改
     "fillStyle": {
         get: function get(val) {
-            // console.log('hex2wwwwwwrgb', hex2rgb(val));
+            // //console.log('hex2wwwwwwrgb', hex2rgb(val));
             return hex2rgb(val);
         },
         set: function set(source, incre, timer) {
-            // console.log(source, incre, timer);
+            // //console.log(source, incre, timer);
             var temCo = [source.r + Math.floor(incre.r * timer), source.g + Math.floor(incre.g * timer), source.b + Math.floor(incre.b * timer) //超级恶心颜色渐变
             ];
             var _val = '#' + rgb2hex.apply(undefined, temCo);
@@ -1973,11 +2010,11 @@ var specialAtrr = { //一些特殊的属性值的更改
     },
     "strokeStyle": {
         get: function get(val) {
-            // console.log('hex2wwwwwwrgb', hex2rgb(val));
+            // //console.log('hex2wwwwwwrgb', hex2rgb(val));
             return hex2rgb(val);
         },
         set: function set(source, incre, timer) {
-            // console.log(source, incre, timer);
+            // //console.log(source, incre, timer);
             var temCo = [source.r + Math.floor(incre.r * timer), source.g + Math.floor(incre.g * timer), source.b + Math.floor(incre.b * timer) //超级恶心颜色渐变
             ];
             var _val = '#' + rgb2hex.apply(undefined, temCo);
@@ -2023,8 +2060,8 @@ var FRAGOPTION = {
 };
 
 function genExe(exe, atrribute, object) {
-    console.log('exe', exe);
-    // console.log('exe', exe.indexOf('#'));
+    //console.log('exe', exe);
+    // //console.log('exe', exe.indexOf('#'));
 
     if (!isNaN(Number(exe)) || exe.indexOf('#') === 0) {
         //表达式 是个数字
@@ -2032,8 +2069,8 @@ function genExe(exe, atrribute, object) {
         if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
             if (specialAtrr[atrribute]) {
                 //特殊属性 比如颜色
-                // console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
-                // console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
+                // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
+                // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
                 temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]), exe, true);
             } else {
                 temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
@@ -2041,7 +2078,7 @@ function genExe(exe, atrribute, object) {
         } else {
             temAtrr = parseFloat(exe) - parseFloat(object.Shape[specialOption[object.type][atrribute]][atrribute]); //一些特殊的属性
         }
-        console.log('temAtrr', temAtrr);
+        //console.log('temAtrr', temAtrr);
         return temAtrr;
     }
 
@@ -2096,7 +2133,7 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) 
     this.atrribute = atrribute;
     this.atrributeList = []; // 如果atrribute是对象的形式
     if ((typeof atrribute === 'undefined' ? 'undefined' : _typeof(atrribute)) == "object") {
-        console.log('对象动画');
+        //console.log('对象动画');
         this.genFlag = true;
 
         this.genAtrributeList(atrribute);
@@ -2104,7 +2141,7 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) 
         this.incre = genExe(exe, atrribute, object);
         this.exe = exe; // 这是为了及时更新属性
     }
-    // console.log(this.object);
+    // //console.log(this.object);
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
     this.oriOption = _temOption;
     this.endCallFrag = null; // 用于动画叠加调用
@@ -2133,7 +2170,7 @@ AnimationFrag.prototype = {
             this.complete = true;
             this.running = false;
             // if (this.endCallFrag) {
-            //     // console.log('朝后调用');
+            //     // //console.log('朝后调用');
             //     this.endCallFrag.updateSourceAndtarget();//更新 起始源  在动画叠加中 有用
             //     // 更新 endcall的 source
             //     this.endCallFrag.updateAnimation(); // 朝后调用
@@ -2165,8 +2202,8 @@ AnimationFrag.prototype = {
         }
     },
     updateAtrribute: function updateAtrribute() {
-        // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
-        // console.log('cx', this.object.Shape[this.atrribute]);
+        // //console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
+        // //console.log('cx', this.object.Shape[this.atrribute]);
         if (!this.genFlag) {
             if (this.object.Shape.Option[this.atrribute] || this.object.Shape.Option[this.atrribute] == 0) {
                 if (specialAtrr[this.atrribute]) {
@@ -2176,20 +2213,20 @@ AnimationFrag.prototype = {
                 }
             } else {
                 this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
-                console.log(this.object);
+                //console.log(this.object);
             }
         } else {
             this.atrributeList.forEach(function (item) {
-                //  console.log(item);
+                //  //console.log(item);
                 if (this.object.Shape.Option[item.attr] || this.object.Shape.Option[item.attr] == 0) {
                     if (specialAtrr[item.attr]) {
-                        // console.log('颜色');
+                        // //console.log('颜色');
                         this.object.Shape.Option[item.attr] = specialAtrr[item.attr].set(item.source, item.incre, this.timer.getGoesByTime() / this.duration);
                     } else {
                         this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
                     }
                 } else {
-                    // console.log(item);
+                    // //console.log(item);
                     this.object.Shape[specialOption[this.object.type][item.attr]][item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
                 }
                 // this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
@@ -2200,15 +2237,15 @@ AnimationFrag.prototype = {
         //生成 属性 更改列表
         var _keys = Object.keys(atrribute);
         var _self = this;
-        // console.log(_self);
+        // //console.log(_self);
         _keys.forEach(function (item) {
             var source = this.object.Shape.Option[item] || this.object.Shape.Option[item] == 0 ? this.object.Shape.Option[item] : this.object.Shape[specialOption[this.object.type][item]][item]; //两种拿取source得方法
-            // console.log(specialAtrr[item]);
+            // //console.log(specialAtrr[item]);
             if (specialAtrr[item]) {
                 //特殊属性 比如颜色
-                // console.log("特殊属性");
+                // //console.log("特殊属性");
                 source = specialAtrr[item].get(this.object.Shape.Option[item]);
-                // console.log(source);
+                // //console.log(source);
             }
             _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": source }); //两种拿取source得方法
         }, this);
@@ -2256,7 +2293,7 @@ var eventBus = function eventBus() {
 eventBus.prototype = {
     add: function add(name, scope, event) {
         //添加事件 初始化事件
-        console.log('添加' + name);
+        //console.log('添加' + name);
         if (this.eventList.length) {
             this.eventList.forEach(function (ele) {
                 if (ele.name == name) {
@@ -2278,7 +2315,7 @@ eventBus.prototype = {
             });
         }
 
-        console.log(this.eventList);
+        //console.log(this.eventList);
     },
     dispatch: function dispatch(name, scope) {
         //执行事件 这里有两种状况  执行最外层或者是事件添加层 的scope 或者是 当地的scope
@@ -2286,7 +2323,7 @@ eventBus.prototype = {
 
         var _temArgu = arguments;
 
-        // console.log(_temArgu);
+        // //console.log(_temArgu);
 
         if (arguments.length < 2) {
             return false;
@@ -2294,10 +2331,10 @@ eventBus.prototype = {
 
         var _params = Array.prototype.slice.call(_temArgu, 2);
 
-        // console.log('_params',_params);
+        // //console.log('_params',_params);
         this.eventList.forEach(function (ele) {
             if (ele.name === name) {
-                // console.log('触发' + name);
+                // //console.log('触发' + name);
                 ele.thingsList.forEach(function (_ele) {
                     if (scope !== "no") {
                         _ele.call.apply(_ele, [scope].concat(toConsumableArray(_params)));
@@ -2360,7 +2397,7 @@ AniFragWrap.prototype = {
     },
     exeAnimate: function exeAnimate() {
         // 执行 仓库内部 动画 
-        // console.log(this.stoped);
+        // //console.log(this.stoped);
         if (this.firstTime) {
             this.firstTime = false;
             this.oriOption = util.extend({}, this.object.Shape.Option);
@@ -2371,14 +2408,14 @@ AniFragWrap.prototype = {
             }
             return false;
         }
-        // console.log('animationPick',this.animationPick);
+        // //console.log('animationPick',this.animationPick);
         if (this.fragStore[this.animationPick]) {
             this.fragStore[this.animationPick].updateAnimation();
         }
     },
     getAniOver: function getAniOver(who) {
         this.overAni.push(who);
-        console.log('连续碎片是否完成?', this.overAni);
+        //console.log('连续碎片是否完成?', this.overAni);
         if (this.overAni.length == this.fragStore.length) {
             // 动画执行完毕后 还有几种情况 1 直接结束
             if (this.loop) {
@@ -2403,7 +2440,7 @@ AniFragWrap.prototype = {
     },
     restart: function restart() {
         // 重新开始就得需要记住 最初物体的属性
-        console.log('restart');
+        //console.log('restart');
         this.object.updateOption(this.oriOption);
         this.overAni = [];
         this.animationPick = 0;
@@ -2416,7 +2453,7 @@ AniFragWrap.prototype = {
     },
     stop: function stop() {
         this.stoped = true;
-        // console.log('停止');
+        // //console.log('停止');
         this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId, this.object.Shapeid);
     },
     resume: function resume() {
@@ -2470,7 +2507,7 @@ Shape.prototype = {
         //检查点击了谁
         this.Shape.detected(x, y);
         if (this.Shape.detected(x, y)) {
-            console.log('点击');
+            //console.log('点击')
             this.bus.dispatch('getDetectedLayers', 'no', this._layerIndex);
         } else {
             this.bus.dispatch('getDetectedLayers', 'no', -1); //这是 为了保证 所以层级都检测一遍             
@@ -2478,7 +2515,7 @@ Shape.prototype = {
     },
     moveDetect: function moveDetect(x, y) {
         if (this.draggable && this._getChoosed) {
-            console.log('move', this._layerIndex);
+            //console.log('move',this._layerIndex);            
             this.Shape.moveDetect(x, y);
         }
     },
@@ -2503,7 +2540,7 @@ Shape.prototype = {
             this.aniFragWraper = new AniFragWrap(this.bus, this.aniFragListId, this); // 一旦开始连续调用 就创建一个
         }
 
-        console.log("添加形状");
+        //console.log("添加形状")
         // 在这里添加 动画
         // 所有的动画其实就是目标
         // 一旦 每个动画对象执行 animate其实就是给自己立了一个flag
@@ -2544,14 +2581,15 @@ Shape.prototype = {
 
         //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
 
-        //    console.log('添加形状',this.bus);
+        //    //console.log('添加形状',this.bus);
 
         //    }
 
 
         //    }
 
-        console.log("继续调用", this);
+        //console.log("继续调用", this)
+
 
         return this;
     },
@@ -2570,8 +2608,8 @@ Shape.prototype = {
             this.aniFragListId = ""; // 每一段动画的id
             this.aniFragWraper = null; // 每一段动画的id
         } else {
-            console.log('未添加动画对象');
-        }
+                //console.log('未添加动画对象');
+            }
     }, //开始动画
     updateOption: function updateOption(option) {
         if (!this.Shape.bus) {
@@ -2587,11 +2625,11 @@ Shape.prototype = {
         return this;
     },
     updateLayer: function updateLayer(layer) {
-        console.log('更新层级', layer);
+        //console.log('更新层级', layer);
         this._layerIndex = layer;
     },
     getChoosed: function getChoosed() {
-        console.log('选中', this._layerIndex);
+        //console.log('选中',this._layerIndex);
         this._getChoosed = true;
     }
 };
@@ -2624,7 +2662,7 @@ var shapeTypes = {
 //todo cancelRequestAnimationFrame 
 // cancel setTimeOut
 var AnimationFrame = function AnimationFrame() {
-    // console.log('requestAnimationFrame',requestAnimationFrame);
+    // //console.log('requestAnimationFrame',requestAnimationFrame);
     // if(requestAnimationFrame){
     //     this.animationType = "r";
     //     this.AnimationFrame = requestAnimationFrame;
@@ -2663,7 +2701,7 @@ function fakeAnimationFrame(callback) {
         callback(start);
         
 
-        //   console.log(finish - start);
+        //   //console.log(finish - start);
     }, 16);
 }
 
@@ -2682,7 +2720,7 @@ var Animation = function Animation(bus) {
     // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
 
     this.bus = bus;
-    //    console.log(this.bus);
+    //    //console.log(this.bus);
     this.animationFragStore = {}; // 动画碎片仓库 存储 所有 动画 
     this.animationCompleteList = []; // 动画完成清单
     this.wraperAniCompleteOb = {}; //每一个包裹的 动画是否完成
@@ -2704,7 +2742,7 @@ Animation.prototype = {
         var _self = this;
         function stepAnimation() {
             animationFrame(stepAnimation);
-            // console.log('---');
+            // //console.log('---');
             _self.running && _self.updateStep();
         }
 
@@ -2715,7 +2753,7 @@ Animation.prototype = {
         // 便在动画循环里面添加 
         // 动画是根据时间 来执行的 
         // this._bus()
-        // console.log(this.animationFragStore);
+        // //console.log(this.animationFragStore);
         // this.animationFragStore.forEach(function(ele){
         //     ele.updateAnimation();
         // });
@@ -2730,27 +2768,27 @@ Animation.prototype = {
         this.bus.dispatch('update', 'no'); //通知绘制更新 
     },
     animationComplete: function animationComplete(who) {
-        // console.log('who',who,this.animationCompleteList);
+        // //console.log('who',who,this.animationCompleteList);
         this.animationCompleteList.push(who);
         if (Object.keys(this.wraperAniCompleteOb).length === Object.keys(this.animationFragStore).length) {
             this.running = false; // 动画执行 结束
-            // console.log('结束动画')
+            // //console.log('结束动画')
         }
     },
     wraperAniComplete: function wraperAniComplete(afID, shaId) {
-        // console.log(afID, shaId);
+        // //console.log(afID, shaId);
         if (this.wraperAniCompleteOb[shaId]) {
             this.wraperAniCompleteOb[shaId].push(afID);
         } else {
             this.wraperAniCompleteOb[shaId] = [afID]; // 用于检测吗每一个shape的动画是否完成
         }
 
-        // console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
+        // //console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
 
         if (this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length) {
             this.bus.dispatch('animationComplete', 'no', shaId); // 某一个物件的动画完成
         }
-        // console.log('wraperAniComplete', this.wraperAniCompleteOb);
+        // //console.log('wraperAniComplete', this.wraperAniCompleteOb);
     }
 };
 
@@ -2758,10 +2796,15 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 16:11:49
+ * @Last Modified time: 2017-10-19 15:22:45
  * 主要 引入对象
  * 
- * 
+ * 写给开发者的:
+ * 特别注意 
+ *  由于微信小程序不稳定  注释太多,console太多会导致小程序无法加载此文件 
+ *  如果是准备真机运行 建议使用 wxdraw的压缩版本
+ *  还有在有些实机( 比如我的一加3 )小程序里面 使用console.log 一个构造函数 会显示null
+ *  实际上是拿到了的，具体原因，还要找微信官方开发者解释
  */
 
 // import { AnimationFrame } from "./animation/animationFrame.js";
@@ -2790,7 +2833,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('update', this, this.update);
     this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
     this.bus.add('clearDetectedLayers', this, this.clearDetectedLayers);
-    // console.log(this.bus);
+    // //console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
     this.detectedLayers = [];
@@ -2821,10 +2864,10 @@ WxDraw.prototype = {
 
         this.store.store.forEach(function (item) {
             item.moveDetect(loc.x, loc.y);
-            // console.log('item',item)ﬂ
+            // //console.log('item',item)ﬂ
         }, this);
 
-        //  console.log(loc);
+        //  //console.log(loc);
         this.draw();
         this.canvas.draw();
     },
@@ -2859,22 +2902,22 @@ WxDraw.prototype = {
      * @param {any} Shapeid  id
      */
     addAnimationFrag: function addAnimationFrag(AnimationWraper, Shapeid) {
-        // console.log(AnimationOption);
+        // //console.log(AnimationOption);
         // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
 
         if (this.animation.animationFragStore[Shapeid]) {
             // 
-            // console.log('已经有动画了');
+            // //console.log('已经有动画了');
             this.animation.animationFragStore[Shapeid][this.animation.animationFragStore[Shapeid].length - 1].endCallWraper = AnimationWraper;
             this.animation.animationFragStore[Shapeid].push(AnimationWraper);
         } else {
-            // console.log('初始化 ');
+            // //console.log('初始化 ');
 
             this.animation.animationFragStore[Shapeid] = [AnimationWraper];
         }
 
-        // console.log(this.animation.animationFragStore2);
+        // //console.log(this.animation.animationFragStore2);
     },
     getDetectedLayers: function getDetectedLayers(layers) {
         this.detectedLayers.push(layers); // 这个地方不能推一次 就 判断一次 应该全部推完了 之后再来判断 
@@ -2885,10 +2928,10 @@ WxDraw.prototype = {
         if (this.detectedLayers.length == this.store.getLength() && Math.max.apply(null, this.detectedLayers) == -1) {
             this.clearDetectedLayers();
         }
-        //   console.log(this.detectedLayers);
+        //   //console.log(this.detectedLayers);
     },
     clearDetectedLayers: function clearDetectedLayers() {
-        console.log('清空选中层级');
+        //console.log('清空选中层级');
         this.detectedLayers = []; //清空选中层级
     }
 

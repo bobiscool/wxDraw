@@ -1,9 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var WxDraw = require("../../utils/wxdraw.min.js").WxDraw;
-var Shape = require("../../utils/wxdraw.min.js").Shape;
-var AnimationFrame = require("../../utils/wxdraw.min.js").AnimationFrame;
+var WxDraw = require("../../utils/wxdraw.js").WxDraw;
+var Shape = require("../../utils/wxdraw.js").Shape;
+var AnimationFrame = require("../../utils/wxdraw.js").AnimationFrame;
 
 // console.log(cancelAnimationFrame);
 
@@ -69,7 +69,7 @@ Page({
 
     var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
-    var cir3 = new Shape('polygon', { x: 330, y: 300, r: 100, sides: 7, rotate: Math.PI/4 }, true, true)
+    var cir3 = new Shape('polygon', { x: 330, y: 300, r: 100, sides: 10,jj:10, rotate: Math.PI/4 }, true, true)
         
     // cir3.setOrigin([40,40])
     console.log(cir3);
