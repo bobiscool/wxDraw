@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 19:16:53
+ * @Last Modified time: 2017-10-19 19:19:21
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -111,19 +111,26 @@ export const specialAtrr = {//一些特殊的属性值的更改
         },
         getIncre: function (source, target, sub) {
             //太恶心了 ！！！ 特殊属性全是 差值形式 不然要恶心死我
-            if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
-                let tarCo = hex2rgb(target);
-
-                return {
+            // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
+                let tarCo = hex2rgb(target.color);
+                 
+                let increCo={
                     r: tarCo.r - source.r,
                     g: tarCo.g - source.g,
                     b: tarCo.b - source.b
                 }
+
+
+
+            // }
+
+
+            return {
+                 offsetX: target.offsetX - source.offsetX,
+                offsetY: target.offsetY - source.offsetY,
+                blur: target.blur - source.blur,
+                color: increCo
             }
-
-
-
-
 
             
         }
