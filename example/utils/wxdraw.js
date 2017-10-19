@@ -2618,7 +2618,7 @@ var shapeTypes = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-27 16:12:38 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-09-29 10:56:10
+ * @Last Modified time: 2017-10-19 14:04:17
  * 帧动画控制器
  */
 //todo cancelRequestAnimationFrame 
@@ -2635,7 +2635,7 @@ var AnimationFrame = function AnimationFrame() {
 
     // this.animationId = null;
 
-    if (requestAnimationFrame) {
+    if (typeof requestAnimationFrame !== 'undefined') {
         return requestAnimationFrame;
     } else {
         return fakeAnimationFrame;
