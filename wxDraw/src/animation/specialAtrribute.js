@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 19:14:16
+ * @Last Modified time: 2017-10-19 19:15:18
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -101,9 +101,9 @@ export const specialAtrr = {//一些特殊的属性值的更改
 
             let _temCoH = '#' + rgb2hex(...temCo); 
             let _temSha = {
-                offsetX: source.offsetX + Math.floor(incre.offsetX * timer),
-                offsetY: source.offsetY + Math.floor(incre.offsetY * timer),
-                blur: source.blur + Math.floor(incre.blur * timer),
+                offsetX: source.offsetX + incre.offsetX * timer,
+                offsetY: source.offsetY + incre.offsetY * timer,
+                blur: source.blur + incre.blur * timer,
                 color: _temCoH
             }
             // let _val = '#' + rgb2hex(...temCo)
