@@ -4,7 +4,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:16:13
+ * @Last Modified time: 2017-10-19 17:42:22
  * 
  * 工具库
  */
@@ -35,8 +35,8 @@ var util = {
     /**
      * 
      * 
-     * @param {any} target 被覆盖者
-     * @param {any} source 覆盖者
+     * @param {any} target 覆盖者
+     * @param {any} source 被覆盖者
      * @param {any} overlay 是否全部抹掉
      * @returns 
      */
@@ -80,6 +80,18 @@ var rgb2hex = function rgb2hex(r, g, b) {
      * 1<<24 是为了防止 在r 为0的时候 左移被忽略 所以添加一个1 来保底
      * 然后 r 占在最高位 所以 左移16位（这个 16位其实是 2进制里面左移） 以此类推
      */
+};
+
+var objToArray = function objToArray(obj) {
+    //对象的值转数组
+    var _Arrays = [];
+    console.log(obj);
+    // console.log( Object.keys(obj));
+    // Object.keys(obj).forEach(function(item){
+    //   _Arrays.push(obj[item]);
+    // });
+
+    return _Arrays;
 };
 
 var Store = function Store() {
@@ -1108,7 +1120,7 @@ var commonAttr = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:10:55
+ * @Last Modified time: 2017-10-19 17:39:55
  * 普通形状
  * 
  */
@@ -1143,7 +1155,7 @@ var Circle = function Circle(option) {
     // var _temOption1 = util.mix(option,)
     var _temOption = util.extend(option, cOption);
     this.Option = _temOption;
-
+    // console.log(_temOption);
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -1157,7 +1169,6 @@ Circle.prototype = {
         this._draw(context);
         context.closePath();
         context.setStrokeStyle(this.Option.strokeStyle);
-
         context.stroke();
 
         context.restore();
@@ -1168,6 +1179,8 @@ Circle.prototype = {
         this._draw(context);
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
+        console.log(objToArray(this.Option.Shandow));
+        // context.setShandow(...objToArray(this.Option.Shandow));
         context.fill();
         context.restore();
     },

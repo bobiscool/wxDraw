@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:20:46
+ * @Last Modified time: 2017-10-19 17:42:22
  * 
  * 工具库
  */
@@ -103,4 +103,16 @@ export const util = {
       * 1<<24 是为了防止 在r 为0的时候 左移被忽略 所以添加一个1 来保底
       * 然后 r 占在最高位 所以 左移16位（这个 16位其实是 2进制里面左移） 以此类推
       */
+  }
+
+
+  export const objToArray = function(obj){ //对象的值转数组
+    let _Arrays=[];
+        console.log(obj);
+        // console.log( Object.keys(obj));
+        // Object.keys(obj).forEach(function(item){
+        //   _Arrays.push(obj[item]);
+        // });
+
+        return _Arrays;
   }

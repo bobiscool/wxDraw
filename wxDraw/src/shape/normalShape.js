@@ -2,11 +2,11 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:10:55
+ * @Last Modified time: 2017-10-19 17:51:29
  * 普通形状
  * 
  */
-import { util, matrixToarray } from '../util/utils.js';
+import { util, matrixToarray, objToArray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js" //准备把rect 改成 点形式
 import { commonAttr } from "./mixins/commonAttr.js" //共有属性
@@ -33,7 +33,7 @@ var rOption = {
     fillStyle: "#000000",
     strokeStyle: "#000000",
     rotate: 0,
-    ...commonAttr    
+    ...commonAttr
 }
 
 
@@ -51,12 +51,12 @@ export const Circle = function (option) {
     // var _temOption1 = util.mix(option,)
     var _temOption = util.extend(option, cOption);
     this.Option = _temOption;
-
+    // console.log(_temOption);
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
     this.rotateOrigin = null;
-    
+
 }
 
 Circle.prototype = {
@@ -65,8 +65,9 @@ Circle.prototype = {
         context.beginPath();
         this._draw(context);
         context.closePath();
-        context.setStrokeStyle(this.Option.strokeStyle)
-
+        
+        context.setStrokeStyle(this.Option.strokeStyle);
+        context.setLinewidth(this.Option.lineWidth);
         context.stroke();
 
         context.restore();
@@ -77,6 +78,11 @@ Circle.prototype = {
         this._draw(context);
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
+        if (this.Option.Shandow && this.Option.Shandow.x) {
+            context.setShandow(...objToArray(this.Option.Shandow));
+        }
+        
+        // console.log(objToArray(this.Option.Shandow));
         context.fill();
         context.restore();
     },
@@ -198,8 +204,8 @@ Rect.prototype = {
         let points = [];
 
         points.push([this.Option.x - this.Option.w / 2, this.Option.y - this.Option.h / 2])
-        points.push([this.Option.x - this.Option.w / 2, this.Option.y + this.Option.h / 2])        
-        points.push([this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2])        
+        points.push([this.Option.x - this.Option.w / 2, this.Option.y + this.Option.h / 2])
+        points.push([this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2])
         points.push([this.Option.x + this.Option.w / 2, this.Option.y - this.Option.h / 2])
 
         this.oriPoints = points;
@@ -270,7 +276,7 @@ Rect.prototype = {
         //创建路径
         //console.log('创建路径');
         var points = this._Points;
-// //console.log(points);
+        // //console.log(points);
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < points.length; ++i) {
@@ -313,7 +319,7 @@ Rect.prototype = {
         var _self = this;
 
         // //console.log('方块', _self.Option.x, x, _self.Option.y, y, (_self.Option.y + _self.Option.h), y, (_self.Option.x + _self.Option.w), x);
-         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
+        if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             // //console.log('点中');
             // this.points = this._Points;

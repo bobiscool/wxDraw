@@ -69,7 +69,7 @@ Page({
 
     var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
-    var cir3 = new Shape('polygon', { x: 330, y: 300, r: 100, sides: 10,jj:10, rotate: Math.PI/4 }, true, true)
+    var cir3 = new Shape('circle', { x: 330, y: 300, r: 100, sides: 10,jj:10, rotate: Math.PI/4 }, true, true)
         
     // cir3.setOrigin([40,40])
     console.log(cir3);
@@ -135,17 +135,17 @@ Page({
 
 
 
-    cir2.animate({ "fillStyle": "#ff0000", "x": "+=100"}, {
-      duration: 1000,
-      onLooping: function () {
-         console.log('动画1');
-      },
-      easing: "linear"
-    }).animate({"x":"+=100","y":"+=200"},{duration:2000})
-      .animate({ "rotate": "+=100", "y": "-=200" }, { duration: 2000, easing: "easeTo" })
-      .animate({ "w": "+=100", "h": "-=10", "fillStyle":"#CDECCC" }, { duration: 4000, easing:"bouncePast" }).
-      animate({ "w": "-=100", "h": "+=40", "fillStyle": "#B3204D", "rotate": "+=10", }, { duration: 4000, easing: "bouncePast" })
-      .start();
+    // cir2.animate({ "fillStyle": "#ff0000", "x": "+=100"}, {
+    //   duration: 1000,
+    //   onLooping: function () {
+    //      console.log('动画1');
+    //   },
+    //   easing: "linear"
+    // }).animate({"x":"+=100","y":"+=200"},{duration:2000})
+    //   .animate({ "rotate": "+=100", "y": "-=200" }, { duration: 2000, easing: "easeTo" })
+    //   .animate({ "w": "+=100", "h": "-=10", "fillStyle":"#CDECCC" }, { duration: 4000, easing:"bouncePast" }).
+    //   animate({ "w": "-=100", "h": "+=40", "fillStyle": "#B3204D", "rotate": "+=10", }, { duration: 4000, easing: "bouncePast" })
+    //   .start();
 
 
       
