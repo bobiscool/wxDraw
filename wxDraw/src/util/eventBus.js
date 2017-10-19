@@ -15,7 +15,7 @@ export const eventBus = function () {
 eventBus.prototype = {
     add: function (name, scope, event) {
         //添加事件 初始化事件
-        console.log('添加' + name);
+        //console.log('添加' + name);
         if (this.eventList.length) {
             this.eventList.forEach(function (ele) {
                 if (ele.name == name) {
@@ -41,7 +41,7 @@ eventBus.prototype = {
 
 
 
-        console.log(this.eventList);
+        //console.log(this.eventList);
     },
     dispatch: function (name, scope) {
         //执行事件 这里有两种状况  执行最外层或者是事件添加层 的scope 或者是 当地的scope
@@ -49,7 +49,7 @@ eventBus.prototype = {
 
         var _temArgu = arguments;
 
-        // console.log(_temArgu);
+        // //console.log(_temArgu);
 
         if (arguments.length < 2) {
             return false;
@@ -57,10 +57,10 @@ eventBus.prototype = {
 
         let _params = Array.prototype.slice.call(_temArgu, 2);
        
-        // console.log('_params',_params);
+        // //console.log('_params',_params);
         this.eventList.forEach(function (ele) {
             if (ele.name === name) {
-                // console.log('触发' + name);
+                // //console.log('触发' + name);
                 ele.thingsList.forEach(function (_ele) {
                     if (scope !== "no") {
                         _ele.call(scope, ..._params)

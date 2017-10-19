@@ -90,7 +90,7 @@ Circle.prototype = {
         }
     },
     move: function (x, y) {
-        // console.log('move', x, y);
+        // //console.log('move', x, y);
         this.Option.x = x;
         this.Option.y = y;
     },
@@ -99,8 +99,8 @@ Circle.prototype = {
         if (Math.pow((_self.Option.x - x), 2) + Math.pow((_self.Option.y - y), 2) <= Math.pow(_self.Option.r, 2)) {
             this._offsetX = _self.Option.x - x;
             this._offsetY = _self.Option.y - y;
-            console.log('x', this._offsetX);
-            console.log('y', this._offsetY);
+            //console.log('x', this._offsetX);
+            //console.log('y', this._offsetY);
             this._isChoosed = true;
             return true;// 点击
         }
@@ -136,7 +136,7 @@ Circle.prototype = {
 
 export const Rect = function (option) {
     var _temOption = util.extend(option, rOption);
-    console.log(_temOption);
+    //console.log(_temOption);
     this.Option = _temOption;
     this._isChoosed = false;
     this._offsetX = 0;
@@ -185,7 +185,7 @@ Rect.prototype = {
         let origin = null;
         this.getOriPoints();
         this.getPoints();//拿到所有真实点
-        // console.log('_POINTS',this.Option);
+        // //console.log('_POINTS',this.Option);
         this.getMax();//所有真实点max min
         this.createPath(context);//绘制
     },
@@ -208,15 +208,15 @@ Rect.prototype = {
             origin = this.rotateOrigin;
         }
 
-        console.log('item', origin);
+        //console.log('item', origin);
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
 
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
-        // console.log(this._Points);
-        // console.log(this.oriPoints);
+        // //console.log(this._Points);
+        // //console.log(this.oriPoints);
         return this._Points;//除掉矩阵多余的部分;
     },
     getPointTodraw: function (x, y, origin) {
@@ -263,9 +263,9 @@ Rect.prototype = {
     },
     createPath: function (context) {
         //创建路径
-        console.log('创建路径');
+        //console.log('创建路径');
         var points = this._Points;
-// console.log(points);
+// //console.log(points);
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < points.length; ++i) {
@@ -295,7 +295,7 @@ Rect.prototype = {
             if (insect) ifInside = !ifInside;
         }
 
-        // console.log(ifInside);
+        // //console.log(ifInside);
         return ifInside;
     },
     move: function (x, y) {
@@ -303,14 +303,14 @@ Rect.prototype = {
         this.Option.y = y;
     },
     detected: function (x, y) {
-        // console.log('检测方块', x, y);
-        // console.log('方块', this.Option);
+        // //console.log('检测方块', x, y);
+        // //console.log('方块', this.Option);
         var _self = this;
 
-        // console.log('方块', _self.Option.x, x, _self.Option.y, y, (_self.Option.y + _self.Option.h), y, (_self.Option.x + _self.Option.w), x);
+        // //console.log('方块', _self.Option.x, x, _self.Option.y, y, (_self.Option.y + _self.Option.h), y, (_self.Option.x + _self.Option.w), x);
          if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
-            // console.log('点中');
+            // //console.log('点中');
             // this.points = this._Points;
 
             this._offsetX = this.Option.x - x;

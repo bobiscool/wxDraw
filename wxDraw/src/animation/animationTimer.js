@@ -68,15 +68,15 @@ AnimationTimer.prototype = {
     getGoesByTime:function(){
         //注意这里的时间与 watch 里面的时间不是同一概念 这里面还有扭曲时间 用于产生不同的动画效果的
         var goesBytime = this.watch.getGoesByTime();
-        // console.log(goesBytime);
+        // //console.log(goesBytime);
         var aniPercent = goesBytime/this.duration;//动画进行的程度
         
 
         if(!this.watch.running) return undefined; //没有运行 那就没有
         if(!this.timeFunc) return goesBytime;//如果没有时间函数那就直接返回正常的 时间
         //关键点
-        // console.log('扭曲时间',EasingFunctions[this.timeFunc](aniPercent)/aniPercent);
-        // console.log('扭曲时间',this.timeFunc);
+        // //console.log('扭曲时间',EasingFunctions[this.timeFunc](aniPercent)/aniPercent);
+        // //console.log('扭曲时间',this.timeFunc);
         return goesBytime*(EasingFunctions[this.timeFunc](aniPercent)/aniPercent);//时间扭曲
 
     },

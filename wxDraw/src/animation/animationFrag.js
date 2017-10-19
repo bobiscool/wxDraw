@@ -27,15 +27,15 @@ var FRAGOPTION = {
 }
 
 function genExe(exe, atrribute, object) {
-    console.log('exe', exe);
-    // console.log('exe', exe.indexOf('#'));
+    //console.log('exe', exe);
+    // //console.log('exe', exe.indexOf('#'));
     
     if (!isNaN(Number(exe))||exe.indexOf('#')===0) {//表达式 是个数字
         let temAtrr;
         if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
             if (specialAtrr[atrribute]) {//特殊属性 比如颜色
-                // console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
-                // console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
+                // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
+                // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
                 temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]),exe,true);
 
             } else {
@@ -44,7 +44,7 @@ function genExe(exe, atrribute, object) {
         } else {
             temAtrr = parseFloat(exe) - parseFloat(object.Shape[specialOption[object.type][atrribute]][atrribute]);//一些特殊的属性
         }
-        console.log('temAtrr', temAtrr);
+        //console.log('temAtrr', temAtrr);
         return temAtrr;
     }
 
@@ -105,7 +105,7 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     this.atrribute = atrribute;
     this.atrributeList = [];// 如果atrribute是对象的形式
     if (typeof atrribute == "object") {
-        console.log('对象动画');
+        //console.log('对象动画');
         this.genFlag = true;
 
         this.genAtrributeList(atrribute);
@@ -113,7 +113,7 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
         this.incre = genExe(exe, atrribute, object);
         this.exe = exe;// 这是为了及时更新属性
     }
-    // console.log(this.object);
+    // //console.log(this.object);
     this.timer = new AnimationTimer(_temOption.duration, _temOption.easing);
     this.oriOption = _temOption;
     this.endCallFrag = null;// 用于动画叠加调用
@@ -142,7 +142,7 @@ AnimationFrag.prototype = {
             this.complete = true;
             this.running = false;
             // if (this.endCallFrag) {
-            //     // console.log('朝后调用');
+            //     // //console.log('朝后调用');
             //     this.endCallFrag.updateSourceAndtarget();//更新 起始源  在动画叠加中 有用
             //     // 更新 endcall的 source
             //     this.endCallFrag.updateAnimation(); // 朝后调用
@@ -175,8 +175,8 @@ AnimationFrag.prototype = {
 
     },
     updateAtrribute: function () {
-        // console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
-        // console.log('cx', this.object.Shape[this.atrribute]);
+        // //console.log('x', this.source + this.target * this.timer.getGoesByTime() / this.duration);
+        // //console.log('cx', this.object.Shape[this.atrribute]);
         if (!this.genFlag) {
             if (this.object.Shape.Option[this.atrribute] || this.object.Shape.Option[this.atrribute] == 0) {
                 if (specialAtrr[this.atrribute]) {
@@ -187,20 +187,20 @@ AnimationFrag.prototype = {
 
             } else {
                 this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
-                console.log(this.object);
+                //console.log(this.object);
             }
         } else {
             this.atrributeList.forEach(function (item) {
-                //  console.log(item);
+                //  //console.log(item);
                 if (this.object.Shape.Option[item.attr] || this.object.Shape.Option[item.attr] == 0) {
                     if (specialAtrr[item.attr]) {
-                        // console.log('颜色');
+                        // //console.log('颜色');
                         this.object.Shape.Option[item.attr] = specialAtrr[item.attr].set(item.source,item.incre,this.timer.getGoesByTime() / this.duration);
                     } else {
                         this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
                     }
                 } else {
-                    // console.log(item);
+                    // //console.log(item);
                     this.object.Shape[specialOption[this.object.type][item.attr]][item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
                 }
                 // this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
@@ -211,14 +211,14 @@ AnimationFrag.prototype = {
         //生成 属性 更改列表
         let _keys = Object.keys(atrribute);
         var _self = this;
-        // console.log(_self);
+        // //console.log(_self);
         _keys.forEach(function (item) {
             let source = this.object.Shape.Option[item] || this.object.Shape.Option[item] == 0 ? this.object.Shape.Option[item] : this.object.Shape[specialOption[this.object.type][item]][item];//两种拿取source得方法
-            // console.log(specialAtrr[item]);
+            // //console.log(specialAtrr[item]);
             if (specialAtrr[item]) {//特殊属性 比如颜色
-                // console.log("特殊属性");
+                // //console.log("特殊属性");
                 source = specialAtrr[item].get(this.object.Shape.Option[item]);
-                // console.log(source);
+                // //console.log(source);
             }
             _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": source });//两种拿取source得方法
         },this);

@@ -42,7 +42,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('update', this, this.update);
     this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
     this.bus.add('clearDetectedLayers', this, this.clearDetectedLayers);
-    // console.log(this.bus);
+    // //console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
     this.detectedLayers = [];
@@ -74,10 +74,10 @@ WxDraw.prototype = {
 
         this.store.store.forEach(function (item) {
             item.moveDetect(loc.x, loc.y);
-            // console.log('item',item)ﬂ
+            // //console.log('item',item)ﬂ
         }, this);
 
-        //  console.log(loc);
+        //  //console.log(loc);
         this.draw();
         this.canvas.draw();
     },
@@ -114,22 +114,22 @@ WxDraw.prototype = {
      * @param {any} Shapeid  id
      */
     addAnimationFrag: function (AnimationWraper, Shapeid) {
-        // console.log(AnimationOption);
+        // //console.log(AnimationOption);
         // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
 
         if (this.animation.animationFragStore[Shapeid]) {
             // 
-            // console.log('已经有动画了');
+            // //console.log('已经有动画了');
             this.animation.animationFragStore[Shapeid][this.animation.animationFragStore[Shapeid].length - 1].endCallWraper = AnimationWraper;
             this.animation.animationFragStore[Shapeid].push(AnimationWraper);
         } else {
-            // console.log('初始化 ');
+            // //console.log('初始化 ');
 
             this.animation.animationFragStore[Shapeid] = [AnimationWraper];
         }
 
-        // console.log(this.animation.animationFragStore2);
+        // //console.log(this.animation.animationFragStore2);
 
     },
     getDetectedLayers: function (layers) {
@@ -141,10 +141,10 @@ WxDraw.prototype = {
         if(this.detectedLayers.length == this.store.getLength()&&Math.max.apply(null, this.detectedLayers)==-1){
             this.clearDetectedLayers();
         }
-        //   console.log(this.detectedLayers);
+        //   //console.log(this.detectedLayers);
     },
     clearDetectedLayers: function () {
-        console.log('清空选中层级');
+        //console.log('清空选中层级');
         this.detectedLayers = [];//清空选中层级
     }
 

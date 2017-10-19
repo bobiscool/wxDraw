@@ -85,7 +85,7 @@ export const util = {
   
   export const hex2rgb = function(val){
       var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(val);
-      console.log('hex2rgb',result);
+      //console.log('hex2rgb',result);
       return result?{
           r:parseInt(result[1],16),
           g:parseInt(result[2],16),
@@ -95,8 +95,8 @@ export const util = {
   }
 
   export const rgb2hex = function(r,g,b){
-      console.log(r,g,b);
-      console.log('1666666',((1<<24)+(r<<16)+(g<<8)+b).toString(16));
+      //console.log(r,g,b);
+      //console.log('1666666',((1<<24)+(r<<16)+(g<<8)+b).toString(16));
      return  ((1<<24)+(r<<16)+(g<<8)+b).toString(16).substr(1);// << 是javascript左移运算符 
      /**
       * 1<<24 是为了防止 在r 为0的时候 左移被忽略 所以添加一个1 来保底

@@ -106,16 +106,16 @@ export class Line {
             origin = this.rotateOrigin;
         }
 
-        // console.log('item', origin);
+        // //console.log('item', origin);
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
 
-        // console.log('points',_points);
+        // //console.log('points',_points);
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
-        // console.log(this._Points);
-        // console.log(this.oriPoints);
+        // //console.log(this._Points);
+        // //console.log(this.oriPoints);
         return this._Points;//除掉矩阵多余的部分;
     }
     getPointTodraw(x, y, origin) {
@@ -134,7 +134,7 @@ export class Line {
         };
 
         _Points.forEach(function (element) {
-            // console.log('el',element[1]);
+            // //console.log('el',element[1]);
             if (element[0] > this.max.maxX) {
                 this.max.maxX = element[0];
             }
@@ -165,7 +165,7 @@ export class Line {
             return false;
         }
         context.beginPath();
-        // console.log(points.length);
+        // //console.log(points.length);
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < points.length; i++) {
             context.lineTo(points[i][0], points[i][1]);
@@ -182,11 +182,11 @@ export class Line {
         this.stroke(context);//这里先这样写吧
     }
     _draw(context) {
-        // console.log(this.massCenter);
-        //    console.log(this.oriPoints);
+        // //console.log(this.massCenter);
+        //    //console.log(this.oriPoints);
         this.getOriPoints();
         this.genPoints();//拿到所有真实点
-        // console.log('_POINTS',this._Points);
+        // //console.log('_POINTS',this._Points);
         this.detectPoints = this.getDetectPoints();
         this.getMax();//所有真实点max min
         this.createPath(context);//绘制
@@ -195,7 +195,7 @@ export class Line {
 
         this.massCenter.x = x;
         this.massCenter.y = y;
-        // console.log('---------------', this.Option);
+        // //console.log('---------------', this.Option);
     }
     detected(x, y) {
         // pnpoly 算法区域
@@ -215,8 +215,8 @@ export class Line {
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
             this.getOriPoints();
-            // console.log(this.massCenter);
-            // console.log(this.oriPoints);
+            // //console.log(this.massCenter);
+            // //console.log(this.oriPoints);
             this.genPoints();
             this.detectPoints =this.getDetectPoints();
             this.getMax();

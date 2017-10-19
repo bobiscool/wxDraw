@@ -54,9 +54,9 @@ Polygon.prototype = {
         var points = [],
             angle = this.Option.startAngle || 0;
 
-        // console.log('Option',this.Option);
+        // //console.log('Option',this.Option);
         //每次getPoints 要刷新max
-        // console.log('init xy', x, y);
+        // //console.log('init xy', x, y);
 
         for (var i = 0; i < this.Option.sides; ++i) {
             points.push([this.Option.x + this.Option.r * Math.sin(angle), this.Option.y - this.Option.r * Math.cos(angle)]);
@@ -74,15 +74,15 @@ Polygon.prototype = {
             origin = this.rotateOrigin;
         }
 
-        // console.log('item', origin);
+        // //console.log('item', origin);
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
 
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
-        // console.log(this._Points);
-        // console.log(this.oriPoints);
+        // //console.log(this._Points);
+        // //console.log(this.oriPoints);
         return this._Points;//除掉矩阵多余的部分;
     },
     getMax: function () {
@@ -154,14 +154,14 @@ Polygon.prototype = {
         let origin = null;
         this.getOriPoints();//拿到所有原始点
         this.getPoints();//拿到所有真实点
-        // console.log('_POINTS',this._Points);
+        // //console.log('_POINTS',this._Points);
         this.getMax();//所有真实点max min
         this.createPath(context);//绘制
         // } else {
         /**
          * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
          */
-        // console.log('不按原点旋转');
+        // //console.log('不按原点旋转');
         // context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
         // context.rotate(this.Option.rotate);
         // this.createPath(context, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1])
@@ -175,9 +175,9 @@ Polygon.prototype = {
         // let ox = x;
         // let oy = x;
         let angle = this.Option.rotate;
-        // console.log(origin);
-        // console.log(tx);
-        // console.log(ty);
+        // //console.log(origin);
+        // //console.log(tx);
+        // //console.log(ty);
         // let changeMatrix = new Matrix([
         //     [Math.cos(angle), -Math.sin(angle), (Math.cos(angle)-1)*tx - ty*Math.sin(angle)],
         //     [Math.sin(angle), Math.cos(angle), (Math.cos(angle)-1)*ty + tx*Math.sin(angle)],
@@ -226,16 +226,16 @@ Polygon.prototype = {
         //     [tx], [ty]
         // ]);
 
-        // // console.log('平移旋转计算', AtranslateMatrix.multi(getChangeMatrix));
+        // // //console.log('平移旋转计算', AtranslateMatrix.multi(getChangeMatrix));
 
-        // // console.log(x,y);
-        // console.log('A',rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix))
+        // // //console.log(x,y);
+        // //console.log('A',rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix))
         // let _temMatrix = rotateMatrix.multi(getChangeMatrix).add(AtranslateMatrix);
         // let _temMatrix = AtranslateMatrix.multi(rotateMatrix).multi(BtranslateMatrix).multi(getChangeMatrix);
         // let _roMatrix = rotateMatrix.multi(getChangeMatrix);
-        // console.log('平移旋转计算', _temMatrix);
-        // console.log('旋转计算2', getChangeMatrix);
-        // console.log('旋转计算3', changeMatrix);
+        // //console.log('平移旋转计算', _temMatrix);
+        // //console.log('旋转计算2', getChangeMatrix);
+        // //console.log('旋转计算3', changeMatrix);
 
 
         //将所有变化 都转到 Point对象去了 
@@ -245,16 +245,16 @@ Polygon.prototype = {
 
         this.Option.x = x;
         this.Option.y = y;
-        // console.log('-------move--------', this.Option);
+        // //console.log('-------move--------', this.Option);
     },
     detected: function (x, y) {
         // pnpoly 算法区域
 
         // 首先找到 最大x 最小x 最大y 最小y
-        // console.log('多边形点击',x,y,this.max)
+        // //console.log('多边形点击',x,y,this.max)
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
-            // console.log('点中');
+            // //console.log('点中');
             // this.points = this._Points;
 
             this._offsetX = this.Option.x - x;
@@ -302,13 +302,13 @@ Polygon.prototype = {
             if (insect) ifInside = !ifInside;
         }
 
-        // console.log(ifInside);
+        // //console.log(ifInside);
         return ifInside;
     },
     updateOption: function (option) {
-        // console.log(option);
+        // //console.log(option);
         this.Option = util.extend(this.Option, option);
-        // console.log(this.Option);
+        // //console.log(this.Option);
         this.bus.dispatch('update', 'no');
     },
     setRotateOrigin: function (loc) {

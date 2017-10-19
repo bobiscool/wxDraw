@@ -45,7 +45,7 @@ AniFragWrap.prototype = {
     },
     exeAnimate() {
         // 执行 仓库内部 动画 
-        // console.log(this.stoped);
+        // //console.log(this.stoped);
         if (this.firstTime) {
             this.firstTime = false;
             this.oriOption = util.extend({}, this.object.Shape.Option);
@@ -57,14 +57,14 @@ AniFragWrap.prototype = {
             }
             return false;
         }
-        // console.log('animationPick',this.animationPick);
+        // //console.log('animationPick',this.animationPick);
         if (this.fragStore[this.animationPick]) {
             this.fragStore[this.animationPick].updateAnimation();
         }
     },
     getAniOver(who) {
         this.overAni.push(who);
-        console.log('连续碎片是否完成?', this.overAni);
+        //console.log('连续碎片是否完成?', this.overAni);
         if (this.overAni.length == this.fragStore.length) {// 动画执行完毕后 还有几种情况 1 直接结束
             if (this.loop) {
                 if (this.loopTimes && this.looped <= this.loopTimes) {
@@ -90,7 +90,7 @@ AniFragWrap.prototype = {
     },
     restart() {
         // 重新开始就得需要记住 最初物体的属性
-        console.log('restart');
+        //console.log('restart');
         this.object.updateOption(this.oriOption);
         this.overAni = [];
         this.animationPick = 0;
@@ -103,7 +103,7 @@ AniFragWrap.prototype = {
     },
     stop() {
         this.stoped = true;
-        // console.log('停止');
+        // //console.log('停止');
         this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId, this.object.Shapeid);
     },
     resume() {

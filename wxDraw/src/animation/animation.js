@@ -16,7 +16,7 @@ export const Animation = function (bus) {
     // 这个动画对象不是用与单个运动而是用于 全局动画控制的 一个动画控制器
 
     this.bus = bus;
-    //    console.log(this.bus);
+    //    //console.log(this.bus);
     this.animationFragStore = {};// 动画碎片仓库 存储 所有 动画 
     this.animationCompleteList = [];// 动画完成清单
     this.wraperAniCompleteOb = {}; //每一个包裹的 动画是否完成
@@ -42,7 +42,7 @@ Animation.prototype = {
         var _self = this;
         function stepAnimation() {
             animationFrame(stepAnimation);
-            // console.log('---');
+            // //console.log('---');
             _self.running && _self.updateStep();
         };
 
@@ -53,7 +53,7 @@ Animation.prototype = {
         // 便在动画循环里面添加 
         // 动画是根据时间 来执行的 
         // this._bus()
-        // console.log(this.animationFragStore);
+        // //console.log(this.animationFragStore);
         // this.animationFragStore.forEach(function(ele){
         //     ele.updateAnimation();
         // });
@@ -70,15 +70,15 @@ Animation.prototype = {
         this.bus.dispatch('update', 'no');//通知绘制更新 
     },
     animationComplete: function (who) {
-        // console.log('who',who,this.animationCompleteList);
+        // //console.log('who',who,this.animationCompleteList);
           this.animationCompleteList.push(who);
         if (Object.keys(this.wraperAniCompleteOb).length === Object.keys(this.animationFragStore).length) {
             this.running = false;// 动画执行 结束
-            // console.log('结束动画')
+            // //console.log('结束动画')
         }
     },
     wraperAniComplete: function (afID, shaId) {
-        // console.log(afID, shaId);
+        // //console.log(afID, shaId);
         if (this.wraperAniCompleteOb[shaId]) {
             this.wraperAniCompleteOb[shaId].push(afID);
 
@@ -86,11 +86,11 @@ Animation.prototype = {
             this.wraperAniCompleteOb[shaId] = [afID]; // 用于检测吗每一个shape的动画是否完成
         }
 
-        // console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
+        // //console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
          
         if (this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length) {
             this.bus.dispatch('animationComplete', 'no', shaId);// 某一个物件的动画完成
         }
-        // console.log('wraperAniComplete', this.wraperAniCompleteOb);
+        // //console.log('wraperAniComplete', this.wraperAniCompleteOb);
     }
 }

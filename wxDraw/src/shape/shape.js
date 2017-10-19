@@ -52,7 +52,7 @@ Shape.prototype = {
         //检查点击了谁
         this.Shape.detected(x, y);
         if (this.Shape.detected(x, y)) {
-            console.log('点击')
+            //console.log('点击')
             this.bus.dispatch('getDetectedLayers', 'no', this._layerIndex);
         }else{
             this.bus.dispatch('getDetectedLayers', 'no', -1);//这是 为了保证 所以层级都检测一遍             
@@ -61,7 +61,7 @@ Shape.prototype = {
     },
     moveDetect: function (x, y) {
         if (this.draggable && this._getChoosed) {
-        console.log('move',this._layerIndex);            
+        //console.log('move',this._layerIndex);            
             this.Shape.moveDetect(x, y);
         }
     },
@@ -88,7 +88,7 @@ Shape.prototype = {
         }
 
 
-        console.log("添加形状")
+        //console.log("添加形状")
         // 在这里添加 动画
         // 所有的动画其实就是目标
         // 一旦 每个动画对象执行 animate其实就是给自己立了一个flag
@@ -132,14 +132,14 @@ Shape.prototype = {
 
         //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
 
-        //    console.log('添加形状',this.bus);
+        //    //console.log('添加形状',this.bus);
 
         //    }
 
 
         //    }
 
-        console.log("继续调用", this)
+        //console.log("继续调用", this)
 
 
         return this;
@@ -159,7 +159,7 @@ Shape.prototype = {
             this.aniFragListId = "";// 每一段动画的id
             this.aniFragWraper = null;// 每一段动画的id
         } else {
-            console.log('未添加动画对象');
+            //console.log('未添加动画对象');
         }
 
     },//开始动画
@@ -177,11 +177,11 @@ Shape.prototype = {
         return this;
     },
     updateLayer: function (layer) {
-        console.log('更新层级', layer);
+        //console.log('更新层级', layer);
         this._layerIndex = layer;
     },
     getChoosed: function () {
-        console.log('选中',this._layerIndex);
+        //console.log('选中',this._layerIndex);
         this._getChoosed = true;
     }
 }

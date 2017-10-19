@@ -8,7 +8,7 @@
 //todo cancelRequestAnimationFrame 
 // cancel setTimeOut
  export const AnimationFrame = function(){
-    // console.log('requestAnimationFrame',requestAnimationFrame);
+    // //console.log('requestAnimationFrame',requestAnimationFrame);
     // if(requestAnimationFrame){
     //     this.animationType = "r";
     //     this.AnimationFrame = requestAnimationFrame;
@@ -54,7 +54,7 @@ function fakeAnimationFrame(callback){
       callback(start);
       finish = +new Date();
 
-    //   console.log(finish - start);
+    //   //console.log(finish - start);
     
     },16);
 }

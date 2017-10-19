@@ -24,11 +24,11 @@ export const specialOption = {
 export const specialAtrr = {//一些特殊的属性值的更改
     "fillStyle": {
         get: function (val) {
-            // console.log('hex2wwwwwwrgb', hex2rgb(val));
+            // //console.log('hex2wwwwwwrgb', hex2rgb(val));
             return hex2rgb(val);
         },
         set: function (source, incre, timer) {
-            // console.log(source, incre, timer);
+            // //console.log(source, incre, timer);
             let temCo = [
                 source.r + Math.floor(incre.r * timer),
                 source.g + Math.floor(incre.g * timer),
@@ -52,11 +52,11 @@ export const specialAtrr = {//一些特殊的属性值的更改
     },
     "strokeStyle": {
         get: function (val) {
-            // console.log('hex2wwwwwwrgb', hex2rgb(val));
+            // //console.log('hex2wwwwwwrgb', hex2rgb(val));
             return hex2rgb(val);
         },
         set: function (source, incre, timer) {
-            // console.log(source, incre, timer);
+            // //console.log(source, incre, timer);
             let temCo = [
                 source.r + Math.floor(incre.r * timer),
                 source.g + Math.floor(incre.g * timer),

@@ -51,14 +51,14 @@ export const Cshape = function (option) {
 
     this.massCenter = this.genMassCenter(this.Option.points);// 拿到点位 先计算重心
     this.posPoints = this.genPointsPositiveLoc();
-        // console.log(this.massCenter);
-        // console.log(this.posPoints);
+        // //console.log(this.massCenter);
+        // //console.log(this.posPoints);
     
     this.oriPoints =this.Option.points; 
     this._Points = this.Option.points;//用于绘制的点 
     // this.getOriPoints();
     this.getMax();
-    // console.log(this.max);
+    // //console.log(this.max);
     this._isChoosed = false;
 
     this.rotateOrigin = null
@@ -106,16 +106,16 @@ Cshape.prototype = {
             origin = this.rotateOrigin;
         }
 
-        // console.log('item', origin);
+        // //console.log('item', origin);
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
        
-        // console.log('points',_points);
+        // //console.log('points',_points);
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
-        // console.log(this._Points);
-        // console.log(this.oriPoints);
+        // //console.log(this._Points);
+        // //console.log(this.oriPoints);
         return this._Points;//除掉矩阵多余的部分;
     },
     getPointTodraw: function (x, y, origin) {
@@ -134,7 +134,7 @@ Cshape.prototype = {
         };
 
         _Points.forEach(function (element) {
-            // console.log('el',element[1]);
+            // //console.log('el',element[1]);
             if (element[0] > this.max.maxX) {
                 this.max.maxX = element[0];
             }
@@ -166,7 +166,7 @@ Cshape.prototype = {
             return false;
         }
         context.beginPath();
-        // console.log(points.length);
+        // //console.log(points.length);
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < points.length; i++) {
             context.lineTo(points[i][0], points[i][1]);
@@ -188,11 +188,11 @@ Cshape.prototype = {
         context.restore();
     },
     _draw: function (context) {
-        // console.log(this.massCenter);
-    //    console.log(this.oriPoints);
+        // //console.log(this.massCenter);
+    //    //console.log(this.oriPoints);
        this.getOriPoints();
          this.genPoints();//拿到所有真实点
-        // console.log('_POINTS',this._Points);
+        // //console.log('_POINTS',this._Points);
         this.getMax();//所有真实点max min
         this.createPath(context);//绘制
     },
@@ -200,16 +200,16 @@ Cshape.prototype = {
 
         this.massCenter.x = x;
         this.massCenter.y = y;
-        // console.log('---------------', this.Option);
+        // //console.log('---------------', this.Option);
     },
     detected: function (x, y) {
         // pnpoly 算法区域
 
         // 首先找到 最大x 最小x 最大y 最小y
-        // console.log('多边形点击',x,y,this.max)
+        // //console.log('多边形点击',x,y,this.max)
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
-            console.log('点中');
+            //console.log('点中');
             // this.points = this.genPoints(this.Option.x, this.Option.y);
 
             this._offsetX = this.massCenter.x - x;
@@ -227,8 +227,8 @@ Cshape.prototype = {
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
             this.getOriPoints();
-            // console.log(this.massCenter);
-            // console.log(this.oriPoints);
+            // //console.log(this.massCenter);
+            // //console.log(this.oriPoints);
             this.genPoints();
             this.getMax();
         }
