@@ -2758,7 +2758,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 17:40:03
+ * @Last Modified time: 2017-10-18 16:11:49
  * 主要 引入对象
  * 
  * 
@@ -2894,9 +2894,10 @@ WxDraw.prototype = {
 
 };
 
-module.exports = {
-
+var wxDraw = {
     WxDraw: WxDraw,
     Shape: Shape,
     AnimationFrame: AnimationFrame()
 };
+
+module.exports = wxDraw;
