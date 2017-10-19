@@ -1,132 +1,5 @@
 'use strict';
 
-/*
- * @Author: Thunderball.Wu 
- * @Date: 2017-09-22 09:34:43 
- * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:37:38
- * 
- * 工具库
- */
-
-// import * as _ from "lodash"
-
-
-
-var guid = function guid() {
-    var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = Math.random() * 16 | 0,
-            v = c == 'x' ? r : r & 0x3 | 0x8;
-        return v.toString(16);
-    });
-    return guid;
-};
-
-
-var util$1 = {
-    mix: function mix(target, source, overlay) {
-        //混合
-        target = 'prototype' in target ? target.prototype : target;
-        source = 'prototype' in source ? source.prototype : source;
-
-        this.extend(target, source, overlay);
-    },
-
-    /**
-     * 
-     * 
-     * @param {any} target 覆盖者
-     * @param {any} source 被覆盖者
-     * @param {any} overlay 是否全部抹掉
-     * @returns 
-     */
-    extend: function extend(target, source) {
-        for (var key in target) {
-            if (source.hasOwnProperty(key)) //如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
-                {
-                    source[key] = target[key];
-                }
-        }
-        return source;
-    }
-};
-
-var matrixToarray = function matrixToarray(a) {
-    var _points = []; //将矩阵洗成 点位数组
-    a.forEach(function (item) {
-        _points.push([item[0][0], item[1][0]]);
-    });
-
-    return _points;
-};
-
-// 将 16进制 颜色 转成 rgb 用于渐变 https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
-
-var hex2rgb = function hex2rgb(val) {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(val);
-    //console.log('hex2rgb',result);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
-};
-
-var rgb2hex = function rgb2hex(r, g, b) {
-    //console.log(r,g,b);
-    //console.log('1666666',((1<<24)+(r<<16)+(g<<8)+b).toString(16));
-    return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).substr(1); // << 是javascript左移运算符 
-    /**
-     * 1<<24 是为了防止 在r 为0的时候 左移被忽略 所以添加一个1 来保底
-     * 然后 r 占在最高位 所以 左移16位（这个 16位其实是 2进制里面左移） 以此类推
-     */
-};
-
-var objToArray = function objToArray(obj) {
-    //对象的值转数组
-    var _Arrays = [];
-    // console.log(obj);
-    // console.log( Object.keys(obj));
-    Object.keys(obj).forEach(function (item) {
-        _Arrays.push(obj[item]);
-    });
-
-    return _Arrays;
-};
-
-var Store = function Store() {
-    this.store = [];
-};
-
-Store.prototype = {
-    add: function add(shape) {
-        // 添加 图形
-        this.store.push(shape);
-    },
-    update: function update() {},
-    delete: function _delete() {},
-    getLength: function getLength() {
-        return this.store.length;
-    },
-    find: function find(a, b) {
-        var _tem = null;
-        if (arguments.length == 1) {
-            _tem = this.store[a];
-        }
-
-        if (arguments.length == 2) {
-            this.store.forEach(function (element) {
-                if (element[a] == b) {
-                    _tem = element;
-                }
-            }, this);
-        }
-
-        return _tem;
-    }
-
-};
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
   return typeof obj;
 } : function (obj) {
@@ -340,6 +213,137 @@ var toConsumableArray = function (arr) {
   } else {
     return Array.from(arr);
   }
+};
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-09-22 09:34:43 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-19 18:42:04
+ * 
+ * 工具库
+ */
+
+// import * as _ from "lodash"
+
+
+
+var guid = function guid() {
+    var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0,
+            v = c == 'x' ? r : r & 0x3 | 0x8;
+        return v.toString(16);
+    });
+    return guid;
+};
+
+
+var util$1 = {
+    mix: function mix(target, source, overlay) {
+        //混合
+        target = 'prototype' in target ? target.prototype : target;
+        source = 'prototype' in source ? source.prototype : source;
+
+        this.extend(target, source, overlay);
+    },
+
+    /**
+     * 
+     * 
+     * @param {any} target 覆盖者
+     * @param {any} source 被覆盖者
+     * @param {any} overlay 是否全部抹掉
+     * @returns 
+     */
+    extend: function extend(target, source) {
+        for (var key in target) {
+            if (source.hasOwnProperty(key)) //如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
+                {
+                    if (_typeof(source[key]) == "object") {
+                        util$1.extend(target[key], source[key]);
+                    } else {
+                        source[key] = target[key];
+                    }
+                }
+        }
+        return source;
+    }
+};
+
+var matrixToarray = function matrixToarray(a) {
+    var _points = []; //将矩阵洗成 点位数组
+    a.forEach(function (item) {
+        _points.push([item[0][0], item[1][0]]);
+    });
+
+    return _points;
+};
+
+// 将 16进制 颜色 转成 rgb 用于渐变 https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+
+var hex2rgb = function hex2rgb(val) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(val);
+    //console.log('hex2rgb',result);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+};
+
+var rgb2hex = function rgb2hex(r, g, b) {
+    //console.log(r,g,b);
+    //console.log('1666666',((1<<24)+(r<<16)+(g<<8)+b).toString(16));
+    return ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).substr(1); // << 是javascript左移运算符 
+    /**
+     * 1<<24 是为了防止 在r 为0的时候 左移被忽略 所以添加一个1 来保底
+     * 然后 r 占在最高位 所以 左移16位（这个 16位其实是 2进制里面左移） 以此类推
+     */
+};
+
+var objToArray = function objToArray(obj) {
+    //对象的值转数组
+    var _Arrays = [];
+    // console.log(obj);
+    // console.log( Object.keys(obj));
+    Object.keys(obj).forEach(function (item) {
+        _Arrays.push(obj[item]);
+    });
+
+    return _Arrays;
+};
+
+var Store = function Store() {
+    this.store = [];
+};
+
+Store.prototype = {
+    add: function add(shape) {
+        // 添加 图形
+        this.store.push(shape);
+    },
+    update: function update() {},
+    delete: function _delete() {},
+    getLength: function getLength() {
+        return this.store.length;
+    },
+    find: function find(a, b) {
+        var _tem = null;
+        if (arguments.length == 1) {
+            _tem = this.store[a];
+        }
+
+        if (arguments.length == 2) {
+            this.store.forEach(function (element) {
+                if (element[a] == b) {
+                    _tem = element;
+                }
+            }, this);
+        }
+
+        return _tem;
+    }
+
 };
 
 /*
