@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 10:26:05
+ * @Last Modified time: 2017-10-20 11:03:22
  * 普通形状
  * 
  */
@@ -65,6 +65,8 @@ Circle.prototype = {
 
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
+        this.setCommonstyle(context);
+
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
@@ -78,6 +80,8 @@ Circle.prototype = {
         context.beginPath();
         this._draw(context);
         context.closePath();
+        this.setCommonstyle(context);
+
         context.setFillStyle(this.Option.fillStyle);
         // console.log(this.Option);
         if (this.Option.Shadow) {
@@ -142,12 +146,12 @@ Circle.prototype = {
 export const Rect = function (option) {
     var _temOption = util.extend(option, rOption);
     //console.log(_temOption);
-    
-     var _temUnOption = util.extend(option, commonUnAttr);
+
+    var _temUnOption = util.extend(option, commonUnAttr);
 
     this.Option = _temOption;
     this.UnOption = _temUnOption;//不参与动画的属性
-    
+
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -175,7 +179,7 @@ Rect.prototype = {
         this._draw(context);
         context.closePath();
         context.setStrokeStyle(this.Option.strokeStyle)
-         context.setLineWidth(this.Option.lineWidth);
+        context.setLineWidth(this.Option.lineWidth);
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
@@ -191,7 +195,7 @@ Rect.prototype = {
         this._draw(context);
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
-         if (this.Option.Shadow) {
+        if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
         }
@@ -350,7 +354,7 @@ Rect.prototype = {
         }
 
     },
-   ...commonMethods
+    ...commonMethods
 }
 
 

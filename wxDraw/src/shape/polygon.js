@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 10:32:25
+ * @Last Modified time: 2017-10-20 11:04:33
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -29,11 +29,11 @@ var pOption = {
 
 
 export const Polygon = function (option) {
-var _temOption = util.extend(option, cOption);
+    var _temOption = util.extend(option, pOption);
     var _temUnOption = util.extend(option, commonUnAttr);
-    console.log(_temOption);
+    // console.log(_temOption);
     this.Option = _temOption;
-        this.UnOption = _temUnOption;//不参与动画的属性
+    this.UnOption = _temUnOption;//不参与动画的属性
 
     this.max = {
         maxX: null,
@@ -90,17 +90,17 @@ Polygon.prototype = {
         let _Points = this._Points;
 
         this.max = {
-             maxX: null,
-        maxY: null,
-        minX: null,
-        minY: null,
+            maxX: null,
+            maxY: null,
+            minX: null,
+            minY: null,
         };
 
         _Points.forEach(function (element) {
             if (element[0] > this.max.maxX) {
                 this.max.maxX = element[0];
             }
-            if (!this.max.minX&&this.max.minX!==0) {
+            if (!this.max.minX && this.max.minX !== 0) {
                 this.max.minX = element[0];
             }
             if (this.max.minX && element[0] < this.max.minX) {
@@ -112,7 +112,7 @@ Polygon.prototype = {
             if (element[1] > this.max.maxY) {
                 this.max.maxY = element[1];
             }
-            if (!this.max.minY&&this.max.minY!==0) {
+            if (!this.max.minY && this.max.minY !== 0) {
                 this.max.minY = element[1];
             }
             if (this.max.minY && element[1] < this.max.minY) {
@@ -136,8 +136,10 @@ Polygon.prototype = {
     stroke: function (context) {
         context.save();
         this._draw(context);
+        this.setCommonstyle(context);
+
         context.setStrokeStyle(this.Option.strokeStyle);
-          context.setLineWidth(this.Option.lineWidth);
+        context.setLineWidth(this.Option.lineWidth);
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
@@ -148,14 +150,17 @@ Polygon.prototype = {
     fill: function (context) {
         context.save();
         this._draw(context);
+        this.setCommonstyle(context);
+
         context.setFillStyle(this.Option.fillStyle);
-         if (this.Option.Shadow) {
+
+        if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
         }
         context.fill();
         context.restore();
-        
+
     },
     _draw: function (context) {
         let changeMatrix = null;

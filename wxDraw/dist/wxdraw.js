@@ -499,31 +499,98 @@ var Point = function () {
 
 /*
  * @Author: Thunderball.Wu 
- * @Date: 2017-09-22 11:32:35 
+ * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:13:24
+ * @Last Modified time: 2017-10-20 10:37:44
+ * 常用的一些属性
+ * 
  */
 
-var pOption = {
+var commonAttr = {
+    //这些样式是可以被动画来设置的
+    lineWidth: 0.5, //线宽
+    Shadow: {
+        offsetX: 5,
+        offsetY: 5,
+        blur: 5,
+        color: "#000000"
+    },
+    fillStyle: "#000000",
+    strokeStyle: "#000000",
+    rotate: 0
+
+};
+
+var commonUnAttr = { //这些样式只能单独设定 
+    lineCap: "", // lineCap	String	'butt'、'round'、'square'	线条的结束端点样式
+    lineJoin: "", //lineJoin	String	'bevel'、'round'、'miter'	线条的结束交点样式
+    miterLimit: "" //最大斜接长度
+};
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-10-19 18:04:13 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-20 10:42:38
+ * 一些都有的方法 都放到这里
+ */
+
+var commonMethods = {
+    updateOption: function updateOption(option) {
+        //这个更新属性 是不是有点问题 好像和set属性重复了
+
+        this.Option = util.extend(option, this.Option);
+        this.UnOption = util.extend(option, this.UnOption);
+        console.log(this.Option);
+        this.bus.dispatch('update', 'no');
+    },
+    upDetect: function upDetect() {
+        this._isChoosed = false;
+    },
+    /**
+     * 
+     * 
+     * @param {any} lineCap 线端点
+     * @param {any} lineJoin 线连接
+     * @param {any} lineDash 虚线
+     */
+    // setLine: function (lineCap, lineJoin, lineDash) { //设置线
+    //     this.UnOption.lineCap = lineCap;
+    //     this.UnOption.lineJoin = lineJoin;
+    //     this.UnOption.lineDash = lineDash;
+    // },
+    setRotateOrigin: function setRotateOrigin(loc) {
+        //设置旋转中心
+        this.rotateOrigin = loc;
+    }
+};
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-09-22 11:32:35 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-20 10:34:31
+ */
+
+var pOption = _extends({
     x: 10,
     y: 10,
     r: 10,
-    sides: 7,
-    fillStyle: "#000000", //不要手残乱改
-    strokeStyle: "#000000", //不要手残
-    rotate: 0,
-    rotateOrigin: null
+    sides: 7
+}, commonAttr);
 
-    // function Point(x, y) {
-    //     this.x = x;
-    //     this.y = y;
-    // }
+// function Point(x, y) {
+//     this.x = x;
+//     this.y = y;
+// }
 
 
-};var Polygon = function Polygon(option) {
+var Polygon = function Polygon(option) {
     var _temOption = util$1.extend(option, pOption);
-    console.log(_temOption);
+    var _temUnOption = util$1.extend(option, commonUnAttr);
+    // console.log(_temOption);
     this.Option = _temOption;
+    this.UnOption = _temUnOption; //不参与动画的属性
 
     this.max = {
         maxX: null,
@@ -539,7 +606,7 @@ var pOption = {
     this.rotateOrigin = null;
 };
 
-Polygon.prototype = {
+Polygon.prototype = _extends({
     getOriPoints: function getOriPoints() {
         var points = [],
             angle = this.Option.startAngle || 0;
@@ -623,6 +690,11 @@ Polygon.prototype = {
         context.save();
         this._draw(context);
         context.setStrokeStyle(this.Option.strokeStyle);
+        context.setLineWidth(this.Option.lineWidth);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.stroke();
         context.restore();
     },
@@ -630,6 +702,10 @@ Polygon.prototype = {
         context.save();
         this._draw(context);
         context.setFillStyle(this.Option.fillStyle);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.fill();
         context.restore();
     },
@@ -755,9 +831,6 @@ Polygon.prototype = {
             this.getMax(); //拿到边界点
         }
     },
-    upDetect: function upDetect() {
-        this._isChoosed = false;
-    },
     _pnpolyTest: function _pnpolyTest(x, y) {
         // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
         // var A = this.points[0];// 拿到前面两个点
@@ -784,40 +857,32 @@ Polygon.prototype = {
 
         // //console.log(ifInside);
         return ifInside;
-    },
-
-    updateOption: function updateOption(option) {
-        // //console.log(option);
-        this.Option = util$1.extend(this.Option, option);
-        // //console.log(this.Option);
-        this.bus.dispatch('update', 'no');
-    },
-    setRotateOrigin: function setRotateOrigin(loc) {
-        this.rotateOrigin = loc;
     }
-
-};
+}, commonMethods);
 
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 14:41:32
+ * @Last Modified time: 2017-10-20 10:48:00
  * 线条 
  */
 
-var lOption = {
+var lOption = _extends({
     strokeStyle: "#000000",
-    points: [[1, 2], [23, 45], [2, 45], [230, 205]],
-    rotate: 0
-};
+    points: [[1, 2], [23, 45], [2, 45], [230, 205]]
+}, commonAttr);
 
 var Line = function () {
     function Line(option) {
         classCallCheck(this, Line);
 
-        var _temOption = util$1.extend(lOption, option);
+        var _temOption = util$1.extend(option, lOption);
+        var _temUnOption = util$1.extend(option, commonUnAttr);
+
         this.Option = _temOption;
+        this.UnOption = _temUnOption; //不参与动画的属性
+
         this.max = {
             maxX: null,
             maxY: null,
@@ -983,6 +1048,11 @@ var Line = function () {
             context.save();
             this._draw(context);
             context.setStrokeStyle(this.Option.strokeStyle);
+            context.setLineWidth(this.Option.lineWidth);
+            if (this.Option.Shadow) {
+                // console.log(objToArray(this.Option.Shadow));
+                context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+            }
             context.stroke();
             context.restore();
         }
@@ -1076,7 +1146,8 @@ var Line = function () {
     }, {
         key: 'updateOption',
         value: function updateOption(option) {
-            this.Option = util$1.extend(this.Option, option);
+            this.Option = util$1.extend(option, this.Option);
+            this.UnOption = util$1.extend(option, this.UnOption);
             this.bus.dispatch('update', 'no');
         }
     }, {
@@ -1090,94 +1161,25 @@ var Line = function () {
 
 /*
  * @Author: Thunderball.Wu 
- * @Date: 2017-10-19 16:52:13 
- * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:03:36
- * 常用的一些属性
- * 
- */
-
-var commonAttr = {
-    //这些样式是可以被动画来设置的
-    lineWidth: 12, //线宽
-    Shadow: {
-        offsetX: 5,
-        offsetY: 5,
-        blur: 5,
-        color: "#000000"
-    }
-
-};
-
-var commonUnAttr = { //这些样式只能单独设定 
-    lineCap: "", // lineCap	String	'butt'、'round'、'square'	线条的结束端点样式
-    lineJoin: "", //lineJoin	String	'bevel'、'round'、'miter'	线条的结束交点样式
-    miterLimit: "" //最大斜接长度
-};
-
-/*
- * @Author: Thunderball.Wu 
- * @Date: 2017-10-19 18:04:13 
- * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:28:43
- * 一些都有的方法 都放到这里
- */
-
-var commonMethods = {
-    updateOption: function updateOption(option) {
-        //这个更新属性 是不是有点问题 好像和set属性重复了
-        this.Option = util.extend(option, this.Option);
-        this.UnOption = util.extend(option, this.UnOption);
-        this.bus.dispatch('update', 'no');
-    },
-    upDetect: function upDetect() {
-        this._isChoosed = false;
-    },
-    /**
-     * 
-     * 
-     * @param {any} lineCap 线端点
-     * @param {any} lineJoin 线连接
-     * @param {any} lineDash 虚线
-     */
-    // setLine: function (lineCap, lineJoin, lineDash) { //设置线
-    //     this.UnOption.lineCap = lineCap;
-    //     this.UnOption.lineJoin = lineJoin;
-    //     this.UnOption.lineDash = lineDash;
-    // },
-    setRotateOrigin: function setRotateOrigin(loc) {
-        //设置旋转中心
-        this.rotateOrigin = loc;
-    }
-};
-
-/*
- * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 10:12:19
+ * @Last Modified time: 2017-10-20 10:26:05
  * 普通形状
  * 
  */
 var cOption = _extends({
-    fillStyle: "#000000",
-    strokeStyle: "red",
     x: 10,
     y: 10,
     r: 10,
     sA: 0,
     eA: Math.PI * 2,
-    counterclockwise: false,
-    rotate: 0
+    counterclockwise: false
 }, commonAttr);
 var rOption = _extends({
     x: 10,
     y: 10,
     w: 10,
-    h: 10,
-    fillStyle: "#000000",
-    strokeStyle: "#000000",
-    rotate: 0
+    h: 10
 }, commonAttr);
 
 /**
@@ -1306,7 +1308,7 @@ var Rect = function Rect(option) {
     this.getMax();
 };
 
-Rect.prototype = {
+Rect.prototype = _extends({
     stroke: function stroke(context) {
         context.save();
         context.beginPath();
@@ -1480,31 +1482,19 @@ Rect.prototype = {
             this.getPoints(); //拿到变化点
             this.getMax(); //拿到边界点
         }
-    },
-    upDetect: function upDetect() {
-        this._isChoosed = false;
-    },
-    updateOption: function updateOption(option) {
-
-        this.Option = util$1.extend(option, this.Option);
-        this.bus.dispatch('update', 'no');
-    },
-    setRotateOrigin: function setRotateOrigin(loc) {
-        this.rotateOrigin = loc;
     }
+}, commonMethods);
 
-    // module.exports = {
-    //     Circle: Circle,
-    //     Rect: Rect
-    // }
-
-};
+// module.exports = {
+//     Circle: Circle,
+//     Rect: Rect
+// }
 
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 14:19:43
+ * @Last Modified time: 2017-10-20 10:26:11
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -1516,21 +1506,20 @@ Rect.prototype = {
  * 
  */
 
-var cOption$1 = {
+var cOption$1 = _extends({
     // x: 10,
     // y: 10,
     // r: 10,
-    // sides: 7,
-    fillStyle: "red",
-    strokeStyle: "red",
-    points: [[145, 30], [0, -211], [300, 400], [113, 50], [30, -31], [3, 40], [123, 90], [20, -1], [30, 60], [131, 40], [90, -12], [0, 400], [13, 6], [70, -17], [30, 42]],
-    rotate: 0
-};
+    // sides: 7
+    points: [[145, 30], [0, -211], [300, 400], [113, 50], [30, -31], [3, 40], [123, 90], [20, -1], [30, 60], [131, 40], [90, -12], [0, 400], [13, 6], [70, -17], [30, 42]]
+}, commonAttr);
 
 var Cshape = function Cshape(option) {
     var _temOption = util$1.extend(option, cOption$1);
+    var _temUnOption = util$1.extend(option, commonUnAttr);
 
     this.Option = _temOption;
+    this.UnOption = _temUnOption; //不参与动画的属性
 
     this.max = {
         maxX: null,
@@ -1554,7 +1543,7 @@ var Cshape = function Cshape(option) {
     this.rotateOrigin = null;
 };
 
-Cshape.prototype = {
+Cshape.prototype = _extends({
     genPointsPositiveLoc: function genPointsPositiveLoc() {
         // 计算出所有 点与中心的相对位置 只用一次。。。 之后不再用 所以 cshaoe
         // 不能放大 缩小
@@ -1662,6 +1651,11 @@ Cshape.prototype = {
     stroke: function stroke(context) {
         context.save();
         this._draw(context);
+        context.setLineWidth(this.Option.lineWidth);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.setStrokeStyle(this.Option.strokeStyle);
         context.stroke();
         context.restore();
@@ -1670,6 +1664,11 @@ Cshape.prototype = {
         context.save();
         this._draw(context);
         context.setFillStyle(this.Option.fillStyle);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
+
         context.fill();
         context.restore();
     },
@@ -1719,9 +1718,6 @@ Cshape.prototype = {
             this.getMax();
         }
     },
-    upDetect: function upDetect() {
-        this._isChoosed = false;
-    },
     _pnpolyTest: function _pnpolyTest(x, y) {
         // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
         // var A = this.points[0];// 拿到前面两个点
@@ -1747,16 +1743,9 @@ Cshape.prototype = {
         }
 
         return ifInside;
-    },
-    updateOption: function updateOption(option) {
-        this.Option = util$1.extend(this.Option, option);
-        this.bus.dispatch('update', 'no');
-    },
-    setRotateOrigin: function setRotateOrigin(loc) {
-        this.rotateOrigin = loc;
     }
 
-};
+}, commonMethods);
 
 /*
  * @Author: Thunderball.Wu 
@@ -2031,7 +2020,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 09:51:31
+ * @Last Modified time: 2017-10-20 10:44:32
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -2108,12 +2097,11 @@ var specialAtrr = { //一些特殊的属性值的更改
                 offsetY: val.offsetY,
                 blur: val.blur,
                 color: hex2rgb(val.color)
-            };
 
-            console.log('val', val);
-            console.log('_temSh', _temSh);
+                // console.log('val',val);
+                // console.log('_temSh',_temSh);
 
-            return _temSh;
+            };return _temSh;
         },
         set: function set(source, incre, timer) {
             // //console.log(source, incre, timer);
@@ -2128,8 +2116,8 @@ var specialAtrr = { //一些特殊的属性值的更改
                 blur: source.blur + incre.blur * timer,
                 color: _temCoH
                 // let _val = '#' + rgb2hex(...temCo)
-            };console.log(_temSha);
-            return _temSha;
+                // console.log(_temSha);
+            };return _temSha;
         },
         getIncre: function getIncre(source, target, sub) {
             //太恶心了 ！！！ 特殊属性全是 差值形式 不然要恶心死我

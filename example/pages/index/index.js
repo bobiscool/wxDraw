@@ -151,46 +151,49 @@ Page({
 
 
       
-
-    cir3.animate({
-       Shadow: {
-        color: "#E84A5F",
-        offsetX:200,
-        offsetY:200,
-        blur:100
-      }}, {
-      duration: 5000,
-      onLooping: function () {
-        console.log('动画2'
+    cir1.updateOption({})
+    // cir1.updateOption({
+    //   lineCap:"butt"
+    // })
+    // cir3.animate({
+    //    Shadow: {
+    //     color: "#E84A5F",
+    //     offsetX:200,
+    //     offsetY:200,
+    //     blur:100
+    //   }}, {
+    //   duration: 5000,
+    //   onLooping: function () {
+    //     console.log('动画2'
         
         
-        );
-      },
+    //     );
+    //   },
    
-      easing: "linear"
-    }).start(1);
+    //   easing: "linear"
+    // }).start(1);
 
 
 
 
-    cir2.animate({
-      Shadow: {
-        color: "#E84A5F",
-        offsetX: 200,
-        offsetY: 200,
-        blur: 100
-      }
-    }, {
-        duration: 5000,
-        onLooping: function () {
-          console.log('动画2'
+    // cir2.animate({
+    //   Shadow: {
+    //     color: "#E84A5F",
+    //     offsetX: 200,
+    //     offsetY: 200,
+    //     blur: 100
+    //   }
+    // }, {
+    //     duration: 5000,
+    //     onLooping: function () {
+    //       console.log('动画2'
 
 
-          );
-        },
+    //       );
+    //     },
 
-        easing: "linear"
-      }).start(1);
+    //     easing: "linear"
+    //   }).start(1);
 
 
 

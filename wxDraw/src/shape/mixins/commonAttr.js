@@ -2,14 +2,14 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 10:25:45
+ * @Last Modified time: 2017-10-20 10:37:44
  * 常用的一些属性
  * 
  */
 
 export const commonAttr = {
     //这些样式是可以被动画来设置的
-    lineWidth: 12,//线宽
+    lineWidth: 0.5,//线宽
     Shadow: {
         offsetX: 5,
         offsetY: 5,
