@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 10:37:44
+ * @Last Modified time: 2017-10-20 11:06:10
  * 常用的一些属性
  * 
  */
@@ -27,7 +27,10 @@ export const commonAttr = {
 export const commonUnAttr = { //这些样式只能单独设定 
     lineCap: "",      // lineCap	String	'butt'、'round'、'square'	线条的结束端点样式
     lineJoin: "",   //lineJoin	String	'bevel'、'round'、'miter'	线条的结束交点样式
-    miterLimit: ""   //最大斜接长度
+    miterLimit: "",   //最大斜接长度
+    lg:[],
+    cg:[]
+
 }
 
 

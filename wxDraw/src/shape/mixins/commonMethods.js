@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:02:05
+ * @Last Modified time: 2017-10-20 11:07:35
  * 一些都有的方法 都放到这里
  */
 
@@ -36,11 +36,11 @@ export const commonMethods = {
         context.setLineCap(this.UnOption.lineCap);
         context.setLineJoin(this.UnOption.lineJoin);
         context.setLineDash(this.UnOption.lineDash);
-        if(this.UnOption.cg){
-        context.createLinearGradient(this.UnOption.lg);
+        if(this.UnOption.lg.length==4){
+        context.createLinearGradient(...this.UnOption.lg);
         }
-        if(this.UnOption.cg&&!this.UnOption.lg){
-        context.createCircularGradient(this.UnOption.cg);
+        if(this.UnOption.cg.length==3&&!this.UnOption.lg){
+        context.createCircularGradient(...this.UnOption.cg);
         }
 
     }
