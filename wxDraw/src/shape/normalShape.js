@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:57:44
+ * @Last Modified time: 2017-10-20 10:26:05
  * 普通形状
  * 
  */
@@ -15,15 +15,12 @@ import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 
 
 var cOption = {
-    fillStyle: "#000000",
-    strokeStyle: "red",
     x: 10,
     y: 10,
     r: 10,
     sA: 0,
     eA: Math.PI * 2,
     counterclockwise: false,
-    rotate: 0,
     ...commonAttr
 }
 var rOption = {
@@ -31,9 +28,6 @@ var rOption = {
     y: 10,
     w: 10,
     h: 10,
-    fillStyle: "#000000",
-    strokeStyle: "#000000",
-    rotate: 0,
     ...commonAttr
 }
 
@@ -148,8 +142,12 @@ Circle.prototype = {
 export const Rect = function (option) {
     var _temOption = util.extend(option, rOption);
     //console.log(_temOption);
+    
+     var _temUnOption = util.extend(option, commonUnAttr);
+
     this.Option = _temOption;
-    this.u
+    this.UnOption = _temUnOption;//不参与动画的属性
+    
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -177,6 +175,11 @@ Rect.prototype = {
         this._draw(context);
         context.closePath();
         context.setStrokeStyle(this.Option.strokeStyle)
+         context.setLineWidth(this.Option.lineWidth);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.stroke();
 
         context.restore();
@@ -188,6 +191,10 @@ Rect.prototype = {
         this._draw(context);
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
+         if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.fill();
         context.restore();
     },
@@ -343,18 +350,7 @@ Rect.prototype = {
         }
 
     },
-    upDetect: function () {
-        this._isChoosed = false;
-    },
-    updateOption: function (option) {
-
-        this.Option = util.extend(option, this.Option);
-        this.bus.dispatch('update', 'no');
-    },
-    setRotateOrigin: function (loc) {
-        this.rotateOrigin = loc;
-    }
-
+   ...commonMethods
 }
 
 

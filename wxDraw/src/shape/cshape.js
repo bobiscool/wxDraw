@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 14:19:43
+ * @Last Modified time: 2017-10-20 10:26:11
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -16,15 +16,15 @@
 
 
 import { util, matrixToarray } from '../util/utils.js';
-import { Point } from "./mixins/points.js"
+import { Point } from "./mixins/points.js";
+import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
+import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 
 var cOption = {
     // x: 10,
     // y: 10,
     // r: 10,
-    // sides: 7,
-    fillStyle: "red",
-    strokeStyle: "red",
+    // sides: 7
     points: [
         [145, 30], [0, -211], [300, 400],
         [113, 50], [30, -31], [3, 40],
@@ -32,15 +32,17 @@ var cOption = {
         [131, 40], [90, -12], [0, 400],
         [13, 6], [70, -17], [30, 42],
 ],
-    rotate: 0,
+    ...commonAttr
 }
 
 
 
 export const Cshape = function (option) {
     var _temOption = util.extend(option, cOption);
+        var _temUnOption = util.extend(option, commonUnAttr);
 
     this.Option = _temOption;
+    this.UnOption = _temUnOption;//不参与动画的属性
 
     this.max = {
         maxX: null,
@@ -176,6 +178,11 @@ Cshape.prototype = {
     stroke: function (context) {
         context.save();
         this._draw(context);
+         context.setLineWidth(this.Option.lineWidth);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.setStrokeStyle(this.Option.strokeStyle)
         context.stroke();
         context.restore();
@@ -184,6 +191,11 @@ Cshape.prototype = {
         context.save();
         this._draw(context);
         context.setFillStyle(this.Option.fillStyle);
+         if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
+
         context.fill();
         context.restore();
     },
@@ -234,9 +246,6 @@ Cshape.prototype = {
         }
 
     },
-    upDetect: function () {
-        this._isChoosed = false;
-    },
     _pnpolyTest:function(x, y) {
         // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
         // var A = this.points[0];// 拿到前面两个点
@@ -261,14 +270,8 @@ Cshape.prototype = {
 
         return ifInside;
     },
-    updateOption: function (option) {
-        this.Option = util.extend(this.Option, option);
-        this.bus.dispatch('update', 'no');
-    },
-    setRotateOrigin: function (loc) {
-        this.rotateOrigin = loc;
-    }
-
+    
+    ...commonMethods
 
 }
 

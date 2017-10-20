@@ -170,6 +170,31 @@ Page({
       easing: "linear"
     }).start(1);
 
+
+
+
+    cir2.animate({
+      Shadow: {
+        color: "#E84A5F",
+        offsetX: 200,
+        offsetY: 200,
+        blur: 100
+      }
+    }, {
+        duration: 5000,
+        onLooping: function () {
+          console.log('动画2'
+
+
+          );
+        },
+
+        easing: "linear"
+      }).start(1);
+
+
+
+
     // cir3.animate({ "rotate": "+=" + 2 * Math.PI, "fillStyle": "#ff0000",x:"-=400",r:"-=40"}, {
     //   duration: 4000,
     //   onLooping: function () {

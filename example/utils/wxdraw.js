@@ -1155,7 +1155,7 @@ var commonMethods = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:57:44
+ * @Last Modified time: 2017-10-20 10:12:19
  * 普通形状
  * 
  */
@@ -1281,8 +1281,12 @@ Circle.prototype = _extends({
 var Rect = function Rect(option) {
     var _temOption = util$1.extend(option, rOption);
     //console.log(_temOption);
+
+    var _temUnOption = util$1.extend(option, commonUnAttr);
+
     this.Option = _temOption;
-    this.u;
+    this.UnOption = _temUnOption; //不参与动画的属性
+
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
@@ -1310,6 +1314,11 @@ Rect.prototype = {
         this._draw(context);
         context.closePath();
         context.setStrokeStyle(this.Option.strokeStyle);
+        context.setLineWidth(this.Option.lineWidth);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.stroke();
 
         context.restore();
@@ -1321,6 +1330,10 @@ Rect.prototype = {
         this._draw(context);
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.fill();
         context.restore();
     },
@@ -2018,7 +2031,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 09:50:11
+ * @Last Modified time: 2017-10-20 09:51:31
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -2123,7 +2136,7 @@ var specialAtrr = { //一些特殊的属性值的更改
             // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
             var tarCo = hex2rgb(target.color);
 
-            console.log('ssssss', source);
+            // console.log('ssssss',source);
             var increCo = {
                 r: tarCo.r - source.color.r,
                 g: tarCo.g - source.color.g,
@@ -2132,9 +2145,9 @@ var specialAtrr = { //一些特殊的属性值的更改
                 // }
 
 
-            };console.log('source', target);
+                // console.log('source',target);
 
-            return {
+            };return {
                 offsetX: (target.offsetX ? target.offsetX : 5) - source.offsetX,
                 offsetY: (target.offsetY ? target.offsetY : 5) - source.offsetY,
                 blur: (target.blur ? target.blur : 5) - source.blur,

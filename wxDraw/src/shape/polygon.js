@@ -2,22 +2,20 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 17:13:24
+ * @Last Modified time: 2017-10-20 10:32:25
  */
 
 import { util, matrixToarray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js"
-
+import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
+import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 var pOption = {
     x: 10,
     y: 10,
     r: 10,
     sides: 7,
-    fillStyle: "#000000",//不要手残乱改
-    strokeStyle: "#000000",//不要手残
-    rotate: 0,
-    rotateOrigin: null
+    ...commonAttr
 }
 
 
@@ -31,9 +29,11 @@ var pOption = {
 
 
 export const Polygon = function (option) {
-    var _temOption = util.extend(option, pOption);
+var _temOption = util.extend(option, cOption);
+    var _temUnOption = util.extend(option, commonUnAttr);
     console.log(_temOption);
     this.Option = _temOption;
+        this.UnOption = _temUnOption;//不参与动画的属性
 
     this.max = {
         maxX: null,
@@ -136,7 +136,12 @@ Polygon.prototype = {
     stroke: function (context) {
         context.save();
         this._draw(context);
-        context.setStrokeStyle(this.Option.strokeStyle)
+        context.setStrokeStyle(this.Option.strokeStyle);
+          context.setLineWidth(this.Option.lineWidth);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.stroke();
         context.restore();
     },
@@ -144,6 +149,10 @@ Polygon.prototype = {
         context.save();
         this._draw(context);
         context.setFillStyle(this.Option.fillStyle);
+         if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.fill();
         context.restore();
         
@@ -277,9 +286,6 @@ Polygon.prototype = {
         }
 
     },
-    upDetect: function () {
-        this._isChoosed = false;
-    },
     _pnpolyTest(x, y) {
         // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
         // var A = this.points[0];// 拿到前面两个点
@@ -305,17 +311,7 @@ Polygon.prototype = {
         // //console.log(ifInside);
         return ifInside;
     },
-    updateOption: function (option) {
-        // //console.log(option);
-        this.Option = util.extend(this.Option, option);
-        // //console.log(this.Option);
-        this.bus.dispatch('update', 'no');
-    },
-    setRotateOrigin: function (loc) {
-        this.rotateOrigin = loc;
-    }
-
-
+    ...commonMethods
 }
 
 

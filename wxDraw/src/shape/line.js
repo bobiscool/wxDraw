@@ -2,13 +2,15 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-18 14:41:32
+ * @Last Modified time: 2017-10-20 10:27:21
  * 线条 
  */
 
 import { util, matrixToarray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
-import { Point } from "./mixins/points.js"
+import { Point } from "./mixins/points.js";
+import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
+import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 
 var lOption = {
     strokeStyle: "#000000",
@@ -18,13 +20,17 @@ var lOption = {
         [2, 45],
         [230, 205]
     ],
-    rotate: 0
+    ...commonAttr
 }
 
 export class Line {
     constructor(option) {
         let _temOption = util.extend(lOption, option);
+            var _temUnOption = util.extend(option, commonUnAttr);
+
         this.Option = _temOption;
+            this.UnOption = _temUnOption;//不参与动画的属性
+
         this.max = {
             maxX: null,
             maxY: null,
@@ -175,6 +181,11 @@ export class Line {
         context.save();
         this._draw(context);
         context.setStrokeStyle(this.Option.strokeStyle)
+        context.setLineWidth(this.Option.lineWidth);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.stroke();
         context.restore();
     }
