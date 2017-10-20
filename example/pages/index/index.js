@@ -69,8 +69,8 @@ Page({
 
     var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
-    var cir3 = new Shape('circle', { x: 330, y: 300, r: 100, sides: 10, rotate: Math.PI/4,Shadow:{
-      color:"#3299BB"
+    var cir3 = new Shape('circle', { x: 200, y: 300, r: 10, sides: 10, rotate: Math.PI/4,Shadow:{
+      color:"#000000"
     } }, false, true)
         
     // cir3.setOrigin([40,40])
@@ -153,10 +153,13 @@ Page({
       
 
     cir3.animate({
-      "lineWidth": "+=200", Shadow: {
-        color: "#3299BB"
+       Shadow: {
+        color: "#E84A5F",
+        offsetX:200,
+        offsetY:200,
+        blur:100
       }}, {
-      duration: 1000,
+      duration: 5000,
       onLooping: function () {
         console.log('动画2'
         

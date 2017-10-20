@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 09:44:50
+ * @Last Modified time: 2017-10-20 09:51:31
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -87,7 +87,10 @@ export const specialAtrr = {//一些特殊的属性值的更改
                 blur: val.blur,
                 color: hex2rgb(val.color)
             }
-
+            
+            console.log('val',val);
+            console.log('_temSh',_temSh);
+            
             return _temSh;
         },
         set: function (source, incre, timer) {
@@ -107,6 +110,7 @@ export const specialAtrr = {//一些特殊的属性值的更改
                 color: _temCoH
             }
             // let _val = '#' + rgb2hex(...temCo)
+            console.log(_temSha);
             return _temSha;
         },
         getIncre: function (source, target, sub) {
@@ -114,7 +118,7 @@ export const specialAtrr = {//一些特殊的属性值的更改
             // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
                 let tarCo = hex2rgb(target.color);
                  
-                console.log('ssssss',source);
+                // console.log('ssssss',source);
                 let increCo={
                     r: tarCo.r - source.color.r,
                     g: tarCo.g - source.color.g,
@@ -124,12 +128,14 @@ export const specialAtrr = {//一些特殊的属性值的更改
 
 
             // }
+             
 
+            // console.log('source',target);
 
             return {
-                 offsetX: target.offsetX - source.offsetX,
-                offsetY: target.offsetY - source.offsetY,
-                blur: target.blur - source.blur,
+                 offsetX: (target.offsetX?target.offsetX:5) - source.offsetX,
+                offsetY: (target.offsetY?target.offsetY:5)- source.offsetY,
+                blur: (target.blur?target.blur:5)- source.blur,
                 color: increCo
             }
 

@@ -2018,7 +2018,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 09:44:50
+ * @Last Modified time: 2017-10-20 09:50:11
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -2097,6 +2097,9 @@ var specialAtrr = { //一些特殊的属性值的更改
                 color: hex2rgb(val.color)
             };
 
+            console.log('val', val);
+            console.log('_temSh', _temSh);
+
             return _temSh;
         },
         set: function set(source, incre, timer) {
@@ -2112,7 +2115,8 @@ var specialAtrr = { //一些特殊的属性值的更改
                 blur: source.blur + incre.blur * timer,
                 color: _temCoH
                 // let _val = '#' + rgb2hex(...temCo)
-            };return _temSha;
+            };console.log(_temSha);
+            return _temSha;
         },
         getIncre: function getIncre(source, target, sub) {
             //太恶心了 ！！！ 特殊属性全是 差值形式 不然要恶心死我
@@ -2128,10 +2132,12 @@ var specialAtrr = { //一些特殊的属性值的更改
                 // }
 
 
-            };return {
-                offsetX: target.offsetX - source.offsetX,
-                offsetY: target.offsetY - source.offsetY,
-                blur: target.blur - source.blur,
+            };console.log('source', target);
+
+            return {
+                offsetX: (target.offsetX ? target.offsetX : 5) - source.offsetX,
+                offsetY: (target.offsetY ? target.offsetY : 5) - source.offsetY,
+                blur: (target.blur ? target.blur : 5) - source.blur,
                 color: increCo
             };
         }
