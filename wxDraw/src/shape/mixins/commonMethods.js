@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 14:04:30
+ * @Last Modified time: 2017-10-20 14:16:56
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -15,6 +15,47 @@ var gradientOption = {
         this.Option.x + this.Option.r,
         this.Option.y - this.Option.r],
         "cg": [this.Option.x, this.Option.y, this.Option.r]
+    },
+    "rect": {
+        "lg": [//这里还得改
+            this.Option.x - this.Option.w / 2,
+            this.Option.y - this.Option.h / 2,
+            this.Option.x + this.Option.w / 2,
+            this.Option.y - this.Option.h / 2,
+        ],
+        "cg": [
+            this.Option.x,
+            this.Option.y,
+            Math.sqrt(Math.pow(this.Option.w / 2, 2) +
+                Math.pow(this.Option.h / 2, 2))
+        ]
+    },
+    "polygon": {
+        "lg": [this.Option.x - this.Option.r,
+        this.Option.x - this.Option.r,
+        this.Option.x + this.Option.r,
+        this.Option.y - this.Option.r],
+        "cg": [this.Option.x, this.Option.y, this.Option.r]
+    },
+    "cshape": {
+        "lg": [this.max.minX,
+        this.max.minY,
+        this.max.maxX,
+        this.max.minY],
+        "cg": [this.massCenter.x, this.massCenter.y,
+        Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) +
+            Math.pow((this.max.maxY - this.max.minY) / 2, 2))
+        ]
+    },
+    "line": {
+        "lg": [this.max.minX,
+        this.max.minY,
+        this.max.maxX,
+        this.max.minY],
+        "cg": [this.massCenter.x, this.massCenter.y,
+        Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) +
+            Math.pow((this.max.maxY - this.max.minY) / 2, 2))
+        ]
     }
 }
 
@@ -72,7 +113,7 @@ export const commonMethods = {
         if (this.UnOption.cg && !this.UnOption.lg) {
             this.turnColorLock(true);//开启颜色锁            
             gra = context.createCircularGradient(...gradientOption[type].cg);
-            this.UnOption.lg.forEach(function (element) {
+            this.UnOption.cg.forEach(function (element) {
                 gra.addColorStop(...element);
             }, this);
             context.setFillStyle(gra);
