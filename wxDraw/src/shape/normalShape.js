@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 16:37:21
+ * @Last Modified time: 2017-10-20 16:55:47
  * 普通形状
  * 
  */
@@ -161,7 +161,8 @@ export const Rect = function (option) {
     this.rotateOrigin = null;
     this.oriPoints = [];
     this._Points = [];
-
+    this._drawLine = false; //用于标识是否画外框
+    this.detectPoints=[];
     this.max = {
         maxX: null,
         maxY: null,
@@ -355,6 +356,13 @@ Rect.prototype = {
             this.getMax();//拿到边界点
         }
 
+    },
+    getDetectPoints:function(){
+      //获取检测点方块 如果他有lineWidth 并且绘制出来的话 那就 
+      let originPoints = this.oriPoints;
+      if(!this._drawLine){
+          
+      }
     },
     ...commonMethods
 }
