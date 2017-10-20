@@ -75,7 +75,7 @@ Page({
 
     // var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
-    var cir3 = new Shape('circle', { x: 200, y: 300, r: 100, fillStyle:"#FF370F",rotate:Math.PI}, true, true)
+    var cir3 = new Shape('circle', { x: 200, y: 300, r: 100,lineWidth:20, fillStyle:"#FF370F",rotate:Math.PI,sA:1,eA:2}, false, true)
         
     // // cir3.setOrigin([40,40])
     // console.log(cir3);
