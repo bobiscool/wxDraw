@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 17:30:15
+ * @Last Modified time: 2017-10-20 17:32:58
  * 普通形状
  * 
  */
@@ -199,6 +199,7 @@ Rect.prototype = {
 
         this._draw(context);
         context.closePath();
+        this._drawLine = false;        
         context.setFillStyle(this.Option.fillStyle);
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
