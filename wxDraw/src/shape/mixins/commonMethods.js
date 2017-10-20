@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 14:16:56
+ * @Last Modified time: 2017-10-20 14:21:49
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -61,10 +61,12 @@ var gradientOption = {
 
 export const commonMethods = {
     updateOption: function (option) { //这个更新属性 是不是有点问题 好像和set属性重复了
-
+        if(option.fillStyle&&option.lg.length<=0&&option.cg.length<=0){
+            this.turnColorLock(false);
+        }
         this.Option = util.extend(option, this.Option);
         this.UnOption = util.extend(option, this.UnOption);
-        console.log(this.Option);
+        // console.log(this.Option);
         this.bus.dispatch('update', 'no');
     },
     upDetect: function () {
@@ -119,6 +121,10 @@ export const commonMethods = {
             context.setFillStyle(gra);
         }
 
+
+        if (!this._colorLock) {
+            context.setFillStyle(this.Option.fillStyle);
+        }
     },
     turnColorLock: function (onOff) {
         if (onOff) {
