@@ -2018,7 +2018,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 19:23:28
+ * @Last Modified time: 2017-10-20 09:44:50
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -2036,11 +2036,11 @@ var specialOption = {
 
 var specialAtrr = { //一些特殊的属性值的更改
     "fillStyle": {
-        get: function get$$1(val) {
+        get: function get(val) {
             // //console.log('hex2wwwwwwrgb', hex2rgb(val));
             return hex2rgb(val);
         },
-        set: function set$$1(source, incre, timer) {
+        set: function set(source, incre, timer) {
             // //console.log(source, incre, timer);
             var temCo = [source.r + Math.floor(incre.r * timer), source.g + Math.floor(incre.g * timer), source.b + Math.floor(incre.b * timer) //超级恶心颜色渐变
             ];
@@ -2062,11 +2062,11 @@ var specialAtrr = { //一些特殊的属性值的更改
         }
     },
     "strokeStyle": {
-        get: function get$$1(val) {
+        get: function get(val) {
             // //console.log('hex2wwwwwwrgb', hex2rgb(val));
             return hex2rgb(val);
         },
-        set: function set$$1(source, incre, timer) {
+        set: function set(source, incre, timer) {
             // //console.log(source, incre, timer);
             var temCo = [source.r + Math.floor(incre.r * timer), source.g + Math.floor(incre.g * timer), source.b + Math.floor(incre.b * timer) //超级恶心颜色渐变
             ];
@@ -2089,7 +2089,7 @@ var specialAtrr = { //一些特殊的属性值的更改
     },
     "Shadow": {
         // 卧槽 再次刷新了 我自己恶心自己的底线 。。。。 Shadow里面继续颜色改变
-        get: function get$$1(val) {
+        get: function get(val) {
             var _temSh = {
                 offsetX: val.offsetX,
                 offsetY: val.offsetY,
@@ -2099,10 +2099,13 @@ var specialAtrr = { //一些特殊的属性值的更改
 
             return _temSh;
         },
-        set: function set$$1(source, incre, timer) {
+        set: function set(source, incre, timer) {
             // //console.log(source, incre, timer);
 
-            var _temCoH = '#' + rgb2hex.apply(undefined, toConsumableArray(temCo));
+            var _temCo = [source.color.r + Math.floor(incre.color.r * timer), source.color.g + Math.floor(incre.color.g * timer), source.color.b + Math.floor(incre.color.b * timer) //超级恶心颜色渐变
+            ];
+
+            var _temCoH = '#' + rgb2hex.apply(undefined, _temCo);
             var _temSha = {
                 offsetX: source.offsetX + incre.offsetX * timer,
                 offsetY: source.offsetY + incre.offsetY * timer,
@@ -2139,7 +2142,7 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 19:26:01
+ * @Last Modified time: 2017-10-20 09:43:27
  */
 
 var FRAGOPTION = {
@@ -2161,19 +2164,27 @@ var FRAGOPTION = {
 function genExe(exe, atrribute, object) {
     console.log('exe', exe);
     // //console.log('exe', exe.indexOf('#'));
+    var temAtrr = void 0;
 
-    if (!isNaN(Number(exe)) || String(exe).indexOf('#') === 0) {
+    if (specialAtrr[atrribute]) {
+        //特殊属性 比如颜色
+        // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
+        // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
+        temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]), exe, true);
+
+        return temAtrr;
+    }
+    if (!isNaN(Number(exe))) {
         //表达式 是个数字
-        var temAtrr = void 0;
         if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
-            if (specialAtrr[atrribute]) {
-                //特殊属性 比如颜色
-                // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
-                // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
-                temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]), exe, true);
-            } else {
-                temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
-            }
+            // if (specialAtrr[atrribute]) {//特殊属性 比如颜色
+            //     // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
+            //     // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
+            //     temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]),exe,true);
+
+            // } else {
+            temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
+            // }
         } else {
             temAtrr = parseFloat(exe) - parseFloat(object.Shape[specialOption[object.type][atrribute]][atrribute]); //一些特殊的属性
         }

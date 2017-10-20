@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 19:23:28
+ * @Last Modified time: 2017-10-20 09:44:50
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -99,7 +99,7 @@ export const specialAtrr = {//一些特殊的属性值的更改
                 source.color.b + Math.floor(incre.color.b * timer)//超级恶心颜色渐变
             ]
 
-            let _temCoH = '#' + rgb2hex(...temCo); 
+            let _temCoH = '#' + rgb2hex(..._temCo); 
             let _temSha = {
                 offsetX: source.offsetX + incre.offsetX * timer,
                 offsetY: source.offsetY + incre.offsetY * timer,
