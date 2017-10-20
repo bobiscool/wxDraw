@@ -1250,7 +1250,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 16:37:21
+ * @Last Modified time: 2017-10-20 17:30:15
  * 普通形状
  * 
  */
@@ -1389,7 +1389,9 @@ var Rect = function Rect(option) {
     this.rotateOrigin = null;
     this.oriPoints = [];
     this._Points = [];
-
+    this._drawLine = false; //用于标识是否画外框
+    this.detectOriPoints = [];
+    this._detectPoints = [];
     this.max = {
         maxX: null,
         maxY: null,
@@ -1408,6 +1410,7 @@ Rect.prototype = _extends({
 
         this._draw(context);
         context.closePath();
+        this._drawLine = true;
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
         if (this.Option.Shadow) {
@@ -1441,16 +1444,22 @@ Rect.prototype = _extends({
     },
     getOriPoints: function getOriPoints() {
         var points = [];
-
+        var points2 = [];
         points.push([this.Option.x - this.Option.w / 2, this.Option.y - this.Option.h / 2]);
         points.push([this.Option.x - this.Option.w / 2, this.Option.y + this.Option.h / 2]);
         points.push([this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2]);
         points.push([this.Option.x + this.Option.w / 2, this.Option.y - this.Option.h / 2]);
 
+        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2 - this.Option.lineWidth / 2]);
+        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2 + this.Option.lineWidth / 2]);
+        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2 + this.Option.lineWidth / 2]);
+        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2 - this.Option.lineWidth / 2]);
         this.oriPoints = points;
+        this.detectOriPoints = points2;
     },
     getPoints: function getPoints() {
         var _points = [];
+        var _points2 = [];
         var origin = null;
         if (!this.rotateOrigin) {
             origin = [this.Option.x, this.Option.y];
@@ -1464,7 +1473,12 @@ Rect.prototype = _extends({
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
+        this.detectOriPoints.forEach(function (item) {
+            _points2.push(this.getPointTodraw(item[0], item[1], origin));
+        }, this);
+
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
+        this._detectPoints = matrixToarray(_points2); //除掉矩阵多余的部分
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
         return this._Points; //除掉矩阵多余的部分;
@@ -1476,7 +1490,7 @@ Rect.prototype = _extends({
     },
     getMax: function getMax() {
         //绘制 与检测 不能在统一个地方
-        var _Points = this._Points;
+        var _Points = this._detectPoints;
 
         this.max = {
             maxX: null,
@@ -1525,7 +1539,17 @@ Rect.prototype = _extends({
         // var B = this.points[1];
         var ifInside = false;
 
-        for (var i = 0, j = this._Points.length - 1; i < this._Points.length; j = i++) {
+        var Points = null;
+
+        console.log('_detectPoints', this._detectPoints);
+        console.log('_detectPoints2', this._Points);
+        if (this._drawLine) {
+            Points = this._detectPoints;
+        } else {
+            Points = this._Points;
+        }
+
+        for (var i = 0, j = Points.length - 1; i < Points.length; j = i++) {
             /**
              * 0 4
                1 0
@@ -1533,10 +1557,10 @@ Rect.prototype = _extends({
                3 2
                4 3
              */
-            var Xi = this._Points[i][0],
-                Yi = this._Points[i][1];
-            var Xj = this._Points[j][0],
-                Yj = this._Points[j][1];
+            var Xi = Points[i][0],
+                Yi = Points[i][1];
+            var Xj = Points[j][0],
+                Yj = Points[j][1];
 
             var insect = Yi > y != Yj > y && x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi;
 
@@ -1575,6 +1599,10 @@ Rect.prototype = _extends({
             this.getPoints(); //拿到变化点
             this.getMax(); //拿到边界点
         }
+    },
+    getDetectPoints: function getDetectPoints() {
+        //获取检测点方块 如果他有lineWidth 并且绘制出来的话 那就 
+        
     }
 }, commonMethods);
 

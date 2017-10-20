@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 17:24:11
+ * @Last Modified time: 2017-10-20 17:30:15
  * 普通形状
  * 
  */
@@ -182,6 +182,7 @@ Rect.prototype = {
 
         this._draw(context);
         context.closePath();
+        this._drawLine = true;
         context.setStrokeStyle(this.Option.strokeStyle)
         context.setLineWidth(this.Option.lineWidth);
         if (this.Option.Shadow) {
@@ -224,10 +225,10 @@ Rect.prototype = {
         points.push([this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2])
         points.push([this.Option.x + this.Option.w / 2, this.Option.y - this.Option.h / 2])
 
-        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2])
-        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2])
-        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2])
-        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2])
+        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2-this.Option.lineWidth / 2])
+        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2+this.Option.lineWidth / 2])
+        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2+this.Option.lineWidth / 2])
+        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2-this.Option.lineWidth / 2])
         this.oriPoints = points;
         this.detectOriPoints = points2;
     },
@@ -253,7 +254,7 @@ Rect.prototype = {
         }, this);
 
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
-        this._detectPoints = matrixToarray(_points);//除掉矩阵多余的部分
+        this._detectPoints = matrixToarray(_points2);//除掉矩阵多余的部分
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
         return this._Points;//除掉矩阵多余的部分;
@@ -319,6 +320,9 @@ Rect.prototype = {
         var ifInside = false;
 
         var Points = null;
+
+        console.log('_detectPoints',this._detectPoints);
+        console.log('_detectPoints2',this._Points);
         if (this._drawLine) {
             Points = this._detectPoints;
         }else{
