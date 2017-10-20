@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 19:26:01
+ * @Last Modified time: 2017-10-20 09:28:40
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -29,18 +29,25 @@ var FRAGOPTION = {
 function genExe(exe, atrribute, object) {
     console.log('exe', exe);
     // //console.log('exe', exe.indexOf('#'));
-    
-    if (!isNaN(Number(exe))||String(exe).indexOf('#')===0) {//表达式 是个数字
-        let temAtrr;
-        if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
-            if (specialAtrr[atrribute]) {//特殊属性 比如颜色
-                // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
-                // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
-                temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]),exe,true);
+    let temAtrr;
 
-            } else {
-                temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
-            }
+    if (specialAtrr[atrribute]) {//特殊属性 比如颜色
+        // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
+        // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
+        temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]), exe, true);
+
+        return temAtrr;
+    }
+    if (!isNaN(Number(exe)) || String(exe).indexOf('#') === 0) {//表达式 是个数字
+        if (object.Shape.Option[atrribute] || object.Shape.Option[atrribute] === 0) {
+            // if (specialAtrr[atrribute]) {//特殊属性 比如颜色
+            //     // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
+            //     // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
+            //     temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]),exe,true);
+
+            // } else {
+            temAtrr = parseFloat(exe) - parseFloat(object.Shape.Option[atrribute]);
+            // }
         } else {
             temAtrr = parseFloat(exe) - parseFloat(object.Shape[specialOption[object.type][atrribute]][atrribute]);//一些特殊的属性
         }
@@ -180,7 +187,7 @@ AnimationFrag.prototype = {
         if (!this.genFlag) {
             if (this.object.Shape.Option[this.atrribute] || this.object.Shape.Option[this.atrribute] == 0) {
                 if (specialAtrr[this.atrribute]) {
-                    this.object.Shape.Option[this.atrribute] = specialAtrr[this.atrribute].set(this.source,this.incre,this.timer.getGoesByTime() / this.duration);
+                    this.object.Shape.Option[this.atrribute] = specialAtrr[this.atrribute].set(this.source, this.incre, this.timer.getGoesByTime() / this.duration);
                 } else {
                     this.object.Shape.Option[this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
                 }
@@ -195,7 +202,7 @@ AnimationFrag.prototype = {
                 if (this.object.Shape.Option[item.attr] || this.object.Shape.Option[item.attr] == 0) {
                     if (specialAtrr[item.attr]) {
                         // //console.log('颜色');
-                        this.object.Shape.Option[item.attr] = specialAtrr[item.attr].set(item.source,item.incre,this.timer.getGoesByTime() / this.duration);
+                        this.object.Shape.Option[item.attr] = specialAtrr[item.attr].set(item.source, item.incre, this.timer.getGoesByTime() / this.duration);
                     } else {
                         this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
                     }
@@ -221,7 +228,7 @@ AnimationFrag.prototype = {
                 // //console.log(source);
             }
             _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": source });//两种拿取source得方法
-        },this);
+        }, this);
 
     },
     updateSourceAndtarget: function () {
