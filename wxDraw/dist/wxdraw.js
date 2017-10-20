@@ -534,7 +534,7 @@ var commonUnAttr = { //这些样式只能单独设定
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 14:47:33
+ * @Last Modified time: 2017-10-20 14:54:59
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -657,6 +657,7 @@ var commonMethods = {
         }
 
         if (!this._colorLock) {
+            console.log("没有渐变");
             context.setFillStyle(this.Option.fillStyle);
         }
     },
@@ -669,19 +670,19 @@ var commonMethods = {
     },
     getGradientOption: function getGradientOption(type) {
         return {
-            "circle": {
-                "lg": type == "circle" ? [this.Option.x - this.Option.r, this.Option.x - this.Option.r, this.Option.x + this.Option.r, this.Option.y - this.Option.r] : [],
-                "cg": type == "circle" ? [this.Option.x, this.Option.y, this.Option.r] : []
-            },
-            "rect": {
-                "lg": type == "rect" ? [//这里还得改
-                this.Option.x - this.Option.w / 2, this.Option.y - this.Option.h / 2, this.Option.x + this.Option.w / 2, this.Option.y - this.Option.h / 2] : [],
-                "cg": type == "rect" ? [this.Option.x, this.Option.y, Math.sqrt(Math.pow(this.Option.w / 2, 2) + Math.pow(this.Option.h / 2, 2))] : []
-            },
-            "polygon": {
-                "lg": type == "polygon" ? [this.Option.x - this.Option.r, this.Option.x - this.Option.r, this.Option.x + this.Option.r, this.Option.y - this.Option.r] : [],
-                "cg": type == "polygon" ? [this.Option.x, this.Option.y, this.Option.r] : []
-            },
+            "circle": type == "circle" ? {
+                "lg": [this.Option.x - this.Option.r, this.Option.x - this.Option.r, this.Option.x + this.Option.r, this.Option.y - this.Option.r],
+                "cg": [this.Option.x, this.Option.y, this.Option.r]
+            } : {},
+            "rect": type == "rect" ? {
+                "lg": [//这里还得改
+                this.Option.x - this.Option.w / 2, this.Option.y - this.Option.h / 2, this.Option.x + this.Option.w / 2, this.Option.y - this.Option.h / 2],
+                "cg": [this.Option.x, this.Option.y, Math.sqrt(Math.pow(this.Option.w / 2, 2) + Math.pow(this.Option.h / 2, 2))]
+            } : {},
+            "polygon": type == "polygon" ? {
+                "lg": [this.Option.x - this.Option.r, this.Option.x - this.Option.r, this.Option.x + this.Option.r, this.Option.y - this.Option.r],
+                "cg": [this.Option.x, this.Option.y, this.Option.r]
+            } : {},
             "cshape": type == "cshape" ? {
                 "lg": [this.max.minX, this.max.minY, this.max.maxX, this.max.minY],
                 "cg": [this.massCenter.x, this.massCenter.y, Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) + Math.pow((this.max.maxY - this.max.minY) / 2, 2))]
@@ -689,7 +690,7 @@ var commonMethods = {
             "line": type == "cshape" ? {
                 "lg": [this.max.minX, this.max.minY, this.max.maxX, this.max.minY],
                 "cg": [this.massCenter.x, this.massCenter.y, Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) + Math.pow((this.max.maxY - this.max.minY) / 2, 2))]
-            } : {}
+            } : {} //加这个 是为了 没必要的计算
         }[type];
     }
 };
