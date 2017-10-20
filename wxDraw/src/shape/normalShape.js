@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:03:22
+ * @Last Modified time: 2017-10-20 13:35:54
  * 普通形状
  * 
  */
@@ -53,7 +53,8 @@ export const Circle = function (option) {
     this._offsetX = 0;
     this._offsetY = 0;
     this.rotateOrigin = null;
-
+    // 用于渐变的
+    this._colorLock=false; //颜色锁 设置渐变之后 颜色就就不能动画了
 }
 
 Circle.prototype = {

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:44:06
+ * @Last Modified time: 2017-10-20 14:06:21
  * 
  * 工具库
  */
@@ -120,4 +120,9 @@ export const objToArray = function (obj) { //对象的值转数组
     });
 
     return _Arrays;
+}
+
+
+export const checkFormat = function(beChecked,template){
+     //校验格式的函数 专门校验 数据
 }

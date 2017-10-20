@@ -49,7 +49,13 @@ Page({
     // console.log(requestAnimationFrame);
     var context = wx.createCanvasContext('first')
 
-    this.wxCanvas = new WxDraw(context,0,0,400,500);
+
+   
+
+    // Fill with gradient
+
+
+    // this.wxCanvas = new WxDraw(context,0,0,400,500);
     /**
      * 由于 小程序没有Dom 操作，所以没法获取canvas高度以及绘图的起点
      * 所以 wxDraw初始化的时候 需要设置 以便点击检测的时候使用
@@ -57,30 +63,30 @@ Page({
 
     // this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,fillStyle:"#333333"},true));
 
-    var cir1 = new Shape('line', {
-      fillStyle: "#000000", rotate: Math.PI / 2, points: [
-        [145, 30], [0, -211], [300, 400],
-        [113, 50], [30, -31], [3, 40],
-        [123, 90], [20, -1], [30, 60],
-        [131, 40], [90, -12], [0, 400],
-        [13, 6], [70, -17], [30, 42]]}, true,true)
+    // var cir1 = new Shape('line', {
+    //   fillStyle: "#000000", rotate: Math.PI / 2, points: [
+    //     [145, 30], [0, -211], [300, 400],
+    //     [113, 50], [30, -31], [3, 40],
+    //     [123, 90], [20, -1], [30, 60],
+    //     [131, 40], [90, -12], [0, 400],
+    //     [13, 6], [70, -17], [30, 42]],lineWidth:12}, true,true)
   
-    var cir2 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
+    // var cir2 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
 
-    var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
+    // var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
-    var cir3 = new Shape('circle', { x: 200, y: 300, r: 10, sides: 10, rotate: Math.PI/4,Shadow:{
-      color:"#000000"
-    } }, false, true)
+    // var cir3 = new Shape('circle', { x: 200, y: 300, r: 10, sides: 10, rotate: Math.PI/4,Shadow:{
+    //   color:"#000000"
+    // } }, false, true)
         
-    // cir3.setOrigin([40,40])
-    console.log(cir3);
-    this.wxCanvas.add(cir1);
-    this.wxCanvas.add(cir3);
+    // // cir3.setOrigin([40,40])
+    // console.log(cir3);
+    // this.wxCanvas.add(cir1);
+    // this.wxCanvas.add(cir3);
     
-    // cir1.updateOption({x:100})
-    this.wxCanvas.add(cir2);
-    console.log(cir2);
+    // // cir1.updateOption({x:100})
+    // this.wxCanvas.add(cir2);
+    // console.log(cir2);
     // cir2.updateOption({ x: 200 })
     // setTimeout(function(){
     //   cir2.updateOption({ x: 100 })
@@ -151,7 +157,7 @@ Page({
 
 
       
-    cir1.updateOption({})
+    // cir1.updateOption({ lineJoin:"round"})
     // cir1.updateOption({
     //   lineCap:"butt"
     // })
@@ -217,7 +223,14 @@ Page({
 
 
 
-    this.wxCanvas.draw();
-    context.draw();
+    // this.wxCanvas.draw();
+    // context.draw();
+    
+    const grd = context.createLinearGradient(100, 10, 250,10)
+    grd.addColorStop(0, 'red')
+    grd.addColorStop(1, 'white')
+    context.setFillStyle(grd)
+    context.fillRect(100, 10, 150, 80)
+    context.draw()
   }
 })
