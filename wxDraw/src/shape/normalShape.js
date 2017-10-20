@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 14:31:26
+ * @Last Modified time: 2017-10-20 16:37:21
  * 普通形状
  * 
  */
@@ -116,7 +116,7 @@ Circle.prototype = {
     },
     detected: function (x, y) {
         var _self = this;
-        if (Math.pow((_self.Option.x - x), 2) + Math.pow((_self.Option.y - y), 2) <= Math.pow(_self.Option.r, 2)) {
+        if (Math.pow((_self.Option.x - x), 2) + Math.pow((_self.Option.y - y), 2) <= Math.pow(_self.Option.r+_self.Option.lineWidth/2, 2)) {
             this._offsetX = _self.Option.x - x;
             this._offsetY = _self.Option.y - y;
             //console.log('x', this._offsetX);

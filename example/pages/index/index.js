@@ -61,7 +61,7 @@ Page({
      * 所以 wxDraw初始化的时候 需要设置 以便点击检测的时候使用
     */
 
-    this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,fillStyle:"#333333"},true));
+    // this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,fillStyle:"#333333"},true));
 
     // var cir1 = new Shape('line', {
     //   fillStyle: "#000000", rotate: Math.PI / 2, points: [
@@ -75,9 +75,7 @@ Page({
 
     // var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
  
-    var cir3 = new Shape('circle', { x: 200, y: 300, r: 10, sides: 10, rotate: Math.PI/4,Shadow:{
-      color:"#000000"
-    } }, true, true)
+    var cir3 = new Shape('circle', { x: 200, y: 300, r: 100, fillStyle:"#FF370F",rotate:Math.PI}, true, true)
         
     // // cir3.setOrigin([40,40])
     // console.log(cir3);
@@ -223,14 +221,34 @@ Page({
 
 
 
-    this.wxCanvas.draw();
-    context.draw();
+    // this.wxCanvas.draw();
+    // context.draw();
     
-    // const grd = context.createLinearGradient(100, 10, 250,10)
+    // const grd = context.createLinearGradient(30, 10, 120, 10)
     // grd.addColorStop(0, 'red')
     // grd.addColorStop(1, 'white')
     // context.setFillStyle(grd)
-    // context.fillRect(100, 10, 150, 80)
-    // context.draw()
+    // context.setStrokeStyle('#000000');
+    // context.arc(200, 100, 100,0,Math.PI*2,)
+    // context.stroke();
+    // context.draw();
+
+    const grd = context.createLinearGradient(100,0, 250, 0)
+    // grd.addColorStop(0, 'red')
+    // // grd.addColorStop(0.16, 'orange')
+    // // grd.addColorStop(0.33, 'yellow')
+    // // grd.addColorStop(0.5, 'green')
+    // grd.addColorStop(0.66, 'cyan')
+    // // grd.addColorStop(0.83, 'blue')
+    // grd.addColorStop(1, 'purple')
+
+    // // Fill with gradient
+    // context.setFillStyle(grd)
+    // // context.arc(100, 100, 150, 80)
+    //     context.setStrokeStyle('#000000');
+    // context.arc(200, 100, 100,0,Math.PI*2,);
+    // context.stroke();
+    // context.fill();
+    // context.draw();
   }
 })

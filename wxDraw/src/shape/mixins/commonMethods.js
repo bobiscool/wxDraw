@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 14:57:42
+ * @Last Modified time: 2017-10-20 16:17:19
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -106,18 +106,22 @@ export const commonMethods = {
              * [0.6,"#cddddd"]
              */
             this.turnColorLock(true);//开启颜色锁
-            gra = context.createLinearGradient(...this.getGradientOption(type).lg);
+            // gra = context.createLinearGradient(...this.getGradientOption(type).lg);
+            gra = context.createLinearGradient(100,0,200,0);
             this.UnOption.lg.forEach(function (element) {
                 gra.addColorStop(...element);
             }, this);
+            console.log(gra);            
             context.setFillStyle(gra);
         }
         if (this.UnOption.cg.length>0 && !this.UnOption.lg.length>0) {
             this.turnColorLock(true);//开启颜色锁            
-            gra = context.createCircularGradient(...gradientOption[type].cg);
+            gra = context.createCircularGradient(...this.getGradientOption(type).cg);
             this.UnOption.cg.forEach(function (element) {
-                gra.addColorStop(...element);
+                console.log(element);
+                gra.addColorStop(element[0],element[1]);
             }, this);
+            console.log(gra);
             context.setFillStyle(gra);
         }
 
@@ -135,13 +139,14 @@ export const commonMethods = {
         }
     },
     getGradientOption: function (type) {
+        
         return {
             "circle": type == "circle" ? {
                 "lg": [this.Option.x - this.Option.r,
-                this.Option.x - this.Option.r,
+                0,
                 this.Option.x + this.Option.r,
-                this.Option.y - this.Option.r],
-                "cg": [this.Option.x, this.Option.y, this.Option.r]
+                0],
+                "cg": [this.Option.x, this.Option.y, this.Option.r/10]
             }:{},
             "rect": type == "rect" ? {
                 "lg": [//这里还得改

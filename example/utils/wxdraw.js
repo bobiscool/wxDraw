@@ -534,7 +534,7 @@ var commonUnAttr = { //这些样式只能单独设定
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 14:54:59
+ * @Last Modified time: 2017-10-20 16:16:34
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -625,7 +625,7 @@ var commonMethods = {
         context.setLineCap(this.UnOption.lineCap);
         context.setLineJoin(this.UnOption.lineJoin);
         // context.setLineDash(this.UnOption.lineDash);
-        if (this.UnOption.lg) {
+        if (this.UnOption.lg.length > 0) {
 
             /**
              * lg
@@ -637,22 +637,24 @@ var commonMethods = {
              * [0.6,"#cddddd"]
              */
             this.turnColorLock(true); //开启颜色锁
-            gra = context.createLinearGradient.apply(context, toConsumableArray(this.getGradientOption(type).lg));
+            // gra = context.createLinearGradient(...this.getGradientOption(type).lg);
+            gra = context.createLinearGradient(100, 0, 200, 0);
             this.UnOption.lg.forEach(function (element) {
                 var _gra;
 
                 (_gra = gra).addColorStop.apply(_gra, toConsumableArray(element));
             }, this);
+            console.log(gra);
             context.setFillStyle(gra);
         }
-        if (this.UnOption.cg && !this.UnOption.lg) {
+        if (this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
             this.turnColorLock(true); //开启颜色锁            
-            gra = context.createCircularGradient.apply(context, toConsumableArray(gradientOption[type].cg));
+            gra = context.createCircularGradient.apply(context, toConsumableArray(this.getGradientOption(type).cg));
             this.UnOption.cg.forEach(function (element) {
-                var _gra2;
-
-                (_gra2 = gra).addColorStop.apply(_gra2, toConsumableArray(element));
+                console.log(element);
+                gra.addColorStop(element[0], element[1]);
             }, this);
+            console.log(gra);
             context.setFillStyle(gra);
         }
 
@@ -669,10 +671,11 @@ var commonMethods = {
         }
     },
     getGradientOption: function getGradientOption(type) {
+
         return {
             "circle": type == "circle" ? {
-                "lg": [this.Option.x - this.Option.r, this.Option.x - this.Option.r, this.Option.x + this.Option.r, this.Option.y - this.Option.r],
-                "cg": [this.Option.x, this.Option.y, this.Option.r]
+                "lg": [this.Option.x - this.Option.r, 0, this.Option.x + this.Option.r, 0],
+                "cg": [this.Option.x, this.Option.y, this.Option.r / 10]
             } : {},
             "rect": type == "rect" ? {
                 "lg": [//这里还得改
@@ -1247,7 +1250,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 14:31:26
+ * @Last Modified time: 2017-10-20 15:00:08
  * 普通形状
  * 
  */
