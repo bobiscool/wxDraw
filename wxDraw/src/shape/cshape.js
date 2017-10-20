@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:03:46
+ * @Last Modified time: 2017-10-20 14:35:15
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -179,7 +179,7 @@ Cshape.prototype = {
         context.save();
         this._draw(context);
         context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context);
+        this.setCommonstyle(context,'cshape');
 
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
@@ -192,7 +192,7 @@ Cshape.prototype = {
     fill: function (context) {
         context.save();
         this._draw(context);
-        this.setCommonstyle(context);
+        this.setCommonstyle(context,'cshape');
 
         context.setFillStyle(this.Option.fillStyle);
         if (this.Option.Shadow) {

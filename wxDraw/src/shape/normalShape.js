@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 14:19:51
+ * @Last Modified time: 2017-10-20 14:31:26
  * 普通形状
  * 
  */
@@ -23,6 +23,8 @@ var cOption = {
     counterclockwise: false,
     ...commonAttr
 }
+
+
 var rOption = {
     x: 10,
     y: 10,
@@ -66,7 +68,7 @@ Circle.prototype = {
 
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context);
+        this.setCommonstyle(context,'circle');
 
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
@@ -81,7 +83,7 @@ Circle.prototype = {
         context.beginPath();
         this._draw(context);
         context.closePath();
-        this.setCommonstyle(context);
+        this.setCommonstyle(context,'circle');
        
         // console.log(this.Option);
         if (this.Option.Shadow) {

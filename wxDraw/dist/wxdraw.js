@@ -219,7 +219,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 18:44:06
+ * @Last Modified time: 2017-10-20 14:06:21
  * 
  * 工具库
  */
@@ -534,16 +534,69 @@ var commonUnAttr = { //这些样式只能单独设定
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:13:03
+ * @Last Modified time: 2017-10-20 14:47:33
  * 一些都有的方法 都放到这里
  */
+// var gradientOption = {
+//     "circle": {
+//         "lg": [this.Option.x - this.Option.r,
+//         this.Option.x - this.Option.r,
+//         this.Option.x + this.Option.r,
+//         this.Option.y - this.Option.r],
+//         "cg": [this.Option.x, this.Option.y, this.Option.r]
+//     },
+//     "rect": {
+//         "lg": [//这里还得改
+//             this.Option.x - this.Option.w / 2,
+//             this.Option.y - this.Option.h / 2,
+//             this.Option.x + this.Option.w / 2,
+//             this.Option.y - this.Option.h / 2,
+//         ],
+//         "cg": [
+//             this.Option.x,
+//             this.Option.y,
+//             Math.sqrt(Math.pow(this.Option.w / 2, 2) +
+//                 Math.pow(this.Option.h / 2, 2))
+//         ]
+//     },
+//     "polygon": {
+//         "lg": [this.Option.x - this.Option.r,
+//         this.Option.x - this.Option.r,
+//         this.Option.x + this.Option.r,
+//         this.Option.y - this.Option.r],
+//         "cg": [this.Option.x, this.Option.y, this.Option.r]
+//     },
+//     "cshape": {
+//         "lg": [this.max.minX,
+//         this.max.minY,
+//         this.max.maxX,
+//         this.max.minY],
+//         "cg": [this.massCenter.x, this.massCenter.y,
+//         Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) +
+//             Math.pow((this.max.maxY - this.max.minY) / 2, 2))
+//         ]
+//     },
+//     "line": {
+//         "lg": [this.max.minX,
+//         this.max.minY,
+//         this.max.maxX,
+//         this.max.minY],
+//         "cg": [this.massCenter.x, this.massCenter.y,
+//         Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) +
+//             Math.pow((this.max.maxY - this.max.minY) / 2, 2))
+//         ]
+//     }
+// }
+
 var commonMethods = {
     updateOption: function updateOption(option) {
         //这个更新属性 是不是有点问题 好像和set属性重复了
-
+        if (option.fillStyle && option.lg.length <= 0 && option.cg.length <= 0) {
+            this.turnColorLock(false);
+        }
         this.Option = util.extend(option, this.Option);
         this.UnOption = util.extend(option, this.UnOption);
-        console.log(this.Option);
+        // console.log(this.Option);
         this.bus.dispatch('update', 'no');
     },
     upDetect: function upDetect() {
@@ -565,18 +618,79 @@ var commonMethods = {
         //设置旋转中心
         this.rotateOrigin = loc;
     },
-    setCommonstyle: function setCommonstyle(context) {
+    setCommonstyle: function setCommonstyle(context, type) {
         // console.log(context);
         // return false;
+        var gra = null;
         context.setLineCap(this.UnOption.lineCap);
         context.setLineJoin(this.UnOption.lineJoin);
         // context.setLineDash(this.UnOption.lineDash);
-        if (this.UnOption.lg.length == 4) {
-            context.createLinearGradient.apply(context, toConsumableArray(this.UnOption.lg));
+        if (this.UnOption.lg) {
+
+            /**
+             * lg
+             * cg
+             * stop 
+             * [0,"#dddcdd" ]
+            * [0.2,"#ddcddd"]
+             * [0.5,"#dcdddd"]
+             * [0.6,"#cddddd"]
+             */
+            this.turnColorLock(true); //开启颜色锁
+            gra = context.createLinearGradient.apply(context, toConsumableArray(this.getGradientOption(type).lg));
+            this.UnOption.lg.forEach(function (element) {
+                var _gra;
+
+                (_gra = gra).addColorStop.apply(_gra, toConsumableArray(element));
+            }, this);
+            context.setFillStyle(gra);
         }
-        if (this.UnOption.cg.length == 3 && !this.UnOption.lg) {
-            context.createCircularGradient.apply(context, toConsumableArray(this.UnOption.cg));
+        if (this.UnOption.cg && !this.UnOption.lg) {
+            this.turnColorLock(true); //开启颜色锁            
+            gra = context.createCircularGradient.apply(context, toConsumableArray(gradientOption[type].cg));
+            this.UnOption.cg.forEach(function (element) {
+                var _gra2;
+
+                (_gra2 = gra).addColorStop.apply(_gra2, toConsumableArray(element));
+            }, this);
+            context.setFillStyle(gra);
         }
+
+        if (!this._colorLock) {
+            context.setFillStyle(this.Option.fillStyle);
+        }
+    },
+    turnColorLock: function turnColorLock(onOff) {
+        if (onOff) {
+            this._colorLock = true;
+        } else {
+            this._colorLock = false;
+        }
+    },
+    getGradientOption: function getGradientOption(type) {
+        return {
+            "circle": {
+                "lg": type == "circle" ? [this.Option.x - this.Option.r, this.Option.x - this.Option.r, this.Option.x + this.Option.r, this.Option.y - this.Option.r] : [],
+                "cg": type == "circle" ? [this.Option.x, this.Option.y, this.Option.r] : []
+            },
+            "rect": {
+                "lg": type == "rect" ? [//这里还得改
+                this.Option.x - this.Option.w / 2, this.Option.y - this.Option.h / 2, this.Option.x + this.Option.w / 2, this.Option.y - this.Option.h / 2] : [],
+                "cg": type == "rect" ? [this.Option.x, this.Option.y, Math.sqrt(Math.pow(this.Option.w / 2, 2) + Math.pow(this.Option.h / 2, 2))] : []
+            },
+            "polygon": {
+                "lg": type == "polygon" ? [this.Option.x - this.Option.r, this.Option.x - this.Option.r, this.Option.x + this.Option.r, this.Option.y - this.Option.r] : [],
+                "cg": type == "polygon" ? [this.Option.x, this.Option.y, this.Option.r] : []
+            },
+            "cshape": type == "cshape" ? {
+                "lg": [this.max.minX, this.max.minY, this.max.maxX, this.max.minY],
+                "cg": [this.massCenter.x, this.massCenter.y, Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) + Math.pow((this.max.maxY - this.max.minY) / 2, 2))]
+            } : {},
+            "line": type == "cshape" ? {
+                "lg": [this.max.minX, this.max.minY, this.max.maxX, this.max.minY],
+                "cg": [this.massCenter.x, this.massCenter.y, Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) + Math.pow((this.max.maxY - this.max.minY) / 2, 2))]
+            } : {}
+        }[type];
     }
 };
 
@@ -1132,7 +1246,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:03:22
+ * @Last Modified time: 2017-10-20 14:31:26
  * 普通形状
  * 
  */
@@ -1144,6 +1258,7 @@ var cOption = _extends({
     eA: Math.PI * 2,
     counterclockwise: false
 }, commonAttr);
+
 var rOption = _extends({
     x: 10,
     y: 10,
@@ -1168,6 +1283,8 @@ var Circle = function Circle(option) {
     this._offsetX = 0;
     this._offsetY = 0;
     this.rotateOrigin = null;
+    // 用于渐变的
+    this._colorLock = false; //颜色锁 设置渐变之后 颜色就就不能动画了
 };
 
 Circle.prototype = _extends({
@@ -1179,7 +1296,7 @@ Circle.prototype = _extends({
 
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context);
+        this.setCommonstyle(context, 'circle');
 
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
@@ -1194,9 +1311,8 @@ Circle.prototype = _extends({
         context.beginPath();
         this._draw(context);
         context.closePath();
-        this.setCommonstyle(context);
+        this.setCommonstyle(context, 'circle');
 
-        context.setFillStyle(this.Option.fillStyle);
         // console.log(this.Option);
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
@@ -1467,7 +1583,7 @@ Rect.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:03:46
+ * @Last Modified time: 2017-10-20 14:35:15
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -1625,7 +1741,7 @@ Cshape.prototype = _extends({
         context.save();
         this._draw(context);
         context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context);
+        this.setCommonstyle(context, 'cshape');
 
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
@@ -1638,7 +1754,7 @@ Cshape.prototype = _extends({
     fill: function fill(context) {
         context.save();
         this._draw(context);
-        this.setCommonstyle(context);
+        this.setCommonstyle(context, 'cshape');
 
         context.setFillStyle(this.Option.fillStyle);
         if (this.Option.Shadow) {
