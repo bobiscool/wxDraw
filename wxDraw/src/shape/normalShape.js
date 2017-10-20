@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 16:55:47
+ * @Last Modified time: 2017-10-20 17:24:11
  * 普通形状
  * 
  */
@@ -68,7 +68,7 @@ Circle.prototype = {
 
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context,'circle');
+        this.setCommonstyle(context, 'circle');
 
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
@@ -83,8 +83,8 @@ Circle.prototype = {
         context.beginPath();
         this._draw(context);
         context.closePath();
-        this.setCommonstyle(context,'circle');
-       
+        this.setCommonstyle(context, 'circle');
+
         // console.log(this.Option);
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
@@ -116,7 +116,7 @@ Circle.prototype = {
     },
     detected: function (x, y) {
         var _self = this;
-        if (Math.pow((_self.Option.x - x), 2) + Math.pow((_self.Option.y - y), 2) <= Math.pow(_self.Option.r+_self.Option.lineWidth/2, 2)) {
+        if (Math.pow((_self.Option.x - x), 2) + Math.pow((_self.Option.y - y), 2) <= Math.pow(_self.Option.r + _self.Option.lineWidth / 2, 2)) {
             this._offsetX = _self.Option.x - x;
             this._offsetY = _self.Option.y - y;
             //console.log('x', this._offsetX);
@@ -162,7 +162,8 @@ export const Rect = function (option) {
     this.oriPoints = [];
     this._Points = [];
     this._drawLine = false; //用于标识是否画外框
-    this.detectPoints=[];
+    this.detectOriPoints = [];
+    this._detectPoints = [];
     this.max = {
         maxX: null,
         maxY: null,
@@ -217,16 +218,22 @@ Rect.prototype = {
     },
     getOriPoints: function () {
         let points = [];
-
+        let points2 = [];
         points.push([this.Option.x - this.Option.w / 2, this.Option.y - this.Option.h / 2])
         points.push([this.Option.x - this.Option.w / 2, this.Option.y + this.Option.h / 2])
         points.push([this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2])
         points.push([this.Option.x + this.Option.w / 2, this.Option.y - this.Option.h / 2])
 
+        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2])
+        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2])
+        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2])
+        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2])
         this.oriPoints = points;
+        this.detectOriPoints = points2;
     },
     getPoints: function () {
         let _points = [];
+        let _points2 = [];
         let origin = null;
         if (!this.rotateOrigin) {
             origin = [this.Option.x, this.Option.y];
@@ -240,7 +247,13 @@ Rect.prototype = {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
 
+
+        this.detectOriPoints.forEach(function (item) {
+            _points2.push(this.getPointTodraw(item[0], item[1], origin))
+        }, this);
+
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
+        this._detectPoints = matrixToarray(_points);//除掉矩阵多余的部分
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
         return this._Points;//除掉矩阵多余的部分;
@@ -252,7 +265,7 @@ Rect.prototype = {
     },
     getMax: function () {
         //绘制 与检测 不能在统一个地方
-        let _Points = this._Points;
+        let _Points = this._detectPoints;
 
         this.max = {
             maxX: null,
@@ -305,7 +318,15 @@ Rect.prototype = {
         // var B = this.points[1];
         var ifInside = false;
 
-        for (var i = 0, j = this._Points.length - 1; i < this._Points.length; j = i++) {
+        var Points = null;
+        if (this._drawLine) {
+            Points = this._detectPoints;
+        }else{
+            Points = this._Points;
+        }
+
+
+        for (var i = 0, j = Points.length - 1; i < Points.length; j = i++) {
             /**
              * 0 4
                1 0
@@ -313,8 +334,8 @@ Rect.prototype = {
                3 2
                4 3
              */
-            var Xi = this._Points[i][0], Yi = this._Points[i][1];
-            var Xj = this._Points[j][0], Yj = this._Points[j][1];
+            var Xi = Points[i][0], Yi = Points[i][1];
+            var Xj = Points[j][0], Yj = Points[j][1];
 
             var insect = ((Yi > y) != (Yj > y)) && (x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi);
 
@@ -357,12 +378,13 @@ Rect.prototype = {
         }
 
     },
-    getDetectPoints:function(){
-      //获取检测点方块 如果他有lineWidth 并且绘制出来的话 那就 
-      let originPoints = this.oriPoints;
-      if(!this._drawLine){
-          
-      }
+    getDetectPoints: function () {
+        //获取检测点方块 如果他有lineWidth 并且绘制出来的话 那就 
+        let originPoints = this.oriPoints;
+
+        if (!this._drawLine) {
+
+        }
     },
     ...commonMethods
 }
