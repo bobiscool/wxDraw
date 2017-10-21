@@ -2,11 +2,11 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 18:05:03
+ * @Last Modified time: 2017-10-21 18:25:32
  * 线条 
  */
 
-import { util, matrixToarray,getDetectPointOut,getDetectPointIn,getDetectPointEdge} from '../util/utils.js';
+import { util, matrixToarray, getDetectPointOut, getDetectPointIn, getDetectPointEdge } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js";
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
@@ -91,21 +91,25 @@ Line.prototype = {
             behPoints = [];//头尾点
         this._Points.forEach(function (item, index) {
             //除了头尾 其余的都要产生 两个对应点
-            if (index == 0||index == this._Points.length - 1 ) {
-                prePoints.push(item)
-                // console.log('首尾两点也得转化');
-                
-            // }else if(index == this._Points.length - 1){
-                
-            } else {
-                prePoints.push(item[0],item[1]+this.lineWidth/2);
-                behPoints.shift(item[0],item[1]-this.lineWidth/2);
-                // behPoints.shift(getDetectPointOut(this._Points[index-1],item,this._Points[index+1],this.Option.lineWidth,[this.massCenter.x,this.massCenter.y]));//行成一个圈用于区域检测
+            // if (index == 0||index == this._Points.length - 1 ) {
+            // prePoints.push(item[])
+            // console.log('首尾两点也得转化');
 
-            }
+            // }else if(index == this._Points.length - 1){
+
+            // } else {
+            prePoints.push([item[0], item[1] + this.Option.lineWidth / 2]);
+            // console.log('SSSSSS', [item[0], item[1] + this.Option.lineWidth / 2]);
+
+            behPoints.unshift([item[0], item[1] - this.Option.lineWidth / 2]);
+            // behPoints.shift(getDetectPointOut(this._Points[index-1],item,this._Points[index+1],this.Option.lineWidth,[this.massCenter.x,this.massCenter.y]));//行成一个圈用于区域检测
+
+            // }
         }, this);
         
-        // console.log('SSSSSS',prePoints.concat(behPoints));
+        // console.log('prePoints',prePoints);
+        // console.log('behPoints',behPoints);
+        console.log('SSSSSS', prePoints.concat(behPoints));
         return prePoints.concat(behPoints);//合在一起就是 一个圈了 
     },
     genPoints() {

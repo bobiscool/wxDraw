@@ -65,8 +65,8 @@ Page({
 
     var cir1 = new Shape('line', {
       fillStyle: "#000000", rotate: Math.PI / 2, points: [
-        [145, 30], [0, 211]],lineWidth:12,Shadow:"#ffffff"}, true,true)
-    var cir4 = new Shape('line', {
+        [145, 30], [0, 211], [22, 21]],lineWidth:12,Shadow:"#ffffff"}, true,true)
+    // var cir4 = new Shape('line', {
     //   fillStyle: "#000000", rotate: Math.PI / 2, points: [
     //     [163, 193], [-18, 48]], lineWidth: 12, Shadow: "#ffffff"
     // }, true, true)
