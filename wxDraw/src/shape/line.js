@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 12:18:01
+ * @Last Modified time: 2017-10-21 14:59:30
  * 线条 
  */
 
@@ -94,8 +94,8 @@ Line.prototype = {
             if (index == 0 || index == this._Points.length - 1) {
                 prePoints.push(item)
             } else {
-                prePoints.push(item);
-                behPoints.shift([item[0], item[1] - 5]);//行成一个圈用于区域检测
+                prePoints.push([item[0],item[1]-this.Option.lineWidth/2]);
+                behPoints.shift([item[0], item[1] - -this.Option.lineWidth/2]);//行成一个圈用于区域检测
 
             }
         }, this);
