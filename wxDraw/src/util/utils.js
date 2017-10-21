@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 17:27:30
+ * @Last Modified time: 2017-10-21 17:41:24
  * 
  * 工具库
  */
@@ -136,14 +136,14 @@ export const getDetectPointOut = function (p1, p2, p3, lineWidth, center) {
     let an2 = Math.atan(k2);
 
     let $x1, $x2, $y1, $y2;
-    if (center[0] >= p2[0] && center[1] >= p2[1]) {
+    if (k1 > 0) {
         $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
         $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
         $y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
         $y2 = p2[1] - Math.sin(an2) * lineWidth / 2;
     }
 
-    if (center[0] >= p2[0] && center[1] < p2[1]) {
+    if (k2 < 0) {
         $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
         $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
         $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
@@ -233,17 +233,31 @@ export const getDetectPointEdge = function (p1, p2, lineWidth, center) {
     let k1 = (p1[0] - p2[0]) / (p1[1] - p2[1]);
     let an1 = Math.atan(k1);
 
-    let Xi, Yi, Xo, Yo;
+    let X1, Y1, X2, Y2, Xo, Yo, Xi, Yi;
     if (k1 > 0) {//斜率还要考虑 为无穷的时候
-        Xi = p2[0] + Math.cos(an1) * lineWidth / 2;
-        Yi = p2[1] - Math.sin(an1) * lineWidth / 2;
-        Xo = p2[0] - Math.cos(an1) * lineWidth / 2;
-        Yo = p2[1] + Math.sin(an1) * lineWidth / 2;
+        X1 = p2[0] + Math.cos(an1) * lineWidth / 2;
+        Y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
+        X2 = p2[0] - Math.cos(an1) * lineWidth / 2;
+        Y2 = p2[1] + Math.sin(an1) * lineWidth / 2;
     } else {
-        Xi = p2[0] - Math.cos(an1) * lineWidth / 2;
-        Yi = p2[1] + Math.sin(an1) * lineWidth / 2;
-        Xo = p2[0] + Math.cos(an1) * lineWidth / 2;
-        Yo = p2[1] - Math.sin(an1) * lineWidth / 2;
+        X1 = p2[0] - Math.cos(an1) * lineWidth / 2;
+        Y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
+        X2 = p2[0] + Math.cos(an1) * lineWidth / 2;
+        Y2 = p2[1] - Math.sin(an1) * lineWidth / 2;
+    }
+
+    let io = Math.pow(X1 - center[0], 2) + Math.pow(Y1 - center[1], 2)
+        >= Math.pow(X2 - center[0], 2) + Math.pow(Y2 - center[1], 2);
+    if (io) {
+        Xo = X1;
+        Yo = Y1;
+        Xi = X2;
+        Yi = Y2;
+    } else {
+        Xi = X1;
+        Yi = Y1;
+        Xo = X2;
+        Yo = Y2;
     }
 
     return [
