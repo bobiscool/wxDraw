@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 12:12:16
+ * @Last Modified time: 2017-10-21 14:48:00
  * 
  * 工具库
  */
@@ -127,7 +127,7 @@ export const checkFormat = function (beChecked, template) {
     //校验格式的函数 专门校验 数据
 }
 
-export const getDetectPoint = function (p1, p2, p3, lineWidth, center) {
+export const getDetectPointOut = function (p1, p2, p3, lineWidth, center) {
     //获取斜率 根据函数线 求到平移 之后的点位 这里该写一篇文章
     let k1 = (p1[0] - p2[0]) / (p1[1] - p2[1]);
     let k2 = (p3[0] - p2[0]) / (p3[1] - p2[1]);
@@ -164,12 +164,60 @@ export const getDetectPoint = function (p1, p2, p3, lineWidth, center) {
     }
 
 
-    let b1 =$y1-$x1*k1;//算到b 
-    let b2 =$y2-$x2*k2;
-    
-    let x = (b2-b1)/(k1-k2);//平移之后的相交点
-    let y = k1*x+b1;
+    let b1 = $y1 - $x1 * k1;//算到b 
+    let b2 = $y2 - $x2 * k2;
 
-    return [x,y];//
-   
+    let x = (b2 - b1) / (k1 - k2);//平移之后的相交点
+    let y = k1 * x + b1;
+
+    return [x, y];//
+
+}
+
+export const getDetectPointIn = function (p1, p2, p3, lineWidth, center) {
+    //获取斜率 根据函数线 求到平移 之后的点位 这里该写一篇文章
+    let k1 = (p1[0] - p2[0]) / (p1[1] - p2[1]);
+    let k2 = (p3[0] - p2[0]) / (p3[1] - p2[1]);
+    let an1 = Math.atan(k1);
+    let an2 = Math.atan(k2);
+
+    let $x1, $x2, $y1, $y2;
+    if (center[0] >= p2[0] && center[1] >= p2[1]) {
+        $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] - Math.sin(an2) * lineWidth / 2;
+    }
+
+    if (center[0] >= p2[0] && center[1] < p2[1]) {
+        $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
+    }
+
+    if (center[0] < p2[0] && center[1] >= p2[1]) {
+        $x1 = p2[0] + Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] + Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] - Math.sin(an2) * lineWidth / 2;
+    }
+
+    if (center[0] < p2[0] && center[1] < p2[1]) {
+        $x1 = p2[0] + Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] + Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
+    }
+
+
+    let b1 = $y1 - $x1 * k1;//算到b 
+    let b2 = $y2 - $x2 * k2;
+
+    let x = (b2 - b1) / (k1 - k2);//平移之后的相交点
+    let y = k1 * x + b1;
+
+    return [x, y];//
+
+
 }

@@ -2,11 +2,11 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:02:54
+ * @Last Modified time: 2017-10-21 12:18:01
  * 线条 
  */
 
-import { util, matrixToarray } from '../util/utils.js';
+import { util, matrixToarray,getDetectPoint } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js";
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
