@@ -65,12 +65,11 @@ Page({
 
     var cir1 = new Shape('line', {
       fillStyle: "#000000", rotate: Math.PI / 2, points: [
-        [145, 30], [0, -211], [300, 400],
-        [113, 50], [30, -31], [3, 40],
-        [123, 90], [20, -1], [30, 60],
-        [131, 40], [90, -12], [0, 400],
-        [13, 6], [70, -17], [30, 42]],lineWidth:12,Shadow:"#ffffff"}, true,true)
-  
+        [145, 30], [0, 211]],lineWidth:12,Shadow:"#ffffff"}, true,true)
+    var cir4 = new Shape('line', {
+    //   fillStyle: "#000000", rotate: Math.PI / 2, points: [
+    //     [163, 193], [-18, 48]], lineWidth: 12, Shadow: "#ffffff"
+    // }, true, true)
     // var cir2 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
 
     // var cir3 = new Shape('polygon', { x: 0, y: 300, r: 20, sides: 5,rotate:0}, true, true)
@@ -79,7 +78,7 @@ Page({
         
     // // cir3.setOrigin([40,40])
     // console.log(cir3);
-    this.wxCanvas.add(cir3);
+    // this.wxCanvas.add(cir4);
     this.wxCanvas.add(cir1);
     
     // // cir1.updateOption({x:100})

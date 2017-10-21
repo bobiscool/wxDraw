@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 14:56:56
+ * @Last Modified time: 2017-10-21 17:27:30
  * 
  * 工具库
  */
@@ -164,7 +164,7 @@ export const getDetectPointOut = function (p1, p2, p3, lineWidth, center) {
         $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
     }
 
-
+    // console.log($x1, $x2, $y1, $y2);
     let b1 = $y1 - $x1 * k1;//算到b 
     let b2 = $y2 - $x2 * k2;
 
@@ -219,7 +219,36 @@ export const getDetectPointIn = function (p1, p2, p3, lineWidth, center) {
     let x = (b2 - b1) / (k1 - k2);//平移之后的相交点
     let y = k1 * x + b1;
 
-    return [x, y];//
+    return [x, y];
+}
 
+
+export const getDetectPointEdge = function (p1, p2, lineWidth, center) {
+    //这里 是算两个 边界点的
+    // 中心点只是用于 判断内侧 还是外侧用的 并不用于 具体点的计算
+    /**
+     * 但问题又来了 内侧 外侧怎么判定
+     */
+
+    let k1 = (p1[0] - p2[0]) / (p1[1] - p2[1]);
+    let an1 = Math.atan(k1);
+
+    let Xi, Yi, Xo, Yo;
+    if (k1 > 0) {//斜率还要考虑 为无穷的时候
+        Xi = p2[0] + Math.cos(an1) * lineWidth / 2;
+        Yi = p2[1] - Math.sin(an1) * lineWidth / 2;
+        Xo = p2[0] - Math.cos(an1) * lineWidth / 2;
+        Yo = p2[1] + Math.sin(an1) * lineWidth / 2;
+    } else {
+        Xi = p2[0] - Math.cos(an1) * lineWidth / 2;
+        Yi = p2[1] + Math.sin(an1) * lineWidth / 2;
+        Xo = p2[0] + Math.cos(an1) * lineWidth / 2;
+        Yo = p2[1] - Math.sin(an1) * lineWidth / 2;
+    }
+
+    return [
+        [Xo, Yo],
+        [Xi, Yi]
+    ]
 
 }

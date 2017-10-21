@@ -219,7 +219,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 14:56:56
+ * @Last Modified time: 2017-10-21 15:22:51
  * 
  * 工具库
  */
@@ -299,6 +299,110 @@ var rgb2hex = function rgb2hex(r, g, b) {
      * 1<<24 是为了防止 在r 为0的时候 左移被忽略 所以添加一个1 来保底
      * 然后 r 占在最高位 所以 左移16位（这个 16位其实是 2进制里面左移） 以此类推
      */
+};
+
+
+
+
+
+var getDetectPointOut = function getDetectPointOut(p1, p2, p3, lineWidth, center) {
+    //获取斜率 根据函数线 求到平移 之后的点位 这里该写一篇文章
+    // 外侧点
+    var k1 = (p1[0] - p2[0]) / (p1[1] - p2[1]);
+    var k2 = (p3[0] - p2[0]) / (p3[1] - p2[1]);
+    var an1 = Math.atan(k1);
+    var an2 = Math.atan(k2);
+
+    var $x1 = void 0,
+        $x2 = void 0,
+        $y1 = void 0,
+        $y2 = void 0;
+    if (center[0] >= p2[0] && center[1] >= p2[1]) {
+        $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] - Math.sin(an2) * lineWidth / 2;
+    }
+
+    if (center[0] >= p2[0] && center[1] < p2[1]) {
+        $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
+    }
+
+    if (center[0] < p2[0] && center[1] >= p2[1]) {
+        $x1 = p2[0] + Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] + Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] - Math.sin(an2) * lineWidth / 2;
+    }
+
+    if (center[0] < p2[0] && center[1] < p2[1]) {
+        $x1 = p2[0] + Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] + Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
+    }
+
+    // console.log($x1, $x2, $y1, $y2);
+    var b1 = $y1 - $x1 * k1; //算到b 
+    var b2 = $y2 - $x2 * k2;
+
+    var x = (b2 - b1) / (k1 - k2); //平移之后的相交点
+    var y = k1 * x + b1;
+
+    return [x, y]; //
+};
+
+var getDetectPointIn = function getDetectPointIn(p1, p2, p3, lineWidth, center) {
+    //获取斜率 根据函数线 求到平移 之后的点位 这里该写一篇文章
+    //内侧点
+    var k1 = (p1[0] - p2[0]) / (p1[1] - p2[1]);
+    var k2 = (p3[0] - p2[0]) / (p3[1] - p2[1]);
+    var an1 = Math.atan(k1);
+    var an2 = Math.atan(k2);
+
+    var $x1 = void 0,
+        $x2 = void 0,
+        $y1 = void 0,
+        $y2 = void 0;
+    if (center[0] >= p2[0] && center[1] >= p2[1]) {
+        $x1 = p2[0] + Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] + Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
+    }
+
+    if (center[0] >= p2[0] && center[1] < p2[1]) {
+        $x1 = p2[0] + Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] + Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] - Math.sin(an2) * lineWidth / 2;
+    }
+
+    if (center[0] < p2[0] && center[1] >= p2[1]) {
+        $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
+    }
+
+    if (center[0] < p2[0] && center[1] < p2[1]) {
+        $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] - Math.sin(an2) * lineWidth / 2;
+    }
+
+    var b1 = $y1 - $x1 * k1; //算到b 
+    var b2 = $y2 - $x2 * k2;
+
+    var x = (b2 - b1) / (k1 - k2); //平移之后的相交点
+    var y = k1 * x + b1;
+
+    return [x, y]; //
+
 };
 
 var Store = function Store() {
@@ -534,7 +638,7 @@ var commonUnAttr = { //这些样式只能单独设定
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 16:17:19
+ * @Last Modified time: 2017-10-21 15:25:24
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -651,15 +755,15 @@ var commonMethods = {
             this.turnColorLock(true); //开启颜色锁            
             gra = context.createCircularGradient.apply(context, toConsumableArray(this.getGradientOption(type).cg));
             this.UnOption.cg.forEach(function (element) {
-                console.log(element);
+                // console.log(element);
                 gra.addColorStop(element[0], element[1]);
             }, this);
-            console.log(gra);
+            // console.log(gra);
             context.setFillStyle(gra);
         }
 
         if (!this._colorLock) {
-            console.log("没有渐变");
+            // console.log("没有渐变");
             context.setFillStyle(this.Option.fillStyle);
         }
     },
@@ -1002,7 +1106,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 15:12:07
+ * @Last Modified time: 2017-10-21 15:29:33
  * 线条 
  */
 
@@ -1080,9 +1184,10 @@ Line.prototype = _extends({
             //除了头尾 其余的都要产生 两个对应点
             if (index == 0 || index == this._Points.length - 1) {
                 prePoints.push(item);
+                console.log('首尾两点也得转化');
             } else {
-                prePoints.push([item[0], item[1] - this.Option.lineWidth / 2]);
-                behPoints.shift([item[0], item[1] + this.Option.lineWidth / 2]); //行成一个圈用于区域检测
+                prePoints.push(getDetectPointIn(this._Points[index - 1], item, this._Points[index + 1], this.Option.lineWidth, [this.massCenter.x, this.massCenter.y]));
+                behPoints.shift(getDetectPointOut(this._Points[index - 1], item, this._Points[index + 1], this.Option.lineWidth, [this.massCenter.x, this.massCenter.y])); //行成一个圈用于区域检测
             }
         }, this);
 

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 16:17:19
+ * @Last Modified time: 2017-10-21 15:25:24
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -118,16 +118,16 @@ export const commonMethods = {
             this.turnColorLock(true);//开启颜色锁            
             gra = context.createCircularGradient(...this.getGradientOption(type).cg);
             this.UnOption.cg.forEach(function (element) {
-                console.log(element);
+                // console.log(element);
                 gra.addColorStop(element[0],element[1]);
             }, this);
-            console.log(gra);
+            // console.log(gra);
             context.setFillStyle(gra);
         }
 
 
         if (!this._colorLock) {
-            console.log("没有渐变");
+            // console.log("没有渐变");
             context.setFillStyle(this.Option.fillStyle);
         }
     },

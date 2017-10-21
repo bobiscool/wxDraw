@@ -2,11 +2,11 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 15:17:45
+ * @Last Modified time: 2017-10-21 17:28:08
  * 线条 
  */
 
-import { util, matrixToarray,getDetectPointOut,getDetectPointIn} from '../util/utils.js';
+import { util, matrixToarray,getDetectPointOut,getDetectPointIn,getDetectPointEdge} from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js";
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
@@ -93,9 +93,10 @@ Line.prototype = {
             //除了头尾 其余的都要产生 两个对应点
             if (index == 0 || index == this._Points.length - 1) {
                 prePoints.push(item)
+                // console.log('首尾两点也得转化');
             } else {
-                prePoints.push(getDetectPointIn(this._Points[index-1],item,this._Points[index+1],this.Option.lineWidth,this.massCenter));
-                behPoints.shift(getDetectPointOut(this._Points[index-1],item,this._Points[index+1],this.Option.lineWidth,this.massCenter));//行成一个圈用于区域检测
+                prePoints.push(getDetectPointIn(this._Points[index-1],item,this._Points[index+1],this.Option.lineWidth,[this.massCenter.x,this.massCenter.y]));
+                behPoints.shift(getDetectPointOut(this._Points[index-1],item,this._Points[index+1],this.Option.lineWidth,[this.massCenter.x,this.massCenter.y]));//行成一个圈用于区域检测
 
             }
         }, this);
