@@ -69,7 +69,7 @@ Page({
         [113, 50], [30, -31], [3, 40],
         [123, 90], [20, -1], [30, 60],
         [131, 40], [90, -12], [0, 400],
-        [13, 6], [70, -17], [30, 42]],lineWidth:12}, true,true)
+        [13, 6], [70, -17], [30, 42]],lineWidth:12,Shadow:"#ffffff"}, true,true)
   
     // var cir2 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
 

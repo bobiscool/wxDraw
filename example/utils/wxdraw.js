@@ -219,7 +219,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 14:06:21
+ * @Last Modified time: 2017-10-21 14:56:56
  * 
  * 工具库
  */
@@ -1002,7 +1002,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:02:54
+ * @Last Modified time: 2017-10-21 15:12:07
  * 线条 
  */
 
@@ -1081,11 +1081,12 @@ Line.prototype = _extends({
             if (index == 0 || index == this._Points.length - 1) {
                 prePoints.push(item);
             } else {
-                prePoints.push(item);
-                behPoints.shift([item[0], item[1] - 5]); //行成一个圈用于区域检测
+                prePoints.push([item[0], item[1] - this.Option.lineWidth / 2]);
+                behPoints.shift([item[0], item[1] + this.Option.lineWidth / 2]); //行成一个圈用于区域检测
             }
         }, this);
 
+        console.log('SSSSSS', prePoints.concat(behPoints));
         return prePoints.concat(behPoints); //合在一起就是 一个圈了 
     },
     genPoints: function genPoints() {
@@ -1250,7 +1251,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 17:30:15
+ * @Last Modified time: 2017-10-20 17:32:58
  * 普通形状
  * 
  */
@@ -1427,6 +1428,7 @@ Rect.prototype = _extends({
 
         this._draw(context);
         context.closePath();
+        this._drawLine = false;
         context.setFillStyle(this.Option.fillStyle);
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));

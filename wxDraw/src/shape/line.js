@@ -2,11 +2,11 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 14:59:30
+ * @Last Modified time: 2017-10-21 15:17:45
  * 线条 
  */
 
-import { util, matrixToarray,getDetectPoint } from '../util/utils.js';
+import { util, matrixToarray,getDetectPointOut,getDetectPointIn} from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js";
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
@@ -94,12 +94,13 @@ Line.prototype = {
             if (index == 0 || index == this._Points.length - 1) {
                 prePoints.push(item)
             } else {
-                prePoints.push([item[0],item[1]-this.Option.lineWidth/2]);
-                behPoints.shift([item[0], item[1] - -this.Option.lineWidth/2]);//行成一个圈用于区域检测
+                prePoints.push(getDetectPointIn(this._Points[index-1],item,this._Points[index+1],this.Option.lineWidth,this.massCenter));
+                behPoints.shift(getDetectPointOut(this._Points[index-1],item,this._Points[index+1],this.Option.lineWidth,this.massCenter));//行成一个圈用于区域检测
 
             }
         }, this);
-
+        
+        console.log('SSSSSS',prePoints.concat(behPoints));
         return prePoints.concat(behPoints);//合在一起就是 一个圈了 
     },
     genPoints() {
