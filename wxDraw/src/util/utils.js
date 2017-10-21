@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 17:41:24
+ * @Last Modified time: 2017-10-21 17:51:06
  * 
  * 工具库
  */
@@ -246,8 +246,8 @@ export const getDetectPointEdge = function (p1, p2, lineWidth, center) {
         Y2 = p2[1] - Math.sin(an1) * lineWidth / 2;
     }
 
-    let io = Math.pow(X1 - center[0], 2) + Math.pow(Y1 - center[1], 2)
-        >= Math.pow(X2 - center[0], 2) + Math.pow(Y2 - center[1], 2);
+    let io = (Math.pow(X1 - center[0], 2) + Math.pow(Y1 - center[1], 2)
+    )>= (Math.pow(X2 - center[0], 2) + Math.pow(Y2 - center[1], 2));
     if (io) {
         Xo = X1;
         Yo = Y1;
