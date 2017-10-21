@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 14:48:00
+ * @Last Modified time: 2017-10-21 14:56:56
  * 
  * 工具库
  */
@@ -129,6 +129,7 @@ export const checkFormat = function (beChecked, template) {
 
 export const getDetectPointOut = function (p1, p2, p3, lineWidth, center) {
     //获取斜率 根据函数线 求到平移 之后的点位 这里该写一篇文章
+    // 外侧点
     let k1 = (p1[0] - p2[0]) / (p1[1] - p2[1]);
     let k2 = (p3[0] - p2[0]) / (p3[1] - p2[1]);
     let an1 = Math.atan(k1);
@@ -176,6 +177,7 @@ export const getDetectPointOut = function (p1, p2, p3, lineWidth, center) {
 
 export const getDetectPointIn = function (p1, p2, p3, lineWidth, center) {
     //获取斜率 根据函数线 求到平移 之后的点位 这里该写一篇文章
+    //内侧点
     let k1 = (p1[0] - p2[0]) / (p1[1] - p2[1]);
     let k2 = (p3[0] - p2[0]) / (p3[1] - p2[1]);
     let an1 = Math.atan(k1);
@@ -183,31 +185,31 @@ export const getDetectPointIn = function (p1, p2, p3, lineWidth, center) {
 
     let $x1, $x2, $y1, $y2;
     if (center[0] >= p2[0] && center[1] >= p2[1]) {
-        $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
-        $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
-        $y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
-        $y2 = p2[1] - Math.sin(an2) * lineWidth / 2;
+        $x1 = p2[0] + Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] + Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
     }
 
     if (center[0] >= p2[0] && center[1] < p2[1]) {
-        $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
-        $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
-        $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
-        $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
-    }
-
-    if (center[0] < p2[0] && center[1] >= p2[1]) {
         $x1 = p2[0] + Math.cos(an1) * lineWidth / 2;
         $x2 = p2[0] + Math.cos(an2) * lineWidth / 2;
         $y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
         $y2 = p2[1] - Math.sin(an2) * lineWidth / 2;
     }
 
-    if (center[0] < p2[0] && center[1] < p2[1]) {
-        $x1 = p2[0] + Math.cos(an1) * lineWidth / 2;
-        $x2 = p2[0] + Math.cos(an2) * lineWidth / 2;
+    if (center[0] < p2[0] && center[1] >= p2[1]) {
+        $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
         $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
         $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
+    }
+
+    if (center[0] < p2[0] && center[1] < p2[1]) {
+        $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
+        $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
+        $y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
+        $y2 = p2[1] - Math.sin(an2) * lineWidth / 2;
     }
 
 
