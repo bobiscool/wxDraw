@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:44:19
+ * @Last Modified time: 2017-10-22 19:41:58
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -130,6 +130,8 @@ export const commonMethods = {
             // console.log("没有渐变");
             context.setFillStyle(this.Option.fillStyle);
         }
+        
+        context.setGlobalAlpha(this.Option.opacity);
     },
     turnColorLock: function (onOff) {
         if (onOff) {
