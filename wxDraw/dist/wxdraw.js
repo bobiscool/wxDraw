@@ -702,7 +702,7 @@ var commonMethods = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:04:33
+ * @Last Modified time: 2017-10-22 11:56:43
  */
 
 var pOption = _extends({
@@ -733,6 +733,9 @@ var Polygon = function Polygon(option) {
     };
     this.oriPoints = null; //拿到最初的点位
     this._Points = []; //用于检测位置的 点位数组 也是当前位置
+    this._drawLine = false; //用于标识是否画外框
+    this.detectOriPoints = [];
+    this._detectPoints = [];
     this.getOriPoints(); //拿到原始点 
     this.getMax(this.oriPoints); //根据原始点 
     this._isChoosed = false;
@@ -2405,7 +2408,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 10:44:32
+ * @Last Modified time: 2017-10-22 12:06:34
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -2436,16 +2439,15 @@ var specialAtrr = { //一些特殊的属性值的更改
         },
         getIncre: function getIncre(source, target, sub) {
             //太恶心了 ！！！
-            if (sub) {
-                //这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
-                var tarCo = hex2rgb(target);
+            // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
+            var tarCo = hex2rgb(target);
 
-                return {
-                    r: tarCo.r - source.r,
-                    g: tarCo.g - source.g,
-                    b: tarCo.b - source.b
-                };
-            }
+            return {
+                r: tarCo.r - source.r,
+                g: tarCo.g - source.g,
+                b: tarCo.b - source.b
+                // }
+            };
         }
     },
     "strokeStyle": {
@@ -2462,16 +2464,15 @@ var specialAtrr = { //一些特殊的属性值的更改
         },
         getIncre: function getIncre(source, target, sub) {
             //太恶心了 ！！！
-            if (sub) {
-                //这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
-                var tarCo = hex2rgb(target);
+            // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
+            var tarCo = hex2rgb(target);
 
-                return {
-                    r: tarCo.r - source.r,
-                    g: tarCo.g - source.g,
-                    b: tarCo.b - source.b
-                };
-            }
+            return {
+                r: tarCo.r - source.r,
+                g: tarCo.g - source.g,
+                b: tarCo.b - source.b
+                // }
+            };
         }
     },
     "Shadow": {
@@ -2504,10 +2505,13 @@ var specialAtrr = { //一些特殊的属性值的更改
                 // console.log(_temSha);
             };return _temSha;
         },
-        getIncre: function getIncre(source, target, sub) {
+        getIncre: function getIncre(source, target, obj) {
             //太恶心了 ！！！ 特殊属性全是 差值形式 不然要恶心死我
             // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
-            var tarCo = hex2rgb(target.color);
+
+            //    let target = util.extend(target,)
+            console.log(obj);
+            var tarCo = hex2rgb(target.color, obj.Option.Shadow);
 
             // console.log('ssssss',source);
             var increCo = {
@@ -2534,7 +2538,7 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 09:43:27
+ * @Last Modified time: 2017-10-22 12:03:41
  */
 
 var FRAGOPTION = {
@@ -2562,7 +2566,7 @@ function genExe(exe, atrribute, object) {
         //特殊属性 比如颜色
         // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
         // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
-        temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]), exe, true);
+        temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]), exe, object);
 
         return temAtrr;
     }

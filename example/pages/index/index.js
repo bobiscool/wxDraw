@@ -169,8 +169,7 @@ Page({
 
     cir4.animate({a: "+=100",b:"10",lineWidth:"1",Shadow:{
       offsetX:100,
-      offsetY: 100,
-      color:"#cccccc"
+      offsetY: 100
     }}, {
         duration: 1000,
         onLooping: function () {
