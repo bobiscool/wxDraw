@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:49:46
+ * @Last Modified time: 2017-10-22 11:51:12
  * 椭圆
  * 
  */
@@ -142,6 +142,7 @@ Ellipse.prototype = {
     },
     stroke: function (context) {
         context.save();
+        this._drawLine = true;        
         this._draw(context);
         this.setCommonstyle(context);
 
@@ -158,6 +159,7 @@ Ellipse.prototype = {
     },
     fill: function (context) {
         context.save();
+        this._drawLine = false;
         this._draw(context);
         this.setCommonstyle(context);
 

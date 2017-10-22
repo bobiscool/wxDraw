@@ -534,7 +534,7 @@ var commonUnAttr = { //这些样式只能单独设定
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:39:04
+ * @Last Modified time: 2017-10-22 11:44:19
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -659,7 +659,7 @@ var commonMethods = {
         }
 
         if (!this._colorLock) {
-            console.log("没有渐变");
+            // console.log("没有渐变");
             context.setFillStyle(this.Option.fillStyle);
         }
     },
@@ -1002,7 +1002,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:42:26
+ * @Last Modified time: 2017-10-22 11:49:46
  * 椭圆
  * 
  */
@@ -1038,18 +1038,24 @@ var Ellipse = function Ellipse(option) {
     this.getMax(this.oriPoints); //根据原始点 
     this._isChoosed = false;
     this.rotateOrigin = null;
+    this._drawLine = false; //用于标识是否画外框
+    this.detectOriPoints = [];
+    this._detectPoints = [];
 };
 
 Ellipse.prototype = _extends({
     getOriPoints: function getOriPoints() {
         var points = [],
+            points2 = [],
             angle = this.Option.startAngle || 0;
 
         for (var i = 0; i < 100; ++i) {
             points.push([this.Option.x + this.Option.a / 2 * Math.sin(angle), this.Option.y - this.Option.b / 2 * Math.cos(angle)]);
+            points2.push([this.Option.x + (this.Option.a / 2 + this.lineWidth / 2) * Math.sin(angle), this.Option.y - (this.Option.b + this.lineWidth) / 2 * Math.cos(angle)]);
             angle += 2 * Math.PI / 100;
         }
         this.oriPoints = points;
+        this.detectOriPoints = points2;
     },
     getPoints: function getPoints() {
         //getPoints修改 现在不用 tranlate+rotate形式 
@@ -1067,14 +1073,19 @@ Ellipse.prototype = _extends({
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
+        this.detectOriPoints.forEach(function (item) {
+            _points2.push(this.getPointTodraw(item[0], item[1], origin));
+        }, this);
+
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
+        this._detectPoints = matrixToarray(_points2);
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
         return this._Points; //除掉矩阵多余的部分;
     },
     getMax: function getMax() {
         //绘制 与检测 不能在统一个地方
-        var _Points = this._Points;
+        var _Points = this._detectPoints;
 
         this.max = {
             maxX: null,
@@ -1127,7 +1138,7 @@ Ellipse.prototype = _extends({
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
         }
-        console.log('已然绘制');
+        // console.log('已然绘制');
 
         context.stroke();
         context.restore();
@@ -1201,7 +1212,14 @@ Ellipse.prototype = _extends({
         // var B = this.points[1];
         var ifInside = false;
 
-        for (var i = 0, j = this._Points.length - 1; i < this._Points.length; j = i++) {
+        var Points = null;
+        if (this._drawLine) {
+            Points = this._detectPoints;
+        } else {
+            Points = this._Points;
+        }
+
+        for (var i = 0, j = Points.length - 1; i < Points.length; j = i++) {
             /**
              * 0 4
                1 0
@@ -1209,10 +1227,10 @@ Ellipse.prototype = _extends({
                3 2
                4 3
              */
-            var Xi = this._Points[i][0],
-                Yi = this._Points[i][1];
-            var Xj = this._Points[j][0],
-                Yj = this._Points[j][1];
+            var Xi = Points[i][0],
+                Yi = Points[i][1];
+            var Xj = Points[j][0],
+                Yj = Points[j][1];
 
             var insect = Yi > y != Yj > y && x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi;
 
