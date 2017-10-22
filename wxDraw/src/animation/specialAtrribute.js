@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 12:07:02
+ * @Last Modified time: 2017-10-22 12:09:14
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -113,13 +113,13 @@ export const specialAtrr = {//一些特殊的属性值的更改
             // console.log(_temSha);
             return _temSha;
         },
-        getIncre: function (source, target, obj) {
+        getIncre: function (source, tar, obj) {
             //太恶心了 ！！！ 特殊属性全是 差值形式 不然要恶心死我
             // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
 
-            //    let target = util.extend(target,)
-                console.log(obj);
-                let tarCo = hex2rgb(target.color,obj.Shape.Option.Shadow);
+               let target = util.extend(tar,obj.Shape.Option.Shadow)
+                // console.log(obj);
+                let tarCo = hex2rgb(target.color);
                  
                 // console.log('ssssss',source);
                 let increCo={

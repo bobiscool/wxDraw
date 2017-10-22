@@ -5,6 +5,7 @@ export const  Store = function (){
 Store.prototype = {
     add:function(shape){
         // 添加 图形
+        console.log('------',shape.Shape.Option);
       this.store.push(shape);
     },
     update:function(){

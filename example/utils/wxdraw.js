@@ -308,6 +308,7 @@ var Store = function Store() {
 Store.prototype = {
     add: function add(shape) {
         // 添加 图形
+        console.log('------', shape.Shape.Option);
         this.store.push(shape);
     },
     update: function update() {},
@@ -1253,7 +1254,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 18:26:09
+ * @Last Modified time: 2017-10-22 14:53:12
  * 线条 
  */
 
@@ -1266,7 +1267,7 @@ function Line(option) {
     var _temOption = util.extend(option, lOption);
     var _temUnOption = util.extend(option, commonUnAttr);
 
-    this.Option = _temOption;
+    this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption; //不参与动画的属性
 
     this.max = {
@@ -1512,7 +1513,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 17:32:58
+ * @Last Modified time: 2017-10-22 15:11:25
  * 普通形状
  * 
  */
@@ -1525,12 +1526,14 @@ var cOption = _extends({
     counterclockwise: false
 }, commonAttr);
 
-var rOption = _extends({
-    x: 10,
-    y: 10,
-    w: 10,
-    h: 10
-}, commonAttr);
+// var rOption = {
+//     x: 10,
+//     y: 10,
+//     w: 10,
+//     h: 10,
+//     ...commonAttr
+// }
+
 
 /**
  * 
@@ -1636,12 +1639,18 @@ Circle.prototype = _extends({
  */
 
 var Rect = function Rect(option) {
+    var rOption = _extends({
+        x: 10,
+        y: 10,
+        w: 10,
+        h: 10
+    }, commonAttr);
     var _temOption = util.extend(option, rOption);
-    //console.log(_temOption);
+    console.log(_temOption);
 
     var _temUnOption = util.extend(option, commonUnAttr);
 
-    this.Option = _temOption;
+    this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption; //不参与动画的属性
 
     this._isChoosed = false;
@@ -2408,7 +2417,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 12:06:34
+ * @Last Modified time: 2017-10-22 12:09:14
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -2505,13 +2514,13 @@ var specialAtrr = { //一些特殊的属性值的更改
                 // console.log(_temSha);
             };return _temSha;
         },
-        getIncre: function getIncre(source, target, obj) {
+        getIncre: function getIncre(source, tar, obj) {
             //太恶心了 ！！！ 特殊属性全是 差值形式 不然要恶心死我
             // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
 
-            //    let target = util.extend(target,)
-            console.log(obj);
-            var tarCo = hex2rgb(target.color, obj.Option.Shadow);
+            var target = util.extend(tar, obj.Shape.Option.Shadow);
+            // console.log(obj);
+            var tarCo = hex2rgb(target.color);
 
             // console.log('ssssss',source);
             var increCo = {
@@ -2976,7 +2985,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:11:16
+ * @Last Modified time: 2017-10-22 15:01:23
  * 在这里添加事件 
  */
 
@@ -2986,6 +2995,8 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.strokeOrfill = strokeOrfill ? true : false; //是否填充
     this.type = type;
     this.Shape = new shapeTypes[type](option);
+    console.log('方块', this.Shape.Option);
+
     this.AnimationTimer = new AnimationTimer();
     this.animtionFragList = []; // flag List
     this.bus = null;
@@ -3145,6 +3156,8 @@ var shapeTypes = {
         return new Circle(option);
     },
     'rect': function rect(option) {
+        console.log('方块');
+        console.log(option);
         return new Rect(option);
     },
     'polygon': function polygon(option) {

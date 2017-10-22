@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 17:32:58
+ * @Last Modified time: 2017-10-22 15:12:44
  * 普通形状
  * 
  */
@@ -25,13 +25,13 @@ var cOption = {
 }
 
 
-var rOption = {
-    x: 10,
-    y: 10,
-    w: 10,
-    h: 10,
-    ...commonAttr
-}
+// var rOption = {
+//     x: 10,
+//     y: 10,
+//     w: 10,
+//     h: 10,
+//     ...commonAttr
+// }
 
 
 
@@ -46,9 +46,18 @@ var rOption = {
  */
 export const Circle = function (option) {
     // var _temOption1 = util.mix(option,)
+    var cOption = {
+    x: 10,
+    y: 10,
+    r: 10,
+    sA: 0,
+    eA: Math.PI * 2,
+    counterclockwise: false,
+    ...commonAttr
+}
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, commonUnAttr);
-    this.Option = _temOption;
+    this.Option =  _temOption;
     // console.log(_temOption);
     this.UnOption = _temUnOption;//不参与动画的属性
     this._isChoosed = false;
@@ -146,12 +155,19 @@ Circle.prototype = {
 
 
 export const Rect = function (option) {
+    var rOption = {
+    x: 10,
+    y: 10,
+    w: 10,
+    h: 10,
+    ...commonAttr
+}
     var _temOption = util.extend(option, rOption);
-    //console.log(_temOption);
+    console.log(_temOption);
 
     var _temUnOption = util.extend(option, commonUnAttr);
 
-    this.Option = _temOption;
+    this.Option =  util.extend({},_temOption);
     this.UnOption = _temUnOption;//不参与动画的属性
 
     this._isChoosed = false;

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 18:26:09
+ * @Last Modified time: 2017-10-22 15:13:05
  * 线条 
  */
 
@@ -12,22 +12,23 @@ import { Point } from "./mixins/points.js";
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 
-var lOption = {
-    strokeStyle: "#000000",
-    points: [
-        [1, 2],
-        [23, 45],
-        [2, 45],
-        [230, 205]
-    ],
-    ...commonAttr
-}
+
 
 export function Line(option) {
+    var lOption = {
+        strokeStyle: "#000000",
+        points: [
+            [1, 2],
+            [23, 45],
+            [2, 45],
+            [230, 205]
+        ],
+        ...commonAttr
+    }
     let _temOption = util.extend(option, lOption);
     var _temUnOption = util.extend(option, commonUnAttr);
 
-    this.Option = _temOption;
+    this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption;//不参与动画的属性
 
     this.max = {
@@ -106,7 +107,7 @@ Line.prototype = {
 
             // }
         }, this);
-        
+
         // console.log('prePoints',prePoints);
         // console.log('behPoints',behPoints);
         // console.log('SSSSSS', prePoints.concat(behPoints));
