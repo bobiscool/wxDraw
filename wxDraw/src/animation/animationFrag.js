@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 09:43:27
+ * @Last Modified time: 2017-10-22 12:03:41
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -34,7 +34,7 @@ function genExe(exe, atrribute, object) {
     if (specialAtrr[atrribute]) {//特殊属性 比如颜色
         // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
         // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(object.Shape.Option[atrribute]));
-        temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]), exe, true);
+        temAtrr = specialAtrr[atrribute].getIncre(specialAtrr[atrribute].get(object.Shape.Option[atrribute]), exe, object);
 
         return temAtrr;
 

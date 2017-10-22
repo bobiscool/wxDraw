@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:04:33
+ * @Last Modified time: 2017-10-22 11:56:43
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -43,6 +43,9 @@ export const Polygon = function (option) {
     };
     this.oriPoints = null//拿到最初的点位
     this._Points = [];//用于检测位置的 点位数组 也是当前位置
+    this._drawLine = false; //用于标识是否画外框
+    this.detectOriPoints = [];
+    this._detectPoints = [];
     this.getOriPoints();//拿到原始点 
     this.getMax(this.oriPoints);//根据原始点 
     this._isChoosed = false;

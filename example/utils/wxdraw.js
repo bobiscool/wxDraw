@@ -1002,7 +1002,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:49:46
+ * @Last Modified time: 2017-10-22 11:54:55
  * 椭圆
  * 
  */
@@ -1034,13 +1034,14 @@ var Ellipse = function Ellipse(option) {
     };
     this.oriPoints = null; //拿到最初的点位
     this._Points = []; //用于检测位置的 点位数组 也是当前位置
-    this.getOriPoints(); //拿到原始点 
-    this.getMax(this.oriPoints); //根据原始点 
+
     this._isChoosed = false;
     this.rotateOrigin = null;
     this._drawLine = false; //用于标识是否画外框
     this.detectOriPoints = [];
     this._detectPoints = [];
+    this.getOriPoints(); //拿到原始点 
+    this.getMax(); //根据原始点 
 };
 
 Ellipse.prototype = _extends({
@@ -1051,7 +1052,7 @@ Ellipse.prototype = _extends({
 
         for (var i = 0; i < 100; ++i) {
             points.push([this.Option.x + this.Option.a / 2 * Math.sin(angle), this.Option.y - this.Option.b / 2 * Math.cos(angle)]);
-            points2.push([this.Option.x + (this.Option.a / 2 + this.lineWidth / 2) * Math.sin(angle), this.Option.y - (this.Option.b + this.lineWidth) / 2 * Math.cos(angle)]);
+            points2.push([this.Option.x + (this.Option.a / 2 + this.Option.lineWidth / 2) * Math.sin(angle), this.Option.y - (this.Option.b + this.Option.lineWidth) / 2 * Math.cos(angle)]);
             angle += 2 * Math.PI / 100;
         }
         this.oriPoints = points;
@@ -1060,6 +1061,7 @@ Ellipse.prototype = _extends({
     getPoints: function getPoints() {
         //getPoints修改 现在不用 tranlate+rotate形式 
         var _points = [];
+        var _points2 = [];
         var origin = null;
         if (!this.rotateOrigin) {
             origin = [this.Option.x, this.Option.y];
@@ -1129,6 +1131,7 @@ Ellipse.prototype = _extends({
     },
     stroke: function stroke(context) {
         context.save();
+        this._drawLine = true;
         this._draw(context);
         this.setCommonstyle(context);
 
@@ -1145,6 +1148,7 @@ Ellipse.prototype = _extends({
     },
     fill: function fill(context) {
         context.save();
+        this._drawLine = false;
         this._draw(context);
         this.setCommonstyle(context);
 

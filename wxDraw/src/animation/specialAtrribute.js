@@ -2,12 +2,12 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 10:44:32
+ * @Last Modified time: 2017-10-22 12:04:46
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
 
-import { hex2rgb, rgb2hex } from '../util/utils.js';
+import { hex2rgb, rgb2hex,util } from '../util/utils.js';
 
 
 export const specialOption = {
@@ -39,7 +39,7 @@ export const specialAtrr = {//一些特殊的属性值的更改
         },
         getIncre: function (source, target, sub) {
             //太恶心了 ！！！
-            if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
+            // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
                 let tarCo = hex2rgb(target);
 
                 return {
@@ -47,7 +47,7 @@ export const specialAtrr = {//一些特殊的属性值的更改
                     g: tarCo.g - source.g,
                     b: tarCo.b - source.b
                 }
-            }
+            // }
         }
     },
     "strokeStyle": {
@@ -67,7 +67,7 @@ export const specialAtrr = {//一些特殊的属性值的更改
         },
         getIncre: function (source, target, sub) {
             //太恶心了 ！！！
-            if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
+            // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
                 let tarCo = hex2rgb(target);
 
                 return {
@@ -75,7 +75,7 @@ export const specialAtrr = {//一些特殊的属性值的更改
                     g: tarCo.g - source.g,
                     b: tarCo.b - source.b
                 }
-            }
+            // }
         }
     },
     "Shadow": {
@@ -113,10 +113,12 @@ export const specialAtrr = {//一些特殊的属性值的更改
             // console.log(_temSha);
             return _temSha;
         },
-        getIncre: function (source, target, sub) {
+        getIncre: function (source, target, obj) {
             //太恶心了 ！！！ 特殊属性全是 差值形式 不然要恶心死我
             // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
-                let tarCo = hex2rgb(target.color);
+
+            //    let target = util.extend(target,)
+                let tarCo = hex2rgb(target.color,obj.Option.Shadow);
                  
                 // console.log('ssssss',source);
                 let increCo={

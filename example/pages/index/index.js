@@ -130,7 +130,7 @@ Page({
       a: 100, b: 300, rotate:0,
       fillStyle: "#000000",
       lineWidth:10
-    },true, true)    
+    },false, true)    
 
     console.log(cir4);
     // // cir3.setOrigin([40,40])
@@ -167,13 +167,17 @@ Page({
     // //   });
 
 
-    // cir1.animate({rotate: "+=200", strokeStyle:"#429398"}, {
-    //     duration: 1000,
-    //     onLooping: function () {
-    //       console.log('----');
-    //     },
-    //     easing: "linear"
-    // }).start(1);
+    cir4.animate({a: "+=100",b:"10",lineWidth:"1",Shadow:{
+      offsetX:100,
+      offsetY: 100,
+      color:"#cccccc"
+    }}, {
+        duration: 1000,
+        onLooping: function () {
+          console.log('----');
+        },
+        easing: "linear"
+    }).start(1);
     // cir1.animate("y", "-=500", {
     //   duration: 10000,
     //   onLooping: function () {
