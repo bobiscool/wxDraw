@@ -721,7 +721,7 @@ var commonMethods = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 19:35:54
+ * @Last Modified time: 2017-10-22 19:57:44
  */
 
 // function Point(x, y) {
@@ -764,6 +764,7 @@ var Polygon = function Polygon(option) {
 Polygon.prototype = _extends({
     getOriPoints: function getOriPoints() {
         var points = [],
+            points2 = [],
             angle = this.Option.startAngle || 0;
 
         // //console.log('Option',this.Option);
@@ -772,13 +773,17 @@ Polygon.prototype = _extends({
 
         for (var i = 0; i < this.Option.sides; ++i) {
             points.push([this.Option.x + this.Option.r * Math.sin(angle), this.Option.y - this.Option.r * Math.cos(angle)]);
+            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(angle), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(angle)]);
+
             angle += 2 * Math.PI / this.Option.sides;
         }
         this.oriPoints = points;
+        this.detectOriPoints = points2;
     },
     getPoints: function getPoints() {
         //getPoints修改 现在不用 tranlate+rotate形式 
         var _points = [];
+        var _points2 = [];
         var origin = null;
         if (!this.rotateOrigin) {
             origin = [this.Option.x, this.Option.y];
@@ -792,14 +797,20 @@ Polygon.prototype = _extends({
             _points.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
+        this.detectOriPoints.forEach(function (item) {
+            _points2.push(this.getPointTodraw(item[0], item[1], origin));
+        }, this);
+
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
+        this._detectPoints = matrixToarray(_points2);
+
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
         return this._Points; //除掉矩阵多余的部分;
     },
     getMax: function getMax() {
         //绘制 与检测 不能在统一个地方
-        var _Points = this._Points;
+        var _Points = this._detectPoints;
 
         this.max = {
             maxX: null,
@@ -844,6 +855,8 @@ Polygon.prototype = _extends({
     stroke: function stroke(context) {
         context.save();
         this._draw(context);
+        this._drawLine = true; //用于标识是否画外框
+
         this.setCommonstyle(context);
 
         context.setStrokeStyle(this.Option.strokeStyle);
@@ -858,6 +871,8 @@ Polygon.prototype = _extends({
     fill: function fill(context) {
         context.save();
         this._draw(context);
+        this._drawLine = false; //用于标识是否画外框
+
         this.setCommonstyle(context);
 
         context.setFillStyle(this.Option.fillStyle);
@@ -997,7 +1012,14 @@ Polygon.prototype = _extends({
         // var B = this.points[1];
         var ifInside = false;
 
-        for (var i = 0, j = this._Points.length - 1; i < this._Points.length; j = i++) {
+        var Points = null;
+        if (this._drawLine) {
+            Points = this._detectPoints;
+        } else {
+            Points = this._Points;
+        }
+
+        for (var i = 0, j = Points.length - 1; i < Points.length; j = i++) {
             /**
              * 0 4
                1 0
@@ -1005,10 +1027,10 @@ Polygon.prototype = _extends({
                3 2
                4 3
              */
-            var Xi = this._Points[i][0],
-                Yi = this._Points[i][1];
-            var Xj = this._Points[j][0],
-                Yj = this._Points[j][1];
+            var Xi = Points[i][0],
+                Yi = Points[i][1];
+            var Xj = Points[j][0],
+                Yj = Points[j][1];
 
             var insect = Yi > y != Yj > y && x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi;
 

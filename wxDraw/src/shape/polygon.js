@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 19:52:57
+ * @Last Modified time: 2017-10-22 19:57:44
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -152,6 +152,8 @@ Polygon.prototype = {
     stroke: function (context) {
         context.save();
         this._draw(context);
+        this._drawLine = true; //用于标识是否画外框
+
         this.setCommonstyle(context);
 
         context.setStrokeStyle(this.Option.strokeStyle);
@@ -166,6 +168,8 @@ Polygon.prototype = {
     fill: function (context) {
         context.save();
         this._draw(context);
+        this._drawLine = false; //用于标识是否画外框
+
         this.setCommonstyle(context);
 
         context.setFillStyle(this.Option.fillStyle);
@@ -311,7 +315,8 @@ Polygon.prototype = {
         // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
         // var A = this.points[0];// 拿到前面两个点
         // var B = this.points[1];
-       
+        var ifInside = false;
+
         var Points = null;
         if (this._drawLine) {
             Points = this._detectPoints;
