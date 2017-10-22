@@ -703,15 +703,8 @@ var commonMethods = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:56:43
+ * @Last Modified time: 2017-10-22 15:14:22
  */
-
-var pOption = _extends({
-    x: 10,
-    y: 10,
-    r: 10,
-    sides: 7
-}, commonAttr);
 
 // function Point(x, y) {
 //     this.x = x;
@@ -720,6 +713,13 @@ var pOption = _extends({
 
 
 var Polygon = function Polygon(option) {
+    var pOption = _extends({
+        x: 10,
+        y: 10,
+        r: 10,
+        sides: 7
+    }, commonAttr);
+
     var _temOption = util.extend(option, pOption);
     var _temUnOption = util.extend(option, commonUnAttr);
     // console.log(_temOption);
@@ -1006,16 +1006,10 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:54:55
+ * @Last Modified time: 2017-10-22 15:13:49
  * 椭圆
  * 
  */
-
-var eOption = _extends({
-    x: 10,
-    y: 10,
-    a: 10, //长轴
-    b: 10 }, commonAttr);
 
 // function Point(x, y) {
 //     this.x = x;
@@ -1024,6 +1018,12 @@ var eOption = _extends({
 
 
 var Ellipse = function Ellipse(option) {
+    var eOption = _extends({
+        x: 10,
+        y: 10,
+        a: 10, //长轴
+        b: 10 }, commonAttr);
+
     var _temOption = util.extend(option, eOption);
     var _temUnOption = util.extend(option, commonUnAttr);
     // console.log(_temOption);
@@ -1254,16 +1254,15 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 14:53:12
+ * @Last Modified time: 2017-10-22 15:13:05
  * 线条 
  */
 
-var lOption = _extends({
-    strokeStyle: "#000000",
-    points: [[1, 2], [23, 45], [2, 45], [230, 205]]
-}, commonAttr);
-
 function Line(option) {
+    var lOption = _extends({
+        strokeStyle: "#000000",
+        points: [[1, 2], [23, 45], [2, 45], [230, 205]]
+    }, commonAttr);
     var _temOption = util.extend(option, lOption);
     var _temUnOption = util.extend(option, commonUnAttr);
 
@@ -1513,7 +1512,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:11:25
+ * @Last Modified time: 2017-10-22 15:12:44
  * 普通形状
  * 
  */
@@ -1543,6 +1542,14 @@ var cOption = _extends({
  */
 var Circle = function Circle(option) {
     // var _temOption1 = util.mix(option,)
+    var cOption = _extends({
+        x: 10,
+        y: 10,
+        r: 10,
+        sA: 0,
+        eA: Math.PI * 2,
+        counterclockwise: false
+    }, commonAttr);
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, commonUnAttr);
     this.Option = _temOption;
@@ -1887,7 +1894,7 @@ Rect.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 14:35:15
+ * @Last Modified time: 2017-10-22 15:14:01
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -1899,16 +1906,13 @@ Rect.prototype = _extends({
  * 
  */
 
-var cOption$1 = _extends({
-    // x: 10,
-    // y: 10,
-    // r: 10,
-    // sides: 7
-    points: [[145, 30], [0, -211], [300, 400], [113, 50], [30, -31], [3, 40], [123, 90], [20, -1], [30, 60], [131, 40], [90, -12], [0, 400], [13, 6], [70, -17], [30, 42]]
-}, commonAttr);
-
 var Cshape = function Cshape(option) {
-    var _temOption = util.extend(option, cOption$1);
+    var cOption = _extends({
+
+        points: [[145, 30], [0, -211], [300, 400], [113, 50], [30, -31], [3, 40], [123, 90], [20, -1], [30, 60], [131, 40], [90, -12], [0, 400], [13, 6], [70, -17], [30, 42]]
+    }, commonAttr);
+
+    var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, commonUnAttr);
 
     this.Option = _temOption;

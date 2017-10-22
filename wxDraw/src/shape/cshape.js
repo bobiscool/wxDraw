@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 14:35:15
+ * @Last Modified time: 2017-10-22 15:14:01
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -20,24 +20,22 @@ import { Point } from "./mixins/points.js";
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 
-var cOption = {
-    // x: 10,
-    // y: 10,
-    // r: 10,
-    // sides: 7
-    points: [
-        [145, 30], [0, -211], [300, 400],
-        [113, 50], [30, -31], [3, 40],
-        [123, 90], [20, -1], [30, 60],
-        [131, 40], [90, -12], [0, 400],
-        [13, 6], [70, -17], [30, 42],
-    ],
-    ...commonAttr
-}
 
 
 
 export const Cshape = function (option) {
+    var cOption = {
+
+        points: [
+            [145, 30], [0, -211], [300, 400],
+            [113, 50], [30, -31], [3, 40],
+            [123, 90], [20, -1], [30, 60],
+            [131, 40], [90, -12], [0, 400],
+            [13, 6], [70, -17], [30, 42],
+        ],
+        ...commonAttr
+    }
+
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, commonUnAttr);
 
@@ -179,7 +177,7 @@ Cshape.prototype = {
         context.save();
         this._draw(context);
         context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context,'cshape');
+        this.setCommonstyle(context, 'cshape');
 
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
@@ -192,7 +190,7 @@ Cshape.prototype = {
     fill: function (context) {
         context.save();
         this._draw(context);
-        this.setCommonstyle(context,'cshape');
+        this.setCommonstyle(context, 'cshape');
 
         context.setFillStyle(this.Option.fillStyle);
         if (this.Option.Shadow) {

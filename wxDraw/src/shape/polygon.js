@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:56:43
+ * @Last Modified time: 2017-10-22 15:14:22
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -10,13 +10,6 @@ import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js"
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
-var pOption = {
-    x: 10,
-    y: 10,
-    r: 10,
-    sides: 7,
-    ...commonAttr
-}
 
 
 
@@ -29,6 +22,14 @@ var pOption = {
 
 
 export const Polygon = function (option) {
+    var pOption = {
+        x: 10,
+        y: 10,
+        r: 10,
+        sides: 7,
+        ...commonAttr
+    }
+
     var _temOption = util.extend(option, pOption);
     var _temUnOption = util.extend(option, commonUnAttr);
     // console.log(_temOption);

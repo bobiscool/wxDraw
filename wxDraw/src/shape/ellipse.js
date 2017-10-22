@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:54:55
+ * @Last Modified time: 2017-10-22 15:13:49
  * 椭圆
  * 
  */
@@ -12,13 +12,6 @@ import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js"
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
-var eOption = {
-    x: 10,
-    y: 10,
-    a: 10,//长轴
-    b: 10,//短轴
-    ...commonAttr
-}
 
 
 
@@ -29,6 +22,14 @@ var eOption = {
 
 
 export const Ellipse = function (option) {
+    var eOption = {
+    x: 10,
+    y: 10,
+    a: 10,//长轴
+    b: 10,//短轴
+    ...commonAttr
+}
+
     var _temOption = util.extend(option, eOption);
     var _temUnOption = util.extend(option, commonUnAttr);
     // console.log(_temOption);
