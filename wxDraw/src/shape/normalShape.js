@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:12:44
+ * @Last Modified time: 2017-10-22 15:36:35
  * 普通形状
  * 
  */
@@ -53,7 +53,7 @@ export const Circle = function (option) {
     sA: 0,
     eA: Math.PI * 2,
     counterclockwise: false,
-    ...commonAttr
+    ...commonAttr()
 }
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, commonUnAttr);
@@ -160,7 +160,7 @@ export const Rect = function (option) {
     y: 10,
     w: 10,
     h: 10,
-    ...commonAttr
+    ...commonAttr()
 }
     var _temOption = util.extend(option, rOption);
     console.log(_temOption);

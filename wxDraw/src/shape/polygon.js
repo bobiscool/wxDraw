@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:14:22
+ * @Last Modified time: 2017-10-22 15:37:01
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -27,7 +27,7 @@ export const Polygon = function (option) {
         y: 10,
         r: 10,
         sides: 7,
-        ...commonAttr
+        ...commonAttr()
     }
 
     var _temOption = util.extend(option, pOption);

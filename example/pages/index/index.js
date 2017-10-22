@@ -186,13 +186,13 @@ Page({
         },
         easing: "linear"
     }).start(1);
-    // cir1.animate("y", "-=500", {
-    //   duration: 10000,
-    //   onLooping: function () {
-    //     console.log('----');
-    //   },
-    //   easing: "bouncePast"
-    // }).start();
+    cir3.animate("fillStyle", "#D74F33", {
+      duration: 10000,
+      onLooping: function () {
+        console.log('----');
+      },
+      easing: "bouncePast"
+    }).start();
     // .animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
     //   duration: 2000,
     //   onLooping: function () {

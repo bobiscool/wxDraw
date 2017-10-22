@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:14:01
+ * @Last Modified time: 2017-10-22 15:36:52
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -33,7 +33,7 @@ export const Cshape = function (option) {
             [131, 40], [90, -12], [0, 400],
             [13, 6], [70, -17], [30, 42],
         ],
-        ...commonAttr
+        ...commonAttr()
     }
 
     var _temOption = util.extend(option, cOption);

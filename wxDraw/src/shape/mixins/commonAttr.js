@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:32:35
+ * @Last Modified time: 2017-10-22 15:35:49
  * 常用的一些属性
  * 
  */
@@ -14,16 +14,21 @@
         color: "#000000"
  }
 
-export const commonAttr = {
+export const commonAttr = function(){//避免变量污染
+   return {
     //这些样式是可以被动画来设置的
     lineWidth: 0.5,//线宽
     Shadow: {
-      ...Shadow
+        offsetX: 5,
+        offsetY: 5,
+        blur: 5,
+        color: "#000000"
     },
     fillStyle: "#000000",
     strokeStyle: "#000000",
         rotate: 0,
 
+}
 }
 
 

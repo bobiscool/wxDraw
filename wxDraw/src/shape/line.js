@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:13:05
+ * @Last Modified time: 2017-10-22 15:36:45
  * 线条 
  */
 
@@ -23,7 +23,7 @@ export function Line(option) {
             [2, 45],
             [230, 205]
         ],
-        ...commonAttr
+        ...commonAttr()
     }
     let _temOption = util.extend(option, lOption);
     var _temUnOption = util.extend(option, commonUnAttr);

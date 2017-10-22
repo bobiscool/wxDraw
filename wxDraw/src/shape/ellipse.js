@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:13:49
+ * @Last Modified time: 2017-10-22 15:36:24
  * 椭圆
  * 
  */
@@ -27,7 +27,7 @@ export const Ellipse = function (option) {
     y: 10,
     a: 10,//长轴
     b: 10,//短轴
-    ...commonAttr
+    ...commonAttr()
 }
 
     var _temOption = util.extend(option, eOption);

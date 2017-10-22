@@ -502,24 +502,27 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:06:10
+ * @Last Modified time: 2017-10-22 15:35:49
  * 常用的一些属性
  * 
  */
 
-var commonAttr = {
-    //这些样式是可以被动画来设置的
-    lineWidth: 0.5, //线宽
-    Shadow: {
-        offsetX: 5,
-        offsetY: 5,
-        blur: 5,
-        color: "#000000"
-    },
-    fillStyle: "#000000",
-    strokeStyle: "#000000",
-    rotate: 0
+var commonAttr = function commonAttr() {
+    //避免变量污染
+    return {
+        //这些样式是可以被动画来设置的
+        lineWidth: 0.5, //线宽
+        Shadow: {
+            offsetX: 5,
+            offsetY: 5,
+            blur: 5,
+            color: "#000000"
+        },
+        fillStyle: "#000000",
+        strokeStyle: "#000000",
+        rotate: 0
 
+    };
 };
 
 var commonUnAttr = { //这些样式只能单独设定 
@@ -703,7 +706,7 @@ var commonMethods = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:14:22
+ * @Last Modified time: 2017-10-22 15:37:01
  */
 
 // function Point(x, y) {
@@ -718,7 +721,7 @@ var Polygon = function Polygon(option) {
         y: 10,
         r: 10,
         sides: 7
-    }, commonAttr);
+    }, commonAttr());
 
     var _temOption = util.extend(option, pOption);
     var _temUnOption = util.extend(option, commonUnAttr);
@@ -1006,7 +1009,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:13:49
+ * @Last Modified time: 2017-10-22 15:36:24
  * 椭圆
  * 
  */
@@ -1022,7 +1025,7 @@ var Ellipse = function Ellipse(option) {
         x: 10,
         y: 10,
         a: 10, //长轴
-        b: 10 }, commonAttr);
+        b: 10 }, commonAttr());
 
     var _temOption = util.extend(option, eOption);
     var _temUnOption = util.extend(option, commonUnAttr);
@@ -1254,7 +1257,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:13:05
+ * @Last Modified time: 2017-10-22 15:36:45
  * 线条 
  */
 
@@ -1262,7 +1265,7 @@ function Line(option) {
     var lOption = _extends({
         strokeStyle: "#000000",
         points: [[1, 2], [23, 45], [2, 45], [230, 205]]
-    }, commonAttr);
+    }, commonAttr());
     var _temOption = util.extend(option, lOption);
     var _temUnOption = util.extend(option, commonUnAttr);
 
@@ -1512,7 +1515,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:12:44
+ * @Last Modified time: 2017-10-22 15:36:35
  * 普通形状
  * 
  */
@@ -1549,7 +1552,7 @@ var Circle = function Circle(option) {
         sA: 0,
         eA: Math.PI * 2,
         counterclockwise: false
-    }, commonAttr);
+    }, commonAttr());
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, commonUnAttr);
     this.Option = _temOption;
@@ -1651,7 +1654,7 @@ var Rect = function Rect(option) {
         y: 10,
         w: 10,
         h: 10
-    }, commonAttr);
+    }, commonAttr());
     var _temOption = util.extend(option, rOption);
     console.log(_temOption);
 
@@ -1894,7 +1897,7 @@ Rect.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:14:01
+ * @Last Modified time: 2017-10-22 15:36:52
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -1910,7 +1913,7 @@ var Cshape = function Cshape(option) {
     var cOption = _extends({
 
         points: [[145, 30], [0, -211], [300, 400], [113, 50], [30, -31], [3, 40], [123, 90], [20, -1], [30, 60], [131, 40], [90, -12], [0, 400], [13, 6], [70, -17], [30, 42]]
-    }, commonAttr);
+    }, commonAttr());
 
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, commonUnAttr);
