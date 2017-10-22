@@ -1002,7 +1002,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:39:58
+ * @Last Modified time: 2017-10-22 11:42:26
  * 椭圆
  * 
  */
@@ -1045,9 +1045,9 @@ Ellipse.prototype = _extends({
         var points = [],
             angle = this.Option.startAngle || 0;
 
-        for (var i = 0; i < 500; ++i) {
+        for (var i = 0; i < 100; ++i) {
             points.push([this.Option.x + this.Option.a / 2 * Math.sin(angle), this.Option.y - this.Option.b / 2 * Math.cos(angle)]);
-            angle += 2 * Math.PI / 500;
+            angle += 2 * Math.PI / 100;
         }
         this.oriPoints = points;
     },
@@ -1111,7 +1111,7 @@ Ellipse.prototype = _extends({
 
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
-        for (var i = 1; i < 500; ++i) {
+        for (var i = 1; i < 100; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();

@@ -127,10 +127,10 @@ Page({
 
     var cir4 = new Shape('ellipse',{
       x:200,y:200,
-      a: 100, b: 30, rotate:0,
+      a: 100, b: 300, rotate:0,
       fillStyle: "#000000",
-      lineWidth: 2
-    },false, true)    
+      lineWidth:10
+    },true, true)    
 
     console.log(cir4);
     // // cir3.setOrigin([40,40])

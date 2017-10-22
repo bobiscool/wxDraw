@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:41:21
+ * @Last Modified time: 2017-10-22 11:49:46
  * 椭圆
  * 
  */
@@ -16,7 +16,7 @@ var eOption = {
     x: 10,
     y: 10,
     a: 10,//长轴
-    b:10,//短轴
+    b: 10,//短轴
     ...commonAttr
 }
 
@@ -47,18 +47,24 @@ export const Ellipse = function (option) {
     this.getMax(this.oriPoints);//根据原始点 
     this._isChoosed = false;
     this.rotateOrigin = null;
+    this._drawLine = false; //用于标识是否画外框
+    this.detectOriPoints = [];
+    this._detectPoints = [];
 }
 
 Ellipse.prototype = {
     getOriPoints: function () {
         var points = [],
+            points2 = [],
             angle = this.Option.startAngle || 0;
 
-        for (var i = 0; i < 1000; ++i) {
-            points.push([this.Option.x + this.Option.a/2 * Math.sin(angle), this.Option.y - this.Option.b/2 * Math.cos(angle)]);
-            angle += 2 * Math.PI /1000;
+        for (var i = 0; i < 100; ++i) {
+            points.push([this.Option.x + this.Option.a / 2 * Math.sin(angle), this.Option.y - this.Option.b / 2 * Math.cos(angle)]);
+            points2.push([this.Option.x + (this.Option.a / 2 + this.lineWidth / 2) * Math.sin(angle), this.Option.y - (this.Option.b + this.lineWidth) / 2 * Math.cos(angle)]);
+            angle += 2 * Math.PI / 100;
         }
         this.oriPoints = points;
+        this.detectOriPoints = points2;
     },
     getPoints: function () {
         //getPoints修改 现在不用 tranlate+rotate形式 
@@ -76,14 +82,19 @@ Ellipse.prototype = {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
 
+        this.detectOriPoints.forEach(function (item) {
+            _points2.push(this.getPointTodraw(item[0], item[1], origin))
+        }, this);
+
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
+        this._detectPoints = matrixToarray(_points2);
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
         return this._Points;//除掉矩阵多余的部分;
     },
     getMax: function () {
         //绘制 与检测 不能在统一个地方
-        let _Points = this._Points;
+        let _Points = this._detectPoints;
 
         this.max = {
             maxX: null,
@@ -124,7 +135,7 @@ Ellipse.prototype = {
 
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
-        for (var i = 1; i < 1000; ++i) {
+        for (var i = 1; i < 100; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
@@ -140,8 +151,8 @@ Ellipse.prototype = {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
         }
-        console.log('已然绘制');
-        
+        // console.log('已然绘制');
+
         context.stroke();
         context.restore();
     },
@@ -172,9 +183,9 @@ Ellipse.prototype = {
 
     },
     getPointTodraw: function (x, y, origin) {
-      
+
         let angle = this.Option.rotate;
-       
+
 
         //将所有变化 都转到 Point对象去了 
         return new Point(x, y).rotate(origin, angle);//计算出每一个点变化之后的位置
@@ -221,7 +232,14 @@ Ellipse.prototype = {
         // var B = this.points[1];
         var ifInside = false;
 
-        for (var i = 0, j = this._Points.length - 1; i < this._Points.length; j = i++) {
+        var Points = null;
+        if (this._drawLine) {
+            Points = this._detectPoints;
+        } else {
+            Points = this._Points;
+        }
+
+        for (var i = 0, j = Points.length - 1; i < Points.length; j = i++) {
             /**
              * 0 4
                1 0
@@ -229,8 +247,8 @@ Ellipse.prototype = {
                3 2
                4 3
              */
-            var Xi = this._Points[i][0], Yi = this._Points[i][1];
-            var Xj = this._Points[j][0], Yj = this._Points[j][1];
+            var Xi = Points[i][0], Yi = Points[i][1];
+            var Xj = Points[j][0], Yj = Points[j][1];
 
             var insect = ((Yi > y) != (Yj > y)) && (x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi);
 
