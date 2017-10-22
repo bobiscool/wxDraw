@@ -127,7 +127,7 @@ Page({
     var cir2 = new Shape('polygon', { x: 0, y: 30, r: 20, sides: 5, rotate: 0 }, true, true)
  
     var cir3 = new Shape('ellipse', {
-      x: 220, y: 100,
+      x: 220, y: 200,
       a: 100, b: 300, rotate: 0,
       fillStyle: "#EEDEAD",
       lineWidth: 10
@@ -135,7 +135,7 @@ Page({
 
     var cir4 = new Shape('ellipse',{
       x:200,y:200,
-      a: 100, b: 300, rotate:0,
+      a: 100, b: 250, rotate:0,
       fillStyle: "#DDDEAD",
       lineWidth:10
     },true, true)    
@@ -177,15 +177,15 @@ Page({
     // //   });
 
 
-    // cir4.animate({a: "+=100",b:"10",lineWidth:"1",Shadow:{
-    //   offsetX:1000
-    // }, rotate: 20, fillStyle:"#EAFF87"}, {
-    //     duration: 10000,
-    //     onLooping: function () {
-    //       console.log('----');
-    //     },
-    //     easing: "linear"
-    // }).start(1);
+    cir4.animate({a: "+=100",b:"10",lineWidth:"1",Shadow:{
+      offsetX:20
+    }, rotate: 20, fillStyle:"#EAFF87"}, {
+        duration: 10000,
+        onLooping: function () {
+          console.log('----');
+        },
+        easing: "linear"
+    }).start(1);
     // cir1.animate("y", "-=500", {
     //   duration: 10000,
     //   onLooping: function () {

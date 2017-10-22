@@ -2,19 +2,23 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-20 11:06:10
+ * @Last Modified time: 2017-10-22 15:32:35
  * 常用的一些属性
  * 
  */
+
+ let Shadow={
+        offsetX: 5,
+        offsetY: 5,
+        blur: 5,
+        color: "#000000"
+ }
 
 export const commonAttr = {
     //这些样式是可以被动画来设置的
     lineWidth: 0.5,//线宽
     Shadow: {
-        offsetX: 5,
-        offsetY: 5,
-        blur: 5,
-        color: "#000000"
+      ...Shadow
     },
     fillStyle: "#000000",
     strokeStyle: "#000000",
