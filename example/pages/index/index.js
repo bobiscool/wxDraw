@@ -129,7 +129,7 @@ Page({
       x:200,y:200,
       a: 100, b: 30, rotate:0,
       fillStyle: "#000000",
-      lineWidth: 10
+      lineWidth: 2
     },false, true)    
 
     console.log(cir4);
