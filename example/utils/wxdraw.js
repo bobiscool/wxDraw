@@ -1002,7 +1002,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 18:24:51
+ * @Last Modified time: 2017-10-21 18:26:09
  * 线条 
  */
 
@@ -1094,9 +1094,9 @@ Line.prototype = _extends({
             // }
         }, this);
 
-        console.log('prePoints', prePoints);
-        console.log('behPoints', behPoints);
-        console.log('SSSSSS', prePoints.concat(behPoints));
+        // console.log('prePoints',prePoints);
+        // console.log('behPoints',behPoints);
+        // console.log('SSSSSS', prePoints.concat(behPoints));
         return prePoints.concat(behPoints); //合在一起就是 一个圈了 
     },
     genPoints: function genPoints() {

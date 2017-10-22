@@ -63,9 +63,9 @@ Page({
 
     // this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,fillStyle:"#333333"},true));
 
-    var cir1 = new Shape('line', {
+    var cir1 = new Shape('cshape', {
       fillStyle: "#000000", rotate: Math.PI / 2, points: [
-        [145, 30], [0, 211], [22, 21]],lineWidth:12,Shadow:"#ffffff"}, true,true)
+        [145, 30], [0, 211],[12,23]],lineWidth:18,Shadow:"#ffffff"}, false,true)
     // var cir4 = new Shape('line', {
     //   fillStyle: "#000000", rotate: Math.PI / 2, points: [
     //     [163, 193], [-18, 48]], lineWidth: 12, Shadow: "#ffffff"
