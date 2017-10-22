@@ -137,7 +137,8 @@ Page({
       x:200,y:200,
       a: 100, b: 250, rotate:0,
       fillStyle: "#DDDEAD",
-      lineWidth:10
+      lineWidth:10,
+      opacity:0.9
     },true, true)    
 
     console.log(cir3);
@@ -186,7 +187,7 @@ Page({
         },
         easing: "linear"
     }).start(1);
-    cir4.animate("fillStyle", "#D74F33", {
+    cir4.animate("opacity", "0.1", {
       duration: 10000,
       onLooping: function () {
         console.log('----');

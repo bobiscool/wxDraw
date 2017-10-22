@@ -219,7 +219,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 17:51:06
+ * @Last Modified time: 2017-10-22 19:32:10
  * 
  * 工具库
  */
@@ -252,19 +252,32 @@ var util = {
      * 
      * @param {any} target 覆盖者
      * @param {any} source 被覆盖者
-     * @param {any} overlay 是否全部抹掉
+     * @param {any} overlay 是否增加新的
      * @returns 
      */
-    extend: function extend(target, source) {
-        for (var key in target) {
-            if (source.hasOwnProperty(key)) //如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
-                {
+    extend: function extend(target, source, overlay) {
+
+        if (!overlay) {
+            for (var key in target) {
+                if (source.hasOwnProperty(key)) //如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
+                    {
+                        if (_typeof(source[key]) == "object" && !(source[key] instanceof Array)) {
+                            util.extend(target[key], source[key]); //递归
+                        } else {
+                            source[key] = target[key];
+                        }
+                    }
+            }
+        } else {
+            for (var key in target) {
+                if (target.hasOwnProperty(key)) {
                     if (_typeof(source[key]) == "object" && !(source[key] instanceof Array)) {
-                        util.extend(target[key], source[key]); //递归
+                        util.extend(target[key], source[key], true); //递归
                     } else {
                         source[key] = target[key];
                     }
                 }
+            }
         }
         return source;
     }
@@ -502,7 +515,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:35:49
+ * @Last Modified time: 2017-10-22 19:40:56
  * 常用的一些属性
  * 
  */
@@ -520,8 +533,8 @@ var commonAttr = function commonAttr() {
         },
         fillStyle: "#000000",
         strokeStyle: "#000000",
-        rotate: 0
-
+        rotate: 0,
+        opacity: 1
     };
 };
 
@@ -538,7 +551,7 @@ var commonUnAttr = { //这些样式只能单独设定
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 11:44:19
+ * @Last Modified time: 2017-10-22 19:41:58
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -666,6 +679,8 @@ var commonMethods = {
             // console.log("没有渐变");
             context.setFillStyle(this.Option.fillStyle);
         }
+
+        context.setGlobalAlpha(this.Option.opacity);
     },
     turnColorLock: function turnColorLock(onOff) {
         if (onOff) {
@@ -706,7 +721,7 @@ var commonMethods = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:37:01
+ * @Last Modified time: 2017-10-22 19:35:54
  */
 
 // function Point(x, y) {
@@ -2424,7 +2439,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 12:09:14
+ * @Last Modified time: 2017-10-22 15:40:21
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -2519,6 +2534,7 @@ var specialAtrr = { //一些特殊的属性值的更改
                 color: _temCoH
                 // let _val = '#' + rgb2hex(...temCo)
                 // console.log(_temSha);
+
             };return _temSha;
         },
         getIncre: function getIncre(source, tar, obj) {

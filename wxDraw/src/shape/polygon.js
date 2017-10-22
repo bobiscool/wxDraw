@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 19:35:54
+ * @Last Modified time: 2017-10-22 19:49:54
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -56,6 +56,7 @@ export const Polygon = function (option) {
 Polygon.prototype = {
     getOriPoints: function () {
         var points = [],
+            points2 = [],
             angle = this.Option.startAngle || 0;
 
         // //console.log('Option',this.Option);
@@ -64,6 +65,8 @@ Polygon.prototype = {
 
         for (var i = 0; i < this.Option.sides; ++i) {
             points.push([this.Option.x + this.Option.r * Math.sin(angle), this.Option.y - this.Option.r * Math.cos(angle)]);
+            points2.push([this.Option.x + (this.Option.r +this.Option.lineWidth / 2) * Math.sin(angle), this.Option.y - (this.Option.r +this.Option.lineWidth / 2)  * Math.cos(angle)]);
+
             angle += 2 * Math.PI / this.Option.sides;
         }
         this.oriPoints = points;
