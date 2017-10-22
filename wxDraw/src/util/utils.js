@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-21 17:51:06
+ * @Last Modified time: 2017-10-22 19:24:30
  * 
  * 工具库
  */
@@ -58,15 +58,27 @@ export const util = {
      * @param {any} overlay 是否全部抹掉
      * @returns 
      */
-    extend(target, source) {
-        for (var key in target) {
-            if (source.hasOwnProperty(key))//如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
-            {
-                if (typeof source[key] == "object" && !(source[key] instanceof Array)) {
-                    util.extend(target[key], source[key])//递归
-                } else {
-                    source[key] = target[key];
+    extend(target, source, overlay) {
 
+        if (!overlay) {
+            for (var key in target) {
+                if (source.hasOwnProperty(key))//如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
+                {
+                    if (typeof source[key] == "object" && !(source[key] instanceof Array)) {
+                        util.extend(target[key], source[key])//递归
+                    } else {
+                        source[key] = target[key];
+                    }
+                }
+            }
+        } else {
+            for (var key in target) {
+                if (target.hasOwnProperty(key)) {
+                    if (typeof source[key] == "object" && !(source[key] instanceof Array)) {
+                        util.extend(target[key], source[key], true)//递归
+                    } else {
+                        source[key] = target[key];
+                    }
                 }
             }
         }
@@ -247,7 +259,7 @@ export const getDetectPointEdge = function (p1, p2, lineWidth, center) {
     }
 
     let io = (Math.pow(X1 - center[0], 2) + Math.pow(Y1 - center[1], 2)
-    )>= (Math.pow(X2 - center[0], 2) + Math.pow(Y2 - center[1], 2));
+    ) >= (Math.pow(X2 - center[0], 2) + Math.pow(Y2 - center[1], 2));
     if (io) {
         Xo = X1;
         Yo = Y1;
