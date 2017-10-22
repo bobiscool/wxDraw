@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:37:01
+ * @Last Modified time: 2017-10-22 19:35:54
  */
 
 import { util, matrixToarray } from '../util/utils.js';
