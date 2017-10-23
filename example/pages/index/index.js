@@ -117,7 +117,7 @@ Page({
     this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir1);
     
-    cir8.updateLayer(3);
+    cir8.updateLayer(2);
     
     // // cir1.updateOption({x:100})
     // this.wxCanvas.add(cir2);

@@ -45,6 +45,8 @@ Store.prototype = {
          
           this.store.splice(oldIndex,1);
           this.store.splice(index,0,obj);
+
+         
     }
 
 }
