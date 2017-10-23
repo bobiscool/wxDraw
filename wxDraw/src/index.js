@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:53:07
+ * @Last Modified time: 2017-10-23 13:56:56
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -155,6 +155,7 @@ WxDraw.prototype = {
         this.detectedLayers = [];//清空选中层级
     },
     updateLayer:function(who,oldIndex,index){
+        console.log(this);
         this.store.changeIndex(who,oldIndex,index);
     }
 

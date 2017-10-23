@@ -344,6 +344,18 @@ Store.prototype = {
         }
 
         return _tem;
+    },
+    changeIndex: function changeIndex(obj, oldIndex, index) {
+        // let _tem,_temIndex;
+        //   this.store.forEach(function(element,index) {
+        //       if(element[type]==val){
+        //         _tem = element;
+        //         _temIndex = index;
+        //       }
+        //   }, this);
+
+        this.store.splice(oldIndex, 1);
+        this.store.splice(index, 0, obj);
     }
 
 };
@@ -3216,7 +3228,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:31:58
+ * @Last Modified time: 2017-10-23 13:53:56
  * 在这里添加事件 
  */
 
@@ -3375,6 +3387,7 @@ Shape.prototype = {
     updateLayer: function updateLayer(layer) {
         //console.log('更新层级', layer);
         this._layerIndex = layer;
+        this.bus.dispatch('updateLayer', this._layerIndex, layer);
     },
     getChoosed: function getChoosed() {
         //console.log('选中',this._layerIndex);
@@ -3552,7 +3565,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:29:17
+ * @Last Modified time: 2017-10-23 13:55:33
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3589,6 +3602,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('update', this, this.update);
     this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
     this.bus.add('clearDetectedLayers', this, this.clearDetectedLayers);
+    this.bus.add('updateLayer', this, this.updateLayer);
     // //console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
@@ -3690,6 +3704,10 @@ WxDraw.prototype = {
     clearDetectedLayers: function clearDetectedLayers() {
         //console.log('清空选中层级');
         this.detectedLayers = []; //清空选中层级
+    },
+    updateLayer: function updateLayer(who, oldIndex, index) {
+        console.log(this.store);
+        this.store.changeIndex(who, oldIndex, index);
     }
 
 };
