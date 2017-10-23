@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 18:53:10
+ * @Last Modified time: 2017-10-23 18:54:29
  * 普通形状
  * 
  */
@@ -134,8 +134,8 @@ Circle.prototype = {
         //     sA += aA / 100;
         // }
 
-        points.push([this.Option.x, this.Option.y]);
-        points2.push([this.Option.x, this.Option.y]);
+        points.unshift([this.Option.x, this.Option.y]);
+        points2.unshift([this.Option.x, this.Option.y]);
         this.oriPoints = points;
         this.detectOriPoints = points2;
     },
