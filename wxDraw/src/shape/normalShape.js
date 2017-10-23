@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 16:56:24
+ * @Last Modified time: 2017-10-23 17:11:43
  * 普通形状
  * 
  */
@@ -63,7 +63,7 @@ export const Circle = function (option) {
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
-    this.fullCircle=true;
+    this.fullCircle = true;
     // this.rotateOrigin = null;
     // 用于渐变的
     this._colorLock = false; //颜色锁 设置渐变之后 颜色就就不能动画了
@@ -88,20 +88,20 @@ export const Circle = function (option) {
 }
 
 Circle.prototype = {
-     getOriPoints: function () {
+    getOriPoints: function () {
         var points = [],
             points2 = [],
             sA = this.Option.sA || 0,
-            eA = this.Option.eA || Math.PI*2,
+            eA = this.Option.eA || Math.PI * 2,
             aA = eA - sA;
-            
-            if(aA>=2*Math.PI){
-                this.fullCircle =true;
-            }else{
-                this.fullCircle =false;
-                
-            }
-            
+
+        if (aA >= 2 * Math.PI) {
+            this.fullCircle = true;
+        } else {
+            this.fullCircle = false;
+
+        }
+
 
         for (var i = 0; i < 99; ++i) {
             points.push([this.Option.x + this.Option.a / 2 * Math.sin(angle), this.Option.y - this.Option.b / 2 * Math.cos(angle)]);
@@ -110,12 +110,15 @@ Circle.prototype = {
         }
 
         //计算拓展之后的点位
-        let k1 = (this.Option.x - points[50][0])/(this.Option.y - points[50][1]);
-        let b1 = this.Option.y - this.Option.x*k1;
-        let l = this.Option.lineWidth/Math.sin(aA/2);
+        let k1 = (this.Option.x - points[50][0]) / (this.Option.y - points[50][1]);
+        let b1 = this.Option.y - this.Option.x * k1;
+        let l = this.Option.lineWidth / Math.sin(aA / 2);
+        let $x = (-k1 * b1 + Math.sqrt(-Math.pow(b1, 2) + Math.pow(l, 2) + Math.pow(k1, 2) * Math.pow(l, 2))) / (1 + Math.pow(k1, 2));
+        let y = k1*($x+this.Option.x)+b1;
 
-        points.push([this.Option.x,this.Option.y]);
-        point2.push([this.Option.x,this.Option.y]);
+
+        points.push([this.Option.x, this.Option.y]);
+        point2.push([this.Option.x, this.Option.y]);
         this.oriPoints = points;
         this.detectOriPoints = points2;
     },
