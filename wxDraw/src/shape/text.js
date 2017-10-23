@@ -78,7 +78,7 @@ Text.prototype = {
         points.push([this.boxOption.x - w / 2, this.boxOption.y + h / 2])
         points.push([this.boxOption.x + w / 2, this.boxOption.y + h / 2])
         points.push([this.boxOption.x + w / 2, this.boxOption.y - h / 2])
-        this.boxOriPoints = [];
+        this.boxOriPoints = points;
         
     }
 }
