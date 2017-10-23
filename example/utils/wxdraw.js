@@ -551,7 +551,7 @@ var commonUnAttr = { //这些样式只能单独设定
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 19:41:58
+ * @Last Modified time: 2017-10-23 11:30:05
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -680,7 +680,13 @@ var commonMethods = {
             context.setFillStyle(this.Option.fillStyle);
         }
 
+        context.setStrokeStyle(this.Option.strokeStyle);
+        context.setLineWidth(this.Option.lineWidth);
         context.setGlobalAlpha(this.Option.opacity);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
     },
     turnColorLock: function turnColorLock(onOff) {
         if (onOff) {
@@ -1046,7 +1052,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:36:24
+ * @Last Modified time: 2017-10-23 10:29:04
  * 椭圆
  * 
  */
@@ -1287,6 +1293,188 @@ Ellipse.prototype = _extends({
 
         // //console.log(ifInside);
         return ifInside;
+    }
+}, commonMethods);
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-10-23 10:27:35 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-23 11:37:20
+ * 字体对象
+ */
+
+var baseline = function baseline(type, h) {
+    return {
+        "normal": 2,
+        "bottom": -h / 2,
+        "middle": 0,
+        "top": h / 2
+
+    }[type];
+};
+
+var align = function align(type, w) {
+    return {
+        "left": w / 2,
+        "center": 0,
+        "right": -w / 2
+    }[type];
+};
+
+var Text = function Text(option) {
+
+    if (!option.text) {
+        return false;
+    }
+    var tOption = {
+        x: 100,
+        y: 200,
+        fontSize: 12,
+        Shadow: {
+            offsetX: 5,
+            offsetY: 5,
+            blur: 5,
+            color: "#000000"
+        },
+        fillStyle: "#000000",
+        strokeStyle: "#000000",
+        rotate: 0,
+        opacity: 1
+    };
+
+    var tUnoption = {
+        textBaseline: "normal",
+        align: "left"
+    };
+
+    this.text = option.text;
+    this.Option = util.extend(option, tOption);
+    this.Unoption = util.extend(option, tUnoption);
+    this.boxOption = { x: 0, y: 0 };
+    this.boxOriPoints = [];
+    this.boxPoints = [];
+    this.rotateOrigin = null;
+    this.offset = { // box中中心点与textalign点的差值
+        x: 0,
+        y: 0
+    }, this._offsetX = 0, //用于点击检测的
+    this._offsetY = 0, this.getOriPoints();
+    this.getPoints();
+};
+
+Text.prototype = _extends({
+    getOriPoints: function getOriPoints() {
+        //根据 字体 估算出器背后box大小 位置
+        // 这里还要根据 baseline textalgin来计算 box位置
+        var points = [];
+        var len = String(this.text).length;
+        var w = len * this.Option.fontSize;
+        var h = len * this.Option.fontSize;
+
+        this.offset.x = align(this.Unoption.align, w);
+        this.offset.y = baseline(this.Unoption.baseline, h);
+        this.boxOption.x = this.Option.x + this.offset.x;
+        this.boxOption.y = this.Option.y + this.offset.y;
+
+        points.push([this.boxOption.x - w / 2, this.boxOption.y - h / 2]);
+        points.push([this.boxOption.x - w / 2, this.boxOption.y + h / 2]);
+        points.push([this.boxOption.x + w / 2, this.boxOption.y + h / 2]);
+        points.push([this.boxOption.x + w / 2, this.boxOption.y - h / 2]);
+        this.boxOriPoints = points;
+    },
+
+    getPoints: function getPoints() {
+        var _points = [];
+        var origin = null;
+        if (!this.rotateOrigin) {
+            origin = [this.boxOption.x, this.boxOption.y];
+        } else {
+            origin = this.rotateOrigin;
+        }
+
+        //console.log('item', origin);
+
+        this.boxOriPoints.forEach(function (item) {
+            _points.push(this.getPointTodraw(item[0], item[1], origin));
+        }, this);
+
+        this.boxPoints = matrixToarray(_points); //除掉矩阵多余的部分
+        // //console.log(this._Points);
+        // //console.log(this.oriPoints);
+        return this._Points; //除掉矩阵多余的部分;
+    },
+    getPointTodraw: function getPointTodraw(x, y, origin) {
+        var angle = this.Option.rotate;
+        //将所有变化 都转到 Point对象去了 
+        return new Point(x, y).rotate(origin, angle); //计算出每一个点变化之后的位置
+    },
+    _pnpolyTest: function _pnpolyTest(x, y) {
+        // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
+        // var A = this.points[0];// 拿到前面两个点
+        // var B = this.points[1];
+        var ifInside = false;
+        var Points = this.boxPoints;
+
+        for (var i = 0, j = Points.length - 1; i < Points.length; j = i++) {
+
+            var Xi = Points[i][0],
+                Yi = Points[i][1];
+            var Xj = Points[j][0],
+                Yj = Points[j][1];
+
+            var insect = Yi > y != Yj > y && x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi;
+
+            if (insect) ifInside = !ifInside;
+        }
+
+        return ifInside;
+    },
+
+    move: function move(x, y) {
+        this.boxOption.x = x;
+        this.boxOption.y = y;
+        this.Option.x = x - this.offset.x;
+        this.Option.y = y - this.offset.y;
+    },
+    detected: function detected(x, y) {
+        // //console.log('检测方块', x, y);
+        // //console.log('方块', this.Option);
+        this._offsetX = this.boxOption.x - x;
+        this._offsetY = this.boxOption.y - y;
+        if (this._pnpolyTest(x, y)) {
+            this._isChoosed = true;
+            return true;
+        }
+        // }
+    },
+    moveDetect: function moveDetect(x, y) {
+
+        if (this._isChoosed == true) {
+            this.move(x + this._offsetX, y + this._offsetY);
+            this.getOriPoints(); //拿到原始点
+            this.getPoints(); //拿到变化点
+        }
+    },
+    stroke: function stroke(context) {
+        this.fill(context); //先这样写
+    },
+    fill: function fill(context) {
+        this.getOriPoints(); //拿到原始点
+        this.getPoints(); //拿到变化点
+        context.save();
+        context.beginPath();
+        context.setFontSize(this.Option.fontSize);
+        context.setTextAlign(this.Unoption.align);
+        context.setTextBaseline(this.Unoption.textBaseline);
+        context.closePath();
+        context.setFillStyle(this.Option.fillStyle);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
+        context.fillText(this.text);
+        context.restore();
     }
 }, commonMethods);
 
@@ -1552,7 +1740,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:36:35
+ * @Last Modified time: 2017-10-23 11:30:57
  * 普通形状
  * 
  */
@@ -1729,12 +1917,7 @@ Rect.prototype = _extends({
         this._draw(context);
         context.closePath();
         this._drawLine = true;
-        context.setStrokeStyle(this.Option.strokeStyle);
-        context.setLineWidth(this.Option.lineWidth);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
+        this.setCommonstyle(context, 'rect');
         context.stroke();
 
         context.restore();
@@ -1746,11 +1929,7 @@ Rect.prototype = _extends({
         this._draw(context);
         context.closePath();
         this._drawLine = false;
-        context.setFillStyle(this.Option.fillStyle);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
+        this.setCommonstyle(context, 'rect');
         context.fill();
         context.restore();
     },
@@ -1860,8 +2039,8 @@ Rect.prototype = _extends({
 
         var Points = null;
 
-        console.log('_detectPoints', this._detectPoints);
-        console.log('_detectPoints2', this._Points);
+        // console.log('_detectPoints',this._detectPoints);
+        // console.log('_detectPoints2',this._Points);
         if (this._drawLine) {
             Points = this._detectPoints;
         } else {
@@ -3030,7 +3209,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:01:23
+ * @Last Modified time: 2017-10-23 11:31:58
  * 在这里添加事件 
  */
 
@@ -3201,8 +3380,8 @@ var shapeTypes = {
         return new Circle(option);
     },
     'rect': function rect(option) {
-        console.log('方块');
-        console.log(option);
+        // console.log('方块');
+        // console.log(option);
         return new Rect(option);
     },
     'polygon': function polygon(option) {
@@ -3216,6 +3395,9 @@ var shapeTypes = {
     },
     'ellipse': function ellipse(option) {
         return new Ellipse(option);
+    },
+    'text': function text(option) {
+        return new Text(option);
     }
 };
 

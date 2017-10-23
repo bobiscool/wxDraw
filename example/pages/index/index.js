@@ -84,9 +84,9 @@ Page({
     // var cir1 = new Shape('rect', { x: 0, y: 100, w: 20, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
     var cir7 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, fillStyle: "#000000", rotate: 200 }, true, true)
 
-    var cir9 = new Shape('polygon', { x: 0, y: 50, r: 200, sides: 5,rotate:0,lineWidth:18}, false, true)
+    var cir9 = new Shape('text', { x: 100, y: 300, text:"ssssss"}, false, true)
 
-    var cir2 = new Shape('polygon', { x: 0, y: 30, r: 20, sides: 5, rotate: 0 }, true, true)
+    var cir2 = new Shape('polygon', { x: 10, y: 100, r: 20, sides: 5, rotate: 0 }, true, true)
  
     var cir3 = new Shape('ellipse', {
       x: 220, y: 200,
@@ -111,7 +111,7 @@ Page({
     // this.wxCanvas.add(cir2);
     this.wxCanvas.add(cir1);
     // this.wxCanvas.add(cir7);
-    // this.wxCanvas.add(cir9);
+    this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir8);
     
     // // cir1.updateOption({x:100})

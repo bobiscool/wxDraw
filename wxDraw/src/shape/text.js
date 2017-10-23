@@ -2,13 +2,14 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:26:19
+ * @Last Modified time: 2017-10-23 11:37:20
  * 字体对象
  */
 
 import { util, matrixToarray } from '../util/utils.js';
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
+import { Point } from "./mixins/points.js"
 
 let baseline = function (type, h) {
     return {
@@ -66,7 +67,9 @@ export const Text = function (option) {
         y: 0
     },
         this._offsetX = 0,//用于点击检测的
-        this._offsetY = 0
+        this._offsetY = 0,
+        this.getOriPoints();
+    this.getPoints();
 }
 
 
@@ -102,7 +105,7 @@ Text.prototype = {
 
         //console.log('item', origin);
 
-        this.oriPoints.forEach(function (item) {
+        this.boxOriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
 
@@ -161,7 +164,7 @@ Text.prototype = {
         }
         // }
     },
-     moveDetect: function (x, y) {
+    moveDetect: function (x, y) {
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
@@ -170,10 +173,12 @@ Text.prototype = {
         }
 
     },
-     stroke: function (context) {
+    stroke: function (context) {
         this.fill(context);//先这样写
     },
     fill: function (context) {
+        this.getOriPoints();//拿到原始点
+        this.getPoints();//拿到变化点
         context.save();
         context.beginPath();
         context.setFontSize(this.Option.fontSize);
@@ -185,7 +190,7 @@ Text.prototype = {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
         }
-        context.fillText(this.text);        
+        context.fillText(this.text);
         context.restore();
     },
     ...commonMethods
