@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 09:59:02
+ * @Last Modified time: 2017-10-23 16:43:17
  * 
  * 工具库
  */
@@ -158,20 +158,6 @@ export const getDetectPointOut = function (p1, p2, p3, lineWidth, center) {
     if (k2 < 0) {
         $x1 = p2[0] - Math.cos(an1) * lineWidth / 2;
         $x2 = p2[0] - Math.cos(an2) * lineWidth / 2;
-        $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
-        $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
-    }
-
-    if (center[0] < p2[0] && center[1] >= p2[1]) {
-        $x1 = p2[0] + Math.cos(an1) * lineWidth / 2;
-        $x2 = p2[0] + Math.cos(an2) * lineWidth / 2;
-        $y1 = p2[1] - Math.sin(an1) * lineWidth / 2;
-        $y2 = p2[1] - Math.sin(an2) * lineWidth / 2;
-    }
-
-    if (center[0] < p2[0] && center[1] < p2[1]) {
-        $x1 = p2[0] + Math.cos(an1) * lineWidth / 2;
-        $x2 = p2[0] + Math.cos(an2) * lineWidth / 2;
         $y1 = p2[1] + Math.sin(an1) * lineWidth / 2;
         $y2 = p2[1] + Math.sin(an2) * lineWidth / 2;
     }

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 16:38:18
+ * @Last Modified time: 2017-10-23 16:56:24
  * 普通形状
  * 
  */
@@ -103,11 +103,19 @@ Circle.prototype = {
             }
             
 
-        for (var i = 0; i < 100; ++i) {
+        for (var i = 0; i < 99; ++i) {
             points.push([this.Option.x + this.Option.a / 2 * Math.sin(angle), this.Option.y - this.Option.b / 2 * Math.cos(angle)]);
             points2.push([this.Option.x + (this.Option.a / 2 + this.Option.lineWidth / 2) * Math.sin(angle), this.Option.y - (this.Option.b + this.Option.lineWidth) / 2 * Math.cos(angle)]);
-            angle += (eA-sA) / 100;
+            angle += aA / 100;
         }
+
+        //计算拓展之后的点位
+        let k1 = (this.Option.x - points[50][0])/(this.Option.y - points[50][1]);
+        let b1 = this.Option.y - this.Option.x*k1;
+        let l = this.Option.lineWidth/Math.sin(aA/2);
+
+        points.push([this.Option.x,this.Option.y]);
+        point2.push([this.Option.x,this.Option.y]);
         this.oriPoints = points;
         this.detectOriPoints = points2;
     },
