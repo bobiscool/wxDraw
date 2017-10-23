@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:27:03
+ * @Last Modified time: 2017-10-23 19:18:16
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -61,7 +61,7 @@ import { util } from '../../util/utils.js';
 
 export const commonMethods = {
     updateOption: function (option) { //这个更新属性 是不是有点问题 好像和set属性重复了
-        if (option.fillStyle && option.lg.length <= 0 && option.cg.length <= 0) {
+        if (option.fillStyle && option.lg&& option.lg.length<= 0 && option.cg&&option.cg.length <= 0) {
             this.turnColorLock(false);
         }
         this.Option = util.extend(option, this.Option);

@@ -1769,7 +1769,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:08:23
+ * @Last Modified time: 2017-10-23 19:09:49
  * 普通形状
  * 
  */
@@ -1845,8 +1845,8 @@ Circle.prototype = _extends({
         }
 
         for (var i = 0; i < 100; ++i) {
-            points.push([this.Option.x + this.Option.r * Math.cos(sA), this.Option.y + this.Option.r * Math.sin(sA)]);
-            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA), this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA)]);
+            points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
+            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
 
             sA += aA / 100;
         }

@@ -63,7 +63,8 @@ Page({
     */
 
     this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:60,sA:Math.PI/2,fillStyle:"#333333",lineWidth:20},false,true));
-
+     
+    var cir12 = new Shape('circle', { x: 20, y: 20, r: 60, sA: Math.PI / 2, fillStyle: "#333333", lineWidth: 20 }, false, true);
     var cir1 = new Shape('cshape', {
       fillStyle: "#333333", rotate: Math.PI / 2, points: [
         [70, 85],
@@ -82,7 +83,7 @@ Page({
       fillStyle: "#000000", rotate: Math.PI / 2, points: [
         [163, 193], [-18, 48]], lineWidth: 12, Shadow: "#ffffff"
     }, true, true)
-    // var cir1 = new Shape('rect', { x: 0, y: 100, w: 20, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
+    var cir1 = new Shape('rect', { x: 0, y: 400, w: 20, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
     var cir7 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, fillStyle: "#000000", rotate: 200 }, true, true)
 
     var cir9 = new Shape('text', { x: 100, y: 300, text:"ssssss",fontSize:30,align:"left"}, false, true)
@@ -110,12 +111,13 @@ Page({
     // this.wxCanvas.add(cir4);
     // this.wxCanvas.add(cir3);
     // this.wxCanvas.add(cir2);
-    // this.wxCanvas.add(cir1);
+    this.wxCanvas.add(cir1);
     // this.wxCanvas.add(cir7);
     // this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir8);
     this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir1);
+    this.wxCanvas.add(cir12);
     
     cir8.updateLayer("+2");
     
@@ -165,19 +167,21 @@ Page({
       },
       easing: "linear"
     }).start();
-    // .animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
-    //   duration: 2000,
-    //   onLooping: function () {
-    //     console.log('----');
-    //   },
-    //   easing: "bouncePast"
-    //   }).animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
-    //     duration: 2000,
-    //     onLooping: function () {
-    //       console.log('----');
-    //     },
-    //     easing: "bouncePast"
-    //   }).start(5);
+
+    // ci
+    cir12.animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
+      duration: 2000,
+      onLooping: function () {
+        console.log('----');
+      },
+      easing: "bouncePast"
+      }).animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
+        duration: 2000,
+        onLooping: function () {
+          console.log('----');
+        },
+        easing: "bouncePast"
+      }).start(5);
 
 
 
