@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:15:51
+ * @Last Modified time: 2017-10-23 15:19:03
  * 字体对象
  */
 
@@ -38,7 +38,7 @@ export const Text = function (option) {
         x: 100,
         y: 200,
         fontSize: 12,
-        Shadow: {
+        shadow: {
             offsetX: 5,
             offsetY: 5,
             blur: 5,

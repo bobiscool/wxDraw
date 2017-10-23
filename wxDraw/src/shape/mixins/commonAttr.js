@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 19:40:56
+ * @Last Modified time: 2017-10-23 15:19:17
  * 常用的一些属性
  * 
  */
@@ -18,7 +18,7 @@ export const commonAttr = function(){//避免变量污染
    return {
     //这些样式是可以被动画来设置的
     lineWidth: 0.5,//线宽
-    Shadow: {
+    shadow: {
         offsetX: 5,
         offsetY: 5,
         blur: 5,
