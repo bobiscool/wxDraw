@@ -1300,7 +1300,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:39:04
+ * @Last Modified time: 2017-10-23 11:39:54
  * 字体对象
  */
 
@@ -1473,7 +1473,7 @@ Text.prototype = _extends({
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
         }
-        context.fillText(this.text);
+        context.fillText(this.text, this.Option.x, this.Option.y);
         context.restore();
     }
 }, commonMethods);
