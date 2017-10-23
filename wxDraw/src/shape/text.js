@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:02:59
+ * @Last Modified time: 2017-10-23 15:14:54
  * 字体对象
  */
 
@@ -169,6 +169,7 @@ Text.prototype = {
         if (!this.rotateOrigin) {
             context.translate(this.boxOption.x, this.boxOption.y);
             context.rotate(this.Option.rotate);
+            
             context.fillText(this.text, -this.offset.x, -this.offset.y);
         } else {
             /**
@@ -199,10 +200,10 @@ Text.prototype = {
         context.save();
         context.setGlobalAlpha(this.Option.opacity);
         context.beginPath();
-        this._draw(context);        
         context.setFontSize(this.Option.fontSize);
         context.setTextAlign(this.Unoption.align);
         context.setTextBaseline(this.Unoption.textBaseline);
+        this._draw(context);                
         context.closePath();
         context.setFillStyle(this.Option.fillStyle);
         if (this.Option.Shadow) {
