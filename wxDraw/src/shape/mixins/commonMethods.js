@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:25:11
+ * @Last Modified time: 2017-10-23 15:20:20
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -136,9 +136,9 @@ export const commonMethods = {
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
         context.setGlobalAlpha(this.Option.opacity);
-        if (this.Option.Shadow) {
+        if (this.Option.shadow) {
             // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+            context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
     },
     turnColorLock: function (onOff) {

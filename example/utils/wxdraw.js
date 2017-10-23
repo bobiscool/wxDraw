@@ -527,7 +527,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 19:40:56
+ * @Last Modified time: 2017-10-23 15:19:17
  * 常用的一些属性
  * 
  */
@@ -537,7 +537,7 @@ var commonAttr = function commonAttr() {
     return {
         //这些样式是可以被动画来设置的
         lineWidth: 0.5, //线宽
-        Shadow: {
+        shadow: {
             offsetX: 5,
             offsetY: 5,
             blur: 5,
@@ -563,7 +563,7 @@ var commonUnAttr = { //这些样式只能单独设定
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:25:11
+ * @Last Modified time: 2017-10-23 15:20:20
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -697,9 +697,9 @@ var commonMethods = {
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
         context.setGlobalAlpha(this.Option.opacity);
-        if (this.Option.Shadow) {
+        if (this.Option.shadow) {
             // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+            context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
     },
     turnColorLock: function turnColorLock(onOff) {
@@ -1314,7 +1314,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:15:51
+ * @Last Modified time: 2017-10-23 15:20:51
  * 字体对象
  */
 
@@ -1345,7 +1345,7 @@ var Text = function Text(option) {
         x: 100,
         y: 200,
         fontSize: 12,
-        Shadow: {
+        shadow: {
             offsetX: 5,
             offsetY: 5,
             blur: 5,
@@ -1500,9 +1500,9 @@ Text.prototype = _extends({
         context.setTextAlign(this.Unoption.align);
         context.setTextBaseline(this.Unoption.textBaseline);
         context.setFillStyle(this.Option.fillStyle);
-        if (this.Option.Shadow) {
+        if (this.Option.shadow) {
             // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+            context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
         this._draw(context);
         context.closePath();

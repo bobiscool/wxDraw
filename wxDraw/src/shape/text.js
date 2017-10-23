@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:19:03
+ * @Last Modified time: 2017-10-23 15:20:51
  * 字体对象
  */
 
@@ -204,9 +204,9 @@ Text.prototype = {
         context.setTextAlign(this.Unoption.align);
         context.setTextBaseline(this.Unoption.textBaseline);
          context.setFillStyle(this.Option.fillStyle);
-        if (this.Option.Shadow) {
+        if (this.Option.shadow) {
             // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+            context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
         this._draw(context);                
         context.closePath();
