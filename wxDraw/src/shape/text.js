@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 14:47:12
+ * @Last Modified time: 2017-10-23 15:02:59
  * 字体对象
  */
 
@@ -169,14 +169,14 @@ Text.prototype = {
         if (!this.rotateOrigin) {
             context.translate(this.boxOption.x, this.boxOption.y);
             context.rotate(this.Option.rotate);
-            context.fillText(this.text, 0, 0);
+            context.fillText(this.text, -this.offset.x, -this.offset.y);
         } else {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
              */
             context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
-            context.fillText(this.text,this.boxOption.x - this.rotateOrigin[0], this.boxOption.y - this.rotateOrigin[1]);
+            context.fillText(this.text,this.boxOption.x - this.rotateOrigin[0]-this.offset.x, this.boxOption.y - this.rotateOrigin[1]-this.offset.y);
         }
         context.restore();
         
