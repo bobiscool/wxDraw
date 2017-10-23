@@ -1769,7 +1769,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 18:06:31
+ * @Last Modified time: 2017-10-23 18:09:20
  * 普通形状
  * 
  */
@@ -1854,9 +1854,9 @@ Circle.prototype = _extends({
         }
 
         for (var i = 0; i < 99; ++i) {
-            points.push([this.Option.x + this.Option.a / 2 * Math.sin(angle), this.Option.y - this.Option.b / 2 * Math.cos(angle)]);
-            points2.push([this.Option.x + (this.Option.a / 2 + this.Option.lineWidth / 2) * Math.sin(angle), this.Option.y - (this.Option.b + this.Option.lineWidth) / 2 * Math.cos(angle)]);
-            angle += aA / 100;
+            points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
+            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
+            sA += aA / 100;
         }
 
         //计算拓展之后的点位
