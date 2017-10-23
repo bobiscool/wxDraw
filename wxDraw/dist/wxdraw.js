@@ -551,7 +551,7 @@ var commonUnAttr = { //这些样式只能单独设定
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:30:05
+ * @Last Modified time: 2017-10-23 13:24:33
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -639,8 +639,10 @@ var commonMethods = {
         // console.log(context);
         // return false;
         var gra = null;
-        context.setLineCap(this.UnOption.lineCap);
-        context.setLineJoin(this.UnOption.lineJoin);
+        if (this.UnOption.lineCap) {
+            context.setLineCap(this.UnOption.lineCap);
+            context.setLineJoin(this.UnOption.lineJoin);
+        }
         // context.setLineDash(this.UnOption.lineDash);
         if (this.UnOption.lg.length > 0) {
 
@@ -1300,7 +1302,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:39:54
+ * @Last Modified time: 2017-10-23 13:23:55
  * 字体对象
  */
 
@@ -1369,7 +1371,7 @@ Text.prototype = _extends({
         // 这里还要根据 baseline textalgin来计算 box位置
         var points = [];
         var len = String(this.text).length;
-        var w = len * this.Option.fontSize;
+        var w = len * this.Option.fontSize / 2;
         var h = this.Option.fontSize;
 
         this.offset.x = align(this.Unoption.align, w);
@@ -1463,6 +1465,7 @@ Text.prototype = _extends({
         this.getOriPoints(); //拿到原始点
         this.getPoints(); //拿到变化点
         context.save();
+        this.setCommonstyle(context);
         context.beginPath();
         context.setFontSize(this.Option.fontSize);
         context.setTextAlign(this.Unoption.align);

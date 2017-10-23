@@ -152,13 +152,13 @@ Page({
     //     },
     //     easing: "linear"
     // }).start(1);
-    // cir4.animate("opacity", "0.1", {
-    //   duration: 10000,
-    //   onLooping: function () {
-    //     console.log('----');
-    //   },
-    //   easing: "linear"
-    // }).start();
+    cir9.animate("opacity", "0.1", {
+      duration: 1000,
+      onLooping: function () {
+        console.log('----');
+      },
+      easing: "linear"
+    }).start();
     // .animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
     //   duration: 2000,
     //   onLooping: function () {

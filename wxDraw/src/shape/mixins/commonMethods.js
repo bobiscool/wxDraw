@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:30:05
+ * @Last Modified time: 2017-10-23 13:25:11
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -91,10 +91,12 @@ export const commonMethods = {
         // console.log(context);
         // return false;
         let gra = null;
+        if(this.UnOption.lineCap){
         context.setLineCap(this.UnOption.lineCap);
         context.setLineJoin(this.UnOption.lineJoin);
+        }
         // context.setLineDash(this.UnOption.lineDash);
-        if (this.UnOption.lg.length > 0) {
+        if (this.UnOption.lg&&this.UnOption.lg.length > 0) {
 
             /**
              * lg
@@ -114,7 +116,7 @@ export const commonMethods = {
             console.log(gra);
             context.setFillStyle(gra);
         }
-        if (this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
+        if (this.UnOption.cg&&this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
             this.turnColorLock(true);//开启颜色锁            
             gra = context.createCircularGradient(...this.getGradientOption(type).cg);
             this.UnOption.cg.forEach(function (element) {

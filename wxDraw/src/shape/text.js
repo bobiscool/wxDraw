@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:20:37
+ * @Last Modified time: 2017-10-23 13:26:06
  * 字体对象
  */
 
@@ -79,7 +79,7 @@ Text.prototype = {
         // 这里还要根据 baseline textalgin来计算 box位置
         let points = [];
         let len = String(this.text).length;
-        let w = len * this.Option.fontSize/2;
+        let w = len * this.Option.fontSize / 2;
         let h = this.Option.fontSize;
 
         this.offset.x = align(this.Unoption.align, w);
@@ -180,6 +180,11 @@ Text.prototype = {
         this.getOriPoints();//拿到原始点
         this.getPoints();//拿到变化点
         context.save();
+        context.setGlobalAlpha(this.Option.opacity);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.beginPath();
         context.setFontSize(this.Option.fontSize);
         context.setTextAlign(this.Unoption.align);
@@ -190,7 +195,7 @@ Text.prototype = {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
         }
-        context.fillText(this.text,this.Option.x,this.Option.y);
+        context.fillText(this.text, this.Option.x, this.Option.y);
         context.restore();
     },
     ...commonMethods
