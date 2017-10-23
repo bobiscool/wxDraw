@@ -117,7 +117,7 @@ Page({
     this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir1);
     
-    cir8.updateLayer("-1");
+    cir8.updateLayer("+2");
     
     
     // // cir1.updateOption({x:100})
@@ -158,7 +158,7 @@ Page({
     //     },
     //     easing: "linear"
     // }).start(1);
-    cir9.animate("opacity", "0.1", {
+    cir9.animate({"opacity": "0.1",'x':"+=100",y:"+=200",rotate:"+=200"}, {
       duration: 1000,
       onLooping: function () {
         console.log('----');

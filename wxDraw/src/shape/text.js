@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:26:06
+ * @Last Modified time: 2017-10-23 14:45:01
  * 字体对象
  */
 
@@ -164,6 +164,23 @@ Text.prototype = {
         }
         // }
     },
+    _draw: function (context) {
+        context.save();
+        if (!this.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            context.fillText(this.text, 0, 0);
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            context.fillText(this.text,this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1]);
+        }
+        context.restore();
+        
+    },
     moveDetect: function (x, y) {
 
         if (this._isChoosed == true) {
@@ -181,11 +198,8 @@ Text.prototype = {
         this.getPoints();//拿到变化点
         context.save();
         context.setGlobalAlpha(this.Option.opacity);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
         context.beginPath();
+        this._draw(context);        
         context.setFontSize(this.Option.fontSize);
         context.setTextAlign(this.Unoption.align);
         context.setTextBaseline(this.Unoption.textBaseline);
@@ -195,7 +209,6 @@ Text.prototype = {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
         }
-        context.fillText(this.text, this.Option.x, this.Option.y);
         context.restore();
     },
     ...commonMethods

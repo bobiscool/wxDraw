@@ -3572,7 +3572,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 14:33:37
+ * @Last Modified time: 2017-10-23 14:35:39
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3626,7 +3626,7 @@ WxDraw.prototype = {
         this.store.store.forEach(function (item) {
             item.paint(this.canvas);
         }, this);
-        console.log(this.canvas.actions);
+        // console.log(this.canvas.actions);
     },
     detect: function detect(e) {
         //事件检测
@@ -3723,7 +3723,7 @@ WxDraw.prototype = {
         }
         if (flag) {
             //相对增减
-            console.log('相对增减');
+            // console.log('相对增减');
             _index = oldIndex + flag * parseInt(flag == -1 ? index.split('-')[1] : index.split('+')[1]);
             console.log(_index);
         } else {
