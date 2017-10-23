@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 14:16:05
+ * @Last Modified time: 2017-10-23 19:05:27
  * 在这里添加事件 
  */
 
@@ -11,7 +11,8 @@ import { Polygon } from './polygon.js';
 import { Ellipse } from './ellipse.js';
 import { Text } from './text.js';
 import { Line } from './line.js';
-import { Rect, Circle } from './normalShape.js';
+import {  Circle } from './normalShape.js';
+import {  Rect } from './rect.js';
 import { Cshape } from './cshape.js';
 import { AnimationTimer } from '../animation/animationTimer.js';
 import { AnimationFrag } from '../animation/animationFrag.js';
