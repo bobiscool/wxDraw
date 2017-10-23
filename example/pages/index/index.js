@@ -158,8 +158,8 @@ Page({
     //     },
     //     easing: "linear"
     // }).start(1);
-    cir9.animate({"opacity": "0.1",'x':"+=100",y:"+=200",rotate:"+=200"}, {
-      duration: 1000,
+    cir9.animate({rotate:"+=10"}, {
+      duration: 10000,
       onLooping: function () {
         console.log('----');
       },
