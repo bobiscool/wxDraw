@@ -1769,7 +1769,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:06:47
+ * @Last Modified time: 2017-10-23 19:08:23
  * 普通形状
  * 
  */
@@ -2037,6 +2037,7 @@ Circle.prototype = _extends({
         var Points = null;
         if (this._drawLine) {
             Points = this._detectPoints;
+            console.log("监测点");
         } else {
             Points = this._Points;
         }
