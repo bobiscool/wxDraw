@@ -62,7 +62,7 @@ Page({
      * 所以 wxDraw初始化的时候 需要设置 以便点击检测的时候使用
     */
 
-    this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,fillStyle:"#333333"},true));
+    this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,sA:Math.PI/2,fillStyle:"#333333"},true,true));
 
     var cir1 = new Shape('cshape', {
       fillStyle: "#333333", rotate: Math.PI / 2, points: [

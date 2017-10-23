@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 18:10:21
+ * @Last Modified time: 2017-10-23 18:35:41
  * 普通形状
  * 
  */
@@ -103,10 +103,8 @@ Circle.prototype = {
         }
 
 
-        for (var i = 0; i < 99; ++i) {
+        for (var i = 0; i < 100; ++i) {
             points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
-            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
-            sA += aA / 100;
         }
 
         //计算拓展之后的点位
@@ -117,9 +115,15 @@ Circle.prototype = {
         let x0 = $x + this.Option.x
         let y0 = k1 * x0 + b1;
 
+        
+        sA = this.Option.sA || 0;//算到x0 y0
+        for(var i=0;i<100;++i){
+             points2.push([x0+ (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA),y0- (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
+            sA += aA / 100;
+        }
 
         points.push([this.Option.x, this.Option.y]);
-        points2.push([this.Option.x, this.Option.y]);
+        points2.push([x0, y0]);
         this.oriPoints = points;
         this.detectOriPoints = points2;
     },
@@ -152,9 +156,9 @@ Circle.prototype = {
     },
     getMax: function () {
         //绘制 与检测 不能在统一个地方
-        let _Points = this._Points;
-        
-        console.log(_Points);
+        let _Points = this.detectOriPoints;
+
+        // console.log(_Points);
         this.max = {
             maxX: null,
             maxY: null,
@@ -191,7 +195,7 @@ Circle.prototype = {
     createPath: function (context) {
         //创建路径
         var points = this._Points;
-        
+
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < 100; ++i) {
