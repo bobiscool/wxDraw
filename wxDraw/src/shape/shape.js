@@ -3,12 +3,13 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:01:23
+ * @Last Modified time: 2017-10-23 11:31:58
  * 在这里添加事件 
  */
 
 import { Polygon } from './polygon.js';
 import { Ellipse } from './ellipse.js';
+import { Text } from './text.js';
 import { Line } from './line.js';
 import { Rect, Circle } from './normalShape.js';
 import { Cshape } from './cshape.js';
@@ -199,8 +200,8 @@ var shapeTypes = {
         return new Circle(option);
     },
     'rect': function (option) {
-        console.log('方块');
-        console.log(option);
+        // console.log('方块');
+        // console.log(option);
         return new Rect(option);
     },
     'polygon': function (option) {
@@ -214,5 +215,8 @@ var shapeTypes = {
     },
     'ellipse':function(option){
         return new Ellipse(option);        
+    },
+     'text':function(option){
+        return new Text(option);        
     }
 }
