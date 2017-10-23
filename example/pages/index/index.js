@@ -85,7 +85,7 @@ Page({
     // var cir1 = new Shape('rect', { x: 0, y: 100, w: 20, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
     var cir7 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, fillStyle: "#000000", rotate: 200 }, true, true)
 
-    var cir9 = new Shape('text', { x: 100, y: 300, text:"ssssss",fontSize:300,align:"left"}, false, true)
+    var cir9 = new Shape('text', { x: 100, y: 300, text:"ssssss",fontSize:30,align:"left"}, false, true)
 
     var cir2 = new Shape('polygon', { x: 10, y: 100, r: 20, sides: 5, rotate: 0 }, true, true)
  
@@ -158,13 +158,13 @@ Page({
     //     },
     //     easing: "linear"
     // }).start(1);
-    // cir9.animate({rotate:"+=10"}, {
-    //   duration: 10000,
-    //   onLooping: function () {
-    //     console.log('----');
-    //   },
-    //   easing: "linear"
-    // }).start();
+    cir9.animate({rotate:"+=10"}, {
+      duration: 10000,
+      onLooping: function () {
+        console.log('----');
+      },
+      easing: "linear"
+    }).start();
     // .animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
     //   duration: 2000,
     //   onLooping: function () {

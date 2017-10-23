@@ -1314,7 +1314,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:02:59
+ * @Last Modified time: 2017-10-23 15:15:51
  * 字体对象
  */
 
@@ -1467,6 +1467,7 @@ Text.prototype = _extends({
         if (!this.rotateOrigin) {
             context.translate(this.boxOption.x, this.boxOption.y);
             context.rotate(this.Option.rotate);
+
             context.fillText(this.text, -this.offset.x, -this.offset.y);
         } else {
             /**
@@ -1495,16 +1496,17 @@ Text.prototype = _extends({
         context.save();
         context.setGlobalAlpha(this.Option.opacity);
         context.beginPath();
-        this._draw(context);
         context.setFontSize(this.Option.fontSize);
         context.setTextAlign(this.Unoption.align);
         context.setTextBaseline(this.Unoption.textBaseline);
-        context.closePath();
         context.setFillStyle(this.Option.fillStyle);
         if (this.Option.Shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
         }
+        this._draw(context);
+        context.closePath();
+
         context.restore();
     }
 }, commonMethods);
