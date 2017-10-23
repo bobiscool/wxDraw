@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:07:47
+ * @Last Modified time: 2017-10-23 11:10:51
  * 字体对象
  */
 
@@ -73,8 +73,11 @@ Text.prototype = {
 
         this.boxOption.x =this.Option.x+align(this.Unoption.align,w);
         this.boxOption.y =this.Option.y+baseline(this.Unoption.baseline,h);
-        
-        this.boxOriPoints = [];
+
+        points.push([this.boxOption.x - w / 2, this.boxOption.y - h / 2])
+        points.push([this.boxOption.x - w / 2, this.boxOption.y + h / 2])
+        points.push([this.boxOption.x + w / 2, this.boxOption.y + h / 2])
+        points.push([this.boxOption.x + w / 2, this.boxOption.y - h / 2])
         this.boxOriPoints = [];
         
     }
