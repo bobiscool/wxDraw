@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 18:35:41
+ * @Last Modified time: 2017-10-23 18:37:07
  * 普通形状
  * 
  */
@@ -115,7 +115,8 @@ Circle.prototype = {
         let x0 = $x + this.Option.x
         let y0 = k1 * x0 + b1;
 
-        
+        console.log('x0',x0);
+        console.log('y0',y0);
         sA = this.Option.sA || 0;//算到x0 y0
         for(var i=0;i<100;++i){
              points2.push([x0+ (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA),y0- (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);

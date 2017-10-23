@@ -1769,7 +1769,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 18:10:21
+ * @Last Modified time: 2017-10-23 18:35:41
  * 普通形状
  * 
  */
@@ -1853,15 +1853,26 @@ Circle.prototype = _extends({
             this.fullCircle = false;
         }
 
-        for (var i = 0; i < 99; ++i) {
+        for (var i = 0; i < 100; ++i) {
             points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
-            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
-            sA += aA / 100;
         }
 
         //计算拓展之后的点位
+        var k1 = (this.Option.x - points[50][0]) / (this.Option.y - points[50][1]);
+        var b1 = this.Option.y - this.Option.x * k1;
+        var l = this.Option.lineWidth / Math.sin(aA / 2);
+        var $x = (-k1 * b1 + Math.sqrt(-Math.pow(b1, 2) + Math.pow(l, 2) + Math.pow(k1, 2) * Math.pow(l, 2))) / (1 + Math.pow(k1, 2));
+        var x0 = $x + this.Option.x;
+        var y0 = k1 * x0 + b1;
+
+        sA = this.Option.sA || 0; //算到x0 y0
+        for (var i = 0; i < 100; ++i) {
+            points2.push([x0 + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), y0 - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
+            sA += aA / 100;
+        }
+
         points.push([this.Option.x, this.Option.y]);
-        points2.push([this.Option.x, this.Option.y]);
+        points2.push([x0, y0]);
         this.oriPoints = points;
         this.detectOriPoints = points2;
     },
@@ -1894,9 +1905,9 @@ Circle.prototype = _extends({
     },
     getMax: function getMax() {
         //绘制 与检测 不能在统一个地方
-        var _Points = this._Points;
+        var _Points = this.detectOriPoints;
 
-        console.log(_Points);
+        // console.log(_Points);
         this.max = {
             maxX: null,
             maxY: null,
