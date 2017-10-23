@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:53:56
+ * @Last Modified time: 2017-10-23 14:05:10
  * 在这里添加事件 
  */
 
@@ -25,8 +25,8 @@ export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     this.strokeOrfill = strokeOrfill ? true : false;//是否填充
     this.type = type;
     this.Shape = new shapeTypes[type](option);
-        console.log('方块',this.Shape.Option);
-    
+    console.log('方块', this.Shape.Option);
+
     this.AnimationTimer = new AnimationTimer();
     this.animtionFragList = [];// flag List
     this.bus = null;
@@ -58,20 +58,20 @@ Shape.prototype = {
         if (this.Shape.detected(x, y)) {
             //console.log('点击')
             this.bus.dispatch('getDetectedLayers', 'no', this._layerIndex);
-        }else{
+        } else {
             this.bus.dispatch('getDetectedLayers', 'no', -1);//这是 为了保证 所以层级都检测一遍             
         }
 
     },
     moveDetect: function (x, y) {
         if (this.draggable && this._getChoosed) {
-        //console.log('move',this._layerIndex);            
+            //console.log('move',this._layerIndex);            
             this.Shape.moveDetect(x, y);
         }
     },
     upDetect: function () {
         if (this._getChoosed) {
-        this.bus.dispatch('clearDetectedLayers', 'no');//清空选中数组            
+            this.bus.dispatch('clearDetectedLayers', 'no');//清空选中数组            
             this.Shape.upDetect();
             this._getChoosed = false;
         }
@@ -180,10 +180,16 @@ Shape.prototype = {
         this.Shape.setRotateOrigin(loc)
         return this;
     },
-    updateLayer: function (layer) {
-        //console.log('更新层级', layer);
+    _updateLayer: function (layer) {
+        //console.log('更新层级', layer); //这是初始化的
         this._layerIndex = layer;
-        this.bus.dispatch('updateLayer',this._layerIndex,layer);
+        // this.bus.dispatch('updateLayer', 'no', this._layerIndex, layer);
+    },
+    updateLayer: function (layer) {
+        //console.log('更新层级', layer); 、、这是用户调用的时候
+        
+        // this._layerIndex = layer;
+        this.bus.dispatch('updateLayer', 'no', this,this._layerIndex, layer);
     },
     getChoosed: function () {
         //console.log('选中',this._layerIndex);
@@ -208,16 +214,16 @@ var shapeTypes = {
     'polygon': function (option) {
         return new Polygon(option);
     },
-    'cshape':function(option){
+    'cshape': function (option) {
         return new Cshape(option);
     },
-    'line':function(option){
+    'line': function (option) {
         return new Line(option);
     },
-    'ellipse':function(option){
-        return new Ellipse(option);        
+    'ellipse': function (option) {
+        return new Ellipse(option);
     },
-     'text':function(option){
-        return new Text(option);        
+    'text': function (option) {
+        return new Text(option);
     }
 }

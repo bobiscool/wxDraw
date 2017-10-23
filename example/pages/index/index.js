@@ -56,6 +56,7 @@ Page({
 
 
     this.wxCanvas = new WxDraw(context,0,0,400,500);
+
     /**
      * 由于 小程序没有Dom 操作，所以没法获取canvas高度以及绘图的起点
      * 所以 wxDraw初始化的时候 需要设置 以便点击检测的时候使用
@@ -116,7 +117,7 @@ Page({
     this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir1);
     
-    
+    cir8.updateLayer(3);
     
     // // cir1.updateOption({x:100})
     // this.wxCanvas.add(cir2);

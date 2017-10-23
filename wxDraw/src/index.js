@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:56:56
+ * @Last Modified time: 2017-10-23 14:09:38
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -57,7 +57,7 @@ function WxDraw(canvas, x, y, w, h) {
 WxDraw.prototype = {
     add: function (item) {
         item.updateBus(this.bus)
-        item.updateLayer(this.store.getLength());
+        item._updateLayer(this.store.getLength());
         this.store.add(item);
     },
     draw: function () {
@@ -155,8 +155,18 @@ WxDraw.prototype = {
         this.detectedLayers = [];//清空选中层级
     },
     updateLayer:function(who,oldIndex,index){
-        console.log(this);
+        // console.log(this);
+        let _index=0;
+            _index=index;
+        if(index>=(this.store.store.length-1)){
+            _index=(this.store.store.length-1);
+        }else if(index<=0){
+            _index=(this.store.store.length-1);
+        }
+        who._updateLayer(_index)
         this.store.changeIndex(who,oldIndex,index);
+        // console.log(this.store);
+        
     }
 
 }

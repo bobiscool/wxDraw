@@ -42,7 +42,7 @@ Store.prototype = {
         //         _temIndex = index;
         //       }
         //   }, this);
-
+         
           this.store.splice(oldIndex,1);
           this.store.splice(index,0,obj);
     }

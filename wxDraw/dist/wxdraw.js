@@ -3228,7 +3228,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:53:56
+ * @Last Modified time: 2017-10-23 14:05:10
  * 在这里添加事件 
  */
 
@@ -3384,10 +3384,16 @@ Shape.prototype = {
         this.Shape.setRotateOrigin(loc);
         return this;
     },
-    updateLayer: function updateLayer(layer) {
-        //console.log('更新层级', layer);
+    _updateLayer: function _updateLayer(layer) {
+        //console.log('更新层级', layer); //这是初始化的
         this._layerIndex = layer;
-        this.bus.dispatch('updateLayer', this._layerIndex, layer);
+        // this.bus.dispatch('updateLayer', 'no', this._layerIndex, layer);
+    },
+    updateLayer: function updateLayer(layer) {
+        //console.log('更新层级', layer); 、、这是用户调用的时候
+
+        // this._layerIndex = layer;
+        this.bus.dispatch('updateLayer', 'no', this, this._layerIndex, layer);
     },
     getChoosed: function getChoosed() {
         //console.log('选中',this._layerIndex);
@@ -3565,7 +3571,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:55:33
+ * @Last Modified time: 2017-10-23 14:04:16
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3612,7 +3618,7 @@ function WxDraw(canvas, x, y, w, h) {
 WxDraw.prototype = {
     add: function add(item) {
         item.updateBus(this.bus);
-        item.updateLayer(this.store.getLength());
+        item._updateLayer(this.store.getLength());
         this.store.add(item);
     },
     draw: function draw() {
@@ -3706,8 +3712,9 @@ WxDraw.prototype = {
         this.detectedLayers = []; //清空选中层级
     },
     updateLayer: function updateLayer(who, oldIndex, index) {
-        console.log(this.store);
+        // console.log(this);
         this.store.changeIndex(who, oldIndex, index);
+        console.log(this.store);
     }
 
 };
