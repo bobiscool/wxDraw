@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:10:51
+ * @Last Modified time: 2017-10-23 11:13:11
  * 字体对象
  */
 
@@ -59,6 +59,8 @@ export const Text = function (option) {
     this.Unoption = util.extend(option, tUnoption);
     this.boxOption = { x: 0, y: 0 };
     this.boxOriPoints=[];
+    this.boxPoints=[];
+    this.rotateOrigin=null;
 }
 
 
@@ -80,5 +82,26 @@ Text.prototype = {
         points.push([this.boxOption.x + w / 2, this.boxOption.y - h / 2])
         this.boxOriPoints = points;
         
-    }
+    },
+     getPoints: function () {
+        let _points = [];
+        let origin = null;
+        if (!this.rotateOrigin) {
+            origin = [this.boxOption.x, this.boxOption.y];
+        } else {
+            origin = this.rotateOrigin;
+        }
+
+        //console.log('item', origin);
+
+        this.oriPoints.forEach(function (item) {
+            _points.push(this.getPointTodraw(item[0], item[1], origin))
+        }, this);
+
+
+        this.boxPoints = matrixToarray(_points);//除掉矩阵多余的部分
+        // //console.log(this._Points);
+        // //console.log(this.oriPoints);
+        return this._Points;//除掉矩阵多余的部分;
+    },
 }
