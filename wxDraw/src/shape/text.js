@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:39:54
+ * @Last Modified time: 2017-10-23 13:20:37
  * 字体对象
  */
 
@@ -79,7 +79,7 @@ Text.prototype = {
         // 这里还要根据 baseline textalgin来计算 box位置
         let points = [];
         let len = String(this.text).length;
-        let w = len * this.Option.fontSize;
+        let w = len * this.Option.fontSize/2;
         let h = this.Option.fontSize;
 
         this.offset.x = align(this.Unoption.align, w);
