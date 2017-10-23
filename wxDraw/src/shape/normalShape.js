@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:14:11
+ * @Last Modified time: 2017-10-23 11:30:57
  * 普通形状
  * 
  */
@@ -47,17 +47,17 @@ var cOption = {
 export const Circle = function (option) {
     // var _temOption1 = util.mix(option,)
     var cOption = {
-    x: 10,
-    y: 10,
-    r: 10,
-    sA: 0,
-    eA: Math.PI * 2,
-    counterclockwise: false,
-    ...commonAttr()
-}
+        x: 10,
+        y: 10,
+        r: 10,
+        sA: 0,
+        eA: Math.PI * 2,
+        counterclockwise: false,
+        ...commonAttr()
+    }
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, commonUnAttr);
-    this.Option =  _temOption;
+    this.Option = _temOption;
     // console.log(_temOption);
     this.UnOption = _temUnOption;//不参与动画的属性
     this._isChoosed = false;
@@ -156,18 +156,18 @@ Circle.prototype = {
 
 export const Rect = function (option) {
     var rOption = {
-    x: 10,
-    y: 10,
-    w: 10,
-    h: 10,
-    ...commonAttr()
-}
+        x: 10,
+        y: 10,
+        w: 10,
+        h: 10,
+        ...commonAttr()
+    }
     var _temOption = util.extend(option, rOption);
     console.log(_temOption);
 
     var _temUnOption = util.extend(option, commonUnAttr);
 
-    this.Option =  util.extend({},_temOption);
+    this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption;//不参与动画的属性
 
     this._isChoosed = false;
@@ -199,12 +199,7 @@ Rect.prototype = {
         this._draw(context);
         context.closePath();
         this._drawLine = true;
-        context.setStrokeStyle(this.Option.strokeStyle)
-        context.setLineWidth(this.Option.lineWidth);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
+        this.setCommonstyle(context, 'rect');
         context.stroke();
 
         context.restore();
@@ -215,12 +210,8 @@ Rect.prototype = {
 
         this._draw(context);
         context.closePath();
-        this._drawLine = false;        
-        context.setFillStyle(this.Option.fillStyle);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
+        this._drawLine = false;
+        this.setCommonstyle(context, 'rect');
         context.fill();
         context.restore();
     },
@@ -242,10 +233,10 @@ Rect.prototype = {
         points.push([this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2])
         points.push([this.Option.x + this.Option.w / 2, this.Option.y - this.Option.h / 2])
 
-        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2-this.Option.lineWidth / 2])
-        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2+this.Option.lineWidth / 2])
-        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2+this.Option.lineWidth / 2])
-        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2-this.Option.lineWidth / 2])
+        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2 - this.Option.lineWidth / 2])
+        points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2 + this.Option.lineWidth / 2])
+        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y + this.Option.h / 2 + this.Option.lineWidth / 2])
+        points2.push([this.Option.x + this.Option.w / 2 + this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2 - this.Option.lineWidth / 2])
         this.oriPoints = points;
         this.detectOriPoints = points2;
     },
@@ -342,7 +333,7 @@ Rect.prototype = {
         // console.log('_detectPoints2',this._Points);
         if (this._drawLine) {
             Points = this._detectPoints;
-        }else{
+        } else {
             Points = this._Points;
         }
 

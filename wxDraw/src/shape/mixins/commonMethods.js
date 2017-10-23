@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 19:41:58
+ * @Last Modified time: 2017-10-23 11:30:05
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -94,7 +94,7 @@ export const commonMethods = {
         context.setLineCap(this.UnOption.lineCap);
         context.setLineJoin(this.UnOption.lineJoin);
         // context.setLineDash(this.UnOption.lineDash);
-        if (this.UnOption.lg.length>0) {
+        if (this.UnOption.lg.length > 0) {
 
             /**
              * lg
@@ -107,19 +107,19 @@ export const commonMethods = {
              */
             this.turnColorLock(true);//开启颜色锁
             // gra = context.createLinearGradient(...this.getGradientOption(type).lg);
-            gra = context.createLinearGradient(100,0,200,0);
+            gra = context.createLinearGradient(100, 0, 200, 0);
             this.UnOption.lg.forEach(function (element) {
                 gra.addColorStop(...element);
             }, this);
-            console.log(gra);            
+            console.log(gra);
             context.setFillStyle(gra);
         }
-        if (this.UnOption.cg.length>0 && !this.UnOption.lg.length>0) {
+        if (this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
             this.turnColorLock(true);//开启颜色锁            
             gra = context.createCircularGradient(...this.getGradientOption(type).cg);
             this.UnOption.cg.forEach(function (element) {
                 // console.log(element);
-                gra.addColorStop(element[0],element[1]);
+                gra.addColorStop(element[0], element[1]);
             }, this);
             // console.log(gra);
             context.setFillStyle(gra);
@@ -130,8 +130,14 @@ export const commonMethods = {
             // console.log("没有渐变");
             context.setFillStyle(this.Option.fillStyle);
         }
-        
+
+        context.setStrokeStyle(this.Option.strokeStyle);
+        context.setLineWidth(this.Option.lineWidth);
         context.setGlobalAlpha(this.Option.opacity);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
     },
     turnColorLock: function (onOff) {
         if (onOff) {
@@ -141,15 +147,15 @@ export const commonMethods = {
         }
     },
     getGradientOption: function (type) {
-        
+
         return {
             "circle": type == "circle" ? {
                 "lg": [this.Option.x - this.Option.r,
-                0,
+                    0,
                 this.Option.x + this.Option.r,
-                0],
-                "cg": [this.Option.x, this.Option.y, this.Option.r/10]
-            }:{},
+                    0],
+                "cg": [this.Option.x, this.Option.y, this.Option.r / 10]
+            } : {},
             "rect": type == "rect" ? {
                 "lg": [//这里还得改
                     this.Option.x - this.Option.w / 2,
@@ -163,14 +169,14 @@ export const commonMethods = {
                     Math.sqrt(Math.pow(this.Option.w / 2, 2) +
                         Math.pow(this.Option.h / 2, 2))
                 ]
-            }:{},
-            "polygon":  type == "polygon" ?{
-                "lg":[this.Option.x - this.Option.r,
+            } : {},
+            "polygon": type == "polygon" ? {
+                "lg": [this.Option.x - this.Option.r,
                 this.Option.x - this.Option.r,
                 this.Option.x + this.Option.r,
                 this.Option.y - this.Option.r],
-                "cg":[this.Option.x, this.Option.y, this.Option.r]
-            }:{},
+                "cg": [this.Option.x, this.Option.y, this.Option.r]
+            } : {},
             "cshape": type == "cshape" ? {
                 "lg": [this.max.minX,
                 this.max.minY,
@@ -180,7 +186,7 @@ export const commonMethods = {
                 Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) +
                     Math.pow((this.max.maxY - this.max.minY) / 2, 2))
                 ]
-            } :{},
+            } : {},
             "line": type == "cshape" ? {
                 "lg": [this.max.minX,
                 this.max.minY,
