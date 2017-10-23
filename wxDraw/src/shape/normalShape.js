@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 18:09:20
+ * @Last Modified time: 2017-10-23 18:10:21
  * 普通形状
  * 
  */
@@ -153,7 +153,8 @@ Circle.prototype = {
     getMax: function () {
         //绘制 与检测 不能在统一个地方
         let _Points = this._Points;
-
+        
+        console.log(_Points);
         this.max = {
             maxX: null,
             maxY: null,

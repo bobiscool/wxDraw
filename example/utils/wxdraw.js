@@ -1861,7 +1861,7 @@ Circle.prototype = _extends({
 
         //计算拓展之后的点位
         points.push([this.Option.x, this.Option.y]);
-        point2.push([this.Option.x, this.Option.y]);
+        points2.push([this.Option.x, this.Option.y]);
         this.oriPoints = points;
         this.detectOriPoints = points2;
     },
