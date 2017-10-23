@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:36:52
+ * @Last Modified time: 2017-10-23 15:26:20
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -178,11 +178,6 @@ Cshape.prototype = {
         this._draw(context);
         context.setLineWidth(this.Option.lineWidth);
         this.setCommonstyle(context, 'cshape');
-
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
         context.setStrokeStyle(this.Option.strokeStyle)
         context.stroke();
         context.restore();
@@ -191,13 +186,6 @@ Cshape.prototype = {
         context.save();
         this._draw(context);
         this.setCommonstyle(context, 'cshape');
-
-        context.setFillStyle(this.Option.fillStyle);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
-
         context.fill();
         context.restore();
     },

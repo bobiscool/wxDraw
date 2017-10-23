@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:36:45
+ * @Last Modified time: 2017-10-23 15:24:29
  * 线条 
  */
 
@@ -192,11 +192,7 @@ Line.prototype = {
         this._draw(context);
         context.setStrokeStyle(this.Option.strokeStyle)
         context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
+        this.setCommonstyle(context,'line');
         context.stroke();
         context.restore();
     },

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:20:20
+ * @Last Modified time: 2017-10-23 15:27:03
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -113,7 +113,7 @@ export const commonMethods = {
             this.UnOption.lg.forEach(function (element) {
                 gra.addColorStop(...element);
             }, this);
-            console.log(gra);
+            // console.log(gra);
             context.setFillStyle(gra);
         }
         if (this.UnOption.cg&&this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {

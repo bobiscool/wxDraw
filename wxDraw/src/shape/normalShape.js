@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:30:57
+ * @Last Modified time: 2017-10-23 16:35:01
  * 普通形状
  * 
  */
@@ -63,12 +63,44 @@ export const Circle = function (option) {
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
-    this.rotateOrigin = null;
+    // this.rotateOrigin = null;
     // 用于渐变的
     this._colorLock = false; //颜色锁 设置渐变之后 颜色就就不能动画了
+
+
+    this.max = {
+        maxX: null,
+        maxY: null,
+        minX: null,
+        minY: null,
+    };
+    this.oriPoints = null//拿到最初的点位
+    this._Points = [];//用于检测位置的 点位数组 也是当前位置
+
+    this._isChoosed = false;
+    this.rotateOrigin = null;
+    this._drawLine = false; //用于标识是否画外框
+    this.detectOriPoints = [];
+    this._detectPoints = [];
+    this.getOriPoints();//拿到原始点 
+    this.getMax();//根据原始点 
 }
 
 Circle.prototype = {
+     getOriPoints: function () {
+        var points = [],
+            points2 = [],
+            sA = this.Option.sA || 0,
+            eA = THIS.Option.eA || Math.PI*2;
+
+        for (var i = 0; i < 100; ++i) {
+            points.push([this.Option.x + this.Option.a / 2 * Math.sin(angle), this.Option.y - this.Option.b / 2 * Math.cos(angle)]);
+            points2.push([this.Option.x + (this.Option.a / 2 + this.Option.lineWidth / 2) * Math.sin(angle), this.Option.y - (this.Option.b + this.Option.lineWidth) / 2 * Math.cos(angle)]);
+            angle += (eA-sA) / 100;
+        }
+        this.oriPoints = points;
+        this.detectOriPoints = points2;
+    },
     stroke: function (context) {
         context.save();
         context.beginPath();
@@ -78,11 +110,6 @@ Circle.prototype = {
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
         this.setCommonstyle(context, 'circle');
-
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
         context.stroke();
 
         context.restore();
@@ -94,11 +121,6 @@ Circle.prototype = {
         context.closePath();
         this.setCommonstyle(context, 'circle');
 
-        // console.log(this.Option);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
 
         // console.log(objToArray(this.Option.Shandow));
         context.fill();

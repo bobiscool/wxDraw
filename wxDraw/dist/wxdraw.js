@@ -563,7 +563,7 @@ var commonUnAttr = { //这些样式只能单独设定
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:20:20
+ * @Last Modified time: 2017-10-23 15:27:03
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -675,7 +675,7 @@ var commonMethods = {
 
                 (_gra = gra).addColorStop.apply(_gra, toConsumableArray(element));
             }, this);
-            console.log(gra);
+            // console.log(gra);
             context.setFillStyle(gra);
         }
         if (this.UnOption.cg && this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
@@ -1066,7 +1066,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 10:29:04
+ * @Last Modified time: 2017-10-23 15:25:24
  * 椭圆
  * 
  */
@@ -1197,14 +1197,14 @@ Ellipse.prototype = _extends({
         context.save();
         this._drawLine = true;
         this._draw(context);
-        this.setCommonstyle(context);
+        this.setCommonstyle(context, 'ellipse');
 
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
+        // if (this.Option.shadow) {
+        //     // console.log(objToArray(this.Option.Shadow));
+        //     context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        // }
         // console.log('已然绘制');
 
         context.stroke();
@@ -1214,7 +1214,7 @@ Ellipse.prototype = _extends({
         context.save();
         this._drawLine = false;
         this._draw(context);
-        this.setCommonstyle(context);
+        this.setCommonstyle(context, 'ellipse');
 
         context.setFillStyle(this.Option.fillStyle);
 
@@ -1515,7 +1515,7 @@ Text.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:36:45
+ * @Last Modified time: 2017-10-23 15:24:29
  * 线条 
  */
 
@@ -1689,11 +1689,7 @@ Line.prototype = _extends({
         this._draw(context);
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
+        this.setCommonstyle(context, 'line');
         context.stroke();
         context.restore();
     },
@@ -1773,7 +1769,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:30:57
+ * @Last Modified time: 2017-10-23 15:23:35
  * 普通形状
  * 
  */
@@ -1834,11 +1830,6 @@ Circle.prototype = _extends({
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
         this.setCommonstyle(context, 'circle');
-
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
         context.stroke();
 
         context.restore();
@@ -1849,12 +1840,6 @@ Circle.prototype = _extends({
         this._draw(context);
         context.closePath();
         this.setCommonstyle(context, 'circle');
-
-        // console.log(this.Option);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
 
         // console.log(objToArray(this.Option.Shandow));
         context.fill();
@@ -2146,7 +2131,7 @@ Rect.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:36:52
+ * @Last Modified time: 2017-10-23 15:26:20
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -2302,11 +2287,6 @@ Cshape.prototype = _extends({
         this._draw(context);
         context.setLineWidth(this.Option.lineWidth);
         this.setCommonstyle(context, 'cshape');
-
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
         context.setStrokeStyle(this.Option.strokeStyle);
         context.stroke();
         context.restore();
@@ -2315,13 +2295,6 @@ Cshape.prototype = _extends({
         context.save();
         this._draw(context);
         this.setCommonstyle(context, 'cshape');
-
-        context.setFillStyle(this.Option.fillStyle);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
-
         context.fill();
         context.restore();
     },

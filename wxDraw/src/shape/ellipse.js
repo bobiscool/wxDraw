@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 10:29:04
+ * @Last Modified time: 2017-10-23 15:25:24
  * 椭圆
  * 
  */
@@ -147,14 +147,14 @@ Ellipse.prototype = {
         context.save();
         this._drawLine = true;
         this._draw(context);
-        this.setCommonstyle(context);
+        this.setCommonstyle(context,'ellipse');
 
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
+        // if (this.Option.shadow) {
+        //     // console.log(objToArray(this.Option.Shadow));
+        //     context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        // }
         // console.log('已然绘制');
 
         context.stroke();
@@ -164,7 +164,7 @@ Ellipse.prototype = {
         context.save();
         this._drawLine = false;
         this._draw(context);
-        this.setCommonstyle(context);
+        this.setCommonstyle(context,'ellipse');
 
         context.setFillStyle(this.Option.fillStyle);
 
