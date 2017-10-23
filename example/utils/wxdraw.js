@@ -1769,7 +1769,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 18:46:44
+ * @Last Modified time: 2017-10-23 18:49:28
  * 普通形状
  * 
  */
@@ -1867,6 +1867,8 @@ Circle.prototype = _extends({
         var y0 = k1 * x0 + b1;
 
         console.log(b1);
+        console.log(Math.sin(aA / 2));
+        console.log(k1);
         console.log(l);
         console.log('x0', -1 * Math.pow(b1, 2) + Math.pow(l, 2) + Math.pow(k1, 2) * Math.pow(l, 2));
         console.log('x0', -1 * Math.pow(b1, 2));
