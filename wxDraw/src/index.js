@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 14:14:25
+ * @Last Modified time: 2017-10-23 14:29:51
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -47,7 +47,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('update', this, this.update);
     this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
     this.bus.add('clearDetectedLayers', this, this.clearDetectedLayers);
-    this.bus.add('updateLayer',this,this.updateLayer);
+    this.bus.add('updateLayer', this, this.updateLayer);
     // //console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
@@ -141,11 +141,11 @@ WxDraw.prototype = {
     },
     getDetectedLayers: function (layers) {
         this.detectedLayers.push(layers);// 这个地方不能推一次 就 判断一次 应该全部推完了 之后再来判断 
-        if (this.detectedLayers.length == this.store.getLength()&&Math.max.apply(null, this.detectedLayers)!=-1) {
+        if (this.detectedLayers.length == this.store.getLength() && Math.max.apply(null, this.detectedLayers) != -1) {
             this.store.find(Math.max.apply(null, this.detectedLayers)).getChoosed();
         }
 
-        if(this.detectedLayers.length == this.store.getLength()&&Math.max.apply(null, this.detectedLayers)==-1){
+        if (this.detectedLayers.length == this.store.getLength() && Math.max.apply(null, this.detectedLayers) == -1) {
             this.clearDetectedLayers();
         }
         //   //console.log(this.detectedLayers);
@@ -154,28 +154,45 @@ WxDraw.prototype = {
         //console.log('清空选中层级');
         this.detectedLayers = [];//清空选中层级
     },
-    updateLayer:function(who,oldIndex,index){
+    updateLayer: function (who, oldIndex, index) {
         // console.log(this);
-        let _index=0;
-            _index=index;
-        if(index>=(this.store.store.length-1)){
-            _index=(this.store.store.length-1);
-        }else if(index<=0){
-            _index=(this.store.store.length-1);
+        let _index = 0, flag;
+        _index = index;
+
+        if (typeof index == 'string') {
+            if (index.indexOf('-') === 0) flag = -1;
+            else if (index.indexOf('+') === 0) flag = 1;
+            else flag = false;
+        }
+        if (flag) {
+            //相对增减
+            _index = oldIndex + flag * parseInt(flag == -1 ? index.split('-')[1] : index.split('+')[1]);
+        }
+        else {
+ 
+                _index = parseInt(index);
+        }
+
+
+        if (_index >= (this.store.store.length - 1)) {
+            _index = (this.store.store.length - 1);
+        }
+        if (_index<= 0) {
+            _index = (this.store.store.length - 1);
         }
         // who._updateLayer(_index)
-        this.store.changeIndex(who,oldIndex,index);
+        this.store.changeIndex(who, oldIndex, _index);
         // console.log(this.store);
 
-          this.store.store.forEach(function(item,index){
-                item._updateLayer(index);//这里没写好 。。但现在没想到更好的办法
-           })
-        
+        this.store.store.forEach(function (item, index) {
+            item._updateLayer(index);//这里没写好 。。但现在没想到更好的办法
+        })
+
     }
 
 }
 
-var wxDraw={
+var wxDraw = {
     WxDraw: WxDraw,
     Shape: Shape,
     AnimationFrame: AnimationFrame()

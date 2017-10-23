@@ -119,6 +119,7 @@ Page({
     
     cir8.updateLayer(2);
     
+    
     // // cir1.updateOption({x:100})
     // this.wxCanvas.add(cir2);
     // console.log(cir2);

@@ -3571,7 +3571,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 14:09:38
+ * @Last Modified time: 2017-10-23 14:14:25
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3713,16 +3713,12 @@ WxDraw.prototype = {
     },
     updateLayer: function updateLayer(who, oldIndex, index) {
         // console.log(this);
-        var _index = 0;
-        _index = index;
-        if (index >= this.store.store.length - 1) {
-            _index = this.store.store.length - 1;
-        } else if (index <= 0) {
-            _index = this.store.store.length - 1;
-        }
-        who._updateLayer(_index);
         this.store.changeIndex(who, oldIndex, index);
         // console.log(this.store);
+
+        this.store.store.forEach(function (item, index) {
+            item._updateLayer(index); //这里没写好 。。但现在没想到更好的办法
+        });
     }
 
 };
