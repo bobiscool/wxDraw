@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:13:11
+ * @Last Modified time: 2017-10-23 11:26:19
  * 字体对象
  */
 
@@ -58,9 +58,15 @@ export const Text = function (option) {
     this.Option = util.extend(option, tOption);
     this.Unoption = util.extend(option, tUnoption);
     this.boxOption = { x: 0, y: 0 };
-    this.boxOriPoints=[];
-    this.boxPoints=[];
-    this.rotateOrigin=null;
+    this.boxOriPoints = [];
+    this.boxPoints = [];
+    this.rotateOrigin = null;
+    this.offset = { // box中中心点与textalign点的差值
+        x: 0,
+        y: 0
+    },
+        this._offsetX = 0,//用于点击检测的
+        this._offsetY = 0
 }
 
 
@@ -73,17 +79,19 @@ Text.prototype = {
         let w = len * this.Option.fontSize;
         let h = len * this.Option.fontSize;
 
-        this.boxOption.x =this.Option.x+align(this.Unoption.align,w);
-        this.boxOption.y =this.Option.y+baseline(this.Unoption.baseline,h);
+        this.offset.x = align(this.Unoption.align, w);
+        this.offset.y = baseline(this.Unoption.baseline, h);
+        this.boxOption.x = this.Option.x + this.offset.x;
+        this.boxOption.y = this.Option.y + this.offset.y;
 
         points.push([this.boxOption.x - w / 2, this.boxOption.y - h / 2])
         points.push([this.boxOption.x - w / 2, this.boxOption.y + h / 2])
         points.push([this.boxOption.x + w / 2, this.boxOption.y + h / 2])
         points.push([this.boxOption.x + w / 2, this.boxOption.y - h / 2])
         this.boxOriPoints = points;
-        
+
     },
-     getPoints: function () {
+    getPoints: function () {
         let _points = [];
         let origin = null;
         if (!this.rotateOrigin) {
@@ -104,4 +112,81 @@ Text.prototype = {
         // //console.log(this.oriPoints);
         return this._Points;//除掉矩阵多余的部分;
     },
+    getPointTodraw: function (x, y, origin) {
+        let angle = this.Option.rotate;
+        //将所有变化 都转到 Point对象去了 
+        return new Point(x, y).rotate(origin, angle);//计算出每一个点变化之后的位置
+    },
+    _pnpolyTest(x, y) {
+        // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
+        // var A = this.points[0];// 拿到前面两个点
+        // var B = this.points[1];
+        var ifInside = false;
+        var Points = this.boxPoints;
+
+        for (var i = 0, j = Points.length - 1; i < Points.length; j = i++) {
+
+            var Xi = Points[i][0], Yi = Points[i][1];
+            var Xj = Points[j][0], Yj = Points[j][1];
+
+            var insect = ((Yi > y) != (Yj > y)) && (x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi);
+
+            if (insect) ifInside = !ifInside;
+        }
+
+        return ifInside;
+    },
+    move: function (x, y) {
+        this.boxOption.x = x;
+        this.boxOption.y = y;
+        this.Option.x = x - this.offset.x;
+        this.Option.y = y - this.offset.y;
+    },
+    detected: function (x, y) {
+        // //console.log('检测方块', x, y);
+        // //console.log('方块', this.Option);
+        var _self = this;
+
+        // //console.log('方块', _self.Option.x, x, _self.Option.y, y, (_self.Option.y + _self.Option.h), y, (_self.Option.x + _self.Option.w), x);
+        // if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
+        //在最小矩形里面才开始
+        // //console.log('点中');
+        // this.points = this._Points;
+
+        this._offsetX = this.boxOption.x - x;
+        this._offsetY = this.boxOption.y - y;
+        if (this._pnpolyTest(x, y)) {
+            this._isChoosed = true;
+            return true;
+        }
+        // }
+    },
+     moveDetect: function (x, y) {
+
+        if (this._isChoosed == true) {
+            this.move(x + this._offsetX, y + this._offsetY);
+            this.getOriPoints();//拿到原始点
+            this.getPoints();//拿到变化点
+        }
+
+    },
+     stroke: function (context) {
+        this.fill(context);//先这样写
+    },
+    fill: function (context) {
+        context.save();
+        context.beginPath();
+        context.setFontSize(this.Option.fontSize);
+        context.setTextAlign(this.Unoption.align);
+        context.setTextBaseline(this.Unoption.textBaseline);
+        context.closePath();
+        context.setFillStyle(this.Option.fillStyle);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
+        context.fillText(this.text);        
+        context.restore();
+    },
+    ...commonMethods
 }

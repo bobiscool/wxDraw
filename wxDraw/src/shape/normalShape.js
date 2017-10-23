@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:11:55
+ * @Last Modified time: 2017-10-23 11:14:11
  * 普通形状
  * 
  */
@@ -338,8 +338,8 @@ Rect.prototype = {
 
         var Points = null;
 
-        console.log('_detectPoints',this._detectPoints);
-        console.log('_detectPoints2',this._Points);
+        // console.log('_detectPoints',this._detectPoints);
+        // console.log('_detectPoints2',this._Points);
         if (this._drawLine) {
             Points = this._detectPoints;
         }else{
