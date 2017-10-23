@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 14:29:51
+ * @Last Modified time: 2017-10-23 14:33:37
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -166,7 +166,9 @@ WxDraw.prototype = {
         }
         if (flag) {
             //相对增减
+            console.log('相对增减');
             _index = oldIndex + flag * parseInt(flag == -1 ? index.split('-')[1] : index.split('+')[1]);
+            console.log(_index);
         }
         else {
  
@@ -178,7 +180,7 @@ WxDraw.prototype = {
             _index = (this.store.store.length - 1);
         }
         if (_index<= 0) {
-            _index = (this.store.store.length - 1);
+            _index = 0;
         }
         // who._updateLayer(_index)
         this.store.changeIndex(who, oldIndex, _index);

@@ -3228,7 +3228,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 14:05:10
+ * @Last Modified time: 2017-10-23 14:16:05
  * 在这里添加事件 
  */
 
@@ -3393,6 +3393,7 @@ Shape.prototype = {
         //console.log('更新层级', layer); 、、这是用户调用的时候
 
         // this._layerIndex = layer;
+
         this.bus.dispatch('updateLayer', 'no', this, this._layerIndex, layer);
     },
     getChoosed: function getChoosed() {
@@ -3571,7 +3572,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 14:14:25
+ * @Last Modified time: 2017-10-23 14:33:37
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3713,7 +3714,31 @@ WxDraw.prototype = {
     },
     updateLayer: function updateLayer(who, oldIndex, index) {
         // console.log(this);
-        this.store.changeIndex(who, oldIndex, index);
+        var _index = 0,
+            flag = void 0;
+        _index = index;
+
+        if (typeof index == 'string') {
+            if (index.indexOf('-') === 0) flag = -1;else if (index.indexOf('+') === 0) flag = 1;else flag = false;
+        }
+        if (flag) {
+            //相对增减
+            console.log('相对增减');
+            _index = oldIndex + flag * parseInt(flag == -1 ? index.split('-')[1] : index.split('+')[1]);
+            console.log(_index);
+        } else {
+
+            _index = parseInt(index);
+        }
+
+        if (_index >= this.store.store.length - 1) {
+            _index = this.store.store.length - 1;
+        }
+        if (_index <= 0) {
+            _index = 0;
+        }
+        // who._updateLayer(_index)
+        this.store.changeIndex(who, oldIndex, _index);
         // console.log(this.store);
 
         this.store.store.forEach(function (item, index) {
