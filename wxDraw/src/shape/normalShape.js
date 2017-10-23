@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 17:11:43
+ * @Last Modified time: 2017-10-23 17:15:21
  * 普通形状
  * 
  */
@@ -114,8 +114,9 @@ Circle.prototype = {
         let b1 = this.Option.y - this.Option.x * k1;
         let l = this.Option.lineWidth / Math.sin(aA / 2);
         let $x = (-k1 * b1 + Math.sqrt(-Math.pow(b1, 2) + Math.pow(l, 2) + Math.pow(k1, 2) * Math.pow(l, 2))) / (1 + Math.pow(k1, 2));
-        let y = k1*($x+this.Option.x)+b1;
-
+        let x0 =  $x+this.Option.x
+        let y0 = k1*x0+b1;
+       
 
         points.push([this.Option.x, this.Option.y]);
         point2.push([this.Option.x, this.Option.y]);
