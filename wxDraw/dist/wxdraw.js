@@ -1769,19 +1769,10 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:01:55
+ * @Last Modified time: 2017-10-23 19:06:47
  * 普通形状
  * 
  */
-var cOption = _extends({
-    x: 10,
-    y: 10,
-    r: 10,
-    sA: 0,
-    eA: Math.PI * 2,
-    counterclockwise: false
-}, commonAttr);
-
 // var rOption = {
 //     x: 10,
 //     y: 10,
@@ -1965,6 +1956,7 @@ Circle.prototype = _extends({
     stroke: function stroke(context) {
         context.save();
         context.beginPath();
+        this._drawLine = true; //用于标识是否画外框        
         this._draw(context);
         context.closePath();
 
@@ -1978,6 +1970,8 @@ Circle.prototype = _extends({
     fill: function fill(context) {
         context.save();
         context.beginPath();
+        this._drawLine = false; //用于标识是否画外框
+
         this._draw(context);
         context.closePath();
         this.setCommonstyle(context, 'circle');
@@ -2072,6 +2066,19 @@ Circle.prototype = _extends({
 
 /**
  * 方块
+ */
+
+// module.exports = {
+//     Circle: Circle,
+//     Rect: Rect
+// }
+
+/*
+ * @Author: Thunderball.Wu 
+ * @Date: 2017-10-23 19:04:04 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-23 19:05:10
+ * 分离开
  */
 
 var Rect = function Rect(option) {
@@ -2244,7 +2251,6 @@ Rect.prototype = _extends({
         // console.log('_detectPoints2',this._Points);
         if (this._drawLine) {
             Points = this._detectPoints;
-            console.log('检测 外边框');
         } else {
             Points = this._Points;
         }
@@ -2305,11 +2311,6 @@ Rect.prototype = _extends({
         
     }
 }, commonMethods);
-
-// module.exports = {
-//     Circle: Circle,
-//     Rect: Rect
-// }
 
 /*
  * @Author: Thunderball.Wu 
@@ -3399,7 +3400,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 14:16:05
+ * @Last Modified time: 2017-10-23 19:05:27
  * 在这里添加事件 
  */
 

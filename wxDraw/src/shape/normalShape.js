@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:04:47
+ * @Last Modified time: 2017-10-23 19:08:23
  * 普通形状
  * 
  */
@@ -94,7 +94,7 @@ Circle.prototype = {
         for (var i = 0; i < 100; ++i) {
             points.push([this.Option.x + this.Option.r * Math.cos(sA), this.Option.y + this.Option.r * Math.sin(sA)]);
             points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA), this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA)]);
-            
+
             sA += aA / 100;
         }
 
@@ -105,7 +105,7 @@ Circle.prototype = {
         // let $x = (-1*k1 * b1 + Math.sqrt(-Math.pow(b1, 2) + Math.pow(l, 2) + Math.pow(k1, 2) * Math.pow(l, 2))) / (1 + Math.pow(k1, 2));
         // let x0 = $x + this.Option.x
         // let y0 = k1 * x0 + b1;
-        
+
         //  console.log(b1);
         //  console.log(Math.sin(aA / 2));
         //  console.log(k1);
@@ -207,6 +207,7 @@ Circle.prototype = {
     stroke: function (context) {
         context.save();
         context.beginPath();
+        this._drawLine = true; //用于标识是否画外框        
         this._draw(context);
         context.closePath();
 
@@ -220,6 +221,8 @@ Circle.prototype = {
     fill: function (context) {
         context.save();
         context.beginPath();
+        this._drawLine = false; //用于标识是否画外框
+
         this._draw(context);
         context.closePath();
         this.setCommonstyle(context, 'circle');
@@ -290,6 +293,7 @@ Circle.prototype = {
         var Points = null;
         if (this._drawLine) {
             Points = this._detectPoints;
+            console.log("监测点");
         } else {
             Points = this._Points;
         }
