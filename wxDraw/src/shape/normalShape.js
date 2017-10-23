@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 17:50:02
+ * @Last Modified time: 2017-10-23 18:08:26
  * 普通形状
  * 
  */
@@ -104,8 +104,8 @@ Circle.prototype = {
 
 
         for (var i = 0; i < 99; ++i) {
-            points.push([this.Option.x + this.Option.a / 2 * Math.sin(angle), this.Option.y - this.Option.b / 2 * Math.cos(angle)]);
-            points2.push([this.Option.x + (this.Option.a / 2 + this.Option.lineWidth / 2) * Math.sin(angle), this.Option.y - (this.Option.b + this.Option.lineWidth) / 2 * Math.cos(angle)]);
+            points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
+            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
             angle += aA / 100;
         }
 
@@ -152,7 +152,7 @@ Circle.prototype = {
     },
     getMax: function () {
         //绘制 与检测 不能在统一个地方
-        let _Points = this._detectPoints;
+        let _Points = this._Points;
 
         this.max = {
             maxX: null,
@@ -190,7 +190,7 @@ Circle.prototype = {
     createPath: function (context) {
         //创建路径
         var points = this._Points;
-
+        
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < 100; ++i) {
