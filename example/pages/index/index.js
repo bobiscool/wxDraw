@@ -64,9 +64,9 @@ Page({
     // this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:20,fillStyle:"#333333"},true));
 
     var cir1 = new Shape('cshape', {
-      fillStyle: "#000000", rotate: Math.PI / 2, points: [
+      fillStyle: "#333333", rotate: Math.PI / 2, points: [
         [70, 85],
-        [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]],lineWidth:0.5,Shadow:"#ffffff"}, false,true);
+        [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]],lineWidth:0.5}, true,true);
     var a = [[70, 85],
         [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]];
 
@@ -75,8 +75,8 @@ Page({
         })
           console.log(am2);
         var cir8 = new Shape('cshape', {
-      fillStyle: "#000000", rotate: Math.PI / 2, points:am2, lineWidth: 0.5, Shadow: "#ffffff"
-    }, false, true);
+          fillStyle: "#E1D5A3", rotate: Math.PI / 2, points:am2, lineWidth: 0.5, Shadow: "#ffffff"
+    }, true, true);
     var cir4 = new Shape('line', {
       fillStyle: "#000000", rotate: Math.PI / 2, points: [
         [163, 193], [-18, 48]], lineWidth: 12, Shadow: "#ffffff"
@@ -109,10 +109,14 @@ Page({
     // this.wxCanvas.add(cir4);
     // this.wxCanvas.add(cir3);
     // this.wxCanvas.add(cir2);
-    this.wxCanvas.add(cir1);
+    // this.wxCanvas.add(cir1);
     // this.wxCanvas.add(cir7);
-    this.wxCanvas.add(cir9);
+    // this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir8);
+    this.wxCanvas.add(cir9);
+    this.wxCanvas.add(cir1);
+    
+    
     
     // // cir1.updateOption({x:100})
     // this.wxCanvas.add(cir2);

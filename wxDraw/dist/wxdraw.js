@@ -551,7 +551,7 @@ var commonUnAttr = { //这些样式只能单独设定
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:24:33
+ * @Last Modified time: 2017-10-23 13:25:11
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -644,7 +644,7 @@ var commonMethods = {
             context.setLineJoin(this.UnOption.lineJoin);
         }
         // context.setLineDash(this.UnOption.lineDash);
-        if (this.UnOption.lg.length > 0) {
+        if (this.UnOption.lg && this.UnOption.lg.length > 0) {
 
             /**
              * lg
@@ -666,7 +666,7 @@ var commonMethods = {
             console.log(gra);
             context.setFillStyle(gra);
         }
-        if (this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
+        if (this.UnOption.cg && this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
             this.turnColorLock(true); //开启颜色锁            
             gra = context.createCircularGradient.apply(context, toConsumableArray(this.getGradientOption(type).cg));
             this.UnOption.cg.forEach(function (element) {
@@ -1302,7 +1302,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 13:23:55
+ * @Last Modified time: 2017-10-23 13:26:06
  * 字体对象
  */
 
@@ -1465,7 +1465,11 @@ Text.prototype = _extends({
         this.getOriPoints(); //拿到原始点
         this.getPoints(); //拿到变化点
         context.save();
-        this.setCommonstyle(context);
+        context.setGlobalAlpha(this.Option.opacity);
+        if (this.Option.Shadow) {
+            // console.log(objToArray(this.Option.Shadow));
+            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
+        }
         context.beginPath();
         context.setFontSize(this.Option.fontSize);
         context.setTextAlign(this.Unoption.align);
@@ -3548,7 +3552,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-19 15:22:45
+ * @Last Modified time: 2017-10-23 13:29:17
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3601,6 +3605,7 @@ WxDraw.prototype = {
         this.store.store.forEach(function (item) {
             item.paint(this.canvas);
         }, this);
+        console.log(this.canvas.actions);
     },
     detect: function detect(e) {
         //事件检测

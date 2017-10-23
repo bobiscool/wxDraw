@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:31:58
+ * @Last Modified time: 2017-10-23 13:53:56
  * 在这里添加事件 
  */
 
@@ -183,6 +183,7 @@ Shape.prototype = {
     updateLayer: function (layer) {
         //console.log('更新层级', layer);
         this._layerIndex = layer;
+        this.bus.dispatch('updateLayer',this._layerIndex,layer);
     },
     getChoosed: function () {
         //console.log('选中',this._layerIndex);

@@ -33,6 +33,18 @@ Store.prototype = {
 
 
        return _tem;
+    },
+    changeIndex:function(obj,oldIndex,index){
+        // let _tem,_temIndex;
+        //   this.store.forEach(function(element,index) {
+        //       if(element[type]==val){
+        //         _tem = element;
+        //         _temIndex = index;
+        //       }
+        //   }, this);
+
+          this.store.splice(oldIndex,1);
+          this.store.splice(index,0,obj);
     }
 
 }
