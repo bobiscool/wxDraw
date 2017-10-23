@@ -1300,7 +1300,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 11:37:20
+ * @Last Modified time: 2017-10-23 11:39:04
  * 字体对象
  */
 
@@ -1370,10 +1370,10 @@ Text.prototype = _extends({
         var points = [];
         var len = String(this.text).length;
         var w = len * this.Option.fontSize;
-        var h = len * this.Option.fontSize;
+        var h = this.Option.fontSize;
 
         this.offset.x = align(this.Unoption.align, w);
-        this.offset.y = baseline(this.Unoption.baseline, h);
+        this.offset.y = baseline(this.Unoption.textBaseline, h);
         this.boxOption.x = this.Option.x + this.offset.x;
         this.boxOption.y = this.Option.y + this.offset.y;
 
