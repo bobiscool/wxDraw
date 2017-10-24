@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-24 15:39:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:40:20
+ * @Last Modified time: 2017-10-24 15:41:01
  * 贝塞尔曲线
  * 2次 三次一起
  */
@@ -269,6 +269,7 @@ Line.prototype = {
         }
 
         return ifInside;
+        
     },
     ...commonMethods
 }
