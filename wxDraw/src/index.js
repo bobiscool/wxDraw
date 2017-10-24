@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:02:04
+ * @Last Modified time: 2017-10-24 14:07:01
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -173,9 +173,9 @@ WxDraw.prototype = {
     },
     getDetectedLayers: function (layers) {
         this.detectedLayers.push(layers);// 这个地方不能推一次 就 判断一次 应该全部推完了 之后再来判断 
-        console.log(this.detectedLayers);
+        // console.log(this.detectedLayers);
         if (this.detectedLayers.length == this.store.getLength() && Math.max.apply(null, this.detectedLayers) != -1) {
-            console.log('选取层级');
+            // console.log('选取层级');
             this.store.find(Math.max.apply(null, this.detectedLayers)).getChoosed();
         }
 
@@ -202,7 +202,7 @@ WxDraw.prototype = {
             //相对增减
             // console.log('相对增减');
             _index = oldIndex + flag * parseInt(flag == -1 ? index.split('-')[1] : index.split('+')[1]);
-            console.log(_index);
+            // console.log(_index);
         }
         else {
 

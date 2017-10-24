@@ -35,11 +35,11 @@ Page({
     this.wxCanvas.touchendDetect();
   },
   bindtap:function(e){
-    console.log(e);    
+    // console.log(e);    
     this.wxCanvas.tapDetect(e);
   },
   bindlongpress:function(e){
-    console.log(e);
+    // console.log(e);
     this.wxCanvas.longpressDetect(e);
   },
   onLoad: function () {

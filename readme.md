@@ -59,13 +59,12 @@
 - [x]矩阵变换
 - [x] 层级修改
 - [x] 事件
-        - [ ] touchstart
-        - [ ] touchmove 
-        - [ ] touchend
-        - [ ] 拖拽事件
-        - [ ] move事件「与拖拽事件不一样。。move还有可能是动画运动的时候」
-        - [ ] tap事件
-        - [ ] longpress事件
+        - [x] touchstart
+        - [x] touchmove 
+        - [x] touchend
+        - [x] 拖拽事件
+        - [x] tap事件
+        - [x] longpress事件
         - [ ] ~划入划出~「划入划出是鼠标的事件吧」
 - [ ] 编辑框
     - 点击框选

@@ -3417,7 +3417,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:58:44
+ * @Last Modified time: 2017-10-24 14:05:11
  * 在这里添加事件 
  */
 
@@ -3463,11 +3463,11 @@ Shape.prototype = {
     },
     detect: function detect(x, y, type) {
         //检查点击了谁
-        console.log('点中了吗', x, y, type);
-        console.log('点中了吗', this.Shape.detected(x, y));
+        //    console.log('点中了吗',x,y,type);
+        //    console.log('点中了吗',this.Shape.detected(x, y));
         if (this.Shape.detected(x, y)) {
             //console.log('点击')
-            console.log(this.type);
+            // console.log(this.type);
             this._nowType = type;
             this.bus.dispatch('getDetectedLayers', 'no', this._layerIndex);
         } else {
@@ -3811,7 +3811,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:02:04
+ * @Last Modified time: 2017-10-24 14:06:00
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3970,9 +3970,9 @@ WxDraw.prototype = {
     },
     getDetectedLayers: function getDetectedLayers(layers) {
         this.detectedLayers.push(layers); // 这个地方不能推一次 就 判断一次 应该全部推完了 之后再来判断 
-        console.log(this.detectedLayers);
+        // console.log(this.detectedLayers);
         if (this.detectedLayers.length == this.store.getLength() && Math.max.apply(null, this.detectedLayers) != -1) {
-            console.log('选取层级');
+            // console.log('选取层级');
             this.store.find(Math.max.apply(null, this.detectedLayers)).getChoosed();
         }
 
