@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:18:16
+ * @Last Modified time: 2017-10-24 14:51:14
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -139,6 +139,11 @@ export const commonMethods = {
         if (this.Option.shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
+        }
+        if(this.UnOption.isLineDash){
+            if(context.setLineDash){
+                context.setLineDash(this.Option.lineDash);//设置linedash
+            }
         }
     },
     turnColorLock: function (onOff) {

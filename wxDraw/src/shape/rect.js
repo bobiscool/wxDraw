@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:51:33
+ * @Last Modified time: 2017-10-24 14:13:50
  * 分离开
  */
 
@@ -22,7 +22,7 @@ export const Rect = function (option) {
         ...commonAttr()
     }
     var _temOption = util.extend(option, rOption);
-    console.log(_temOption);
+    // console.log(_temOption);
 
     var _temUnOption = util.extend(option, commonUnAttr);
 

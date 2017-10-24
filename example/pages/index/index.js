@@ -1,9 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var WxDraw = require("../../utils/wxdraw.js").WxDraw;
-var Shape = require("../../utils/wxdraw.js").Shape;
-var AnimationFrame = require("../../utils/wxdraw.js").AnimationFrame;
+var WxDraw = require("../../utils/wxdraw.min.js").WxDraw;
+var Shape = require("../../utils/wxdraw.min.js").Shape;
+var AnimationFrame = require("../../utils/wxdraw.min.js").AnimationFrame;
 
 // console.log(cancelAnimationFrame);
 
@@ -22,7 +22,7 @@ Page({
   },
   bindtouchstart:function(e){
     // 检测手指点击事件
-    console.log(e);
+    // console.log(e);
     this.wxCanvas.touchstartDetect(e);
     
   },
@@ -106,14 +106,14 @@ Page({
     },true, true)    
 
     console.log(cir3);
-    // // cir3.setOrigin([40,40])
-    // console.log(cir3);
-    // this.wxCanvas.add(cir4);
-    // this.wxCanvas.add(cir3);
-    // this.wxCanvas.add(cir2);
+    // cir3.setOrigin([40,40])
+    console.log(cir3);
+    this.wxCanvas.add(cir4);
+    this.wxCanvas.add(cir3);
+    this.wxCanvas.add(cir2);
     this.wxCanvas.add(cir1);
-    // this.wxCanvas.add(cir7);
-    // this.wxCanvas.add(cir9);
+    this.wxCanvas.add(cir7);
+    this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir8);
     this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir1);
@@ -129,44 +129,10 @@ Page({
     cir8.on('tap',function(a){
       console.log(a);
     });
-    // // cir1.updateOption({x:100})
-    // this.wxCanvas.add(cir2);
-    // console.log(cir2);
-    // cir2.updateOption({ x: 200 })
-    // setTimeout(function(){
-    //   cir2.updateOption({ x: 100 })
-    // },2000);
+  
 
     console.log(this.wxCanvas);
-    // cir1.animate({
-    //   "x":"+=100",
-    //   "y":"+=100",
-    //   "r":"+=100"
 
-    // // },{
-    // //   duration: 4000,
-    // //   onLooping: function () {
-    // //     console.log('***');
-    // //   },
-    // //   easing: "bouncePast"
-    // //   }).animate({ 'rotate': Math.PI, "x": "-=20", y: 200 }, {
-    // //     duration: 2000,
-    // //     onLooping: function () {
-    // //       console.log('----');
-    // //     },
-    // //     easing: "bouncePast"
-    // //   });
-
-
-    // cir4.animate({a: "+=100",b:"10",lineWidth:"1",Shadow:{
-    //   offsetX:20
-    // }, rotate: 20, fillStyle:"#EAFF87"}, {
-    //     duration: 10000,
-    //     onLooping: function () {
-    //       console.log('----');
-    //     },
-    //     easing: "linear"
-    // }).start(1);
     cir9.animate({rotate:"+=10"}, {
       duration: 10000,
       onLooping: function () {
@@ -175,7 +141,7 @@ Page({
       easing: "linear"
     }).start();
 
-    // ci
+
     cir12.animate({ /*'rotate': Math.PI, "x": "+=200",y: 400,*/sA:Math.PI }, {
       duration: 10000,
       onLooping: function () {
@@ -183,125 +149,16 @@ Page({
       },
       easing: "bouncePast"
       }).start();
+
+    cir3.animate({ 'rotate': Math.PI, fillStyle:"#F88863"}, {
+      duration: 10000,
+      onLooping: function () {
+        // console.log('----');
+      },
+      easing: "bouncePast"
+    }).start();
       
-      // .animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
-      //   duration: 2000,
-      //   onLooping: function () {
-      //     console.log('----');
-      //   },
-      //   easing: "bouncePast"
-      // }).start(5);
-
-
-
-    // cir2.animate({ "fillStyle": "#ff0000", "x": "+=100"}, {
-    //   duration: 1000,
-    //   onLooping: function () {
-    //      console.log('动画1');
-    //   },
-    //   easing: "linear"
-    // }).animate({"x":"+=100","y":"+=200"},{duration:2000})
-    //   .animate({ "rotate": "+=100", "y": "-=200" }, { duration: 2000, easing: "easeTo" })
-    //   .animate({ "w": "+=100", "h": "-=10", "fillStyle":"#CDECCC" }, { duration: 4000, easing:"bouncePast" }).
-    //   animate({ "w": "-=100", "h": "+=40", "fillStyle": "#B3204D", "rotate": "+=10", }, { duration: 4000, easing: "bouncePast" })
-    //   .start();
-
-
-      
-    // cir1.updateOption({ lineJoin:"round"})
-    // cir1.updateOption({
-    //   lineCap:"butt"
-    // })
-    // cir3.animate({
-    //    Shadow: {
-    //     color: "#E84A5F",
-    //     offsetX:200,
-    //     offsetY:200,
-    //     blur:100
-    //   }}, {
-    //   duration: 5000,
-    //   onLooping: function () {
-    //     console.log('动画2'
-        
-        
-    //     );
-    //   },
-   
-    //   easing: "linear"
-    // }).start(1);
-
-
-
-
-    // cir2.animate({
-    //   Shadow: {
-    //     color: "#E84A5F",
-    //     offsetX: 200,
-    //     offsetY: 200,
-    //     blur: 100
-    //   }
-    // }, {
-    //     duration: 5000,
-    //     onLooping: function () {
-    //       console.log('动画2'
-
-
-    //       );
-    //     },
-
-    //     easing: "linear"
-    //   }).start(1);
-
-
-
-
-    // cir3.animate({ "rotate": "+=" + 2 * Math.PI, "fillStyle": "#ff0000",x:"-=400",r:"-=40"}, {
-    //   duration: 4000,
-    //   onLooping: function () {
-    //     console.log('动画2'
-
-
-    //     );
-    //   },
-    //   easing: "linear"
-    // }).start(200);  
-    // this.wxCanvas.add(new Shape('circle', { x: 200, y: 20, r: 20 }, true))
-    // this.wxCanvas.add(new Shape('rect', { x: 200, y: 20, w: 40,h:50 }))
-    // this.wxCanvas.add(new Shape('polygon', { sides:876,r:100}))
-   
-  
-
-
-
-
-    // this.wxCanvas.draw();
-    // context.draw();
-    
-    // const grd = context.createLinearGradient(30, 10, 120, 10)
-    // grd.addColorStop(0, 'red')
-    // grd.addColorStop(1, 'white')
-    // context.setFillStyle(grd)
-    // context.setStrokeStyle('#000000');
-    // context.arc(200, 100, 100,0,Math.PI*2,)
-    // context.stroke();
-    // context.draw();
-
-    const grd = context.createLinearGradient(100,0, 250, 0)
-    // grd.addColorStop(0, 'red')
-    // // grd.addColorStop(0.16, 'orange')
-    // // grd.addColorStop(0.33, 'yellow')
-    // // grd.addColorStop(0.5, 'green')
-    // grd.addColorStop(0.66, 'cyan')
-    // // grd.addColorStop(0.83, 'blue')
-    // grd.addColorStop(1, 'purple')
-
-    // // Fill with gradient
-    // context.setFillStyle(grd)
-    // // context.arc(100, 100, 150, 80)
-    //     context.setStrokeStyle('#000000');
-    // context.arc(200, 100, 100,0,Math.PI*2,);
-    // context.stroke();
-    // context.fill();
-    // context.draw();
   }
+
+  
 })

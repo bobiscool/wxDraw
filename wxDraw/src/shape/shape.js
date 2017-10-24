@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:05:11
+ * @Last Modified time: 2017-10-24 14:11:34
  * 在这里添加事件 
  */
 
@@ -26,7 +26,7 @@ export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     this.strokeOrfill = strokeOrfill ? true : false;//是否填充
     this.type = type;
     this.Shape = new shapeTypes[type](option);
-    console.log('方块', this.Shape.Option);
+    // console.log('方块', this.Shape.Option);
 
     this.AnimationTimer = new AnimationTimer();
     this.animtionFragList = [];// flag List

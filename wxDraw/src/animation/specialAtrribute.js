@@ -2,12 +2,12 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:40:21
+ * @Last Modified time: 2017-10-24 14:56:43
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
 
-import { hex2rgb, rgb2hex,util } from '../util/utils.js';
+import { hex2rgb, rgb2hex, util } from '../util/utils.js';
 
 
 export const specialOption = {
@@ -40,13 +40,13 @@ export const specialAtrr = {//一些特殊的属性值的更改
         getIncre: function (source, target, sub) {
             //太恶心了 ！！！
             // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
-                let tarCo = hex2rgb(target);
+            let tarCo = hex2rgb(target);
 
-                return {
-                    r: tarCo.r - source.r,
-                    g: tarCo.g - source.g,
-                    b: tarCo.b - source.b
-                }
+            return {
+                r: tarCo.r - source.r,
+                g: tarCo.g - source.g,
+                b: tarCo.b - source.b
+            }
             // }
         }
     },
@@ -68,13 +68,13 @@ export const specialAtrr = {//一些特殊的属性值的更改
         getIncre: function (source, target, sub) {
             //太恶心了 ！！！
             // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
-                let tarCo = hex2rgb(target);
+            let tarCo = hex2rgb(target);
 
-                return {
-                    r: tarCo.r - source.r,
-                    g: tarCo.g - source.g,
-                    b: tarCo.b - source.b
-                }
+            return {
+                r: tarCo.r - source.r,
+                g: tarCo.g - source.g,
+                b: tarCo.b - source.b
+            }
             // }
         }
     },
@@ -87,10 +87,10 @@ export const specialAtrr = {//一些特殊的属性值的更改
                 blur: val.blur,
                 color: hex2rgb(val.color)
             }
-            
+
             // console.log('val',val);
             // console.log('_temSh',_temSh);
-            
+
             return _temSh;
         },
         set: function (source, incre, timer) {
@@ -102,7 +102,7 @@ export const specialAtrr = {//一些特殊的属性值的更改
                 source.color.b + Math.floor(incre.color.b * timer)//超级恶心颜色渐变
             ]
 
-            let _temCoH = '#' + rgb2hex(..._temCo); 
+            let _temCoH = '#' + rgb2hex(..._temCo);
             let _temSha = {
                 offsetX: source.offsetX + incre.offsetX * timer,
                 offsetY: source.offsetY + incre.offsetY * timer,
@@ -111,39 +111,59 @@ export const specialAtrr = {//一些特殊的属性值的更改
             }
             // let _val = '#' + rgb2hex(...temCo)
             // console.log(_temSha);
-            
+
             return _temSha;
         },
         getIncre: function (source, tar, obj) {
             //太恶心了 ！！！ 特殊属性全是 差值形式 不然要恶心死我
             // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
 
-               let target = util.extend(tar,obj.Shape.Option.Shadow)
-                // console.log(obj);
-                let tarCo = hex2rgb(target.color);
-                 
-                // console.log('ssssss',source);
-                let increCo={
-                    r: tarCo.r - source.color.r,
-                    g: tarCo.g - source.color.g,
-                    b: tarCo.b - source.color.b
-                }
+            let target = util.extend(tar, obj.Shape.Option.Shadow)
+            // console.log(obj);
+            let tarCo = hex2rgb(target.color);
+
+            // console.log('ssssss',source);
+            let increCo = {
+                r: tarCo.r - source.color.r,
+                g: tarCo.g - source.color.g,
+                b: tarCo.b - source.color.b
+            }
 
 
 
             // }
-             
+
 
             // console.log('source',target);
 
             return {
-                 offsetX: (target.offsetX?target.offsetX:5) - source.offsetX,
-                offsetY: (target.offsetY?target.offsetY:5)- source.offsetY,
-                blur: (target.blur?target.blur:5)- source.blur,
+                offsetX: (target.offsetX ? target.offsetX : 5) - source.offsetX,
+                offsetY: (target.offsetY ? target.offsetY : 5) - source.offsetY,
+                blur: (target.blur ? target.blur : 5) - source.blur,
                 color: increCo
             }
 
-            
+
+        }
+    },
+    "lineDash": {
+        get: function (val) {
+            return val;
+        },
+        set: function (source, incre, timer) {
+            let _temL = [[
+                source[0][0] + incre[0][0] * timer,
+                source[0][1] + incre[0][1] * timer
+            ], source[1][1] + incre[1][1] * timer]
+
+            return _temL;
+        },
+        getIncre: function (source, tar, obj) {
+            return [[
+                -source[0][0] + incre[0][0],
+                -source[0][1] + incre[0][1]
+            ],-source[1][1] + tar[1][1]]
+
         }
     }
 }

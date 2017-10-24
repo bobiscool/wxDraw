@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 12:03:41
+ * @Last Modified time: 2017-10-24 14:10:46
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -27,7 +27,7 @@ var FRAGOPTION = {
 }
 
 function genExe(exe, atrribute, object) {
-    console.log('exe', exe);
+    // console.log('exe', exe);
     // //console.log('exe', exe.indexOf('#'));
     let temAtrr;
 

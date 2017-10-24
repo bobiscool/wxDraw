@@ -321,7 +321,7 @@ var Store = function Store() {
 Store.prototype = {
     add: function add(shape) {
         // 添加 图形
-        console.log('------', shape.Shape.Option);
+        // console.log('------',shape.Shape.Option);
         this.store.push(shape);
     },
     update: function update() {},
@@ -2087,7 +2087,7 @@ Circle.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:51:33
+ * @Last Modified time: 2017-10-24 14:13:50
  * 分离开
  */
 
@@ -2099,7 +2099,7 @@ var Rect = function Rect(option) {
         h: 10
     }, commonAttr());
     var _temOption = util.extend(option, rOption);
-    console.log(_temOption);
+    // console.log(_temOption);
 
     var _temUnOption = util.extend(option, commonUnAttr);
 
@@ -2978,7 +2978,7 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 12:03:41
+ * @Last Modified time: 2017-10-24 14:10:46
  */
 
 var FRAGOPTION = {
@@ -2998,7 +2998,7 @@ var FRAGOPTION = {
 };
 
 function genExe(exe, atrribute, object) {
-    console.log('exe', exe);
+    // console.log('exe', exe);
     // //console.log('exe', exe.indexOf('#'));
     var temAtrr = void 0;
 
@@ -3417,7 +3417,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:05:11
+ * @Last Modified time: 2017-10-24 14:11:34
  * 在这里添加事件 
  */
 
@@ -3427,7 +3427,7 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.strokeOrfill = strokeOrfill ? true : false; //是否填充
     this.type = type;
     this.Shape = new shapeTypes[type](option);
-    console.log('方块', this.Shape.Option);
+    // console.log('方块', this.Shape.Option);
 
     this.AnimationTimer = new AnimationTimer();
     this.animtionFragList = []; // flag List
@@ -3811,7 +3811,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:06:00
+ * @Last Modified time: 2017-10-24 14:07:01
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3998,7 +3998,7 @@ WxDraw.prototype = {
             //相对增减
             // console.log('相对增减');
             _index = oldIndex + flag * parseInt(flag == -1 ? index.split('-')[1] : index.split('+')[1]);
-            console.log(_index);
+            // console.log(_index);
         } else {
 
             _index = parseInt(index);
