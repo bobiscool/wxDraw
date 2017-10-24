@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-24 17:06:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 17:10:36
+ * @Last Modified time: 2017-10-24 17:43:54
  * 此处 使用的是
  * https://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas
  * 里面的算法
@@ -34,16 +34,11 @@
     // If open, duplicate first points to befinning, end points to end
     if (isClosed) {
         _pts.unshift(pts[pts.length - 1]);
-        _pts.unshift(pts[pts.length - 2]);
         _pts.unshift(pts[pts.length - 1]);
-        _pts.unshift(pts[pts.length - 2]);
         _pts.push(pts[0]);
-        _pts.push(pts[1]);
     }
     else {
         _pts.unshift(pts[1]);   //copy 1. point and insert at beginning
-        _pts.unshift(pts[0]);
-        _pts.push(pts[pts.length - 2]); //copy last point and append
         _pts.push(pts[pts.length - 1]);
     }
 
@@ -51,15 +46,15 @@
 
     // 1. loop goes through point array
     // 2. loop goes through each segment between the 2 pts + 1e point before and after
-    for (i=2; i < (_pts.length - 4); i+=2) {
+    for (i=1; i < (_pts.length - 2); i+=1) {
         for (t=0; t <= numOfSegments; t++) {
 
             // calc tension vectors
-            t1x = (_pts[i+2] - _pts[i-2]) * tension;
-            t2x = (_pts[i+4] - _pts[i]) * tension;
+            t1x = (_pts[i+1][0] - _pts[i-1][0]) * tension;
+            t2x = (_pts[i+2][0] - _pts[i][0]) * tension;
 
-            t1y = (_pts[i+3] - _pts[i-1]) * tension;
-            t2y = (_pts[i+5] - _pts[i+1]) * tension;
+            t1y = (_pts[i+1][1] - _pts[i-1][1]) * tension;
+            t2y = (_pts[i+2][1] - _pts[i][1]) * tension;
 
             // calc step
             st = t / numOfSegments;
@@ -71,12 +66,11 @@
             c4 =       Math.pow(st, 3)  -     Math.pow(st, 2);
 
             // calc x and y cords with common control vectors
-            x = c1 * _pts[i]    + c2 * _pts[i+2] + c3 * t1x + c4 * t2x;
-            y = c1 * _pts[i+1]  + c2 * _pts[i+3] + c3 * t1y + c4 * t2y;
+            x = c1 * _pts[i][0]    + c2 * _pts[i+1][0] + c3 * t1x + c4 * t2x;
+            y = c1 * _pts[i][1]  + c2 * _pts[i+1][1] + c3 * t1y + c4 * t2y;
 
             //store points in array
-            res.push(x);
-            res.push(y);
+            res.push([x,y]);
 
         }
     }
