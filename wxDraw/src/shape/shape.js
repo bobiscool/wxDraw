@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 11:09:00
+ * @Last Modified time: 2017-10-24 11:28:09
  * 在这里添加事件 
  */
 
@@ -11,8 +11,8 @@ import { Polygon } from './polygon.js';
 import { Ellipse } from './ellipse.js';
 import { Text } from './text.js';
 import { Line } from './line.js';
-import {  Circle } from './normalShape.js';
-import {  Rect } from './rect.js';
+import { Circle } from './normalShape.js';
+import { Rect } from './rect.js';
 import { Cshape } from './cshape.js';
 import { AnimationTimer } from '../animation/animationTimer.js';
 import { AnimationFrag } from '../animation/animationFrag.js';
@@ -38,13 +38,13 @@ export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     //
     this._layerIndex = 0;//用于点击时候的
     this._getChoosed = false;//用于选中
-    this._eventStore={
-        "tap":[],
-        "tapstart":[],
-        "tapmove":[],
-        "tapend":[],
-        "longpress":[],
-        "drap":[]
+    this._eventStore = {
+        "tap": [],
+        "touchstart": [],
+        "touchmove": [],
+        "touchend": [],
+        "longpress": [],
+        "drag": []
     };//用于回调事件的
 }
 
@@ -74,13 +74,19 @@ Shape.prototype = {
     },
     moveDetect: function (x, y) {
         if (this.draggable && this._getChoosed) {
-            //console.log('move',this._layerIndex);            
+            //console.log('move',this._layerIndex);          
+            this._eventStore['touchmove'].forEach(function (element) {
+                element(this);
+            }, this);
             this.Shape.moveDetect(x, y);
         }
     },
     upDetect: function () {
         if (this._getChoosed) {
-            this.bus.dispatch('clearDetectedLayers', 'no');//清空选中数组            
+            this.bus.dispatch('clearDetectedLayers', 'no');//清空选中数组     
+            this._eventStore['touchend'].forEach(function (element) {
+                element(this);
+            }, this);
             this.Shape.upDetect();
             this._getChoosed = false;
         }
@@ -196,21 +202,35 @@ Shape.prototype = {
     },
     updateLayer: function (layer) {
         //console.log('更新层级', layer); 、、这是用户调用的时候
-        
+
         // this._layerIndex = layer;
-        
-        this.bus.dispatch('updateLayer', 'no', this,this._layerIndex, layer);
+
+        this.bus.dispatch('updateLayer', 'no', this, this._layerIndex, layer);
     },
     getChoosed: function () {
         //console.log('选中',this._layerIndex);
         this._getChoosed = true;
         //选中之后 开始tapstart
-        // 
+        this._eventStore['touchstart'].forEach(function (element) {
+            element(this);
+        }, this);
     },
-    destroy: function(){
-        this.bus.dispatch('destory','no',this._layerIndex,this.Shapeid);
-        this.bus.dispatch('destoryAnimation','no',this._layerIndex,this.Shapeid);
+    destroy: function () {
+        this.bus.dispatch('destory', 'no', this._layerIndex, this.Shapeid);
+        this.bus.dispatch('destoryAnimation', 'no', this._layerIndex, this.Shapeid);
     },
+    on: function (type, method) {
+        /**
+         * 事件有点击事件
+         *         touchstart
+         *         touchmove 
+         *         touchend
+         *        拖拽事件
+         *      tap事件
+         *      longpress事件
+         */
+        this._eventStore[type].push(method)
+    }
 }
 
 
