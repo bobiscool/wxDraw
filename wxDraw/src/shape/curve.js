@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-24 15:39:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 17:36:57
+ * @Last Modified time: 2017-10-24 17:46:02
  * 曲线
  * https://stackoverflow.com/questions/15397596/find-all-the-points-of-a-cubic-bezier-curve-in-javascript
  * https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Cardinal_spline //曲线光滑算法 三次埃尔米样条？？
@@ -142,7 +142,7 @@ Curve.prototype = {
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
 
         this._CurvePoints = getCurvePoints(this._Points,1,false,5);
-        
+
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
         return this._Points;//除掉矩阵多余的部分;
@@ -189,7 +189,7 @@ Curve.prototype = {
     },
     createPath(context) {
         //创建路径
-        var points = this._Points;
+        var points = this._CurvePoints;
         if (points.length <= 0) {
             return false;
         }
@@ -197,11 +197,9 @@ Curve.prototype = {
         // //console.log(points.length);
         context.moveTo(points[0][0], points[0][1]);
         
-        if (this.UnOption.type == "2") {
             for (var i = 1; i < points.length; i++) {
                 context.lineTo(points[i][0], points[i][1]);
             }
-        }
 
     },
     stroke(context) {//线条就只有stroke了

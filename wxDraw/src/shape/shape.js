@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:11:34
+ * @Last Modified time: 2017-10-24 17:46:37
  * 在这里添加事件 
  */
 
@@ -14,6 +14,7 @@ import { Line } from './line.js';
 import { Circle } from './circle.js';
 import { Rect } from './rect.js';
 import { Cshape } from './cshape.js';
+import { Curve } from './curve.js';
 import { AnimationTimer } from '../animation/animationTimer.js';
 import { AnimationFrag } from '../animation/animationFrag.js';
 import { guid } from "../util/utils.js";
