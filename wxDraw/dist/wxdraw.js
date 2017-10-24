@@ -527,7 +527,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:31:23
+ * @Last Modified time: 2017-10-24 18:24:38
  * 常用的一些属性
  * 
  */
@@ -558,7 +558,8 @@ var commonUnAttr = function commonUnAttr() {
         miterLimit: "", //最大斜接长度
         lg: [],
         cg: [],
-        isLineDash: false
+        isLineDash: false,
+        needShadow: false
     };
 };
 
@@ -566,7 +567,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:22:40
+ * @Last Modified time: 2017-10-24 18:25:01
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -700,7 +701,7 @@ var commonMethods = {
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
         context.setGlobalAlpha(this.Option.opacity);
-        if (this.Option.shadow) {
+        if (this.UnOption.needShadow && this.Option.shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
