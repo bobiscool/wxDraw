@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-24 15:39:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 17:46:02
+ * @Last Modified time: 2017-10-24 18:06:09
  * 曲线
  * https://stackoverflow.com/questions/15397596/find-all-the-points-of-a-cubic-bezier-curve-in-javascript
  * https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Cardinal_spline //曲线光滑算法 三次埃尔米样条？？
@@ -34,7 +34,7 @@ export function Curve(option) {
     let bUnoption = {
         ...commonUnAttr()
     }
-    let _temOption = util.extend(option, lOption);
+    let _temOption = util.extend(option, bOption);
     var _temUnOption = util.extend(option, bUnoption);
 
     this.Option = util.extend({}, _temOption);
@@ -141,7 +141,6 @@ Curve.prototype = {
         // //console.log('points',_points);
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
 
-        this._CurvePoints = getCurvePoints(this._Points,1,false,5);
 
         // //console.log(this._Points);
         // //console.log(this.oriPoints);

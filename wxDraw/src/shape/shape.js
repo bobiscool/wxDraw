@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 17:46:37
+ * @Last Modified time: 2017-10-24 18:07:52
  * 在这里添加事件 
  */
 
@@ -63,19 +63,19 @@ Shape.prototype = {
             this.Shape.stroke(context);
         }
     },
-    detect: function (x, y,type) {
+    detect: function (x, y, type) {
         //检查点击了谁
-    //    console.log('点中了吗',x,y,type);
-    //    console.log('点中了吗',this.Shape.detected(x, y));
+        //    console.log('点中了吗',x,y,type);
+        //    console.log('点中了吗',this.Shape.detected(x, y));
         if (this.Shape.detected(x, y)) {
             //console.log('点击')
             // console.log(this.type);
-            this._nowType =type;
+            this._nowType = type;
             this.bus.dispatch('getDetectedLayers', 'no', this._layerIndex);
         } else {
             this.bus.dispatch('getDetectedLayers', 'no', -1);//这是 为了保证 所以层级都检测一遍             
         }
- 
+
     },
     moveDetect: function (x, y) {
         if (this._getChoosed) {

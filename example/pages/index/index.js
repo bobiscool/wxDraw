@@ -65,10 +65,10 @@ Page({
     this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:60,sA:Math.PI/2,fillStyle:"#333333",lineWidth:20},false,true));
      
     var cir12 = new Shape('circle', { x: 200, y: 200, r: 60, sA: Math.PI / 2, fillStyle: "#333333", lineWidth: 2 }, false, true);
-    var cir1 = new Shape('cshape', {
+    var cir1 = new Shape('curve', {
       fillStyle: "#333333", rotate: Math.PI / 2, points: [
         [70, 85],
-        [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]],lineWidth:0.5}, true,true);
+        [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]],lineWidth:5}, true,true);
     var a = [[70, 85],
         [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]];
 
@@ -83,7 +83,7 @@ Page({
       fillStyle: "#000000", rotate: Math.PI / 2, points: [
         [163, 193], [-18, 48]], lineWidth: 12, Shadow: "#ffffff"
     }, true, true)
-    var cir1 = new Shape('rect', { x: 0, y: 400, w: 20, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
+    // var cir1 = new Shape('rect', { x: 0, y: 400, w: 20, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
     var cir7 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, fillStyle: "#000000", rotate: 200 }, true, true)
 
     var cir9 = new Shape('text', { x: 100, y: 300, text:"ssssss",fontSize:30,align:"left"}, false, true)
@@ -124,7 +124,7 @@ Page({
     this.wxCanvas.add(cir4);
     this.wxCanvas.add(cir3);
     this.wxCanvas.add(cir2);
-    this.wxCanvas.add(cir1);
+    // this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir7);
     this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir8);

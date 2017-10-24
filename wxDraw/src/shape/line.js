@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:30:01
+ * @Last Modified time: 2017-10-24 18:07:40
  * 线条 
  */
 
@@ -11,6 +11,7 @@ import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js";
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
+import { getCurvePoints } from "./mixins/getCurvePoints.js"; //计算smooth点
 
 
 
@@ -25,8 +26,14 @@ export function Line(option) {
         ],
         ...commonAttr()
     }
+
+    var lUoption = {
+        smooth: true,
+        ...commonUnAttr()
+
+    }
     let _temOption = util.extend(option, lOption);
-    var _temUnOption = util.extend(option, commonUnAttr());
+    var _temUnOption = util.extend(option, lUoption);
 
     this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption;//不参与动画的属性
@@ -42,6 +49,7 @@ export function Line(option) {
 
     this.oriPoints = this.Option.points;
     this._Points = this.Option.points;
+    this._CurvePoints = this.Option.points;
     this.detectPoints = this.getDetectPoints();
     this.getMax();
     this._isChoosed = false;
@@ -130,6 +138,10 @@ Line.prototype = {
 
         // //console.log('points',_points);
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
+        if (this.UnOption.smooth) {
+            this._CurvePoints = getCurvePoints(this._Points, 1, false, 5);
+
+        }
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
         return this._Points;//除掉矩阵多余的部分;
@@ -176,7 +188,13 @@ Line.prototype = {
     },
     createPath(context) {
         //创建路径
-        var points = this._Points;
+        var points = [];
+        
+        if (this.UnOption.smooth) {
+            points = this._CurvePoints;
+        }else{
+            points = this._Points;
+        }
         if (points.length <= 0) {
             return false;
         }
@@ -192,7 +210,7 @@ Line.prototype = {
         this._draw(context);
         context.setStrokeStyle(this.Option.strokeStyle)
         context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context,'line');
+        this.setCommonstyle(context, 'line');
         context.stroke();
         context.restore();
     },
@@ -223,7 +241,7 @@ Line.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
-            }else {
+            } else {
                 return false;
 
             }
