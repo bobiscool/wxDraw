@@ -3401,7 +3401,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:05:27
+ * @Last Modified time: 2017-10-24 09:57:37
  * 在这里添加事件 
  */
 
@@ -3572,6 +3572,9 @@ Shape.prototype = {
     getChoosed: function getChoosed() {
         //console.log('选中',this._layerIndex);
         this._getChoosed = true;
+    },
+    destroy: function destroy() {
+        this.bus.dispatch('destory', 'no', this._layerIndex);
     }
 };
 
@@ -3658,7 +3661,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-17 16:13:09
+ * @Last Modified time: 2017-10-24 10:05:38
  * 动画 对象 接管所有动画
  */
 
@@ -3675,6 +3678,7 @@ var Animation = function Animation(bus) {
     this.wraperAniCompleteOb = {}; //每一个包裹的 动画是否完成
     this.bus.add('animationComplete', this, this.animationComplete); // 添加动画事件 
     this.bus.add('wraperAniComplete', this, this.wraperAniComplete); // 添加动画事件 
+    this.bus.add('destory', this, this.destroyAnimation); // 销毁图形 那就销毁动画
 
 
     //    this.animationFragStore2 = {};
@@ -3738,6 +3742,9 @@ Animation.prototype = {
             this.bus.dispatch('animationComplete', 'no', shaId); // 某一个物件的动画完成
         }
         // //console.log('wraperAniComplete', this.wraperAniCompleteOb);
+    },
+    destroyAnimation: function destroyAnimation(index, shaId) {
+        delete this.animationFragStore[shaId];
     }
 };
 
@@ -3745,7 +3752,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 14:35:39
+ * @Last Modified time: 2017-10-24 10:01:50
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3783,6 +3790,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
     this.bus.add('clearDetectedLayers', this, this.clearDetectedLayers);
     this.bus.add('updateLayer', this, this.updateLayer);
+    this.bus.add('destory', this, this.destroy);
     // //console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
@@ -3913,7 +3921,12 @@ WxDraw.prototype = {
         // who._updateLayer(_index)
         this.store.changeIndex(who, oldIndex, _index);
         // console.log(this.store);
-
+        this._updateLayer();
+    },
+    destroy: function destroy(index) {
+        this.store.store.splice(index, 1);
+    },
+    _updateLayer: function _updateLayer() {
         this.store.store.forEach(function (item, index) {
             item._updateLayer(index); //这里没写好 。。但现在没想到更好的办法
         });
