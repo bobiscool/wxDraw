@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:07:40
+ * @Last Modified time: 2017-10-24 18:20:06
  * 线条 
  */
 
@@ -139,7 +139,7 @@ Line.prototype = {
         // //console.log('points',_points);
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
         if (this.UnOption.smooth) {
-            this._CurvePoints = getCurvePoints(this._Points, 1, false, 5);
+            this._CurvePoints = getCurvePoints(this._Points, 1, false, 1);
 
         }
         // //console.log(this._Points);
