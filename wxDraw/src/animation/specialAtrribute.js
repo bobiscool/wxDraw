@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:56:43
+ * @Last Modified time: 2017-10-24 15:35:07
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -160,8 +160,8 @@ export const specialAtrr = {//一些特殊的属性值的更改
         },
         getIncre: function (source, tar, obj) {
             return [[
-                -source[0][0] + incre[0][0],
-                -source[0][1] + incre[0][1]
+                -source[0][0] + tar[0][0],
+                -source[0][1] + tar[0][1]
             ],-source[1][1] + tar[1][1]]
 
         }

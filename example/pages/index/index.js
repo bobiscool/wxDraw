@@ -1,9 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var WxDraw = require("../../utils/wxdraw.min.js").WxDraw;
-var Shape = require("../../utils/wxdraw.min.js").Shape;
-var AnimationFrame = require("../../utils/wxdraw.min.js").AnimationFrame;
+var WxDraw = require("../../utils/wxdraw.js").WxDraw;
+var Shape = require("../../utils/wxdraw.js").Shape;
+var AnimationFrame = require("../../utils/wxdraw.js").AnimationFrame;
 
 // console.log(cancelAnimationFrame);
 
@@ -164,14 +164,21 @@ Page({
       easing: "bouncePast"
       }).start();
 
-    cir3.animate({ 'rotate': Math.PI, fillStyle:"#F88863"}, {
+    // cir3.animate({ 'rotate': Math.PI, fillStyle:"#F88863",lineDash:[[10,20],20]}, {
+    //   duration: 10000,
+    //   onLooping: function () {
+    //     // console.log('----');
+    //   },
+    //   easing: "bouncePast"
+    // }).start();
+      
+    cir3.animate({ lineDash: [[30, 40], 20] }, {
       duration: 10000,
       onLooping: function () {
         // console.log('----');
       },
       easing: "bouncePast"
-    }).start();
-      
+    }).start(true);
   }
 
   

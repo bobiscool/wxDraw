@@ -527,7 +527,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:50:02
+ * @Last Modified time: 2017-10-24 15:31:23
  * 常用的一些属性
  * 
  */
@@ -551,20 +551,22 @@ var commonAttr = function commonAttr() {
     };
 };
 
-var commonUnAttr = { //这些样式只能单独设定 
-    lineCap: "", // lineCap	String	'butt'、'round'、'square'	线条的结束端点样式
-    lineJoin: "", //lineJoin	String	'bevel'、'round'、'miter'	线条的结束交点样式
-    miterLimit: "", //最大斜接长度
-    lg: [],
-    cg: [],
-    isLineDash: false
+var commonUnAttr = function commonUnAttr() {
+    return { //这些样式只能单独设定 
+        lineCap: "", // lineCap	String	'butt'、'round'、'square'	线条的结束端点样式
+        lineJoin: "", //lineJoin	String	'bevel'、'round'、'miter'	线条的结束交点样式
+        miterLimit: "", //最大斜接长度
+        lg: [],
+        cg: [],
+        isLineDash: false
+    };
 };
 
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:51:14
+ * @Last Modified time: 2017-10-24 15:22:40
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -703,8 +705,10 @@ var commonMethods = {
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
         if (this.UnOption.isLineDash) {
+            // console.log(context.setLineDash);
             if (context.setLineDash) {
-                context.setLineDash(this.Option.lineDash); //设置linedash
+                // console.log('设置dash')
+                context.setLineDash(this.Option.lineDash[0], this.Option.lineDash[1]); //设置linedash
             }
         }
     },
@@ -747,7 +751,7 @@ var commonMethods = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:50:25
+ * @Last Modified time: 2017-10-24 15:30:20
  */
 
 // function Point(x, y) {
@@ -765,7 +769,7 @@ var Polygon = function Polygon(option) {
     }, commonAttr());
 
     var _temOption = util.extend(option, pOption);
-    var _temUnOption = util.extend(option, commonUnAttr);
+    var _temUnOption = util.extend(option, commonUnAttr());
     // console.log(_temOption);
     this.Option = _temOption;
     this.UnOption = _temUnOption; //不参与动画的属性
@@ -1074,7 +1078,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:49:58
+ * @Last Modified time: 2017-10-24 15:29:52
  * 椭圆
  * 
  */
@@ -1093,7 +1097,7 @@ var Ellipse = function Ellipse(option) {
         b: 10 }, commonAttr());
 
     var _temOption = util.extend(option, eOption);
-    var _temUnOption = util.extend(option, commonUnAttr);
+    var _temUnOption = util.extend(option, commonUnAttr());
     // console.log(_temOption);
     this.Option = _temOption;
     this.UnOption = _temUnOption; //不参与动画的属性
@@ -1204,8 +1208,9 @@ Ellipse.prototype = _extends({
     stroke: function stroke(context) {
         context.save();
         this._drawLine = true;
-        this._draw(context);
         this.setCommonstyle(context, 'ellipse');
+
+        this._draw(context);
 
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
@@ -1221,8 +1226,9 @@ Ellipse.prototype = _extends({
     fill: function fill(context) {
         context.save();
         this._drawLine = false;
-        this._draw(context);
         this.setCommonstyle(context, 'ellipse');
+
+        this._draw(context);
 
         context.setFillStyle(this.Option.fillStyle);
 
@@ -1526,7 +1532,7 @@ Text.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:50:15
+ * @Last Modified time: 2017-10-24 15:30:01
  * 线条 
  */
 
@@ -1536,7 +1542,7 @@ function Line(option) {
         points: [[1, 2], [23, 45], [2, 45], [230, 205]]
     }, commonAttr());
     var _temOption = util.extend(option, lOption);
-    var _temUnOption = util.extend(option, commonUnAttr);
+    var _temUnOption = util.extend(option, commonUnAttr());
 
     this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption; //不参与动画的属性
@@ -1782,7 +1788,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:53:09
+ * @Last Modified time: 2017-10-24 15:29:26
  * 普通形状
  * 
  */
@@ -1812,9 +1818,9 @@ var Circle = function Circle(option) {
         counterclockwise: false
     }, commonAttr());
     var _temOption = util.extend(option, cOption);
-    var _temUnOption = util.extend(option, commonUnAttr);
+    var _temUnOption = util.extend(option, commonUnAttr());
     this.Option = _temOption;
-    // console.log(_temOption);
+    console.log(_temUnOption);
     this.UnOption = _temUnOption; //不参与动画的属性
     this._isChoosed = false;
     this._offsetX = 0;
@@ -2093,7 +2099,7 @@ Circle.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:13:50
+ * @Last Modified time: 2017-10-24 15:30:29
  * 分离开
  */
 
@@ -2107,7 +2113,7 @@ var Rect = function Rect(option) {
     var _temOption = util.extend(option, rOption);
     // console.log(_temOption);
 
-    var _temUnOption = util.extend(option, commonUnAttr);
+    var _temUnOption = util.extend(option, commonUnAttr());
 
     this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption; //不参与动画的属性
@@ -2336,7 +2342,7 @@ Rect.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:49:36
+ * @Last Modified time: 2017-10-24 15:29:42
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -2355,7 +2361,7 @@ var Cshape = function Cshape(option) {
     }, commonAttr());
 
     var _temOption = util.extend(option, cOption);
-    var _temUnOption = util.extend(option, commonUnAttr);
+    var _temUnOption = util.extend(option, commonUnAttr());
 
     this.Option = _temOption;
     this.UnOption = _temUnOption; //不参与动画的属性
@@ -2853,7 +2859,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:56:43
+ * @Last Modified time: 2017-10-24 15:35:07
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -2988,7 +2994,7 @@ var specialAtrr = { //一些特殊的属性值的更改
             return _temL;
         },
         getIncre: function getIncre(source, tar, obj) {
-            return [[-source[0][0] + incre[0][0], -source[0][1] + incre[0][1]], -source[1][1] + tar[1][1]];
+            return [[-source[0][0] + tar[0][0], -source[0][1] + tar[0][1]], -source[1][1] + tar[1][1]];
         }
     }
 };
