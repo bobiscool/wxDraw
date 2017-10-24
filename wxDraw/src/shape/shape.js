@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 11:36:35
+ * @Last Modified time: 2017-10-24 13:11:12
  * 在这里添加事件 
  */
 
@@ -46,6 +46,7 @@ export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
         "longpress": [],
         "drag": []
     };//用于回调事件的
+    this._nowType = 'tap'
 }
 
 
@@ -61,16 +62,17 @@ Shape.prototype = {
             this.Shape.stroke(context);
         }
     },
-    detect: function (x, y) {
+    detect: function (x, y,type) {
         //检查点击了谁
         this.Shape.detected(x, y);
         if (this.Shape.detected(x, y)) {
             //console.log('点击')
+            this._nowType =type;
             this.bus.dispatch('getDetectedLayers', 'no', this._layerIndex);
         } else {
             this.bus.dispatch('getDetectedLayers', 'no', -1);//这是 为了保证 所以层级都检测一遍             
         }
-
+ 
     },
     moveDetect: function (x, y) {
         if (this._getChoosed) {
@@ -216,7 +218,7 @@ Shape.prototype = {
         //console.log('选中',this._layerIndex);
         this._getChoosed = true;
         //选中之后 开始tapstart
-        this._eventStore['touchstart'].forEach(function (element) {
+        this._eventStore[this._nowType].forEach(function (element) {
             element(this);
         }, this);
     },

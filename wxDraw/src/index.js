@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 10:13:57
+ * @Last Modified time: 2017-10-24 13:18:01
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -67,17 +67,46 @@ WxDraw.prototype = {
         }, this);
         // console.log(this.canvas.actions);
     },
-    detect: function (e) {
+    tapdetect: function (e) {
         //事件检测
+        // touchstart
+        // touchmove
+        // touchup
+        // longpress 
+        // 
         let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
 
         this.store.store.forEach(function (item) {
-            item.detect(loc.x, loc.y);
+            item.detect(loc.x, loc.y,'tap');
         }, this);
         // this.getLoc()
 
     },
-    moveDetect: function (e) {
+    longpressDetect:function(e){
+       //外置
+        let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+
+        this.store.store.forEach(function (item) {
+            item.detect(loc.x, loc.y,'longpress');
+        }, this);
+    },
+    touchstartDetect:function(e){
+       //外置
+        let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+
+        this.store.store.forEach(function (item) {
+            item.detect(loc.x, loc.y,'touchstart');
+        }, this);
+    },
+    touchendDetect:function(e){
+       //外置
+        let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+
+        this.store.store.forEach(function (item) {
+            item.upDetect();
+        }, this);
+    },
+    touchmoveDetect: function (e) {
         let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
 
         this.store.store.forEach(function (item) {
@@ -89,11 +118,11 @@ WxDraw.prototype = {
         this.draw();
         this.canvas.draw();
     },
-    upDetect: function () {
-        this.store.store.forEach(function (item) {
-            item.upDetect();
-        }, this);
-    },
+    // upDetect: function () {
+    //     this.store.store.forEach(function (item) {
+    //         item.upDetect();
+    //     }, this);
+    // },
     getLoc: function (x, y) {
         //获取点击相对位置
         return {
