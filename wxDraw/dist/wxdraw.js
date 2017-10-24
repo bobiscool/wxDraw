@@ -567,7 +567,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:25:01
+ * @Last Modified time: 2017-10-24 18:28:59
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -701,7 +701,7 @@ var commonMethods = {
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
         context.setGlobalAlpha(this.Option.opacity);
-        if (this.UnOption.needShadow && this.Option.shadow) {
+        if (this.Option.shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
@@ -1605,7 +1605,7 @@ var getCurvePoints = function getCurvePoints(pts, tension, isClosed, numOfSegmen
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:22:36
+ * @Last Modified time: 2017-10-24 18:32:32
  * 线条 
  */
 
@@ -1724,7 +1724,7 @@ Line.prototype = _extends({
         // //console.log('points',_points);
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
         if (this.UnOption.smooth) {
-            this._CurvePoints = getCurvePoints(this._Points, 0.1, false, 200);
+            this._CurvePoints = getCurvePoints(this._Points, 0.1, false, 20);
         }
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
@@ -1875,7 +1875,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:29:26
+ * @Last Modified time: 2017-10-24 18:30:47
  * 普通形状
  * 
  */
@@ -1907,7 +1907,7 @@ var Circle = function Circle(option) {
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, commonUnAttr());
     this.Option = _temOption;
-    console.log(_temUnOption);
+    // console.log(_temUnOption);
     this.UnOption = _temUnOption; //不参与动画的属性
     this._isChoosed = false;
     this._offsetX = 0;
@@ -2429,7 +2429,7 @@ Rect.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:23:05
+ * @Last Modified time: 2017-10-24 18:32:39
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -2531,7 +2531,7 @@ Cshape.prototype = _extends({
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
         if (this.UnOption.smooth) {
-            this._CurvePoints = getCurvePoints(this._Points, 0.1, false, 200);
+            this._CurvePoints = getCurvePoints(this._Points, 0.1, false, 20);
         }
         return this._Points; //除掉矩阵多余的部分;
     },

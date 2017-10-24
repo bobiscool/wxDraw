@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:29:26
+ * @Last Modified time: 2017-10-24 18:30:47
  * 普通形状
  * 
  */
@@ -46,7 +46,7 @@ export const Circle = function (option) {
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, commonUnAttr());
     this.Option = _temOption;
-    console.log(_temUnOption);
+    // console.log(_temUnOption);
     this.UnOption = _temUnOption;//不参与动画的属性
     this._isChoosed = false;
     this._offsetX = 0;

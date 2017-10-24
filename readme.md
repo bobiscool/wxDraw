@@ -61,11 +61,11 @@
 - [x] 矩阵变换
 - [x] 层级修改
 - [x] 事件
-        - [x] touchstart
-        - [x] touchmove 
-        - [x] touchend
-        - [x] 拖拽事件
-        - [x] tap事件
-        - [x] longpress事件
-        - [ ] ~划入划出~「划入划出是鼠标的事件吧」
+    - [x] touchstart
+    - [x] touchmove 
+    - [x] touchend
+    - [x] 拖拽事件
+    - [x] tap事件
+    - [x] longpress事件
+    - [ ] ~划入划出~「划入划出是鼠标的事件吧」
     

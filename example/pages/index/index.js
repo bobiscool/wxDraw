@@ -1,9 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var WxDraw = require("../../utils/wxdraw.js").WxDraw;
-var Shape = require("../../utils/wxdraw.js").Shape;
-var AnimationFrame = require("../../utils/wxdraw.js").AnimationFrame;
+var WxDraw = require("../../utils/wxdraw.min.js").WxDraw;
+var Shape = require("../../utils/wxdraw.min.js").Shape;
+var AnimationFrame = require("../../utils/wxdraw.min.js").AnimationFrame;
 
 // console.log(cancelAnimationFrame);
 
@@ -62,7 +62,7 @@ Page({
      * 所以 wxDraw初始化的时候 需要设置 以便点击检测的时候使用
     */
 
-    this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:60,sA:Math.PI/2,fillStyle:"#333333",lineWidth:20},false,true));
+    this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:60,sA:Math.PI/2,fillStyle:"#333333",lineWidth:20},true,true));
      
     var cir12 = new Shape('circle', { x: 200, y: 200, r: 60, sA: Math.PI / 2, fillStyle: "#333333", lineWidth: 2 }, false, true);
     var cir1 = new Shape('cshape', {
@@ -120,9 +120,9 @@ Page({
       lineDash:[[1,2],2]
     },true, true)    
 
-    console.log(cir3);
+    // console.log(cir3);
     // cir3.setOrigin([40,40])
-    console.log(cir3);
+    // console.log(cir3);
     this.wxCanvas.add(cir4);
     this.wxCanvas.add(cir3);
     this.wxCanvas.add(cir2);
@@ -147,7 +147,7 @@ Page({
     });
   
 
-    console.log(this.wxCanvas);
+    // console.log(this.wxCanvas);
 
     cir9.animate({rotate:"+=10"}, {
       duration: 10000,
@@ -177,13 +177,13 @@ Page({
     //   easing: "bouncePast"
     // }).start();
       
-    cir3.animate({ lineDash: [[30, 40], 20] }, {
-      duration: 10000,
-      onLooping: function () {
-        // console.log('----');
-      },
-      easing: "bouncePast"
-    }).start(true);
+    // cir3.animate({ lineDash: [[30, 40], 20] }, {
+    //   duration: 10000,
+    //   onLooping: function () {
+    //     // console.log('----');
+    //   },
+    //   easing: "bouncePast"
+    // }).start(true);
   }
 
   
