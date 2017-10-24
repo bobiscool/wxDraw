@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 14:35:39
+ * @Last Modified time: 2017-10-24 10:01:50
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -48,6 +48,7 @@ function WxDraw(canvas, x, y, w, h) {
     this.bus.add('getDetectedLayers', this, this.getDetectedLayers);
     this.bus.add('clearDetectedLayers', this, this.clearDetectedLayers);
     this.bus.add('updateLayer', this, this.updateLayer);
+    this.bus.add('destory', this, this.destroy);
     // //console.log(this.bus);
     this.animation.start();
     Shape.bus = this.bus;
@@ -185,8 +186,14 @@ WxDraw.prototype = {
         // who._updateLayer(_index)
         this.store.changeIndex(who, oldIndex, _index);
         // console.log(this.store);
-
-        this.store.store.forEach(function (item, index) {
+        this._updateLayer();
+     
+    },
+    destroy:function(index){
+        this.store.store.splice(index,1);
+    },
+    _updateLayer:function(){
+          this.store.store.forEach(function (item, index) {
             item._updateLayer(index);//这里没写好 。。但现在没想到更好的办法
         })
 

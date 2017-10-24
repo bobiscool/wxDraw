@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:05:27
+ * @Last Modified time: 2017-10-24 09:57:37
  * 在这里添加事件 
  */
 
@@ -196,6 +196,9 @@ Shape.prototype = {
     getChoosed: function () {
         //console.log('选中',this._layerIndex);
         this._getChoosed = true;
+    },
+    destroy: function(){
+        this.bus.dispatch('destory','no',this._layerIndex);
     }
 }
 

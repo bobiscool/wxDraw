@@ -64,7 +64,7 @@ Page({
 
     this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:60,sA:Math.PI/2,fillStyle:"#333333",lineWidth:20},false,true));
      
-    var cir12 = new Shape('circle', { x: 20, y: 20, r: 60, sA: Math.PI / 2, fillStyle: "#333333", lineWidth: 20 }, false, true);
+    var cir12 = new Shape('circle', { x: 200, y: 200, r: 60, sA: Math.PI / 2, fillStyle: "#333333", lineWidth: 2 }, false, true);
     var cir1 = new Shape('cshape', {
       fillStyle: "#333333", rotate: Math.PI / 2, points: [
         [70, 85],
@@ -169,19 +169,21 @@ Page({
     }).start();
 
     // ci
-    cir12.animate({ 'rotate': Math.PI, "x": "+=200", y: 400 }, {
-      duration: 2000,
+    cir12.animate({ /*'rotate': Math.PI, "x": "+=200",y: 400,*/sA:Math.PI }, {
+      duration: 10000,
       onLooping: function () {
         console.log('----');
       },
       easing: "bouncePast"
-      }).animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
-        duration: 2000,
-        onLooping: function () {
-          console.log('----');
-        },
-        easing: "bouncePast"
-      }).start(5);
+      }).start();
+      
+      // .animate({ 'rotate': -1*Math.PI, "x": 200, y: 260 }, {
+      //   duration: 2000,
+      //   onLooping: function () {
+      //     console.log('----');
+      //   },
+      //   easing: "bouncePast"
+      // }).start(5);
 
 
 
