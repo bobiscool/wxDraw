@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:18:01
+ * @Last Modified time: 2017-10-24 13:25:59
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -67,7 +67,7 @@ WxDraw.prototype = {
         }, this);
         // console.log(this.canvas.actions);
     },
-    tapdetect: function (e) {
+    tapDetect: function (e) {
         //事件检测
         // touchstart
         // touchmove
@@ -100,7 +100,7 @@ WxDraw.prototype = {
     },
     touchendDetect:function(e){
        //外置
-        let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+        // let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
 
         this.store.store.forEach(function (item) {
             item.upDetect();

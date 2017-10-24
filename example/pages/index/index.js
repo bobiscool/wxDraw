@@ -22,25 +22,22 @@ Page({
   },
   bindtouchstart:function(e){
     // 检测手指点击事件
-     this.wxCanvas.detect(e);
+    this.wxCanvas.touchstartDetect(e);
     
   },
   bindtouchmove:function(e){
     // 检测手指点击 之后的移动事件
-    this.wxCanvas.moveDetect(e);
+    this.wxCanvas.touchmoveDetect(e);
   },
-  bindtouchend:function(e){
+  bindtouchend:function(){
      //检测手指点击 移出事件
-    this.wxCanvas.upDetect(e);
+    this.wxCanvas.touchendDetect();
   },
-  detect:function(e){
-   
+  bindtap:function(e){
+    this.wxCanvas.tapDetect(e);
   },
-  touchDown:function(){
-   
-  },
-  touchUp:function(){
-
+  bindlongpress:function(e){
+    this.wxCanvas.longpressDetect(e);
   },
   onLoad: function () {
     /** 
@@ -119,10 +116,12 @@ Page({
     this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir12);
     
-    cir8.destroy();
+    // cir8.destroy();
     cir8.updateLayer("+2");
     
-    
+    cir12.on('touchstart',function(a){
+      console.log(this)
+    })
     // // cir1.updateOption({x:100})
     // this.wxCanvas.add(cir2);
     // console.log(cir2);

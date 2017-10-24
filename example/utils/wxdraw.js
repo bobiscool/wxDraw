@@ -3402,7 +3402,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 10:15:22
+ * @Last Modified time: 2017-10-24 13:19:34
  * 在这里添加事件 
  */
 
@@ -3424,6 +3424,15 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     //
     this._layerIndex = 0; //用于点击时候的
     this._getChoosed = false; //用于选中
+    this._eventStore = {
+        "tap": [],
+        "touchstart": [],
+        "touchmove": [],
+        "touchend": [],
+        "longpress": [],
+        "drag": []
+    }; //用于回调事件的
+    this._nowType = 'tap';
 };
 
 Shape.prototype = {
@@ -3437,25 +3446,37 @@ Shape.prototype = {
             this.Shape.stroke(context);
         }
     },
-    detect: function detect(x, y) {
+    detect: function detect(x, y, type) {
         //检查点击了谁
         this.Shape.detected(x, y);
         if (this.Shape.detected(x, y)) {
             //console.log('点击')
+            this._nowType = type;
             this.bus.dispatch('getDetectedLayers', 'no', this._layerIndex);
         } else {
             this.bus.dispatch('getDetectedLayers', 'no', -1); //这是 为了保证 所以层级都检测一遍             
         }
     },
     moveDetect: function moveDetect(x, y) {
+        if (this._getChoosed) {
+            this._eventStore['touchmove'].forEach(function (element) {
+                element(this);
+            }, this);
+        }
         if (this.draggable && this._getChoosed) {
-            //console.log('move',this._layerIndex);            
+            //console.log('move',this._layerIndex);          
+            this._eventStore['drag'].forEach(function (element) {
+                element(this);
+            }, this);
             this.Shape.moveDetect(x, y);
         }
     },
     upDetect: function upDetect() {
         if (this._getChoosed) {
-            this.bus.dispatch('clearDetectedLayers', 'no'); //清空选中数组            
+            this.bus.dispatch('clearDetectedLayers', 'no'); //清空选中数组     
+            this._eventStore['touchend'].forEach(function (element) {
+                element(this);
+            }, this);
             this.Shape.upDetect();
             this._getChoosed = false;
         }
@@ -3573,10 +3594,28 @@ Shape.prototype = {
     getChoosed: function getChoosed() {
         //console.log('选中',this._layerIndex);
         this._getChoosed = true;
+        //选中之后 开始tapstart
+        this._eventStore[this._nowType].forEach(function (element) {
+            element(this);
+        }, this);
     },
     destroy: function destroy() {
         this.bus.dispatch('destory', 'no', this._layerIndex, this.Shapeid);
         this.bus.dispatch('destoryAnimation', 'no', this._layerIndex, this.Shapeid);
+    },
+    on: function on(type, method) {
+        /**
+         * 事件有点击事件
+         *         touchstart
+         *         touchmove 
+         *         touchend
+         *        拖拽事件
+         *      tap事件
+         *      longpress事件
+         */
+        if (typeof this._eventStore[type] !== 'undefined') {
+            this._eventStore[type].push(method);
+        }
     }
 };
 
@@ -3754,7 +3793,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 10:13:57
+ * @Last Modified time: 2017-10-24 13:22:54
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3811,16 +3850,45 @@ WxDraw.prototype = {
         }, this);
         // console.log(this.canvas.actions);
     },
-    detect: function detect(e) {
+    tapdetect: function tapdetect(e) {
         //事件检测
+        // touchstart
+        // touchmove
+        // touchup
+        // longpress 
+        // 
         var loc = this.getLoc(e.touches[0].x, e.touches[0].y);
 
         this.store.store.forEach(function (item) {
-            item.detect(loc.x, loc.y);
+            item.detect(loc.x, loc.y, 'tap');
         }, this);
         // this.getLoc()
     },
-    moveDetect: function moveDetect(e) {
+    longpressDetect: function longpressDetect(e) {
+        //外置
+        var loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+
+        this.store.store.forEach(function (item) {
+            item.detect(loc.x, loc.y, 'longpress');
+        }, this);
+    },
+    touchstartDetect: function touchstartDetect(e) {
+        //外置
+        var loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+
+        this.store.store.forEach(function (item) {
+            item.detect(loc.x, loc.y, 'touchstart');
+        }, this);
+    },
+    touchendDetect: function touchendDetect(e) {
+        //外置
+        // let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+
+        this.store.store.forEach(function (item) {
+            item.upDetect();
+        }, this);
+    },
+    touchmoveDetect: function touchmoveDetect(e) {
         var loc = this.getLoc(e.touches[0].x, e.touches[0].y);
 
         this.store.store.forEach(function (item) {
@@ -3832,11 +3900,11 @@ WxDraw.prototype = {
         this.draw();
         this.canvas.draw();
     },
-    upDetect: function upDetect() {
-        this.store.store.forEach(function (item) {
-            item.upDetect();
-        }, this);
-    },
+    // upDetect: function () {
+    //     this.store.store.forEach(function (item) {
+    //         item.upDetect();
+    //     }, this);
+    // },
     getLoc: function getLoc(x, y) {
         //获取点击相对位置
         return {
