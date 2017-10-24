@@ -2,13 +2,15 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-24 15:39:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:41:01
+ * @Last Modified time: 2017-10-24 16:28:56
  * 贝塞尔曲线
  * 2次 三次一起
+ * 计算贝塞尔曲线上所有点位 
+ * https://stackoverflow.com/questions/15397596/find-all-the-points-of-a-cubic-bezier-curve-in-javascript
  */
 
 
- import { util, matrixToarray, getDetectPointOut, getDetectPointIn, getDetectPointEdge } from '../util/utils.js';
+import { util, matrixToarray, getDetectPointOut, getDetectPointIn, getDetectPointEdge } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js";
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
@@ -16,8 +18,8 @@ import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 
 
 
-export function Line(option) {
-    var lOption = {
+export function Beizer(option) {
+    var bOption = {
         strokeStyle: "#000000",
         points: [
             [1, 2],
@@ -27,8 +29,12 @@ export function Line(option) {
         ],
         ...commonAttr()
     }
+    let bUnoption = {
+        type: "2",//设置 贝塞尔曲线类型
+        ...commonUnAttr()
+    }
     let _temOption = util.extend(option, lOption);
-    var _temUnOption = util.extend(option, commonUnAttr());
+    var _temUnOption = util.extend(option, bUnoption);
 
     this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption;//不参与动画的属性
@@ -57,7 +63,7 @@ export function Line(option) {
  * 线的旋转
  * 线的绘制
  */
-Line.prototype = {
+Beizer.prototype = {
     genMassCenter(points) {
         //计算质心 
         let _allX = 0;
@@ -185,16 +191,20 @@ Line.prototype = {
         context.beginPath();
         // //console.log(points.length);
         context.moveTo(points[0][0], points[0][1]);
-        for (var i = 1; i < points.length; i++) {
-            context.lineTo(points[i][0], points[i][1]);
+        
+        if (this.UnOption.type == "2") {
+            for (var i = 1; i < points.length; i++) {
+                context.lineTo(points[i][0], points[i][1]);
+            }
         }
+
     },
     stroke(context) {//线条就只有stroke了
         context.save();
         this._draw(context);
         context.setStrokeStyle(this.Option.strokeStyle)
         context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context,'line');
+        this.setCommonstyle(context, 'line');
         context.stroke();
         context.restore();
     },
@@ -225,7 +235,7 @@ Line.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
-            }else {
+            } else {
                 return false;
 
             }
@@ -269,7 +279,7 @@ Line.prototype = {
         }
 
         return ifInside;
-        
+
     },
     ...commonMethods
 }
