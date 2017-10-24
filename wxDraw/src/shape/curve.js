@@ -2,11 +2,12 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-24 15:39:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 16:28:56
- * 贝塞尔曲线
- * 2次 三次一起
- * 计算贝塞尔曲线上所有点位 
+ * @Last Modified time: 2017-10-24 17:02:14
+ * 曲线
  * https://stackoverflow.com/questions/15397596/find-all-the-points-of-a-cubic-bezier-curve-in-javascript
+ * https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Cardinal_spline //曲线光滑算法 三次埃尔米样条？？
+ * 
+ * 
  */
 
 
