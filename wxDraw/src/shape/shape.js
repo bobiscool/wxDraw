@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 10:25:56
+ * @Last Modified time: 2017-10-24 10:58:30
  * 在这里添加事件 
  */
 
@@ -38,6 +38,7 @@ export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     //
     this._layerIndex = 0;//用于点击时候的
     this._getChoosed = false;//用于选中
+    this._eventStore=[];//用于回调事件的
 }
 
 
@@ -196,15 +197,13 @@ Shape.prototype = {
     getChoosed: function () {
         //console.log('选中',this._layerIndex);
         this._getChoosed = true;
+        //选中之后 开始tapstart
+        // 
     },
     destroy: function(){
         this.bus.dispatch('destory','no',this._layerIndex,this.Shapeid);
         this.bus.dispatch('destoryAnimation','no',this._layerIndex,this.Shapeid);
     },
-    on:function(){//添加事件
-        
-
-    }
 }
 
 
