@@ -3795,7 +3795,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:35:44
+ * @Last Modified time: 2017-10-24 13:43:01
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3859,7 +3859,7 @@ WxDraw.prototype = {
         // touchup
         // longpress 
         // 
-        var loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+        var loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
 
         this.store.store.forEach(function (item) {
             item.detect(loc.x, loc.y, 'tap');
@@ -3868,7 +3868,7 @@ WxDraw.prototype = {
     },
     longpressDetect: function longpressDetect(e) {
         //外置
-        var loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+        var loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
         console.log('longpress');
         this.store.store.forEach(function (item) {
             item.detect(loc.x, loc.y, 'longpress');
