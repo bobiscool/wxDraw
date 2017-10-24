@@ -65,10 +65,10 @@ Page({
     this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:60,sA:Math.PI/2,fillStyle:"#333333",lineWidth:20},false,true));
      
     var cir12 = new Shape('circle', { x: 200, y: 200, r: 60, sA: Math.PI / 2, fillStyle: "#333333", lineWidth: 2 }, false, true);
-    var cir1 = new Shape('curve', {
+    var cir1 = new Shape('line', {
       fillStyle: "#333333", rotate: Math.PI / 2, points: [
         [70, 85],
-        [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]],lineWidth:5}, true,true);
+        [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]],lineWidth:5,smooth:false}, true,true);
     var a = [[70, 85],
         [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]];
 

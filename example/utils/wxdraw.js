@@ -1530,9 +1530,81 @@ Text.prototype = _extends({
 
 /*
  * @Author: Thunderball.Wu 
+ * @Date: 2017-10-24 17:06:52 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2017-10-24 17:47:18
+ * 此处 使用的是
+ * https://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas
+ * 里面的算法
+ * 意在 计算出 光滑的曲线
+ * 里面是怎么算的 以我现在的数学水平 看不明白
+ * 就鼓掌吧👏
+ */
+
+var getCurvePoints = function getCurvePoints(pts, tension, isClosed, numOfSegments) {
+
+    tension = typeof tension != 'undefined' ? tension : 0.5;
+    isClosed = isClosed ? isClosed : false;
+    numOfSegments = numOfSegments ? numOfSegments : 16;
+
+    var _pts = [],
+        res = [],
+        x,
+        y,
+        t1x,
+        t2x,
+        t1y,
+        t2y,
+        c1,
+        c2,
+        c3,
+        c4,
+        st,
+        t,
+        i;
+    _pts = pts.slice(0);
+
+    if (isClosed) {
+        _pts.unshift(pts[pts.length - 1]);
+        _pts.unshift(pts[pts.length - 1]);
+        _pts.push(pts[0]);
+    } else {
+        _pts.unshift(pts[1]);
+        _pts.push(pts[pts.length - 1]);
+    }
+
+    for (i = 1; i < _pts.length - 2; i += 1) {
+        for (t = 0; t <= numOfSegments; t++) {
+
+            // calc tension vectors
+            t1x = (_pts[i + 1][0] - _pts[i - 1][0]) * tension;
+            t2x = (_pts[i + 2][0] - _pts[i][0]) * tension;
+
+            t1y = (_pts[i + 1][1] - _pts[i - 1][1]) * tension;
+            t2y = (_pts[i + 2][1] - _pts[i][1]) * tension;
+
+            st = t / numOfSegments;
+
+            c1 = 2 * Math.pow(st, 3) - 3 * Math.pow(st, 2) + 1;
+            c2 = -(2 * Math.pow(st, 3)) + 3 * Math.pow(st, 2);
+            c3 = Math.pow(st, 3) - 2 * Math.pow(st, 2) + st;
+            c4 = Math.pow(st, 3) - Math.pow(st, 2);
+
+            x = c1 * _pts[i][0] + c2 * _pts[i + 1][0] + c3 * t1x + c4 * t2x;
+            y = c1 * _pts[i][1] + c2 * _pts[i + 1][1] + c3 * t1y + c4 * t2y;
+
+            res.push([x, y]);
+        }
+    }
+
+    return res;
+};
+
+/*
+ * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:30:01
+ * @Last Modified time: 2017-10-24 18:07:40
  * 线条 
  */
 
@@ -1541,8 +1613,12 @@ function Line(option) {
         strokeStyle: "#000000",
         points: [[1, 2], [23, 45], [2, 45], [230, 205]]
     }, commonAttr());
+
+    var lUoption = _extends({
+        smooth: true
+    }, commonUnAttr());
     var _temOption = util.extend(option, lOption);
-    var _temUnOption = util.extend(option, commonUnAttr());
+    var _temUnOption = util.extend(option, lUoption);
 
     this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption; //不参与动画的属性
@@ -1558,6 +1634,7 @@ function Line(option) {
 
     this.oriPoints = this.Option.points;
     this._Points = this.Option.points;
+    this._CurvePoints = this.Option.points;
     this.detectPoints = this.getDetectPoints();
     this.getMax();
     this._isChoosed = false;
@@ -1645,6 +1722,9 @@ Line.prototype = _extends({
 
         // //console.log('points',_points);
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
+        if (this.UnOption.smooth) {
+            this._CurvePoints = getCurvePoints(this._Points, 1, false, 5);
+        }
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
         return this._Points; //除掉矩阵多余的部分;
@@ -1689,7 +1769,13 @@ Line.prototype = _extends({
     },
     createPath: function createPath(context) {
         //创建路径
-        var points = this._Points;
+        var points = [];
+
+        if (this.UnOption.smooth) {
+            points = this._CurvePoints;
+        } else {
+            points = this._Points;
+        }
         if (points.length <= 0) {
             return false;
         }
@@ -2588,81 +2674,9 @@ Cshape.prototype = _extends({
 
 /*
  * @Author: Thunderball.Wu 
- * @Date: 2017-10-24 17:06:52 
- * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 17:47:18
- * 此处 使用的是
- * https://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas
- * 里面的算法
- * 意在 计算出 光滑的曲线
- * 里面是怎么算的 以我现在的数学水平 看不明白
- * 就鼓掌吧👏
- */
-
-var getCurvePoints = function getCurvePoints(pts, tension, isClosed, numOfSegments) {
-
-    tension = typeof tension != 'undefined' ? tension : 0.5;
-    isClosed = isClosed ? isClosed : false;
-    numOfSegments = numOfSegments ? numOfSegments : 16;
-
-    var _pts = [],
-        res = [],
-        x,
-        y,
-        t1x,
-        t2x,
-        t1y,
-        t2y,
-        c1,
-        c2,
-        c3,
-        c4,
-        st,
-        t,
-        i;
-    _pts = pts.slice(0);
-
-    if (isClosed) {
-        _pts.unshift(pts[pts.length - 1]);
-        _pts.unshift(pts[pts.length - 1]);
-        _pts.push(pts[0]);
-    } else {
-        _pts.unshift(pts[1]);
-        _pts.push(pts[pts.length - 1]);
-    }
-
-    for (i = 1; i < _pts.length - 2; i += 1) {
-        for (t = 0; t <= numOfSegments; t++) {
-
-            // calc tension vectors
-            t1x = (_pts[i + 1][0] - _pts[i - 1][0]) * tension;
-            t2x = (_pts[i + 2][0] - _pts[i][0]) * tension;
-
-            t1y = (_pts[i + 1][1] - _pts[i - 1][1]) * tension;
-            t2y = (_pts[i + 2][1] - _pts[i][1]) * tension;
-
-            st = t / numOfSegments;
-
-            c1 = 2 * Math.pow(st, 3) - 3 * Math.pow(st, 2) + 1;
-            c2 = -(2 * Math.pow(st, 3)) + 3 * Math.pow(st, 2);
-            c3 = Math.pow(st, 3) - 2 * Math.pow(st, 2) + st;
-            c4 = Math.pow(st, 3) - Math.pow(st, 2);
-
-            x = c1 * _pts[i][0] + c2 * _pts[i + 1][0] + c3 * t1x + c4 * t2x;
-            y = c1 * _pts[i][1] + c2 * _pts[i + 1][1] + c3 * t1y + c4 * t2y;
-
-            res.push([x, y]);
-        }
-    }
-
-    return res;
-};
-
-/*
- * @Author: Thunderball.Wu 
  * @Date: 2017-10-24 15:39:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 17:57:58
+ * @Last Modified time: 2017-10-24 18:06:09
  * 曲线
  * https://stackoverflow.com/questions/15397596/find-all-the-points-of-a-cubic-bezier-curve-in-javascript
  * https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Cardinal_spline //曲线光滑算法 三次埃尔米样条？？
@@ -2782,7 +2796,6 @@ Curve.prototype = _extends({
         // //console.log('points',_points);
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
 
-        this._CurvePoints = getCurvePoints(this._Points, 1, false, 5);
 
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
@@ -3780,7 +3793,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 17:57:13
+ * @Last Modified time: 2017-10-24 18:07:52
  * 在这里添加事件 
  */
 
@@ -4023,9 +4036,6 @@ var shapeTypes = {
     },
     'text': function text(option) {
         return new Text(option);
-    },
-    'curve': function curve(option) {
-        return new Curve(option);
     }
 };
 

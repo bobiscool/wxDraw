@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:29:42
+ * @Last Modified time: 2017-10-24 18:13:18
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -19,6 +19,7 @@ import { util, matrixToarray } from '../util/utils.js';
 import { Point } from "./mixins/points.js";
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
+import { getCurvePoints } from "./mixins/getCurvePoints.js"; //计算smooth点
 
 
 
@@ -36,6 +37,10 @@ export const Cshape = function (option) {
         ...commonAttr()
     }
 
+    let cUoption = {
+        smooth: true,
+        ...commonUnAttr()
+    }
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, commonUnAttr());
 
@@ -53,6 +58,7 @@ export const Cshape = function (option) {
     this.posPoints = this.genPointsPositiveLoc();
     // //console.log(this.massCenter);
     // //console.log(this.posPoints);
+    this._CurvePoints = this.Option.points;
 
     this.oriPoints = this.Option.points;
     this._Points = this.Option.points;//用于绘制的点 
@@ -116,6 +122,10 @@ Cshape.prototype = {
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
+        if (this.UnOption.smooth) {
+            this._CurvePoints = getCurvePoints(this._Points, 1, false, 5);
+
+        }
         return this._Points;//除掉矩阵多余的部分;
     },
     getPointTodraw: function (x, y, origin) {
@@ -161,7 +171,13 @@ Cshape.prototype = {
     },
     createPath: function (context) {
         //创建路径
-        var points = this._Points;
+          var points = [];
+        
+        if (this.UnOption.smooth) {
+            points = this._CurvePoints;
+        }else{
+            points = this._Points;
+        }
         if (points.length <= 0) {
             return false;
         }
@@ -219,7 +235,7 @@ Cshape.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
