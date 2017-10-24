@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:50:33
+ * @Last Modified time: 2017-10-24 13:51:33
  * 分离开
  */
 
@@ -236,6 +236,8 @@ Rect.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            }else{
+                return false;
             }
         }
         

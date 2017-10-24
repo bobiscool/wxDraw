@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:48:22
+ * @Last Modified time: 2017-10-24 13:53:09
  * 普通形状
  * 
  */
@@ -295,7 +295,7 @@ Circle.prototype = {
         var Points = null;
         if (this._drawLine) {
             Points = this._detectPoints;
-            console.log("监测点");
+            // console.log("监测点");
         } else {
             Points = this._Points;
         }

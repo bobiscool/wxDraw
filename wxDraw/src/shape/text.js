@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:20:51
+ * @Last Modified time: 2017-10-24 13:52:21
  * 字体对象
  */
 
@@ -162,7 +162,8 @@ Text.prototype = {
             this._isChoosed = true;
             return true;
         }
-        // }
+        
+        return false;
     },
     _draw: function (context) {
         context.save();

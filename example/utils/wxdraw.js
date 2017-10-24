@@ -741,7 +741,7 @@ var commonMethods = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 19:57:44
+ * @Last Modified time: 2017-10-24 13:50:25
  */
 
 // function Point(x, y) {
@@ -1012,6 +1012,8 @@ Polygon.prototype = _extends({
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            } else {
+                return false;
             }
         }
 
@@ -1066,7 +1068,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 17:48:58
+ * @Last Modified time: 2017-10-24 13:49:58
  * 椭圆
  * 
  */
@@ -1260,6 +1262,8 @@ Ellipse.prototype = _extends({
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            } else {
+                return false;
             }
         }
 
@@ -1314,7 +1318,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:20:51
+ * @Last Modified time: 2017-10-24 13:52:21
  * 字体对象
  */
 
@@ -1460,7 +1464,8 @@ Text.prototype = _extends({
             this._isChoosed = true;
             return true;
         }
-        // }
+
+        return false;
     },
     _draw: function _draw(context) {
         context.save();
@@ -1515,7 +1520,7 @@ Text.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:24:29
+ * @Last Modified time: 2017-10-24 13:50:15
  * 线条 
  */
 
@@ -1720,6 +1725,8 @@ Line.prototype = _extends({
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            } else {
+                return false;
             }
         }
 
@@ -1769,7 +1776,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:48:22
+ * @Last Modified time: 2017-10-24 13:53:09
  * 普通形状
  * 
  */
@@ -2039,7 +2046,7 @@ Circle.prototype = _extends({
         var Points = null;
         if (this._drawLine) {
             Points = this._detectPoints;
-            console.log("监测点");
+            // console.log("监测点");
         } else {
             Points = this._Points;
         }
@@ -2080,7 +2087,7 @@ Circle.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:05:10
+ * @Last Modified time: 2017-10-24 13:51:33
  * 分离开
  */
 
@@ -2297,8 +2304,12 @@ Rect.prototype = _extends({
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            } else {
+                return false;
             }
         }
+
+        return false;
     },
     moveDetect: function moveDetect(x, y) {
 
@@ -2319,7 +2330,7 @@ Rect.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:26:20
+ * @Last Modified time: 2017-10-24 13:49:36
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -2516,6 +2527,8 @@ Cshape.prototype = _extends({
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            } else {
+                return false;
             }
         }
 
@@ -3404,7 +3417,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:46:17
+ * @Last Modified time: 2017-10-24 13:58:44
  * 在这里添加事件 
  */
 
@@ -3454,7 +3467,7 @@ Shape.prototype = {
         console.log('点中了吗', this.Shape.detected(x, y));
         if (this.Shape.detected(x, y)) {
             //console.log('点击')
-            // console.log(type);
+            console.log(this.type);
             this._nowType = type;
             this.bus.dispatch('getDetectedLayers', 'no', this._layerIndex);
         } else {
@@ -3596,8 +3609,8 @@ Shape.prototype = {
         this.bus.dispatch('updateLayer', 'no', this, this._layerIndex, layer);
     },
     getChoosed: function getChoosed() {
-        console.log('选中', this._layerIndex);
-        console.log('sss', this._nowType);
+        // console.log('选中',this._layerIndex);
+        // console.log('sss',this._nowType);
         this._getChoosed = true;
         //选中之后 开始tapstart
         this._eventStore[this._nowType].forEach(function (element) {
@@ -3798,7 +3811,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:44:44
+ * @Last Modified time: 2017-10-24 13:59:13
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3871,8 +3884,9 @@ WxDraw.prototype = {
     },
     longpressDetect: function longpressDetect(e) {
         //外置
+        this.bus.dispatch('clearDetectedLayers', 'no'); //清空touchstart选中数组     
         var loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
-        console.log('longpress');
+        // console.log('longpress');
         this.store.store.forEach(function (item) {
             item.detect(loc.x, loc.y, 'longpress');
         }, this);
@@ -3955,7 +3969,9 @@ WxDraw.prototype = {
     },
     getDetectedLayers: function getDetectedLayers(layers) {
         this.detectedLayers.push(layers); // 这个地方不能推一次 就 判断一次 应该全部推完了 之后再来判断 
+        console.log(this.detectedLayers);
         if (this.detectedLayers.length == this.store.getLength() && Math.max.apply(null, this.detectedLayers) != -1) {
+            console.log('选取层级');
             this.store.find(Math.max.apply(null, this.detectedLayers)).getChoosed();
         }
 

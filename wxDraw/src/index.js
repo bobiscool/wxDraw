@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:44:44
+ * @Last Modified time: 2017-10-24 13:59:13
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -77,29 +77,30 @@ WxDraw.prototype = {
         let loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
 
         this.store.store.forEach(function (item) {
-            item.detect(loc.x, loc.y,'tap');
+            item.detect(loc.x, loc.y, 'tap');
         }, this);
         // this.getLoc()
 
     },
-    longpressDetect:function(e){
-       //外置
+    longpressDetect: function (e) {
+        //外置
+        this.bus.dispatch('clearDetectedLayers', 'no');//清空touchstart选中数组     
         let loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
-        console.log('longpress');
+        // console.log('longpress');
         this.store.store.forEach(function (item) {
-            item.detect(loc.x, loc.y,'longpress');
+            item.detect(loc.x, loc.y, 'longpress');
         }, this);
     },
-    touchstartDetect:function(e){
-       //外置
+    touchstartDetect: function (e) {
+        //外置
         let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
 
         this.store.store.forEach(function (item) {
-            item.detect(loc.x, loc.y,'touchstart');
+            item.detect(loc.x, loc.y, 'touchstart');
         }, this);
     },
-    touchendDetect:function(e){
-       //外置
+    touchendDetect: function (e) {
+        //外置
         // let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
 
         this.store.store.forEach(function (item) {
@@ -171,7 +172,9 @@ WxDraw.prototype = {
     },
     getDetectedLayers: function (layers) {
         this.detectedLayers.push(layers);// 这个地方不能推一次 就 判断一次 应该全部推完了 之后再来判断 
+        console.log(this.detectedLayers);
         if (this.detectedLayers.length == this.store.getLength() && Math.max.apply(null, this.detectedLayers) != -1) {
+            console.log('选取层级');
             this.store.find(Math.max.apply(null, this.detectedLayers)).getChoosed();
         }
 
@@ -201,28 +204,28 @@ WxDraw.prototype = {
             console.log(_index);
         }
         else {
- 
-                _index = parseInt(index);
+
+            _index = parseInt(index);
         }
 
 
         if (_index >= (this.store.store.length - 1)) {
             _index = (this.store.store.length - 1);
         }
-        if (_index<= 0) {
+        if (_index <= 0) {
             _index = 0;
         }
         // who._updateLayer(_index)
         this.store.changeIndex(who, oldIndex, _index);
         // console.log(this.store);
         this._updateLayer();
-     
+
     },
-    destroy:function(index){
-        this.store.store.splice(index,1);
+    destroy: function (index) {
+        this.store.store.splice(index, 1);
     },
-    _updateLayer:function(){
-          this.store.store.forEach(function (item, index) {
+    _updateLayer: function () {
+        this.store.store.forEach(function (item, index) {
             item._updateLayer(index);//这里没写好 。。但现在没想到更好的办法
         })
 
