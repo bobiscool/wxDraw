@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-24 15:39:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 17:02:14
+ * @Last Modified time: 2017-10-24 17:13:44
  * 曲线
  * https://stackoverflow.com/questions/15397596/find-all-the-points-of-a-cubic-bezier-curve-in-javascript
  * https://en.wikipedia.org/wiki/Cubic_Hermite_spline#Cardinal_spline //曲线光滑算法 三次埃尔米样条？？
@@ -11,15 +11,16 @@
  */
 
 
-import { util, matrixToarray, getDetectPointOut, getDetectPointIn, getDetectPointEdge } from '../util/utils.js';
+import { util, matrixToarray} from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js";
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
+import { getCurvePoints } from "./mixins/getCurvePoints.js"; //共有属性
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 
 
 
-export function Beizer(option) {
+export function Curve(option) {
     var bOption = {
         strokeStyle: "#000000",
         points: [
@@ -64,7 +65,7 @@ export function Beizer(option) {
  * 线的旋转
  * 线的绘制
  */
-Beizer.prototype = {
+Curve.prototype = {
     genMassCenter(points) {
         //计算质心 
         let _allX = 0;

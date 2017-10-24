@@ -2,11 +2,13 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-24 17:06:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 17:08:49
+ * @Last Modified time: 2017-10-24 17:10:36
  * 此处 使用的是
  * https://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas
  * 里面的算法
  * 意在 计算出 光滑的曲线
+ * 里面是怎么算的 以我现在的数学水平 看不明白
+ * 就鼓掌吧👏
  */
 
 
