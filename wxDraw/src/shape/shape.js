@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 11:28:09
+ * @Last Modified time: 2017-10-24 11:36:35
  * 在这里添加事件 
  */
 
@@ -73,9 +73,14 @@ Shape.prototype = {
 
     },
     moveDetect: function (x, y) {
+        if (this._getChoosed) {
+            this._eventStore['touchmove'].forEach(function (element) {
+                element(this);
+            }, this);
+        }
         if (this.draggable && this._getChoosed) {
             //console.log('move',this._layerIndex);          
-            this._eventStore['touchmove'].forEach(function (element) {
+            this._eventStore['drag'].forEach(function (element) {
                 element(this);
             }, this);
             this.Shape.moveDetect(x, y);
@@ -229,7 +234,9 @@ Shape.prototype = {
          *      tap事件
          *      longpress事件
          */
-        this._eventStore[type].push(method)
+        if (typeof this._eventStore[type] !== 'undefined') {
+            this._eventStore[type].push(method)
+        }
     }
 }
 
