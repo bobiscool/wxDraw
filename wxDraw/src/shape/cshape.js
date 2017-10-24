@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:19:58
+ * @Last Modified time: 2017-10-24 18:23:05
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -123,7 +123,7 @@ Cshape.prototype = {
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
         if (this.UnOption.smooth) {
-            this._CurvePoints = getCurvePoints(this._Points, 1, false, 1);
+            this._CurvePoints = getCurvePoints(this._Points, 0.1, false, 200);
 
         }
         return this._Points;//除掉矩阵多余的部分;
