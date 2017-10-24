@@ -119,6 +119,7 @@ Page({
     this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir12);
     
+    cir12.destroy();
     cir8.updateLayer("+2");
     
     

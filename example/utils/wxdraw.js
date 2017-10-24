@@ -3401,7 +3401,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 09:57:37
+ * @Last Modified time: 2017-10-24 10:06:59
  * 在这里添加事件 
  */
 
@@ -3574,7 +3574,7 @@ Shape.prototype = {
         this._getChoosed = true;
     },
     destroy: function destroy() {
-        this.bus.dispatch('destory', 'no', this._layerIndex);
+        this.bus.dispatch('destory', 'no', this._layerIndex, this.Shapeid);
     }
 };
 

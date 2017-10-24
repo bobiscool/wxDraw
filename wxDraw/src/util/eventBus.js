@@ -2,9 +2,10 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 17:43:12
+ * @Last Modified time: 2017-10-24 10:14:52
  * 事件对象
- * 
+ *   现在的eventBus 只支持同一个事件 只有一个scope 以后会改进
+ *  这个库现在就用这个 因为用的地方太多 先不做改动
  */
 
 

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 10:05:38
+ * @Last Modified time: 2017-10-24 10:14:07
  * 动画 对象 接管所有动画
  */
 
@@ -22,7 +22,7 @@ export const Animation = function (bus) {
     this.wraperAniCompleteOb = {}; //每一个包裹的 动画是否完成
     this.bus.add('animationComplete', this, this.animationComplete);// 添加动画事件 
     this.bus.add('wraperAniComplete', this, this.wraperAniComplete);// 添加动画事件 
-    this.bus.add('destory', this, this.destroyAnimation);// 销毁图形 那就销毁动画
+    this.bus.add('destoryAnimation', this, this.destroyAnimation);// 销毁图形 那就销毁动画
 
 
 
