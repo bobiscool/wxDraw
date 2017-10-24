@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:49:36
+ * @Last Modified time: 2017-10-24 15:29:42
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -37,7 +37,7 @@ export const Cshape = function (option) {
     }
 
     var _temOption = util.extend(option, cOption);
-    var _temUnOption = util.extend(option, commonUnAttr);
+    var _temUnOption = util.extend(option, commonUnAttr());
 
     this.Option = _temOption;
     this.UnOption = _temUnOption;//不参与动画的属性

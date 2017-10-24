@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:51:14
+ * @Last Modified time: 2017-10-24 15:22:40
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -141,8 +141,10 @@ export const commonMethods = {
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
         if(this.UnOption.isLineDash){
+            // console.log(context.setLineDash);
             if(context.setLineDash){
-                context.setLineDash(this.Option.lineDash);//设置linedash
+                // console.log('设置dash')
+                context.setLineDash(this.Option.lineDash[0],this.Option.lineDash[1]);//设置linedash
             }
         }
     },

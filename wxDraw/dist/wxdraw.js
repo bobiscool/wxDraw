@@ -527,7 +527,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:19:17
+ * @Last Modified time: 2017-10-24 14:50:02
  * 常用的一些属性
  * 
  */
@@ -546,7 +546,8 @@ var commonAttr = function commonAttr() {
         fillStyle: "#000000",
         strokeStyle: "#000000",
         rotate: 0,
-        opacity: 1
+        opacity: 1,
+        lineDash: [[5, 5], 5]
     };
 };
 
@@ -555,15 +556,15 @@ var commonUnAttr = { //这些样式只能单独设定
     lineJoin: "", //lineJoin	String	'bevel'、'round'、'miter'	线条的结束交点样式
     miterLimit: "", //最大斜接长度
     lg: [],
-    cg: []
-
+    cg: [],
+    isLineDash: false
 };
 
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:18:16
+ * @Last Modified time: 2017-10-24 14:51:14
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -700,6 +701,11 @@ var commonMethods = {
         if (this.Option.shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
+        }
+        if (this.UnOption.isLineDash) {
+            if (context.setLineDash) {
+                context.setLineDash(this.Option.lineDash); //设置linedash
+            }
         }
     },
     turnColorLock: function turnColorLock(onOff) {
@@ -2847,7 +2853,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 15:40:21
+ * @Last Modified time: 2017-10-24 14:56:43
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -2970,6 +2976,19 @@ var specialAtrr = { //一些特殊的属性值的更改
                 blur: (target.blur ? target.blur : 5) - source.blur,
                 color: increCo
             };
+        }
+    },
+    "lineDash": {
+        get: function get(val) {
+            return val;
+        },
+        set: function set(source, incre, timer) {
+            var _temL = [[source[0][0] + incre[0][0] * timer, source[0][1] + incre[0][1] * timer], source[1][1] + incre[1][1] * timer];
+
+            return _temL;
+        },
+        getIncre: function getIncre(source, tar, obj) {
+            return [[-source[0][0] + incre[0][0], -source[0][1] + incre[0][1]], -source[1][1] + tar[1][1]];
         }
     }
 };

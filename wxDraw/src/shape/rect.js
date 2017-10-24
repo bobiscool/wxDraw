@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:13:50
+ * @Last Modified time: 2017-10-24 15:30:29
  * 分离开
  */
 
@@ -24,7 +24,7 @@ export const Rect = function (option) {
     var _temOption = util.extend(option, rOption);
     // console.log(_temOption);
 
-    var _temUnOption = util.extend(option, commonUnAttr);
+    var _temUnOption = util.extend(option, commonUnAttr());
 
     this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption;//不参与动画的属性

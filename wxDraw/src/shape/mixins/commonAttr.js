@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:50:02
+ * @Last Modified time: 2017-10-24 15:31:23
  * 常用的一些属性
  * 
  */
@@ -28,19 +28,21 @@ export const commonAttr = function () {//避免变量污染
         strokeStyle: "#000000",
         rotate: 0,
         opacity: 1,
-        lineDash:[[5,5],5]        
+        lineDash: [[5, 5], 5]
     }
 }
 
 
 
-export const commonUnAttr = { //这些样式只能单独设定 
-    lineCap: "",      // lineCap	String	'butt'、'round'、'square'	线条的结束端点样式
-    lineJoin: "",   //lineJoin	String	'bevel'、'round'、'miter'	线条的结束交点样式
-    miterLimit: "",   //最大斜接长度
-    lg: [],
-    cg: [],
-    isLineDash:false
+export const commonUnAttr = function (){
+    return { //这些样式只能单独设定 
+        lineCap: "",    // lineCap	String	'butt'、'round'、'square'	线条的结束端点样式
+        lineJoin: "",   //lineJoin	String	'bevel'、'round'、'miter'	线条的结束交点样式
+        miterLimit: "",   //最大斜接长度
+        lg: [],
+        cg: [],
+        isLineDash:false
+    }
 }
 
 

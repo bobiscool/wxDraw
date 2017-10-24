@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:49:58
+ * @Last Modified time: 2017-10-24 15:29:52
  * 椭圆
  * 
  */
@@ -31,7 +31,7 @@ export const Ellipse = function (option) {
     }
 
     var _temOption = util.extend(option, eOption);
-    var _temUnOption = util.extend(option, commonUnAttr);
+    var _temUnOption = util.extend(option, commonUnAttr());
     // console.log(_temOption);
     this.Option = _temOption;
     this.UnOption = _temUnOption;//不参与动画的属性
@@ -146,8 +146,9 @@ Ellipse.prototype = {
     stroke: function (context) {
         context.save();
         this._drawLine = true;
-        this._draw(context);
         this.setCommonstyle(context, 'ellipse');
+        
+        this._draw(context);
 
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
@@ -163,8 +164,9 @@ Ellipse.prototype = {
     fill: function (context) {
         context.save();
         this._drawLine = false;
-        this._draw(context);
         this.setCommonstyle(context, 'ellipse');
+        
+        this._draw(context);
 
         context.setFillStyle(this.Option.fillStyle);
 

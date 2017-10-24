@@ -94,8 +94,10 @@ Page({
       x: 220, y: 200,
       a: 100, b: 300, rotate: 0,
       fillStyle: "#EEDEAD",
-      lineWidth: 10
-    }, true, false);
+      lineWidth: 5,
+      isLineDash:true,
+      lineDash:[[10,10],50],
+    }, false, true);
 
     var cir4 = new Shape('ellipse',{
       x:200,y:200,
@@ -103,6 +105,17 @@ Page({
       fillStyle: "#DDDEAD",
       lineWidth:10,
       opacity:0.9
+    },true, true)    
+
+
+
+    var cir13 = new Shape('line',{
+      points:[[12,34],[304,607]],rotate:0,
+      fillStyle: "#DDDEAD",
+      lineWidth:2,
+      opacity:0.9,
+      isLineDash:true,
+      lineDash:[[1,2],2]
     },true, true)    
 
     console.log(cir3);
@@ -118,6 +131,7 @@ Page({
     this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir12);
+    this.wxCanvas.add(cir13);
     
     // cir8.destroy();
     cir8.updateLayer("+2");

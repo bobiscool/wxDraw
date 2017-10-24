@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:50:25
+ * @Last Modified time: 2017-10-24 15:30:20
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -31,7 +31,7 @@ export const Polygon = function (option) {
     }
 
     var _temOption = util.extend(option, pOption);
-    var _temUnOption = util.extend(option, commonUnAttr);
+    var _temUnOption = util.extend(option, commonUnAttr());
     // console.log(_temOption);
     this.Option = _temOption;
     this.UnOption = _temUnOption;//不参与动画的属性

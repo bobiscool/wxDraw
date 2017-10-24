@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:50:15
+ * @Last Modified time: 2017-10-24 15:30:01
  * 线条 
  */
 
@@ -26,7 +26,7 @@ export function Line(option) {
         ...commonAttr()
     }
     let _temOption = util.extend(option, lOption);
-    var _temUnOption = util.extend(option, commonUnAttr);
+    var _temUnOption = util.extend(option, commonUnAttr());
 
     this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption;//不参与动画的属性
