@@ -5,6 +5,8 @@
   bindtouchstart="bindtouchstart"
   bindtouchmove="bindtouchmove"  
   bindtouchend="bindtouchend"
+  bindtap="bindtap"
+  bindlongpress="bindlongpress"
   ></canvas>
   
   

@@ -3793,7 +3793,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:22:54
+ * @Last Modified time: 2017-10-24 13:25:59
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -3850,7 +3850,7 @@ WxDraw.prototype = {
         }, this);
         // console.log(this.canvas.actions);
     },
-    tapdetect: function tapdetect(e) {
+    tapDetect: function tapDetect(e) {
         //事件检测
         // touchstart
         // touchmove

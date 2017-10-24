@@ -119,8 +119,8 @@ Page({
     // cir8.destroy();
     cir8.updateLayer("+2");
     
-    cir12.on('touchstart',function(a){
-      console.log(this)
+    cir12.on('longpress',function(a){
+      console.log(a)
     })
     // // cir1.updateOption({x:100})
     // this.wxCanvas.add(cir2);
@@ -163,7 +163,7 @@ Page({
     cir9.animate({rotate:"+=10"}, {
       duration: 10000,
       onLooping: function () {
-        console.log('----');
+        // console.log('----');
       },
       easing: "linear"
     }).start();
@@ -172,7 +172,7 @@ Page({
     cir12.animate({ /*'rotate': Math.PI, "x": "+=200",y: 400,*/sA:Math.PI }, {
       duration: 10000,
       onLooping: function () {
-        console.log('----');
+        // console.log('----');
       },
       easing: "bouncePast"
       }).start();
