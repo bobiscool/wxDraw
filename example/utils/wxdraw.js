@@ -1769,7 +1769,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:09:49
+ * @Last Modified time: 2017-10-24 13:48:22
  * 普通形状
  * 
  */
@@ -2011,6 +2011,8 @@ Circle.prototype = _extends({
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            } else {
+                return false;
             }
         }
 
@@ -3402,7 +3404,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:45:27
+ * @Last Modified time: 2017-10-24 13:46:17
  * 在这里添加事件 
  */
 
@@ -3448,6 +3450,7 @@ Shape.prototype = {
     },
     detect: function detect(x, y, type) {
         //检查点击了谁
+        console.log('点中了吗', x, y, type);
         console.log('点中了吗', this.Shape.detected(x, y));
         if (this.Shape.detected(x, y)) {
             //console.log('点击')

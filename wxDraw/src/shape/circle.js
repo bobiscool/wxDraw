@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:09:49
+ * @Last Modified time: 2017-10-24 13:48:22
  * 普通形状
  * 
  */
@@ -267,6 +267,8 @@ Circle.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            }else{
+                return false;
             }
         }
 

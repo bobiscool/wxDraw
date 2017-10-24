@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-22 19:57:44
+ * @Last Modified time: 2017-10-24 13:50:25
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -296,6 +296,9 @@ Polygon.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            }else {
+                return false;
+
             }
         }
 

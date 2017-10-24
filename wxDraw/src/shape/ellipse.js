@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 17:48:58
+ * @Last Modified time: 2017-10-24 13:49:58
  * 椭圆
  * 
  */
@@ -23,12 +23,12 @@ import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 
 export const Ellipse = function (option) {
     var eOption = {
-    x: 10,
-    y: 10,
-    a: 10,//长轴
-    b: 10,//短轴
-    ...commonAttr()
-}
+        x: 10,
+        y: 10,
+        a: 10,//长轴
+        b: 10,//短轴
+        ...commonAttr()
+    }
 
     var _temOption = util.extend(option, eOption);
     var _temUnOption = util.extend(option, commonUnAttr);
@@ -147,7 +147,7 @@ Ellipse.prototype = {
         context.save();
         this._drawLine = true;
         this._draw(context);
-        this.setCommonstyle(context,'ellipse');
+        this.setCommonstyle(context, 'ellipse');
 
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
@@ -164,7 +164,7 @@ Ellipse.prototype = {
         context.save();
         this._drawLine = false;
         this._draw(context);
-        this.setCommonstyle(context,'ellipse');
+        this.setCommonstyle(context, 'ellipse');
 
         context.setFillStyle(this.Option.fillStyle);
 
@@ -216,6 +216,9 @@ Ellipse.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            } else {
+                return false;
+
             }
         }
 

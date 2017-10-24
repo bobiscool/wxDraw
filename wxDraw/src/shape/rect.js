@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 19:05:10
+ * @Last Modified time: 2017-10-24 13:50:33
  * 分离开
  */
 
@@ -238,6 +238,8 @@ Rect.prototype = {
                 return true;
             }
         }
+        
+        return false;
     },
     moveDetect: function (x, y) {
 

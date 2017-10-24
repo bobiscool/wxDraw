@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:24:29
+ * @Last Modified time: 2017-10-24 13:50:15
  * 线条 
  */
 
@@ -223,6 +223,9 @@ Line.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            }else {
+                return false;
+
             }
         }
 

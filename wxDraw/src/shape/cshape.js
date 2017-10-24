@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 15:26:20
+ * @Last Modified time: 2017-10-24 13:49:36
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -219,6 +219,8 @@ Cshape.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
+            }else{
+                return false;
             }
         }
 
