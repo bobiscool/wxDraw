@@ -22,6 +22,7 @@ Page({
   },
   bindtouchstart:function(e){
     // 检测手指点击事件
+    console.log(e);
     this.wxCanvas.touchstartDetect(e);
     
   },
@@ -34,9 +35,11 @@ Page({
     this.wxCanvas.touchendDetect();
   },
   bindtap:function(e){
+    console.log(e);    
     this.wxCanvas.tapDetect(e);
   },
   bindlongpress:function(e){
+    console.log(e);
     this.wxCanvas.longpressDetect(e);
   },
   onLoad: function () {
@@ -120,7 +123,7 @@ Page({
     cir8.updateLayer("+2");
     
     cir12.on('longpress',function(a){
-      console.log(a)
+      console.log('ddzklxcmklxzclzx')
     })
     // // cir1.updateOption({x:100})
     // this.wxCanvas.add(cir2);
