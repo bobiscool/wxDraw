@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:31:23
+ * @Last Modified time: 2017-10-24 18:24:38
  * 常用的一些属性
  * 
  */
@@ -41,7 +41,8 @@ export const commonUnAttr = function (){
         miterLimit: "",   //最大斜接长度
         lg: [],
         cg: [],
-        isLineDash:false
+        isLineDash:false,
+        needShadow:false
     }
 }
 
