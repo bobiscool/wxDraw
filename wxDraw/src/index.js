@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:59:13
+ * @Last Modified time: 2017-10-24 14:02:04
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -74,6 +74,7 @@ WxDraw.prototype = {
         // touchup
         // longpress 
         // 
+        this.bus.dispatch('clearDetectedLayers', 'no');//清空touchstart选中数组             
         let loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
 
         this.store.store.forEach(function (item) {

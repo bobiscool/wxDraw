@@ -123,8 +123,12 @@ Page({
     cir8.updateLayer("+2");
     
     cir12.on('longpress',function(a){
-      console.log('ddzklxcmklxzclzx')
-    })
+      console.log(a);
+    });
+
+    cir8.on('tap',function(a){
+      console.log(a);
+    });
     // // cir1.updateOption({x:100})
     // this.wxCanvas.add(cir2);
     // console.log(cir2);
