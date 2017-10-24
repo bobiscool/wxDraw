@@ -3213,9 +3213,10 @@ AnimationFrag.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 15:33:40 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-12 17:43:12
+ * @Last Modified time: 2017-10-24 10:14:52
  * 事件对象
- * 
+ *   现在的eventBus 只支持同一个事件 只有一个scope 以后会改进
+ *  这个库现在就用这个 因为用的地方太多 先不做改动
  */
 
 var eventBus = function eventBus() {
@@ -3401,7 +3402,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 10:06:59
+ * @Last Modified time: 2017-10-24 10:15:22
  * 在这里添加事件 
  */
 
@@ -3575,6 +3576,7 @@ Shape.prototype = {
     },
     destroy: function destroy() {
         this.bus.dispatch('destory', 'no', this._layerIndex, this.Shapeid);
+        this.bus.dispatch('destoryAnimation', 'no', this._layerIndex, this.Shapeid);
     }
 };
 
@@ -3661,7 +3663,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 10:05:38
+ * @Last Modified time: 2017-10-24 10:14:07
  * 动画 对象 接管所有动画
  */
 
@@ -3678,7 +3680,7 @@ var Animation = function Animation(bus) {
     this.wraperAniCompleteOb = {}; //每一个包裹的 动画是否完成
     this.bus.add('animationComplete', this, this.animationComplete); // 添加动画事件 
     this.bus.add('wraperAniComplete', this, this.wraperAniComplete); // 添加动画事件 
-    this.bus.add('destory', this, this.destroyAnimation); // 销毁图形 那就销毁动画
+    this.bus.add('destoryAnimation', this, this.destroyAnimation); // 销毁图形 那就销毁动画
 
 
     //    this.animationFragStore2 = {};
@@ -3752,7 +3754,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 10:01:50
+ * @Last Modified time: 2017-10-24 10:13:57
  * 主要 引入对象
  * 
  * 写给开发者的:

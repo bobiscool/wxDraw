@@ -15,7 +15,6 @@ TODO
 - event 
   - click 
   - touch
-  - hover
 
 
 
@@ -109,6 +108,9 @@ animate之后 如何继续调animate？ 在目标模式下不会有什么 问题
 - √ 随机线 随机图形的检测 边 。。没法检测
 - paperjs里面那种物理特效咋弄
 - 渐变 渐变 咋回事呢 渐变 渐变 
+- 群组？？？
+- tap
+- longpress
 
 ### 小程序 引入构造函数  //console 是null 但是还是可以执行
 
