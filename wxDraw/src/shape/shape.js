@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 10:58:30
+ * @Last Modified time: 2017-10-24 11:09:00
  * 在这里添加事件 
  */
 
@@ -38,7 +38,14 @@ export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     //
     this._layerIndex = 0;//用于点击时候的
     this._getChoosed = false;//用于选中
-    this._eventStore=[];//用于回调事件的
+    this._eventStore={
+        "tap":[],
+        "tapstart":[],
+        "tapmove":[],
+        "tapend":[],
+        "longpress":[],
+        "drap":[]
+    };//用于回调事件的
 }
 
 

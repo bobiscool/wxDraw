@@ -58,7 +58,6 @@
 - [x]矩阵变换
 - [x] 层级修改
 - [x] 事件
-        - [ ] 点击事件
         - [ ] touchstart
         - [ ] touchmove 
         - [ ] touchend
