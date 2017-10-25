@@ -142,10 +142,11 @@ Page({
     //   console.log(a);
     // });
 
-    cir8.on('tap',function(a){
-      console.log(a);
-    });
-  
+    let tom = function () {
+      console.log('aaa');
+    }
+    cir8.bind('tap',tom);
+    cir8.unbind('tap',tom);
 
     console.log(this.wxCanvas);
 
@@ -157,17 +158,35 @@ Page({
       easing: "linear"
     }).start();
 
-    cir3.on('tap',function(){
-     cir3.setOption({a:1000})
+    cir3.bind('tap',function(){
+     cir3.updateOption({a:10})
      console.log(cir3);
     });
-    cir12.animate({ /*'rotate': Math.PI, "x": "+=200",y: 400,*/sA:Math.PI }, {
-      duration: 10000,
-      onLooping: function () {
-        // console.log('----');
-      },
-      easing: "bouncePast"
-      }).start();
+
+    cir3.bind('drag', function () {
+      cir3.updateOption({ a: 100 })
+      console.log(cir3);
+    });
+    cir3.bind('touchend',function(){
+      cir3.updateOption({ b: 100 })
+    });
+
+    
+
+    let tom2 = function () {
+      console.log('aaa');
+    }
+
+
+    
+    console.log(tom===tom2);
+    // cir12.animate({ /*'rotate': Math.PI, "x": "+=200",y: 400,*/sA:Math.PI }, {
+    //   duration: 10000,
+    //   onLooping: function () {
+    //     // console.log('----');
+    //   },
+    //   easing: "bouncePast"
+    //   }).start();
 
 
     // cir1.animate("rotate","+=100",{duration:10000}).start()

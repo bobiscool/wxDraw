@@ -1885,7 +1885,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:43:49
+ * @Last Modified time: 2017-10-25 14:16:47
  * 普通形状
  * 
  */
@@ -1973,7 +1973,7 @@ Circle.prototype = _extends({
             points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
         }
 
-        console.log(points);
+        // console.log(points);
 
         //计算拓展之后的点位
         // let k1 = (this.Option.x - points[50][0]) / (this.Option.y - points[50][1]);
@@ -3514,7 +3514,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:24:57
+ * @Last Modified time: 2017-10-25 14:39:19
  * 在这里添加事件 
  */
 
@@ -3717,10 +3717,12 @@ Shape.prototype = {
     },
     getChoosed: function getChoosed() {
         // console.log('选中',this._layerIndex);
-        // console.log('sss',this._nowType);
+        console.log('sss', this._nowType);
+        console.log('sss', this._eventStore[this._nowType]);
         this._getChoosed = true;
         //选中之后 开始tapstart
         this._eventStore[this._nowType].forEach(function (element) {
+            console.log(element);
             element(this);
         }, this);
     },
@@ -3734,7 +3736,7 @@ Shape.prototype = {
     disableDrag: function disableDrag() {
         this.draggable = false;
     },
-    on: function on(type, method) {
+    bind: function bind(type, method) {
         /**
          * 事件有点击事件
          *         touchstart
@@ -3744,8 +3746,22 @@ Shape.prototype = {
          *      tap事件
          *      longpress事件
          */
+        console.log(method);
         if (typeof this._eventStore[type] !== 'undefined') {
             this._eventStore[type].push(method);
+        }
+    },
+    unbind: function unbind(type, method) {
+        var _index = -1;
+        if (typeof this._eventStore[type] !== 'undefined') {
+            this._eventStore[type].forEach(function (item, index) {
+                _index = index;
+            });
+        }
+
+        if (_index !== -1) {
+            this._eventStore[type].splice(_index, 1);
+            console.log(this._eventStore);
         }
     }
 };

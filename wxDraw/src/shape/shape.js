@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:24:57
+ * @Last Modified time: 2017-10-25 14:39:19
  * 在这里添加事件 
  */
 
@@ -23,7 +23,7 @@ import { AniFragWrap } from "../animation/animationFragWraper.js"
 export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     this.draggable = draggable ? true : false;
     this.highlight = highlight ? true : false;
-    this.strokeOrfill = strokeOrfill ? strokeOrfill: 'fill';//是否填充
+    this.strokeOrfill = strokeOrfill ? strokeOrfill : 'fill';//是否填充
     this.type = type;
     this.Shape = new shapeTypes[type](option);
     // console.log('方块', this.Shape.Option);
@@ -57,19 +57,19 @@ Shape.prototype = {
         this.bus = bus;
     },
     paint: function (context) {
-        switch (this.strokeOrfill){
+        switch (this.strokeOrfill) {
             case 'fill':
-                   this.Shape.fill(context);
-                   break;
-           case 'stroke':
-                   this.Shape.stroke(context);
-                   break;
-           case 'mix':
-                   this.Shape.mixDraw(context);
-                   break; 
-           case true:
-                   this.Shape.fill(context);
-                   break;                           
+                this.Shape.fill(context);
+                break;
+            case 'stroke':
+                this.Shape.stroke(context);
+                break;
+            case 'mix':
+                this.Shape.mixDraw(context);
+                break;
+            case true:
+                this.Shape.fill(context);
+                break;
         }
     },
     detect: function (x, y, type) {
@@ -228,10 +228,12 @@ Shape.prototype = {
     },
     getChoosed: function () {
         // console.log('选中',this._layerIndex);
-        // console.log('sss',this._nowType);
+        console.log('sss', this._nowType);
+        console.log('sss', this._eventStore[this._nowType]);
         this._getChoosed = true;
         //选中之后 开始tapstart
         this._eventStore[this._nowType].forEach(function (element) {
+            console.log(element);
             element(this);
         }, this);
     },
@@ -239,13 +241,13 @@ Shape.prototype = {
         this.bus.dispatch('destory', 'no', this._layerIndex, this.Shapeid);
         this.bus.dispatch('destoryAnimation', 'no', this._layerIndex, this.Shapeid);
     },
-    restoreDrag:function(){
-        this.draggable =  this._oldDrag;
+    restoreDrag: function () {
+        this.draggable = this._oldDrag;
     },
-    disableDrag:function(){
-      this.draggable =  false;  
+    disableDrag: function () {
+        this.draggable = false;
     },
-    on: function (type, method) {
+    bind: function (type, method) {
         /**
          * 事件有点击事件
          *         touchstart
@@ -255,8 +257,23 @@ Shape.prototype = {
          *      tap事件
          *      longpress事件
          */
+        console.log(method);
         if (typeof this._eventStore[type] !== 'undefined') {
             this._eventStore[type].push(method)
+        }
+    },
+    unbind: function (type, method) {
+        let _index = -1;
+        if (typeof this._eventStore[type] !== 'undefined') {
+            this._eventStore[type].forEach(function (item, index) {
+                _index = index;
+            });
+        }
+
+
+        if (_index!==-1) {
+            this._eventStore[type].splice(_index, 1);
+            console.log(this._eventStore);
         }
     }
 }
