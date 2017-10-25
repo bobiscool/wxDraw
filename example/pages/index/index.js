@@ -99,7 +99,8 @@ Page({
       lineWidth: 5,
       isLineDash:true,
       lineDash:[[10,10],50],
-    }, 'stroke', true);
+      lg:[[0, 'red'],[1, 'white']]
+    }, 'fill', true);
 
     var cir4 = new Shape('ellipse',{
       x:200,y:200,

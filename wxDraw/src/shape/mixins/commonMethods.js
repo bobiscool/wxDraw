@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:56:36
+ * @Last Modified time: 2017-10-25 15:17:12
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -98,7 +98,7 @@ export const commonMethods = {
             context.setLineJoin(this.UnOption.lineJoin);
         }
         // context.setLineDash(this.UnOption.lineDash);
-        if (this.UnOption.lg && this.UnOption.lg.length > 0) {
+        if (this.UnOption.needGra&&this.UnOption.needGra=='line'&& this.UnOption.lg.length > 0) {
 
             /**
              * lg
@@ -110,15 +110,15 @@ export const commonMethods = {
              * [0.6,"#cddddd"]
              */
             this.turnColorLock(true);//开启颜色锁
-            // gra = context.createLinearGradient(...this.getGradientOption(type).lg);
-            gra = context.createLinearGradient(100, 0, 200, 0);
+            gra = context.createLinearGradient(...this.getGradientOption(type).lg);
+            // gra = context.createLinearGradient(100, 0, 200, 0);
             this.UnOption.lg.forEach(function (element) {
                 gra.addColorStop(...element);
             }, this);
             // console.log(gra);
             context.setFillStyle(gra);
         }
-        if (this.UnOption.cg && this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
+        if (this.UnOption.needGra&&this.UnOption.needGra=='circle'&& this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
             this.turnColorLock(true);//开启颜色锁            
             gra = context.createCircularGradient(...this.getGradientOption(type).cg);
             this.UnOption.cg.forEach(function (element) {
@@ -130,7 +130,7 @@ export const commonMethods = {
         }
 
 
-        if (!this._colorLock) {
+        if (!this._colorLock||(this.needGra&&his.UnOption.needGra=='no')) {
             // console.log("没有渐变");
             context.setFillStyle(this.Option.fillStyle);
         }
@@ -257,16 +257,17 @@ export const commonMethods = {
                     Math.pow((this.max.maxY - this.max.minY) / 2, 2))
                 ]
             } : {},
-            "line": type == "cshape" ? {
+             "ellipse": type == "ellipse" ? {
                 "lg": [this.max.minX,
                 this.max.minY,
                 this.max.maxX,
                 this.max.minY],
-                "cg": [this.massCenter.x, this.massCenter.y,
+                "cg": [this.Option.x, this.Option.y,
                 Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) +
                     Math.pow((this.max.maxY - this.max.minY) / 2, 2))
                 ]
-            } : {} //加这个 是为了 没必要的计算
+            } : {},
+             //加这个 是为了 没必要的计算
         }[type]
     }
 }

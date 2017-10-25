@@ -567,7 +567,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:56:36
+ * @Last Modified time: 2017-10-25 15:11:51
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -674,8 +674,8 @@ var commonMethods = {
              * [0.6,"#cddddd"]
              */
             this.turnColorLock(true); //开启颜色锁
-            // gra = context.createLinearGradient(...this.getGradientOption(type).lg);
-            gra = context.createLinearGradient(100, 0, 200, 0);
+            gra = context.createLinearGradient.apply(context, toConsumableArray(this.getGradientOption(type).lg));
+            // gra = context.createLinearGradient(100, 0, 200, 0);
             this.UnOption.lg.forEach(function (element) {
                 var _gra;
 
@@ -801,10 +801,11 @@ var commonMethods = {
                 "lg": [this.max.minX, this.max.minY, this.max.maxX, this.max.minY],
                 "cg": [this.massCenter.x, this.massCenter.y, Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) + Math.pow((this.max.maxY - this.max.minY) / 2, 2))]
             } : {},
-            "line": type == "cshape" ? {
+            "ellipse": type == "ellipse" ? {
                 "lg": [this.max.minX, this.max.minY, this.max.maxX, this.max.minY],
-                "cg": [this.massCenter.x, this.massCenter.y, Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) + Math.pow((this.max.maxY - this.max.minY) / 2, 2))]
-            } : {} //加这个 是为了 没必要的计算
+                "cg": [this.Option.x, this.Option.y, Math.sqrt(Math.pow((this.max.maxX - this.max.minX) / 2, 2) + Math.pow((this.max.maxY - this.max.minY) / 2, 2))]
+            } : {}
+            //加这个 是为了 没必要的计算
         }[type];
     }
 };
@@ -3514,7 +3515,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 14:43:25
+ * @Last Modified time: 2017-10-25 14:47:24
  * 在这里添加事件 
  */
 
@@ -3722,7 +3723,7 @@ Shape.prototype = {
         this._getChoosed = true;
         //选中之后 开始tapstart
         this._eventStore[this._nowType].forEach(function (element) {
-            console.log(element);
+            // console.log(element);
             element(this);
         }, this);
     },

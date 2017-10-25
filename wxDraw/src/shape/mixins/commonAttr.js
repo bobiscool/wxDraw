@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:24:38
+ * @Last Modified time: 2017-10-25 15:14:50
  * 常用的一些属性
  * 
  */
@@ -42,7 +42,8 @@ export const commonUnAttr = function (){
         lg: [],
         cg: [],
         isLineDash:false,
-        needShadow:false
+        needShadow:false,
+        needGra:'no' //渐变形式  line 线性  circle 是径向   no 是没有
     }
 }
 
