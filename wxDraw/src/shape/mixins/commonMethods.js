@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:09:45
+ * @Last Modified time: 2017-10-25 13:49:21
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -61,13 +61,13 @@ import { util } from '../../util/utils.js';
 
 export const commonMethods = {
     updateOption: function (option) { //这个更新属性 是不是有点问题 好像和set属性重复了
-        if (option.fillStyle && option.lg&& option.lg.length<= 0 && option.cg&&option.cg.length <= 0) {
+        if (option.fillStyle && option.lg && option.lg.length <= 0 && option.cg && option.cg.length <= 0) {
             this.turnColorLock(false);
         }
         this.Option = util.extend(option, this.Option);
         this.UnOption = util.extend(option, this.UnOption);
         // console.log(this.Option);
-        this._dirty= true;
+        this._dirty = true;
         this.bus.dispatch('update', 'no');
     },
     upDetect: function () {
@@ -88,16 +88,17 @@ export const commonMethods = {
     setRotateOrigin: function (loc) {//设置旋转中心
         this.rotateOrigin = loc;
     },
-    setCommonstyle: function (context, type) {
+    setCommonstyle: function (context) {
         // console.log(context);
         // return false;
         let gra = null;
-        if(this.UnOption.lineCap){
-        context.setLineCap(this.UnOption.lineCap);
-        context.setLineJoin(this.UnOption.lineJoin);
+        let type = this._type;
+        if (this.UnOption.lineCap) {
+            context.setLineCap(this.UnOption.lineCap);
+            context.setLineJoin(this.UnOption.lineJoin);
         }
         // context.setLineDash(this.UnOption.lineDash);
-        if (this.UnOption.lg&&this.UnOption.lg.length > 0) {
+        if (this.UnOption.lg && this.UnOption.lg.length > 0) {
 
             /**
              * lg
@@ -117,7 +118,7 @@ export const commonMethods = {
             // console.log(gra);
             context.setFillStyle(gra);
         }
-        if (this.UnOption.cg&&this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
+        if (this.UnOption.cg && this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
             this.turnColorLock(true);//开启颜色锁            
             gra = context.createCircularGradient(...this.getGradientOption(type).cg);
             this.UnOption.cg.forEach(function (element) {
@@ -137,17 +138,76 @@ export const commonMethods = {
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
         context.setGlobalAlpha(this.Option.opacity);
-        if (this.UnOption.needShadow&&this.Option.shadow) {
+        if (this.UnOption.needShadow && this.Option.shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
-        if(this.UnOption.isLineDash){
+        if (this.UnOption.isLineDash) {
             // console.log(context.setLineDash);
-            if(context.setLineDash){
+            if (context.setLineDash) {
                 // console.log('设置dash')
-                context.setLineDash(this.Option.lineDash[0],this.Option.lineDash[1]);//设置linedash
+                context.setLineDash(this.Option.lineDash[0], this.Option.lineDash[1]);//设置linedash
             }
         }
+    },
+    stroke: function (context) {
+        if (this._type == 'text') {
+            this.fill(context);
+            return false;
+        }
+        context.save();
+        this._drawLine = true; //用于标识是否画外框        
+        this._draw(context);
+        this.setCommonstyle(context);
+        context.stroke();
+        context.restore();
+    },
+    fill: function (context) {
+        if (this._type == 'line') {
+            this.stroke(context);//这里先这样写吧
+            return false;
+        }
+        if (this._type == 'text') {
+            context.save();
+            context.setGlobalAlpha(this.Option.opacity);
+            context.beginPath();
+            context.setFontSize(this.Option.fontSize);
+            context.setTextAlign(this.Unoption.align);
+            context.setTextBaseline(this.Unoption.textBaseline);
+            context.setFillStyle(this.Option.fillStyle);
+            if (this.UnOption.needShadow && this.Option.shadow) {
+                // console.log(objToArray(this.Option.Shadow));
+                context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
+            }
+            this._draw(context);
+            context.closePath();
+            context.restore();
+            return false;
+        }
+        context.save();
+        this._drawLine = false; //用于标识是否画外框
+        this._draw(context);
+        this.setCommonstyle(context);
+        context.fill();
+        context.restore();
+    },
+    mixDraw: function (context) {
+        if (this._type == 'line') {
+            this.stroke(context);//这里先这样写吧
+            return false;
+        }
+
+        if (this._type == 'text') {
+            this.fill(context);
+            return false;
+        }
+        context.save();
+        this._drawLine = true; //用于标识是否画外框        
+        this._draw(context);
+        this.setCommonstyle(context);
+        context.fill();
+        context.stroke();
+        context.restore();
     },
     turnColorLock: function (onOff) {
         if (onOff) {

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 11:14:31
+ * @Last Modified time: 2017-10-25 13:45:27
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -52,7 +52,7 @@ export const Polygon = function (option) {
     this._isChoosed = false;
     this.rotateOrigin = null;
     this._dirty = true;//最新添加的 用于是否应该计算的
-
+    this._type="polygon";
 }
 
 Polygon.prototype = {
@@ -150,39 +150,6 @@ Polygon.prototype = {
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
-    },
-    stroke: function (context) {
-        context.save();
-        this._draw(context);
-        this._drawLine = true; //用于标识是否画外框
-
-        this.setCommonstyle(context);
-
-        context.setStrokeStyle(this.Option.strokeStyle);
-        context.setLineWidth(this.Option.lineWidth);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
-        context.stroke();
-        context.restore();
-    },
-    fill: function (context) {
-        context.save();
-        this._draw(context);
-        this._drawLine = false; //用于标识是否画外框
-
-        this.setCommonstyle(context);
-
-        context.setFillStyle(this.Option.fillStyle);
-
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
-        context.fill();
-        context.restore();
-
     },
     _draw: function (context) {
         let changeMatrix = null;

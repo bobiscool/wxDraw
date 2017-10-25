@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:21:36
+ * @Last Modified time: 2017-10-25 13:43:49
  * 普通形状
  * 
  */
@@ -74,6 +74,7 @@ export const Circle = function (option) {
     this.getOriPoints();//拿到原始点 
     this.getMax();//根据原始点 
     this._dirty = true;
+    this._type = 'circle';
 }
 
 Circle.prototype = {
@@ -209,49 +210,6 @@ Circle.prototype = {
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
-    },
-
-    stroke: function (context) {
-        context.save();
-        context.beginPath();
-        this._drawLine = true; //用于标识是否画外框        
-        this._draw(context);
-        context.closePath();
-
-        context.setStrokeStyle(this.Option.strokeStyle);
-        context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context, 'circle');
-        context.stroke();
-
-        context.restore();
-    },
-    fill: function (context) {
-        context.save();
-        context.beginPath();
-        this._drawLine = false; //用于标识是否画外框
-
-        this._draw(context);
-        context.closePath();
-        this.setCommonstyle(context, 'circle');
-
-
-        // console.log(objToArray(this.Option.Shandow));
-        context.fill();
-        context.restore();
-    },
-    mixDraw: function (context) {
-        context.save();
-        context.beginPath();
-        this._drawLine = true; //用于标识是否画外框        
-        this._draw(context);        
-        context.setStrokeStyle(this.Option.strokeStyle);
-        context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context, 'circle');
-        context.closePath();
-        // console.log(objToArray(this.Option.Shandow));
-        context.fill();
-        context.stroke();                
-        context.restore();
     },
     _draw: function (context) {
         let changeMatrix = null;

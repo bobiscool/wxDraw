@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 11:14:51
+ * @Last Modified time: 2017-10-25 13:50:08
  * 字体对象
  */
 
@@ -198,27 +198,6 @@ Text.prototype = {
             // this.getPoints();//拿到变化点
         }
 
-    },
-    stroke: function (context) {
-        this.fill(context);//先这样写
-    },
-    fill: function (context) {
-
-        context.save();
-        context.setGlobalAlpha(this.Option.opacity);
-        context.beginPath();
-        context.setFontSize(this.Option.fontSize);
-        context.setTextAlign(this.Unoption.align);
-        context.setTextBaseline(this.Unoption.textBaseline);
-        context.setFillStyle(this.Option.fillStyle);
-        if (this.Option.shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
-        }
-        this._draw(context);
-        context.closePath();
-
-        context.restore();
     },
     ...commonMethods
 }

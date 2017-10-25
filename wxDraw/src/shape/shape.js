@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:19:00
+ * @Last Modified time: 2017-10-25 13:24:57
  * 在这里添加事件 
  */
 
@@ -61,7 +61,7 @@ Shape.prototype = {
             case 'fill':
                    this.Shape.fill(context);
                    break;
-           case 'fill':
+           case 'stroke':
                    this.Shape.stroke(context);
                    break;
            case 'mix':

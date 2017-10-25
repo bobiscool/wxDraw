@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 11:14:44
+ * @Last Modified time: 2017-10-25 13:45:36
  * 分离开
  */
 
@@ -49,32 +49,10 @@ export const Rect = function (option) {
     this.getPoints();
     this.getMax();
     this._dirty = true;
+    this._type = 'rect';
 }
 
 Rect.prototype = {
-    stroke: function (context) {
-        context.save();
-        context.beginPath();
-
-        this._draw(context);
-        context.closePath();
-        this._drawLine = true;
-        this.setCommonstyle(context, 'rect');
-        context.stroke();
-
-        context.restore();
-    },
-    fill: function (context) {
-        context.save();
-        context.beginPath();
-
-        this._draw(context);
-        context.closePath();
-        this._drawLine = false;
-        this.setCommonstyle(context, 'rect');
-        context.fill();
-        context.restore();
-    },
     _draw: function (context) {
         let changeMatrix = null;
         let getchaMatrix = null;
@@ -224,7 +202,7 @@ Rect.prototype = {
     move: function (x, y) {
         this.Option.x = x;
         this.Option.y = y;
-        this._dirty = true;        
+        this._dirty = true;
     },
     detected: function (x, y) {
         // //console.log('检测方块', x, y);

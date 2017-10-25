@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 11:14:07
+ * @Last Modified time: 2017-10-25 13:45:02
  * 椭圆
  * 
  */
@@ -53,6 +53,7 @@ export const Ellipse = function (option) {
     this.getOriPoints();//拿到原始点 
     this.getMax();//根据原始点 
     this._dirty = true;
+    this._type = 'ellipse';
 
 }
 
@@ -144,41 +145,6 @@ Ellipse.prototype = {
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
-    },
-    stroke: function (context) {
-        context.save();
-        this._drawLine = true;
-        this.setCommonstyle(context, 'ellipse');
-
-        this._draw(context);
-
-        context.setStrokeStyle(this.Option.strokeStyle);
-        context.setLineWidth(this.Option.lineWidth);
-        // if (this.Option.shadow) {
-        //     // console.log(objToArray(this.Option.Shadow));
-        //     context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        // }
-        // console.log('已然绘制');
-
-        context.stroke();
-        context.restore();
-    },
-    fill: function (context) {
-        context.save();
-        this._drawLine = false;
-        this.setCommonstyle(context, 'ellipse');
-
-        this._draw(context);
-
-        context.setFillStyle(this.Option.fillStyle);
-
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
-        context.fill();
-        context.restore();
-
     },
     _draw: function (context) {
         let changeMatrix = null;

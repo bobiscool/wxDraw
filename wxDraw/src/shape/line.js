@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:14:59
+ * @Last Modified time: 2017-10-25 13:45:12
  * 线条 
  */
 
@@ -56,7 +56,7 @@ export function Line(option) {
 
     this.rotateOrigin = null
     this._dirty = true;//最新添加的 用于是否应该计算的
-
+        this._type = 'line';
 }
 /**
  * 线的质心
@@ -214,6 +214,9 @@ Line.prototype = {
         this.setCommonstyle(context, 'line');
         context.stroke();
         context.restore();
+    },
+    mixDraw:function(context){
+        this.stroke(context);//这里先这样写吧
     },
     fill(context) {
         this.stroke(context);//这里先这样写吧
