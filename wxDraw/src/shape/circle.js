@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:43:49
+ * @Last Modified time: 2017-10-25 14:16:47
  * 普通形状
  * 
  */
@@ -104,7 +104,7 @@ Circle.prototype = {
             points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
         }
 
-        console.log(points);
+        // console.log(points);
 
         //计算拓展之后的点位
         // let k1 = (this.Option.x - points[50][0]) / (this.Option.y - points[50][1]);

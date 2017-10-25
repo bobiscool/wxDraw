@@ -157,7 +157,10 @@ Page({
       easing: "linear"
     }).start();
 
-
+    cir3.on('tap',function(){
+     cir3.setOption({a:1000})
+     console.log(cir3);
+    });
     cir12.animate({ /*'rotate': Math.PI, "x": "+=200",y: 400,*/sA:Math.PI }, {
       duration: 10000,
       onLooping: function () {
