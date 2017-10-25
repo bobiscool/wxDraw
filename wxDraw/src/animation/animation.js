@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 10:14:07
+ * @Last Modified time: 2017-10-25 10:58:48
  * 动画 对象 接管所有动画
  */
 
@@ -79,7 +79,7 @@ Animation.prototype = {
             // //console.log('结束动画')
         }
     },
-    wraperAniComplete: function (afID, shaId) {
+    wraperAniComplete: function (afID, shaId,obj) {
         // //console.log(afID, shaId);
         if (this.wraperAniCompleteOb[shaId]) {
             this.wraperAniCompleteOb[shaId].push(afID);
@@ -91,6 +91,7 @@ Animation.prototype = {
         // //console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
 
         if (this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length) {
+            obj.restoreDrag();//恢复drag状态
             this.bus.dispatch('animationComplete', 'no', shaId);// 某一个物件的动画完成
         }
         // //console.log('wraperAniComplete', this.wraperAniCompleteOb);

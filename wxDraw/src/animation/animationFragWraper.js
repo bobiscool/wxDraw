@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:35:08
+ * @Last Modified time: 2017-10-25 11:10:53
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -46,6 +46,7 @@ AniFragWrap.prototype = {
     exeAnimate() {
         // 执行 仓库内部 动画 
         // //console.log(this.stoped);
+        this.object.disableDrag();//动画执行阶段 禁止 拖拽
         if (this.firstTime) {
             this.firstTime = false;
             this.oriOption = util.extend({}, this.object.Shape.Option);
@@ -53,6 +54,8 @@ AniFragWrap.prototype = {
         if (this.stoped) {
             if (this.endCallWraper) {
                 this.endCallWraper.exeAnimate();
+            }else{
+                this.object.restoreDrag();//恢复drag
             }
 
             return false;
@@ -104,7 +107,7 @@ AniFragWrap.prototype = {
     stop() {
         this.stoped = true;
         // //console.log('停止');
-        this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId, this.object.Shapeid);
+        this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId, this.object.Shapeid,this.object);
         console.log('不再更新')
     },
     resume() {
