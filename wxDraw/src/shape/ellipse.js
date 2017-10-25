@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:29:52
+ * @Last Modified time: 2017-10-25 10:41:01
  * 椭圆
  * 
  */
@@ -52,6 +52,7 @@ export const Ellipse = function (option) {
     this._detectPoints = [];
     this.getOriPoints();//拿到原始点 
     this.getMax();//根据原始点 
+    this._dirty = false;
 }
 
 Ellipse.prototype = {
@@ -147,7 +148,7 @@ Ellipse.prototype = {
         context.save();
         this._drawLine = true;
         this.setCommonstyle(context, 'ellipse');
-        
+
         this._draw(context);
 
         context.setStrokeStyle(this.Option.strokeStyle);
@@ -165,7 +166,7 @@ Ellipse.prototype = {
         context.save();
         this._drawLine = false;
         this.setCommonstyle(context, 'ellipse');
-        
+
         this._draw(context);
 
         context.setFillStyle(this.Option.fillStyle);
@@ -182,12 +183,14 @@ Ellipse.prototype = {
         let changeMatrix = null;
         let getchaMatrix = null;
         let origin = null;
-        this.getOriPoints();//拿到所有原始点
-        this.getPoints();//拿到所有真实点
-        // //console.log('_POINTS',this._Points);
-        this.getMax();//所有真实点max min
+        if (this._dirty) {
+            this.getOriPoints();//拿到所有原始点
+            this.getPoints();//拿到所有真实点
+            // //console.log('_POINTS',this._Points);
+            this.getMax();//所有真实点max min
+        }
         this.createPath(context);//绘制
-
+        this._dirty = false;
     },
     getPointTodraw: function (x, y, origin) {
 
@@ -201,6 +204,7 @@ Ellipse.prototype = {
 
         this.Option.x = x;
         this.Option.y = y;
+        this._dirty = true;
         // //console.log('-------move--------', this.Option);
     },
     detected: function (x, y) {

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:00:25
+ * @Last Modified time: 2017-10-25 10:39:45
  * 线条 
  */
 
@@ -227,9 +227,15 @@ Line.prototype = {
             // //console.log('_POINTS',this._Points);
             this.detectPoints = this.getDetectPoints();
             this.getMax();//所有真实点max min
+            // console.log('line计算');            
+        }else{
+            // console.log('line不计算');            
+            
         }
 
         this.createPath(context);//绘制
+        
+        this._dirty = false;
     },
     move(x, y) {
 
