@@ -2,11 +2,11 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:30:29
+ * @Last Modified time: 2017-10-25 10:46:26
  * 分离开
  */
 
- import { util, matrixToarray, objToArray } from '../util/utils.js';
+import { util, matrixToarray, objToArray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js"; //准备把rect 改成 点形式
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
@@ -48,6 +48,7 @@ export const Rect = function (option) {
     this.getOriPoints();
     this.getPoints();
     this.getMax();
+    this._dirty = false;
 }
 
 Rect.prototype = {
@@ -78,11 +79,15 @@ Rect.prototype = {
         let changeMatrix = null;
         let getchaMatrix = null;
         let origin = null;
-        this.getOriPoints();
-        this.getPoints();//拿到所有真实点
-        // //console.log('_POINTS',this.Option);
-        this.getMax();//所有真实点max min
+        if (this._dirty) {
+            this.getOriPoints();
+            this.getPoints();//拿到所有真实点
+            // //console.log('_POINTS',this.Option);
+            this.getMax();//所有真实点max min
+        }
         this.createPath(context);//绘制
+        this._dirty = false;
+
     },
     getOriPoints: function () {
         let points = [];
@@ -219,6 +224,7 @@ Rect.prototype = {
     move: function (x, y) {
         this.Option.x = x;
         this.Option.y = y;
+        this._dirty = true;        
     },
     detected: function (x, y) {
         // //console.log('检测方块', x, y);
@@ -236,11 +242,11 @@ Rect.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
-        
+
         return false;
     },
     moveDetect: function (x, y) {
@@ -252,14 +258,6 @@ Rect.prototype = {
             this.getMax();//拿到边界点
         }
 
-    },
-    getDetectPoints: function () {
-        //获取检测点方块 如果他有lineWidth 并且绘制出来的话 那就 
-        let originPoints = this.oriPoints;
-
-        if (!this._drawLine) {
-
-        }
     },
     ...commonMethods
 }

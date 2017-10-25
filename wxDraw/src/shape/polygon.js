@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:30:20
+ * @Last Modified time: 2017-10-25 10:44:46
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -51,6 +51,7 @@ export const Polygon = function (option) {
     this.getMax(this.oriPoints);//根据原始点 
     this._isChoosed = false;
     this.rotateOrigin = null;
+    this._dirty = false;
 }
 
 Polygon.prototype = {
@@ -186,11 +187,14 @@ Polygon.prototype = {
         let changeMatrix = null;
         let getchaMatrix = null;
         let origin = null;
-        this.getOriPoints();//拿到所有原始点
-        this.getPoints();//拿到所有真实点
-        // //console.log('_POINTS',this._Points);
-        this.getMax();//所有真实点max min
+        if (this._dirty) {
+            this.getOriPoints();//拿到所有原始点
+            this.getPoints();//拿到所有真实点
+            // //console.log('_POINTS',this._Points);
+            this.getMax();//所有真实点max min
+        }
         this.createPath(context);//绘制
+        this._dirty = false;
         // } else {
         /**
          * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
@@ -279,6 +283,7 @@ Polygon.prototype = {
 
         this.Option.x = x;
         this.Option.y = y;
+        this._dirty = true;
         // //console.log('-------move--------', this.Option);
     },
     detected: function (x, y) {
@@ -296,7 +301,7 @@ Polygon.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
-            }else {
+            } else {
                 return false;
 
             }
