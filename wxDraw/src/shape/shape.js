@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 14:39:19
+ * @Last Modified time: 2017-10-25 14:47:24
  * 在这里添加事件 
  */
 
@@ -228,12 +228,12 @@ Shape.prototype = {
     },
     getChoosed: function () {
         // console.log('选中',this._layerIndex);
-        console.log('sss', this._nowType);
-        console.log('sss', this._eventStore[this._nowType]);
+        // console.log('sss', this._nowType);
+        // console.log('sss', this._eventStore[this._nowType]);
         this._getChoosed = true;
         //选中之后 开始tapstart
         this._eventStore[this._nowType].forEach(function (element) {
-            console.log(element);
+            // console.log(element);
             element(this);
         }, this);
     },
@@ -257,7 +257,7 @@ Shape.prototype = {
          *      tap事件
          *      longpress事件
          */
-        console.log(method);
+        // console.log(method);
         if (typeof this._eventStore[type] !== 'undefined') {
             this._eventStore[type].push(method)
         }
@@ -273,7 +273,7 @@ Shape.prototype = {
 
         if (_index!==-1) {
             this._eventStore[type].splice(_index, 1);
-            console.log(this._eventStore);
+            // console.log(this._eventStore);
         }
     }
 }

@@ -145,8 +145,8 @@ Page({
     let tom = function () {
       console.log('aaa');
     }
-    cir8.bind('tap',tom);
-    cir8.unbind('tap',tom);
+    cir8.bind('longpress',tom);
+    cir8.unbind('longpress',tom);
 
     console.log(this.wxCanvas);
 
