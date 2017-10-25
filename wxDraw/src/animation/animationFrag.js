@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:10:46
+ * @Last Modified time: 2017-10-25 10:10:21
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -197,6 +197,7 @@ AnimationFrag.prototype = {
                 this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
                 //console.log(this.object);
             }
+            this.object.Shape._dirty = true;
         } else {
             this.atrributeList.forEach(function (item) {
                 //  //console.log(item);
@@ -213,6 +214,9 @@ AnimationFrag.prototype = {
                 }
                 // this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
             }, this);
+
+            this.object.Shape._dirty = true;
+
         }
     },
     genAtrributeList: function (atrribute) {

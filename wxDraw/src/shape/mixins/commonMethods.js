@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:28:59
+ * @Last Modified time: 2017-10-25 10:02:45
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -67,6 +67,7 @@ export const commonMethods = {
         this.Option = util.extend(option, this.Option);
         this.UnOption = util.extend(option, this.UnOption);
         // console.log(this.Option);
+        this._dirty= true;
         this.bus.dispatch('update', 'no');
     },
     upDetect: function () {
