@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:30:47
+ * @Last Modified time: 2017-10-25 10:43:49
  * 普通形状
  * 
  */
@@ -73,6 +73,7 @@ export const Circle = function (option) {
     this._detectPoints = [];
     this.getOriPoints();//拿到原始点 
     this.getMax();//根据原始点 
+    this._dirty = false;
 }
 
 Circle.prototype = {
@@ -92,8 +93,8 @@ Circle.prototype = {
 
 
         for (var i = 0; i < 100; ++i) {
-            points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y -this.Option.r * Math.cos(sA)]);
-            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y- (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
+            points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
+            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
 
             sA += aA / 100;
         }
@@ -236,11 +237,14 @@ Circle.prototype = {
         let changeMatrix = null;
         let getchaMatrix = null;
         let origin = null;
+        if(this._dirty){
         this.getOriPoints();//拿到所有原始点
         this.getPoints();//拿到所有真实点
         // //console.log('_POINTS',this._Points);
         this.getMax();//所有真实点max min
+        }
         this.createPath(context);//绘制
+        this._dirty = true;
     },
     getPointTodraw: function (x, y, origin) {
 
@@ -254,6 +258,7 @@ Circle.prototype = {
         // //console.log('move', x, y);
         this.Option.x = x;
         this.Option.y = y;
+        this._dirty = true;
     },
 
     detected: function (x, y) {
@@ -267,7 +272,7 @@ Circle.prototype = {
             if (this._pnpolyTest(x, y)) {
                 this._isChoosed = true;
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
