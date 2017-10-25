@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:46:26
+ * @Last Modified time: 2017-10-25 10:50:04
  * 分离开
  */
 
@@ -253,9 +253,9 @@ Rect.prototype = {
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints();//拿到原始点
-            this.getPoints();//拿到变化点
-            this.getMax();//拿到边界点
+            // this.getOriPoints();//拿到原始点
+            // this.getPoints();//拿到变化点
+            // this.getMax();//拿到边界点
         }
 
     },

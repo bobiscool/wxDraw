@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:39:45
+ * @Last Modified time: 2017-10-25 10:50:30
  * 线条 
  */
 
@@ -264,12 +264,12 @@ Line.prototype = {
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints();
-            // //console.log(this.massCenter);
-            // //console.log(this.oriPoints);
-            this.genPoints();
-            this.detectPoints = this.getDetectPoints();
-            this.getMax();
+            // this.getOriPoints();
+            // // //console.log(this.massCenter);
+            // // //console.log(this.oriPoints);
+            // this.genPoints();
+            // this.detectPoints = this.getDetectPoints();
+            // this.getMax();
         }
 
     },

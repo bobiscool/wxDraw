@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:43:49
+ * @Last Modified time: 2017-10-25 10:51:05
  * 普通形状
  * 
  */
@@ -285,9 +285,9 @@ Circle.prototype = {
         // } else {
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints();//拿到原始点
-            this.getPoints();//拿到变化点
-            this.getMax();//拿到边界点
+            // this.getOriPoints();//拿到原始点
+            // this.getPoints();//拿到变化点
+            // this.getMax();//拿到边界点
         }
         // }
     },

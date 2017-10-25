@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:42:21
+ * @Last Modified time: 2017-10-25 10:50:56
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -253,11 +253,11 @@ Cshape.prototype = {
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints();
-            // //console.log(this.massCenter);
-            // //console.log(this.oriPoints);
-            this.genPoints();
-            this.getMax();
+            // this.getOriPoints();
+            // // //console.log(this.massCenter);
+            // // //console.log(this.oriPoints);
+            // this.genPoints();
+            // this.getMax();
         }
 
     },

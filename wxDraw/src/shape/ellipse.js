@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:41:01
+ * @Last Modified time: 2017-10-25 10:50:49
  * 椭圆
  * 
  */
@@ -234,9 +234,9 @@ Ellipse.prototype = {
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints();//拿到原始点
-            this.getPoints();//拿到变化点
-            this.getMax();//拿到边界点
+            // this.getOriPoints();//拿到原始点
+            // this.getPoints();//拿到变化点
+            // this.getMax();//拿到边界点
         }
 
     },
