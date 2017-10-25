@@ -1,9 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var WxDraw = require("../../utils/wxdraw.min.js").WxDraw;
-var Shape = require("../../utils/wxdraw.min.js").Shape;
-var AnimationFrame = require("../../utils/wxdraw.min.js").AnimationFrame;
+var WxDraw = require("../../utils/wxdraw.js").WxDraw;
+var Shape = require("../../utils/wxdraw.js").Shape;
+var AnimationFrame = require("../../utils/wxdraw.js").AnimationFrame;
 
 // console.log(cancelAnimationFrame);
 
@@ -62,9 +62,9 @@ Page({
      * 所以 wxDraw初始化的时候 需要设置 以便点击检测的时候使用
     */
 
-    this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:60,sA:Math.PI/2,fillStyle:"#333333",lineWidth:20},true,true));
+    this.wxCanvas.add(new Shape('circle',{x:20,y:20,r:60,sA:Math.PI,fillStyle:"#333333",lineWidth:20,needShadow:false},true,true));
      
-    var cir12 = new Shape('circle', { x: 200, y: 200, r: 60, sA: Math.PI / 2, fillStyle: "#333333", lineWidth: 2 }, false, true);
+    // var cir12 = new Shape('circle', { x: 200, y: 200, r: 60, sA: Math.PI / 2, fillStyle: "#333333", lineWidth: 2 }, false, true);
     var cir1 = new Shape('line', {
       fillStyle: "#333333", rotate: Math.PI / 2, points: [
         [70, 85],
@@ -132,22 +132,22 @@ Page({
     this.wxCanvas.add(cir8);
     this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir1);
-    this.wxCanvas.add(cir12);
+    // this.wxCanvas.add(cir12);
     this.wxCanvas.add(cir13);
     
     // cir8.destroy();
     cir8.updateLayer("+2");
     
-    cir12.on('longpress',function(a){
-      console.log(a);
-    });
+    // cir12.on('longpress',function(a){
+    //   console.log(a);
+    // });
 
     cir8.on('tap',function(a){
       console.log(a);
     });
   
 
-    // console.log(this.wxCanvas);
+    console.log(this.wxCanvas);
 
     cir9.animate({rotate:"+=10"}, {
       duration: 10000,
@@ -167,7 +167,8 @@ Page({
       }).start();
 
 
-    cir1.animate("rotate","+=100",{duration:10000}).start()
+    // cir1.animate("rotate","+=100",{duration:10000}).start()
+    // cir1.animate("rotate","+=100",{duration:10000}).start()
 
     // cir3.animate({ 'rotate': Math.PI, fillStyle:"#F88863",lineDash:[[10,20],20]}, {
     //   duration: 10000,

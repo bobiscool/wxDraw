@@ -567,7 +567,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:28:59
+ * @Last Modified time: 2017-10-25 13:09:45
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -630,6 +630,7 @@ var commonMethods = {
         this.Option = util.extend(option, this.Option);
         this.UnOption = util.extend(option, this.UnOption);
         // console.log(this.Option);
+        this._dirty = true;
         this.bus.dispatch('update', 'no');
     },
     upDetect: function upDetect() {
@@ -701,7 +702,7 @@ var commonMethods = {
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
         context.setGlobalAlpha(this.Option.opacity);
-        if (this.Option.shadow) {
+        if (this.UnOption.needShadow && this.Option.shadow) {
             // console.log(objToArray(this.Option.Shadow));
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
@@ -752,7 +753,7 @@ var commonMethods = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:30:20
+ * @Last Modified time: 2017-10-25 11:14:31
  */
 
 // function Point(x, y) {
@@ -790,6 +791,7 @@ var Polygon = function Polygon(option) {
     this.getMax(this.oriPoints); //根据原始点 
     this._isChoosed = false;
     this.rotateOrigin = null;
+    this._dirty = true; //最新添加的 用于是否应该计算的
 };
 
 Polygon.prototype = _extends({
@@ -916,11 +918,14 @@ Polygon.prototype = _extends({
         context.restore();
     },
     _draw: function _draw(context) {
-        this.getOriPoints(); //拿到所有原始点
-        this.getPoints(); //拿到所有真实点
-        // //console.log('_POINTS',this._Points);
-        this.getMax(); //所有真实点max min
+        if (this._dirty) {
+            this.getOriPoints(); //拿到所有原始点
+            this.getPoints(); //拿到所有真实点
+            // //console.log('_POINTS',this._Points);
+            this.getMax(); //所有真实点max min
+        }
         this.createPath(context); //绘制
+        this._dirty = false;
         // } else {
         /**
          * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
@@ -1006,6 +1011,7 @@ Polygon.prototype = _extends({
 
         this.Option.x = x;
         this.Option.y = y;
+        this._dirty = true;
         // //console.log('-------move--------', this.Option);
     },
     detected: function detected(x, y) {
@@ -1034,9 +1040,9 @@ Polygon.prototype = _extends({
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints(); //拿到原始点
-            this.getPoints(); //拿到变化点
-            this.getMax(); //拿到边界点
+            // this.getOriPoints();//拿到原始点
+            // this.getPoints();//拿到变化点
+            // this.getMax();//拿到边界点
         }
     },
     _pnpolyTest: function _pnpolyTest(x, y) {
@@ -1079,7 +1085,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:29:52
+ * @Last Modified time: 2017-10-25 11:14:07
  * 椭圆
  * 
  */
@@ -1119,6 +1125,7 @@ var Ellipse = function Ellipse(option) {
     this._detectPoints = [];
     this.getOriPoints(); //拿到原始点 
     this.getMax(); //根据原始点 
+    this._dirty = true;
 };
 
 Ellipse.prototype = _extends({
@@ -1241,11 +1248,14 @@ Ellipse.prototype = _extends({
         context.restore();
     },
     _draw: function _draw(context) {
-        this.getOriPoints(); //拿到所有原始点
-        this.getPoints(); //拿到所有真实点
-        // //console.log('_POINTS',this._Points);
-        this.getMax(); //所有真实点max min
+        if (this._dirty) {
+            this.getOriPoints(); //拿到所有原始点
+            this.getPoints(); //拿到所有真实点
+            // //console.log('_POINTS',this._Points);
+            this.getMax(); //所有真实点max min
+        }
         this.createPath(context); //绘制
+        this._dirty = false;
     },
     getPointTodraw: function getPointTodraw(x, y, origin) {
 
@@ -1258,6 +1268,7 @@ Ellipse.prototype = _extends({
 
         this.Option.x = x;
         this.Option.y = y;
+        this._dirty = true;
         // //console.log('-------move--------', this.Option);
     },
     detected: function detected(x, y) {
@@ -1286,9 +1297,9 @@ Ellipse.prototype = _extends({
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints(); //拿到原始点
-            this.getPoints(); //拿到变化点
-            this.getMax(); //拿到边界点
+            // this.getOriPoints();//拿到原始点
+            // this.getPoints();//拿到变化点
+            // this.getMax();//拿到边界点
         }
     },
     _pnpolyTest: function _pnpolyTest(x, y) {
@@ -1331,7 +1342,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 13:52:21
+ * @Last Modified time: 2017-10-25 11:14:51
  * 字体对象
  */
 
@@ -1392,6 +1403,7 @@ var Text = function Text(option) {
     }, this._offsetX = 0, //用于点击检测的
     this._offsetY = 0, this.getOriPoints();
     this.getPoints();
+    this._dirty = true;
 };
 
 Text.prototype = _extends({
@@ -1467,6 +1479,7 @@ Text.prototype = _extends({
         this.boxOption.y = y;
         this.Option.x = x - this.offset.x;
         this.Option.y = y - this.offset.y;
+        this._dirty = true;
     },
     detected: function detected(x, y) {
         // //console.log('检测方块', x, y);
@@ -1481,6 +1494,10 @@ Text.prototype = _extends({
         return false;
     },
     _draw: function _draw(context) {
+        if (this._dirty) {
+            this.getOriPoints(); //拿到原始点
+            this.getPoints(); //拿到变化点
+        }
         context.save();
         if (!this.rotateOrigin) {
             context.translate(this.boxOption.x, this.boxOption.y);
@@ -1496,21 +1513,21 @@ Text.prototype = _extends({
             context.fillText(this.text, this.boxOption.x - this.rotateOrigin[0] - this.offset.x, this.boxOption.y - this.rotateOrigin[1] - this.offset.y);
         }
         context.restore();
+        this._dirty = false;
     },
     moveDetect: function moveDetect(x, y) {
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints(); //拿到原始点
-            this.getPoints(); //拿到变化点
+            // this.getOriPoints();//拿到原始点
+            // this.getPoints();//拿到变化点
         }
     },
     stroke: function stroke(context) {
         this.fill(context); //先这样写
     },
     fill: function fill(context) {
-        this.getOriPoints(); //拿到原始点
-        this.getPoints(); //拿到变化点
+
         context.save();
         context.setGlobalAlpha(this.Option.opacity);
         context.beginPath();
@@ -1605,7 +1622,7 @@ var getCurvePoints = function getCurvePoints(pts, tension, isClosed, numOfSegmen
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:32:32
+ * @Last Modified time: 2017-10-25 13:14:01
  * 线条 
  */
 
@@ -1641,6 +1658,7 @@ function Line(option) {
     this._isChoosed = false;
 
     this.rotateOrigin = null;
+    this._dirty = true; //最新添加的 用于是否应该计算的
 }
 /**
  * 线的质心
@@ -1724,7 +1742,7 @@ Line.prototype = _extends({
         // //console.log('points',_points);
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
         if (this.UnOption.smooth) {
-            this._CurvePoints = getCurvePoints(this._Points, 0.1, false, 20);
+            this._CurvePoints = getCurvePoints(this._Points, 0.1, false, 200);
         }
         // //console.log(this._Points);
         // //console.log(this.oriPoints);
@@ -1803,17 +1821,27 @@ Line.prototype = _extends({
     _draw: function _draw(context) {
         // //console.log(this.massCenter);
         //    //console.log(this.oriPoints);
-        this.getOriPoints();
-        this.genPoints(); //拿到所有真实点
-        // //console.log('_POINTS',this._Points);
-        this.detectPoints = this.getDetectPoints();
-        this.getMax(); //所有真实点max min
+        if (this._dirty) {
+            this.getOriPoints();
+            this.genPoints(); //拿到所有真实点
+            // //console.log('_POINTS',this._Points);
+            this.detectPoints = this.getDetectPoints();
+            this.getMax(); //所有真实点max min
+            // console.log('line计算');            
+        } else {
+                // console.log('line不计算');            
+
+            }
+
         this.createPath(context); //绘制
+
+        this._dirty = false;
     },
     move: function move(x, y) {
 
         this.massCenter.x = x;
         this.massCenter.y = y;
+        this._dirty = true;
         // //console.log('---------------', this.Option);
     },
     detected: function detected(x, y) {
@@ -1835,12 +1863,12 @@ Line.prototype = _extends({
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints();
-            // //console.log(this.massCenter);
-            // //console.log(this.oriPoints);
-            this.genPoints();
-            this.detectPoints = this.getDetectPoints();
-            this.getMax();
+            // this.getOriPoints();
+            // // //console.log(this.massCenter);
+            // // //console.log(this.oriPoints);
+            // this.genPoints();
+            // this.detectPoints = this.getDetectPoints();
+            // this.getMax();
         }
     },
     _pnpolyTest: function _pnpolyTest(x, y) {
@@ -1875,7 +1903,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:30:47
+ * @Last Modified time: 2017-10-25 13:11:36
  * 普通形状
  * 
  */
@@ -1934,6 +1962,7 @@ var Circle = function Circle(option) {
     this._detectPoints = [];
     this.getOriPoints(); //拿到原始点 
     this.getMax(); //根据原始点 
+    this._dirty = true;
 };
 
 Circle.prototype = _extends({
@@ -1944,18 +1973,24 @@ Circle.prototype = _extends({
             eA = this.Option.eA || Math.PI * 2,
             aA = eA - sA;
 
+        // console.log(aA);            
         if (aA >= 2 * Math.PI) {
             this.fullCircle = true;
         } else {
             this.fullCircle = false;
         }
 
-        for (var i = 0; i < 100; ++i) {
-            points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
-            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
+        for (var i = 0; i <= 100; ++i) {
 
-            sA += aA / 100;
+            sA = this.Option.sA + i * aA / 100;
+            // console.log(sA);
+            // console.log(this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA));
+            points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
+
+            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
         }
+
+        console.log(points);
 
         //计算拓展之后的点位
         // let k1 = (this.Option.x - points[50][0]) / (this.Option.y - points[50][1]);
@@ -2053,7 +2088,7 @@ Circle.prototype = _extends({
 
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
-        for (var i = 1; i < 100; ++i) {
+        for (var i = 1; i <= 101; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
@@ -2087,11 +2122,14 @@ Circle.prototype = _extends({
         context.restore();
     },
     _draw: function _draw(context) {
-        this.getOriPoints(); //拿到所有原始点
-        this.getPoints(); //拿到所有真实点
-        // //console.log('_POINTS',this._Points);
-        this.getMax(); //所有真实点max min
+        if (this._dirty) {
+            this.getOriPoints(); //拿到所有原始点
+            this.getPoints(); //拿到所有真实点
+            // //console.log('_POINTS',this._Points);
+            this.getMax(); //所有真实点max min
+        }
         this.createPath(context); //绘制
+        this._dirty = true;
     },
     getPointTodraw: function getPointTodraw(x, y, origin) {
 
@@ -2104,6 +2142,7 @@ Circle.prototype = _extends({
         // //console.log('move', x, y);
         this.Option.x = x;
         this.Option.y = y;
+        this._dirty = true;
     },
 
     detected: function detected(x, y) {
@@ -2130,9 +2169,9 @@ Circle.prototype = _extends({
         // } else {
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints(); //拿到原始点
-            this.getPoints(); //拿到变化点
-            this.getMax(); //拿到边界点
+            // this.getOriPoints();//拿到原始点
+            // this.getPoints();//拿到变化点
+            // this.getMax();//拿到边界点
         }
         // }
     },
@@ -2186,7 +2225,7 @@ Circle.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:30:29
+ * @Last Modified time: 2017-10-25 11:14:44
  * 分离开
  */
 
@@ -2224,6 +2263,7 @@ var Rect = function Rect(option) {
     this.getOriPoints();
     this.getPoints();
     this.getMax();
+    this._dirty = true;
 };
 
 Rect.prototype = _extends({
@@ -2251,11 +2291,14 @@ Rect.prototype = _extends({
         context.restore();
     },
     _draw: function _draw(context) {
-        this.getOriPoints();
-        this.getPoints(); //拿到所有真实点
-        // //console.log('_POINTS',this.Option);
-        this.getMax(); //所有真实点max min
+        if (this._dirty) {
+            this.getOriPoints();
+            this.getPoints(); //拿到所有真实点
+            // //console.log('_POINTS',this.Option);
+            this.getMax(); //所有真实点max min
+        }
         this.createPath(context); //绘制
+        this._dirty = false;
     },
     getOriPoints: function getOriPoints() {
         var points = [];
@@ -2389,6 +2432,7 @@ Rect.prototype = _extends({
     move: function move(x, y) {
         this.Option.x = x;
         this.Option.y = y;
+        this._dirty = true;
     },
     detected: function detected(x, y) {
         // //console.log('检测方块', x, y);
@@ -2414,14 +2458,10 @@ Rect.prototype = _extends({
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints(); //拿到原始点
-            this.getPoints(); //拿到变化点
-            this.getMax(); //拿到边界点
+            // this.getOriPoints();//拿到原始点
+            // this.getPoints();//拿到变化点
+            // this.getMax();//拿到边界点
         }
-    },
-    getDetectPoints: function getDetectPoints() {
-        //获取检测点方块 如果他有lineWidth 并且绘制出来的话 那就 
-        
     }
 }, commonMethods);
 
@@ -2429,7 +2469,7 @@ Rect.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:32:39
+ * @Last Modified time: 2017-10-25 11:13:56
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -2477,6 +2517,7 @@ var Cshape = function Cshape(option) {
     this._isChoosed = false;
 
     this.rotateOrigin = null;
+    this._dirty = true;
 };
 
 Cshape.prototype = _extends({
@@ -2612,16 +2653,21 @@ Cshape.prototype = _extends({
     _draw: function _draw(context) {
         // //console.log(this.massCenter);
         //    //console.log(this.oriPoints);
-        this.getOriPoints();
-        this.genPoints(); //拿到所有真实点
-        // //console.log('_POINTS',this._Points);
-        this.getMax(); //所有真实点max min
+        if (this._dirty) {
+
+            this.getOriPoints();
+            this.genPoints(); //拿到所有真实点
+            // //console.log('_POINTS',this._Points);
+            this.getMax(); //所有真实点max min
+        }
         this.createPath(context); //绘制
+        this._dirty = false;
     },
     move: function move(x, y) {
 
         this.massCenter.x = x;
         this.massCenter.y = y;
+        this._dirty = true;
         // //console.log('---------------', this.Option);
     },
     detected: function detected(x, y) {
@@ -2650,11 +2696,11 @@ Cshape.prototype = _extends({
 
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            this.getOriPoints();
-            // //console.log(this.massCenter);
-            // //console.log(this.oriPoints);
-            this.genPoints();
-            this.getMax();
+            // this.getOriPoints();
+            // // //console.log(this.massCenter);
+            // // //console.log(this.oriPoints);
+            // this.genPoints();
+            // this.getMax();
         }
     },
     _pnpolyTest: function _pnpolyTest(x, y) {
@@ -3103,7 +3149,7 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:10:46
+ * @Last Modified time: 2017-10-25 10:10:21
  */
 
 var FRAGOPTION = {
@@ -3286,6 +3332,7 @@ AnimationFrag.prototype = {
                 this.object.Shape[specialOption[this.object.type][this.atrribute]][this.atrribute] = this.source + this.incre * this.timer.getGoesByTime() / this.duration;
                 //console.log(this.object);
             }
+            this.object.Shape._dirty = true;
         } else {
             this.atrributeList.forEach(function (item) {
                 //  //console.log(item);
@@ -3302,6 +3349,8 @@ AnimationFrag.prototype = {
                 }
                 // this.object.Shape.Option[item.attr] = item.source + item.incre * this.timer.getGoesByTime() / this.duration;
             }, this);
+
+            this.object.Shape._dirty = true;
         }
     },
     genAtrributeList: function genAtrributeList(atrribute) {
@@ -3429,7 +3478,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-16 15:12:34
+ * @Last Modified time: 2017-10-25 11:10:53
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -3470,6 +3519,7 @@ AniFragWrap.prototype = {
     exeAnimate: function exeAnimate() {
         // 执行 仓库内部 动画 
         // //console.log(this.stoped);
+        this.object.disableDrag(); //动画执行阶段 禁止 拖拽
         if (this.firstTime) {
             this.firstTime = false;
             this.oriOption = util.extend({}, this.object.Shape.Option);
@@ -3477,7 +3527,10 @@ AniFragWrap.prototype = {
         if (this.stoped) {
             if (this.endCallWraper) {
                 this.endCallWraper.exeAnimate();
+            } else {
+                this.object.restoreDrag(); //恢复drag
             }
+
             return false;
         }
         // //console.log('animationPick',this.animationPick);
@@ -3526,7 +3579,8 @@ AniFragWrap.prototype = {
     stop: function stop() {
         this.stoped = true;
         // //console.log('停止');
-        this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId, this.object.Shapeid);
+        this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId, this.object.Shapeid, this.object);
+        console.log('不再更新');
     },
     resume: function resume() {
         // 先不要有重启
@@ -3542,7 +3596,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:10:22
+ * @Last Modified time: 2017-10-25 11:01:02
  * 在这里添加事件 
  */
 
@@ -3561,6 +3615,7 @@ var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
     this.animationStart = false;
     this.aniFragListId = "";
     this.aniFragWraper = null;
+    this._oldDrag = this.draggable;
     //
     this._layerIndex = 0; //用于点击时候的
     this._getChoosed = false; //用于选中
@@ -3746,6 +3801,12 @@ Shape.prototype = {
         this.bus.dispatch('destory', 'no', this._layerIndex, this.Shapeid);
         this.bus.dispatch('destoryAnimation', 'no', this._layerIndex, this.Shapeid);
     },
+    restoreDrag: function restoreDrag() {
+        this.draggable = this._oldDrag;
+    },
+    disableDrag: function disableDrag() {
+        this.draggable = false;
+    },
     on: function on(type, method) {
         /**
          * 事件有点击事件
@@ -3845,7 +3906,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 10:14:07
+ * @Last Modified time: 2017-10-25 10:58:48
  * 动画 对象 接管所有动画
  */
 
@@ -3912,7 +3973,7 @@ Animation.prototype = {
             // //console.log('结束动画')
         }
     },
-    wraperAniComplete: function wraperAniComplete(afID, shaId) {
+    wraperAniComplete: function wraperAniComplete(afID, shaId, obj) {
         // //console.log(afID, shaId);
         if (this.wraperAniCompleteOb[shaId]) {
             this.wraperAniCompleteOb[shaId].push(afID);
@@ -3923,6 +3984,7 @@ Animation.prototype = {
         // //console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
 
         if (this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length) {
+            obj.restoreDrag(); //恢复drag状态
             this.bus.dispatch('animationComplete', 'no', shaId); // 某一个物件的动画完成
         }
         // //console.log('wraperAniComplete', this.wraperAniCompleteOb);

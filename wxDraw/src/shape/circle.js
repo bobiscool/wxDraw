@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:51:05
+ * @Last Modified time: 2017-10-25 13:21:36
  * 普通形状
  * 
  */
@@ -73,7 +73,7 @@ export const Circle = function (option) {
     this._detectPoints = [];
     this.getOriPoints();//拿到原始点 
     this.getMax();//根据原始点 
-    this._dirty = false;
+    this._dirty = true;
 }
 
 Circle.prototype = {
@@ -84,6 +84,7 @@ Circle.prototype = {
             eA = this.Option.eA || Math.PI * 2,
             aA = eA - sA;
 
+        // console.log(aA);            
         if (aA >= 2 * Math.PI) {
             this.fullCircle = true;
         } else {
@@ -92,12 +93,17 @@ Circle.prototype = {
         }
 
 
-        for (var i = 0; i < 100; ++i) {
-            points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
-            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
+        for (var i = 0; i <= 100; ++i) {
 
-            sA += aA / 100;
+            sA = this.Option.sA + i * aA / 100;
+            // console.log(sA);
+            // console.log(this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA));
+            points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
+
+            points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
         }
+
+        console.log(points);
 
         //计算拓展之后的点位
         // let k1 = (this.Option.x - points[50][0]) / (this.Option.y - points[50][1]);
@@ -199,7 +205,7 @@ Circle.prototype = {
 
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
-        for (var i = 1; i < 100; ++i) {
+        for (var i = 1; i <= 101; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
@@ -233,15 +239,29 @@ Circle.prototype = {
         context.fill();
         context.restore();
     },
+    mixDraw: function (context) {
+        context.save();
+        context.beginPath();
+        this._drawLine = true; //用于标识是否画外框        
+        this._draw(context);        
+        context.setStrokeStyle(this.Option.strokeStyle);
+        context.setLineWidth(this.Option.lineWidth);
+        this.setCommonstyle(context, 'circle');
+        context.closePath();
+        // console.log(objToArray(this.Option.Shandow));
+        context.fill();
+        context.stroke();                
+        context.restore();
+    },
     _draw: function (context) {
         let changeMatrix = null;
         let getchaMatrix = null;
         let origin = null;
-        if(this._dirty){
-        this.getOriPoints();//拿到所有原始点
-        this.getPoints();//拿到所有真实点
-        // //console.log('_POINTS',this._Points);
-        this.getMax();//所有真实点max min
+        if (this._dirty) {
+            this.getOriPoints();//拿到所有原始点
+            this.getPoints();//拿到所有真实点
+            // //console.log('_POINTS',this._Points);
+            this.getMax();//所有真实点max min
         }
         this.createPath(context);//绘制
         this._dirty = true;

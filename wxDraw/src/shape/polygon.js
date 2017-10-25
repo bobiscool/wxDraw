@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:50:15
+ * @Last Modified time: 2017-10-25 11:14:31
  */
 
 import { util, matrixToarray } from '../util/utils.js';
@@ -51,7 +51,8 @@ export const Polygon = function (option) {
     this.getMax(this.oriPoints);//根据原始点 
     this._isChoosed = false;
     this.rotateOrigin = null;
-    this._dirty = false;
+    this._dirty = true;//最新添加的 用于是否应该计算的
+
 }
 
 Polygon.prototype = {

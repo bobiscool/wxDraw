@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:49:51
+ * @Last Modified time: 2017-10-25 11:14:51
  * 字体对象
  */
 
@@ -70,7 +70,7 @@ export const Text = function (option) {
         this._offsetY = 0,
         this.getOriPoints();
     this.getPoints();
-    this._dirty = false;
+    this._dirty = true;
 }
 
 

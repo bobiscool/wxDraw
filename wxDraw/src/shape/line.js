@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:50:30
+ * @Last Modified time: 2017-10-25 13:14:59
  * 线条 
  */
 
@@ -55,7 +55,7 @@ export function Line(option) {
     this._isChoosed = false;
 
     this.rotateOrigin = null
-    this._dirty = false;//最新添加的 用于是否应该计算的
+    this._dirty = true;//最新添加的 用于是否应该计算的
 
 }
 /**

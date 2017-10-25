@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:50:04
+ * @Last Modified time: 2017-10-25 11:14:44
  * 分离开
  */
 
@@ -48,7 +48,7 @@ export const Rect = function (option) {
     this.getOriPoints();
     this.getPoints();
     this.getMax();
-    this._dirty = false;
+    this._dirty = true;
 }
 
 Rect.prototype = {

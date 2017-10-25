@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 11:01:02
+ * @Last Modified time: 2017-10-25 13:19:00
  * 在这里添加事件 
  */
 
@@ -23,7 +23,7 @@ import { AniFragWrap } from "../animation/animationFragWraper.js"
 export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
     this.draggable = draggable ? true : false;
     this.highlight = highlight ? true : false;
-    this.strokeOrfill = strokeOrfill ? true : false;//是否填充
+    this.strokeOrfill = strokeOrfill ? strokeOrfill: 'fill';//是否填充
     this.type = type;
     this.Shape = new shapeTypes[type](option);
     // console.log('方块', this.Shape.Option);
@@ -57,10 +57,19 @@ Shape.prototype = {
         this.bus = bus;
     },
     paint: function (context) {
-        if (this.strokeOrfill) {
-            this.Shape.fill(context);
-        } else {
-            this.Shape.stroke(context);
+        switch (this.strokeOrfill){
+            case 'fill':
+                   this.Shape.fill(context);
+                   break;
+           case 'fill':
+                   this.Shape.stroke(context);
+                   break;
+           case 'mix':
+                   this.Shape.mixDraw(context);
+                   break; 
+           case true:
+                   this.Shape.fill(context);
+                   break;                           
         }
     },
     detect: function (x, y, type) {
