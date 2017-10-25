@@ -86,7 +86,7 @@ Page({
         [163, 193], [-18, 48]], lineWidth: 12, Shadow: "#ffffff"
     }, true, true)
     // var cir1 = new Shape('rect', { x: 0, y: 400, w: 20, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
-    var cir7 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, fillStyle: "#000000", rotate: 200 },'stroke', true)
+    var cir7 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, fillStyle: "#dcdcdc", rotate: 200 },'mix', true)
 
     var cir9 = new Shape('text', { x: 100, y: 300, text:"ssssss",fontSize:30,align:"left"}, 'stroke', true)
 

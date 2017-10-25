@@ -567,7 +567,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:09:45
+ * @Last Modified time: 2017-10-25 13:56:36
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -652,10 +652,11 @@ var commonMethods = {
         //设置旋转中心
         this.rotateOrigin = loc;
     },
-    setCommonstyle: function setCommonstyle(context, type) {
+    setCommonstyle: function setCommonstyle(context) {
         // console.log(context);
         // return false;
         var gra = null;
+        var type = this._type;
         if (this.UnOption.lineCap) {
             context.setLineCap(this.UnOption.lineCap);
             context.setLineJoin(this.UnOption.lineJoin);
@@ -714,6 +715,65 @@ var commonMethods = {
             }
         }
     },
+    stroke: function stroke(context) {
+        if (this._type == 'text') {
+            this.fill(context);
+            return false;
+        }
+        context.save();
+        this._drawLine = true; //用于标识是否画外框        
+        this._draw(context);
+        this.setCommonstyle(context);
+        context.stroke();
+        context.restore();
+    },
+    fill: function fill(context) {
+        if (this._type == 'line') {
+            this.stroke(context); //这里先这样写吧
+            return false;
+        }
+        if (this._type == 'text') {
+            context.save();
+            context.setGlobalAlpha(this.Option.opacity);
+            context.beginPath();
+            context.setFontSize(this.Option.fontSize);
+            context.setTextAlign(this.UnOption.align);
+            context.setTextBaseline(this.UnOption.textBaseline);
+            context.setFillStyle(this.Option.fillStyle);
+            if (this.UnOption.needShadow && this.Option.shadow) {
+                // console.log(objToArray(this.Option.Shadow));
+                context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
+            }
+            this._draw(context);
+            context.closePath();
+            context.restore();
+            return false;
+        }
+        context.save();
+        this._drawLine = false; //用于标识是否画外框
+        this._draw(context);
+        this.setCommonstyle(context);
+        context.fill();
+        context.restore();
+    },
+    mixDraw: function mixDraw(context) {
+        if (this._type == 'line') {
+            this.stroke(context); //这里先这样写吧
+            return false;
+        }
+
+        if (this._type == 'text') {
+            this.fill(context);
+            return false;
+        }
+        context.save();
+        this._drawLine = true; //用于标识是否画外框        
+        this._draw(context);
+        this.setCommonstyle(context);
+        context.fill();
+        context.stroke();
+        context.restore();
+    },
     turnColorLock: function turnColorLock(onOff) {
         if (onOff) {
             this._colorLock = true;
@@ -753,7 +813,7 @@ var commonMethods = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 11:32:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 11:14:31
+ * @Last Modified time: 2017-10-25 13:45:27
  */
 
 // function Point(x, y) {
@@ -792,6 +852,7 @@ var Polygon = function Polygon(option) {
     this._isChoosed = false;
     this.rotateOrigin = null;
     this._dirty = true; //最新添加的 用于是否应该计算的
+    this._type = "polygon";
 };
 
 Polygon.prototype = _extends({
@@ -884,38 +945,6 @@ Polygon.prototype = _extends({
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
-    },
-    stroke: function stroke(context) {
-        context.save();
-        this._draw(context);
-        this._drawLine = true; //用于标识是否画外框
-
-        this.setCommonstyle(context);
-
-        context.setStrokeStyle(this.Option.strokeStyle);
-        context.setLineWidth(this.Option.lineWidth);
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
-        context.stroke();
-        context.restore();
-    },
-    fill: function fill(context) {
-        context.save();
-        this._draw(context);
-        this._drawLine = false; //用于标识是否画外框
-
-        this.setCommonstyle(context);
-
-        context.setFillStyle(this.Option.fillStyle);
-
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
-        context.fill();
-        context.restore();
     },
     _draw: function _draw(context) {
         if (this._dirty) {
@@ -1085,7 +1114,7 @@ Polygon.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 11:14:07
+ * @Last Modified time: 2017-10-25 13:45:02
  * 椭圆
  * 
  */
@@ -1126,6 +1155,7 @@ var Ellipse = function Ellipse(option) {
     this.getOriPoints(); //拿到原始点 
     this.getMax(); //根据原始点 
     this._dirty = true;
+    this._type = 'ellipse';
 };
 
 Ellipse.prototype = _extends({
@@ -1212,40 +1242,6 @@ Ellipse.prototype = _extends({
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
-    },
-    stroke: function stroke(context) {
-        context.save();
-        this._drawLine = true;
-        this.setCommonstyle(context, 'ellipse');
-
-        this._draw(context);
-
-        context.setStrokeStyle(this.Option.strokeStyle);
-        context.setLineWidth(this.Option.lineWidth);
-        // if (this.Option.shadow) {
-        //     // console.log(objToArray(this.Option.Shadow));
-        //     context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        // }
-        // console.log('已然绘制');
-
-        context.stroke();
-        context.restore();
-    },
-    fill: function fill(context) {
-        context.save();
-        this._drawLine = false;
-        this.setCommonstyle(context, 'ellipse');
-
-        this._draw(context);
-
-        context.setFillStyle(this.Option.fillStyle);
-
-        if (this.Option.Shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.Shadow.offsetX, this.Option.Shadow.offsetY, this.Option.Shadow.blur, this.Option.Shadow.color);
-        }
-        context.fill();
-        context.restore();
     },
     _draw: function _draw(context) {
         if (this._dirty) {
@@ -1342,7 +1338,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 11:14:51
+ * @Last Modified time: 2017-10-25 13:56:07
  * 字体对象
  */
 
@@ -1385,14 +1381,15 @@ var Text = function Text(option) {
         opacity: 1
     };
 
-    var tUnoption = {
+    var tUnOption = {
         textBaseline: "normal",
-        align: "left"
+        align: "left",
+        needShadow: false
     };
 
     this.text = option.text;
     this.Option = util.extend(option, tOption);
-    this.Unoption = util.extend(option, tUnoption);
+    this.UnOption = util.extend(option, tUnOption);
     this.boxOption = { x: 0, y: 0 };
     this.boxOriPoints = [];
     this.boxPoints = [];
@@ -1404,6 +1401,7 @@ var Text = function Text(option) {
     this._offsetY = 0, this.getOriPoints();
     this.getPoints();
     this._dirty = true;
+    this._type = 'text';
 };
 
 Text.prototype = _extends({
@@ -1415,8 +1413,8 @@ Text.prototype = _extends({
         var w = len * this.Option.fontSize / 2;
         var h = this.Option.fontSize;
 
-        this.offset.x = align(this.Unoption.align, w);
-        this.offset.y = baseline(this.Unoption.textBaseline, h);
+        this.offset.x = align(this.UnOption.align, w);
+        this.offset.y = baseline(this.UnOption.textBaseline, h);
         this.boxOption.x = this.Option.x + this.offset.x;
         this.boxOption.y = this.Option.y + this.offset.y;
 
@@ -1522,27 +1520,6 @@ Text.prototype = _extends({
             // this.getOriPoints();//拿到原始点
             // this.getPoints();//拿到变化点
         }
-    },
-    stroke: function stroke(context) {
-        this.fill(context); //先这样写
-    },
-    fill: function fill(context) {
-
-        context.save();
-        context.setGlobalAlpha(this.Option.opacity);
-        context.beginPath();
-        context.setFontSize(this.Option.fontSize);
-        context.setTextAlign(this.Unoption.align);
-        context.setTextBaseline(this.Unoption.textBaseline);
-        context.setFillStyle(this.Option.fillStyle);
-        if (this.Option.shadow) {
-            // console.log(objToArray(this.Option.Shadow));
-            context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
-        }
-        this._draw(context);
-        context.closePath();
-
-        context.restore();
     }
 }, commonMethods);
 
@@ -1622,7 +1599,7 @@ var getCurvePoints = function getCurvePoints(pts, tension, isClosed, numOfSegmen
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:14:59
+ * @Last Modified time: 2017-10-25 13:45:12
  * 线条 
  */
 
@@ -1659,6 +1636,7 @@ function Line(option) {
 
     this.rotateOrigin = null;
     this._dirty = true; //最新添加的 用于是否应该计算的
+    this._type = 'line';
 }
 /**
  * 线的质心
@@ -1815,6 +1793,10 @@ Line.prototype = _extends({
         context.stroke();
         context.restore();
     },
+
+    mixDraw: function mixDraw(context) {
+        this.stroke(context); //这里先这样写吧
+    },
     fill: function fill(context) {
         this.stroke(context); //这里先这样写吧
     },
@@ -1903,7 +1885,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:21:36
+ * @Last Modified time: 2017-10-25 13:43:49
  * 普通形状
  * 
  */
@@ -1963,6 +1945,7 @@ var Circle = function Circle(option) {
     this.getOriPoints(); //拿到原始点 
     this.getMax(); //根据原始点 
     this._dirty = true;
+    this._type = 'circle';
 };
 
 Circle.prototype = _extends({
@@ -2093,48 +2076,6 @@ Circle.prototype = _extends({
         }
         context.closePath();
     },
-
-    stroke: function stroke(context) {
-        context.save();
-        context.beginPath();
-        this._drawLine = true; //用于标识是否画外框        
-        this._draw(context);
-        context.closePath();
-
-        context.setStrokeStyle(this.Option.strokeStyle);
-        context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context, 'circle');
-        context.stroke();
-
-        context.restore();
-    },
-    fill: function fill(context) {
-        context.save();
-        context.beginPath();
-        this._drawLine = false; //用于标识是否画外框
-
-        this._draw(context);
-        context.closePath();
-        this.setCommonstyle(context, 'circle');
-
-        // console.log(objToArray(this.Option.Shandow));
-        context.fill();
-        context.restore();
-    },
-    mixDraw: function mixDraw(context) {
-        context.save();
-        context.beginPath();
-        this._drawLine = true; //用于标识是否画外框        
-        this._draw(context);
-        context.setStrokeStyle(this.Option.strokeStyle);
-        context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context, 'circle');
-        context.closePath();
-        // console.log(objToArray(this.Option.Shandow));
-        context.fill();
-        context.stroke();
-        context.restore();
-    },
     _draw: function _draw(context) {
         if (this._dirty) {
             this.getOriPoints(); //拿到所有原始点
@@ -2239,7 +2180,7 @@ Circle.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 11:14:44
+ * @Last Modified time: 2017-10-25 13:45:36
  * 分离开
  */
 
@@ -2278,32 +2219,10 @@ var Rect = function Rect(option) {
     this.getPoints();
     this.getMax();
     this._dirty = true;
+    this._type = 'rect';
 };
 
 Rect.prototype = _extends({
-    stroke: function stroke(context) {
-        context.save();
-        context.beginPath();
-
-        this._draw(context);
-        context.closePath();
-        this._drawLine = true;
-        this.setCommonstyle(context, 'rect');
-        context.stroke();
-
-        context.restore();
-    },
-    fill: function fill(context) {
-        context.save();
-        context.beginPath();
-
-        this._draw(context);
-        context.closePath();
-        this._drawLine = false;
-        this.setCommonstyle(context, 'rect');
-        context.fill();
-        context.restore();
-    },
     _draw: function _draw(context) {
         if (this._dirty) {
             this.getOriPoints();
@@ -2483,7 +2402,7 @@ Rect.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 11:13:56
+ * @Last Modified time: 2017-10-25 13:44:56
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -2532,6 +2451,7 @@ var Cshape = function Cshape(option) {
 
     this.rotateOrigin = null;
     this._dirty = true;
+    this._type = 'cshape';
 };
 
 Cshape.prototype = _extends({
@@ -2647,22 +2567,6 @@ Cshape.prototype = _extends({
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
-    },
-    stroke: function stroke(context) {
-        context.save();
-        this._draw(context);
-        context.setLineWidth(this.Option.lineWidth);
-        this.setCommonstyle(context, 'cshape');
-        context.setStrokeStyle(this.Option.strokeStyle);
-        context.stroke();
-        context.restore();
-    },
-    fill: function fill(context) {
-        context.save();
-        this._draw(context);
-        this.setCommonstyle(context, 'cshape');
-        context.fill();
-        context.restore();
     },
     _draw: function _draw(context) {
         // //console.log(this.massCenter);

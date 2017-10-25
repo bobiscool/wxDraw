@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:50:08
+ * @Last Modified time: 2017-10-25 13:56:07
  * 字体对象
  */
 
@@ -50,14 +50,15 @@ export const Text = function (option) {
         opacity: 1
     }
 
-    var tUnoption = {
+    var tUnOption = {
         textBaseline: "normal",
-        align: "left"
+        align: "left",
+        needShadow:false
     }
 
     this.text = option.text;
     this.Option = util.extend(option, tOption);
-    this.Unoption = util.extend(option, tUnoption);
+    this.UnOption = util.extend(option, tUnOption);
     this.boxOption = { x: 0, y: 0 };
     this.boxOriPoints = [];
     this.boxPoints = [];
@@ -71,6 +72,7 @@ export const Text = function (option) {
         this.getOriPoints();
     this.getPoints();
     this._dirty = true;
+    this._type ='text';
 }
 
 
@@ -83,8 +85,8 @@ Text.prototype = {
         let w = len * this.Option.fontSize / 2;
         let h = this.Option.fontSize;
 
-        this.offset.x = align(this.Unoption.align, w);
-        this.offset.y = baseline(this.Unoption.textBaseline, h);
+        this.offset.x = align(this.UnOption.align, w);
+        this.offset.y = baseline(this.UnOption.textBaseline, h);
         this.boxOption.x = this.Option.x + this.offset.x;
         this.boxOption.y = this.Option.y + this.offset.y;
 

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:49:21
+ * @Last Modified time: 2017-10-25 13:56:36
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -172,8 +172,8 @@ export const commonMethods = {
             context.setGlobalAlpha(this.Option.opacity);
             context.beginPath();
             context.setFontSize(this.Option.fontSize);
-            context.setTextAlign(this.Unoption.align);
-            context.setTextBaseline(this.Unoption.textBaseline);
+            context.setTextAlign(this.UnOption.align);
+            context.setTextBaseline(this.UnOption.textBaseline);
             context.setFillStyle(this.Option.fillStyle);
             if (this.UnOption.needShadow && this.Option.shadow) {
                 // console.log(objToArray(this.Option.Shadow));
