@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:32:39
+ * @Last Modified time: 2017-10-25 10:42:21
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -68,6 +68,7 @@ export const Cshape = function (option) {
     this._isChoosed = false;
 
     this.rotateOrigin = null
+    this._dirty = false;
 }
 
 Cshape.prototype = {
@@ -171,11 +172,11 @@ Cshape.prototype = {
     },
     createPath: function (context) {
         //创建路径
-          var points = [];
-        
+        var points = [];
+
         if (this.UnOption.smooth) {
             points = this._CurvePoints;
-        }else{
+        } else {
             points = this._Points;
         }
         if (points.length <= 0) {
@@ -208,16 +209,22 @@ Cshape.prototype = {
     _draw: function (context) {
         // //console.log(this.massCenter);
         //    //console.log(this.oriPoints);
-        this.getOriPoints();
-        this.genPoints();//拿到所有真实点
-        // //console.log('_POINTS',this._Points);
-        this.getMax();//所有真实点max min
+        if (this._dirty) {
+
+            this.getOriPoints();
+            this.genPoints();//拿到所有真实点
+            // //console.log('_POINTS',this._Points);
+            this.getMax();//所有真实点max min
+        }
         this.createPath(context);//绘制
+        this._dirty = false;
+
     },
     move: function (x, y) {
 
         this.massCenter.x = x;
         this.massCenter.y = y;
+        this._dirty = true;
         // //console.log('---------------', this.Option);
     },
     detected: function (x, y) {
