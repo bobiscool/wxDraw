@@ -1,3 +1,18 @@
+ wxDraw 是在微信小程序端运行的轻量canvas动画库
+ 特点
+ - Simple 基本不需要学canvas,会用jQuery就会使用wxDraw
+ - Data-driven 所有图形，随时随地都可以进行，属性修改，即改即用。
+ - Eventful 小程序支持的事件只要是合理的都支持「」
+            - longpress
+            - tap
+            - touchstart       
+            - touchmove
+            - touchend
+- Lightweight 图形改变只会单独计算改变的图形,其余按原样绘制节省消耗。
+- Animational wxDraw支持链式调用动画『就像jQuery的animate一样』，并且支持几乎所有的缓动函数。
+- 易于拓展 支持用户自定义图形创建
+
+
 
 - 图形创建
     - [x] rect
@@ -69,5 +84,6 @@
     - [x] tap事件
     - [x] longpress事件
     - [ ] ~划入划出~「划入划出是鼠标的事件吧」    
-- [ ] 取消事件绑定
+- [x] 取消事件绑定
+- [] clone
     

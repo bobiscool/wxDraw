@@ -527,7 +527,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 18:24:38
+ * @Last Modified time: 2017-10-25 15:14:50
  * 常用的一些属性
  * 
  */
@@ -559,7 +559,8 @@ var commonUnAttr = function commonUnAttr() {
         lg: [],
         cg: [],
         isLineDash: false,
-        needShadow: false
+        needShadow: false,
+        needGra: 'no' //渐变形式  line 线性  circle 是径向   no 是没有
     };
 };
 
@@ -567,7 +568,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 15:11:51
+ * @Last Modified time: 2017-10-25 15:18:43
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -625,6 +626,7 @@ var commonMethods = {
     updateOption: function updateOption(option) {
         //这个更新属性 是不是有点问题 好像和set属性重复了
         if (option.fillStyle && option.lg && option.lg.length <= 0 && option.cg && option.cg.length <= 0) {
+            this.UnOption.needGra == 'no';
             this.turnColorLock(false);
         }
         this.Option = util.extend(option, this.Option);
@@ -662,7 +664,7 @@ var commonMethods = {
             context.setLineJoin(this.UnOption.lineJoin);
         }
         // context.setLineDash(this.UnOption.lineDash);
-        if (this.UnOption.lg && this.UnOption.lg.length > 0) {
+        if (this.UnOption.needGra && this.UnOption.needGra == 'line' && this.UnOption.lg.length > 0) {
 
             /**
              * lg
@@ -684,7 +686,7 @@ var commonMethods = {
             // console.log(gra);
             context.setFillStyle(gra);
         }
-        if (this.UnOption.cg && this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
+        if (this.UnOption.needGra && this.UnOption.needGra == 'circle' && this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
             this.turnColorLock(true); //开启颜色锁            
             gra = context.createCircularGradient.apply(context, toConsumableArray(this.getGradientOption(type).cg));
             this.UnOption.cg.forEach(function (element) {
@@ -695,7 +697,7 @@ var commonMethods = {
             context.setFillStyle(gra);
         }
 
-        if (!this._colorLock) {
+        if (!this._colorLock || this.needGra && his.UnOption.needGra == 'no') {
             // console.log("没有渐变");
             context.setFillStyle(this.Option.fillStyle);
         }

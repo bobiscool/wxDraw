@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 14:47:24
+ * @Last Modified time: 2017-10-26 12:53:42
  * 在这里添加事件 
  */
 
@@ -18,6 +18,7 @@ import { AnimationTimer } from '../animation/animationTimer.js';
 import { AnimationFrag } from '../animation/animationFrag.js';
 import { guid } from "../util/utils.js";
 import { AniFragWrap } from "../animation/animationFragWraper.js"
+import { util } from '../util/utils.js';
 
 
 export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
@@ -275,6 +276,12 @@ Shape.prototype = {
             this._eventStore[type].splice(_index, 1);
             // console.log(this._eventStore);
         }
+    },
+    clone:function(){
+        let _clone = util.extend({},this);
+        _clone.Shapeid = "sp" + guid();
+
+        return _clone;
     }
 }
 

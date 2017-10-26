@@ -78,8 +78,10 @@ Page({
            return [item[0]*6,item[1]]
         })
           console.log(am2);
-        var cir8 = new Shape('cshape', {
-          fillStyle: "#E1D5A3", rotate: Math.PI / 2, points:am2, lineWidth: 0.5, Shadow: "#ffffff"
+        var cshape = new Shape('cshape', {
+          fillStyle: "#E1D5A3", rotate: Math.PI / 2, points:am2, lineWidth: 0.5, Shadow: "#ffffff",
+          needGra: 'circle',
+          cg: [[0, 'red'], [1, 'white']]
     }, true, true);
     var cir4 = new Shape('line', {
       fillStyle: "#000000", rotate: Math.PI / 2, points: [
@@ -99,6 +101,7 @@ Page({
       lineWidth: 5,
       isLineDash:true,
       lineDash:[[10,10],50],
+      needGra:'line',
       lg:[[0, 'red'],[1, 'white']]
     }, 'fill', true);
 
@@ -130,14 +133,14 @@ Page({
     // this.wxCanvas.add(cir1);
     this.wxCanvas.add(cir7);
     this.wxCanvas.add(cir9);
-    this.wxCanvas.add(cir8);
+    this.wxCanvas.add(cshape);
     this.wxCanvas.add(cir9);
     this.wxCanvas.add(cir1);
     // this.wxCanvas.add(cir12);
     this.wxCanvas.add(cir13);
     
     // cir8.destroy();
-    cir8.updateLayer("+2");
+    cshape.updateLayer("+2");
     
     // cir12.on('longpress',function(a){
     //   console.log(a);
@@ -146,8 +149,8 @@ Page({
     let tom = function () {
       console.log('aaa');
     }
-    cir8.bind('longpress',tom);
-    cir8.unbind('longpress',tom);
+    cshape.bind('longpress',tom);
+    cshape.unbind('longpress',tom);
 
     console.log(this.wxCanvas);
 
