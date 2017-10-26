@@ -1910,7 +1910,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 14:16:47
+ * @Last Modified time: 2017-10-26 17:32:27
  * 普通形状
  * 
  */
@@ -1936,11 +1936,14 @@ var Circle = function Circle(option) {
         y: 10,
         r: 10,
         sA: 0,
-        eA: Math.PI * 2,
-        counterclockwise: false
+        eA: Math.PI * 2
     }, commonAttr());
+
+    var cUoption = _extends({}, commonUnAttr(), {
+        counterclockwise: false //这个还没用
+    });
     var _temOption = util.extend(option, cOption);
-    var _temUnOption = util.extend(option, commonUnAttr());
+    var _temUnOption = util.extend(option, cUoption);
     this.Option = _temOption;
     // console.log(_temUnOption);
     this.UnOption = _temUnOption; //不参与动画的属性
@@ -3092,7 +3095,7 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 17:20:43
+ * @Last Modified time: 2017-10-26 17:25:47
  */
 
 function genExe(exe, atrribute, object) {
@@ -3160,11 +3163,8 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) 
         duration: 1000, // 毫秒
         easing: "linear" // 缓动函数 
 
-
-    };
-
-    console.log(atrribute);
-    var _temOption = util.extend(option, FRAGOPTION);
+        // console.log(atrribute);
+    };var _temOption = util.extend(option, FRAGOPTION);
     this.object = object;
     this.source = 0;
     this.genFlag = false;
@@ -3425,13 +3425,64 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 17:19:10
+ * @Last Modified time: 2017-10-26 17:46:21
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
  * 动画循环多少次 结束
  * 
  */
+
+var optionStore = function optionStore(type) {
+    return {
+        'rect': _extends({
+            x: 10,
+            y: 10,
+            w: 10,
+            h: 10
+        }, commonAttr()),
+        'circle': _extends({
+            x: 10,
+            y: 10,
+            r: 10,
+            sA: 0,
+            eA: Math.PI * 2
+        }, commonAttr()),
+        'ellipse': _extends({
+            x: 10,
+            y: 10,
+            a: 10, //长轴
+            b: 10 }, commonAttr()),
+        'line': _extends({
+            strokeStyle: "#000000",
+            points: [[1, 2], [23, 45], [2, 45], [230, 205]]
+        }, commonAttr()),
+        'cshape': _extends({
+            points: [[145, 30], [0, -211], [300, 400], [113, 50], [30, -31], [3, 40], [123, 90], [20, -1], [30, 60], [131, 40], [90, -12], [0, 400], [13, 6], [70, -17], [30, 42]]
+        }, commonAttr()),
+        'polygon': _extends({
+            x: 10,
+            y: 10,
+            r: 10,
+            sides: 7
+        }, commonAttr()),
+        'text': {
+            x: 100,
+            y: 200,
+            fontSize: 12,
+            shadow: {
+                offsetX: 5,
+                offsetY: 5,
+                blur: 5,
+                color: "#000000"
+            },
+            fillStyle: "#000000",
+            strokeStyle: "#000000",
+            rotate: 0,
+            opacity: 1
+        }
+    }[type];
+};
 
 var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.runing = false;
@@ -3449,7 +3500,9 @@ var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.looped = 0;
     this.object = object;
     console.log('最初的样式', object.Shape.Option);
-    this.oriOption = util.extend({}, object.Shape.Option); // 记录最初的样式
+    this.oriOption = util.extend(object.Shape.Option, optionStore(object.type)); // 记录最初的样式
+    console.log('最初的样式', this.oriOption);
+
     this.endCallWraper = null;
     this.firstTime = true;
 };
