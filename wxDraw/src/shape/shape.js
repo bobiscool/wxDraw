@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 13:46:26
+ * @Last Modified time: 2017-10-26 15:51:41
  * 在这里添加事件 
  */
 
@@ -23,7 +23,6 @@ import { util } from '../util/utils.js';
 
 export var Shape = function (type, option, strokeOrfill, draggable) {
     this.draggable = draggable ? true : false;
-    this.highlight = highlight ? true : false;
     this.strokeOrfill = strokeOrfill ? strokeOrfill : 'fill';//是否填充
     this.type = type;
     this.Shape = new shapeTypes[type](option);
@@ -162,11 +161,13 @@ Shape.prototype = {
         let _direc = true;
         let _temFrag = null;
         if (typeof atrribute == "object") {
+            console.log('object');
             _temFrag = new AnimationFrag(this, atrribute, "no", arguments[1], this.bus);//懒得写 就写arguments吧
         } else {
             _temFrag = new AnimationFrag(this, atrribute, arguments[1], arguments[2], this.bus);
         }
 
+        console.log(_temFrag);
         this.aniFragWraper.updateFrag(_temFrag);// 动画容器包裹动画
 
         //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
@@ -190,7 +191,8 @@ Shape.prototype = {
             if (a === true) {
                 this.aniFragWraper.setLoop(a);//设置循环                
             }
-
+            
+            console.log( this.aniFragWraper);
             if (typeof a === 'number') {
                 this.aniFragWraper.setLoop(true, a);
             }
@@ -278,7 +280,14 @@ Shape.prototype = {
         }
     },
     clone:function(){
-        let _clone = new Shape(this.type,{...this.Shape.Option,...this.Shape.UnOption},this.strokeOrfill,this.draggable)
+        // console.log({...this.Shape.Option,...this.Shape.UnOption});
+        let _spaAttr = {};
+        if(this.type =="text"){
+            _spaAttr = {
+                text:this.Shape.text
+            }
+        }
+        let _clone = new Shape(this.type,{...this.Shape.Option,...this.Shape.UnOption,..._spaAttr},this.strokeOrfill,this.draggable)
         return _clone;
     }
 }

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 13:42:22
+ * @Last Modified time: 2017-10-26 16:10:05
  * 
  * 工具库
  */
@@ -85,17 +85,21 @@ export const util = {
         return source;
     },
     clone: function (obj) {
+        console.log('clone',obj);
         let _obj = {};
         function deepClone(obj) {
             let _obj = {};
             for (var key in obj) {
+                // console.log(obj.hasOwnProperty(key)&&typeof obj[key]);
                 if (obj.hasOwnProperty(key) && typeof obj[key] !== 'object') {
                     _obj[key] == obj[key];
-                } else {
+                }
+                   if (obj.hasOwnProperty(key) && typeof obj[key] === 'object') {
                     _obj[key] = deepClone(obj[key]) //这里完全不用Stringify
                 }
             }
-
+           
+                console.log(_obj);            
             return _obj;
         }
 

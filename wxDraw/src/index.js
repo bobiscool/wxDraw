@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:07:01
+ * @Last Modified time: 2017-10-26 15:29:06
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -235,7 +235,7 @@ WxDraw.prototype = {
 }
 
 var wxDraw = {
-    WxDraw: WxDraw,
+    wxDraw: WxDraw,
     Shape: Shape,
     AnimationFrame: AnimationFrame()
 };

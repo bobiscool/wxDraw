@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:56:07
+ * @Last Modified time: 2017-10-26 13:57:31
  * 字体对象
  */
 
@@ -32,7 +32,7 @@ let align = function (type, w) {
 export const Text = function (option) {
 
     if (!option.text) {
-        return false;
+        option.text="no text";//没有字体
     }
     var tOption = {
         x: 100,

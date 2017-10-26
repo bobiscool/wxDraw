@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:10:21
+ * @Last Modified time: 2017-10-26 17:25:47
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -10,21 +10,7 @@ import { util } from '../util/utils.js';
 import { specialOption, specialAtrr } from './specialAtrribute.js';
 
 
-var FRAGOPTION = {
-    onStart: function () {
-        // 动画碎片开始的函数
-    },
-    onLooping: function () {
-        //在动画重复执行的时候 需要循环的函数 这里 可能需要一些传参
-    },
-    onEnd: function () {
-        // 动画结束 的时候 执行
-    },
-    duration: 1000,// 毫秒
-    easing: "linear",// 缓动函数 
 
-
-}
 
 function genExe(exe, atrribute, object) {
     // console.log('exe', exe);
@@ -83,8 +69,22 @@ export const AnimationFrag = function (object, atrribute, exe, option, bus) {
     // 那这一刻增加的东西就是 均衡的 
 
     // ATRRIBUTE 是对象的时候 那就是几个属性 一起改变
+    let FRAGOPTION = {
+        onStart: function () {
+            // 动画碎片开始的函数
+        },
+        onLooping: function () {
+            //在动画重复执行的时候 需要循环的函数 这里 可能需要一些传参
+        },
+        onEnd: function () {
+            // 动画结束 的时候 执行
+        },
+        duration: 1000,// 毫秒
+        easing: "linear",// 缓动函数 
 
+    }
 
+    // console.log(atrribute);
     let _temOption = util.extend(option, FRAGOPTION);
     this.object = object;
     this.source = 0;
@@ -170,6 +170,8 @@ AnimationFrag.prototype = {
                 if (specialAtrr[this.atrribute]) {//特殊属性 比如颜色
                     this.source = specialAtrr[this.atrribute].get(this.object.Shape.Option[this.atrribute]);
                 }
+            } else {
+                // console.log('source',this.source);
             }
             this.started = true;
             this.running = true;
@@ -223,17 +225,20 @@ AnimationFrag.prototype = {
         //生成 属性 更改列表
         let _keys = Object.keys(atrribute);
         var _self = this;
-        // //console.log(_self);
+        this.atrributeList = [];
+        // console.log('_keys',_keys);
         _keys.forEach(function (item) {
             let source = this.object.Shape.Option[item] || this.object.Shape.Option[item] == 0 ? this.object.Shape.Option[item] : this.object.Shape[specialOption[this.object.type][item]][item];//两种拿取source得方法
-            // //console.log(specialAtrr[item]);
+            console.log(source);
             if (specialAtrr[item]) {//特殊属性 比如颜色
                 // //console.log("特殊属性");
                 source = specialAtrr[item].get(this.object.Shape.Option[item]);
                 // //console.log(source);
             }
             _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": source });//两种拿取source得方法
+            console.log(item, genExe(atrribute[item], item, _self.object));
         }, this);
+
 
     },
     updateSourceAndtarget: function () {
@@ -260,6 +265,7 @@ AnimationFrag.prototype = {
         this.running = false;
         this.started = false;
         this.timer = new AnimationTimer(this.oriOption.duration, this.oriOption.easing);
+        // this.atrributeList = [];
     }
 }
 

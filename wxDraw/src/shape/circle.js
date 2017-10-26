@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 14:16:47
+ * @Last Modified time: 2017-10-26 17:32:27
  * 普通形状
  * 
  */
@@ -40,11 +40,15 @@ export const Circle = function (option) {
         r: 10,
         sA: 0,
         eA: Math.PI * 2,
-        counterclockwise: false,
         ...commonAttr()
     }
+
+    var cUoption = {
+        ...commonUnAttr(),
+        counterclockwise: false, //这个还没用
+    }
     var _temOption = util.extend(option, cOption);
-    var _temUnOption = util.extend(option, commonUnAttr());
+    var _temUnOption = util.extend(option, cUoption);
     this.Option = _temOption;
     // console.log(_temUnOption);
     this.UnOption = _temUnOption;//不参与动画的属性

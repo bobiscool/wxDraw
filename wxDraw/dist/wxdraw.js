@@ -219,7 +219,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 13:40:51
+ * @Last Modified time: 2017-10-26 16:10:05
  * 
  * 工具库
  */
@@ -283,17 +283,20 @@ var util = {
     },
 
     clone: function clone(obj) {
+        console.log('clone', obj);
         function deepClone(obj) {
             var _obj = {};
             for (var key in obj) {
+                // console.log(obj.hasOwnProperty(key)&&typeof obj[key]);
                 if (obj.hasOwnProperty(key) && _typeof(obj[key]) !== 'object') {
                     _obj[key] == obj[key];
-                } else {
-                    console.log(key);
+                }
+                if (obj.hasOwnProperty(key) && _typeof(obj[key]) === 'object') {
                     _obj[key] = deepClone(obj[key]); //这里完全不用Stringify
                 }
             }
 
+            console.log(_obj);
             return _obj;
         }
 
@@ -1360,7 +1363,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:56:07
+ * @Last Modified time: 2017-10-26 13:57:31
  * 字体对象
  */
 
@@ -1385,7 +1388,7 @@ var align = function align(type, w) {
 var Text = function Text(option) {
 
     if (!option.text) {
-        return false;
+        option.text = "no text"; //没有字体
     }
     var tOption = {
         x: 100,
@@ -3089,24 +3092,8 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:10:21
+ * @Last Modified time: 2017-10-26 17:20:43
  */
-
-var FRAGOPTION = {
-    onStart: function onStart() {
-        // 动画碎片开始的函数
-    },
-    onLooping: function onLooping() {
-        //在动画重复执行的时候 需要循环的函数 这里 可能需要一些传参
-    },
-    onEnd: function onEnd() {
-        // 动画结束 的时候 执行
-    },
-    duration: 1000, // 毫秒
-    easing: "linear" // 缓动函数 
-
-
-};
 
 function genExe(exe, atrribute, object) {
     // console.log('exe', exe);
@@ -3160,8 +3147,23 @@ var AnimationFrag = function AnimationFrag(object, atrribute, exe, option, bus) 
     // 那这一刻增加的东西就是 均衡的 
 
     // ATRRIBUTE 是对象的时候 那就是几个属性 一起改变
+    var FRAGOPTION = {
+        onStart: function onStart() {
+            // 动画碎片开始的函数
+        },
+        onLooping: function onLooping() {
+            //在动画重复执行的时候 需要循环的函数 这里 可能需要一些传参
+        },
+        onEnd: function onEnd() {
+            // 动画结束 的时候 执行
+        },
+        duration: 1000, // 毫秒
+        easing: "linear" // 缓动函数 
 
 
+    };
+
+    console.log(atrribute);
     var _temOption = util.extend(option, FRAGOPTION);
     this.object = object;
     this.source = 0;
@@ -3248,6 +3250,8 @@ AnimationFrag.prototype = {
                     //特殊属性 比如颜色
                     this.source = specialAtrr[this.atrribute].get(this.object.Shape.Option[this.atrribute]);
                 }
+            } else {
+                // console.log('source',this.source);
             }
             this.started = true;
             this.running = true;
@@ -3297,10 +3301,11 @@ AnimationFrag.prototype = {
         //生成 属性 更改列表
         var _keys = Object.keys(atrribute);
         var _self = this;
-        // //console.log(_self);
+        this.atrributeList = [];
+        // console.log('_keys',_keys);
         _keys.forEach(function (item) {
             var source = this.object.Shape.Option[item] || this.object.Shape.Option[item] == 0 ? this.object.Shape.Option[item] : this.object.Shape[specialOption[this.object.type][item]][item]; //两种拿取source得方法
-            // //console.log(specialAtrr[item]);
+            console.log(source);
             if (specialAtrr[item]) {
                 //特殊属性 比如颜色
                 // //console.log("特殊属性");
@@ -3308,6 +3313,7 @@ AnimationFrag.prototype = {
                 // //console.log(source);
             }
             _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": source }); //两种拿取source得方法
+            console.log(item, genExe(atrribute[item], item, _self.object));
         }, this);
     },
     updateSourceAndtarget: function updateSourceAndtarget() {
@@ -3335,6 +3341,7 @@ AnimationFrag.prototype = {
         this.running = false;
         this.started = false;
         this.timer = new AnimationTimer(this.oriOption.duration, this.oriOption.easing);
+        // this.atrributeList = [];
     }
 };
 
@@ -3418,7 +3425,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 11:10:53
+ * @Last Modified time: 2017-10-26 17:19:10
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -3441,6 +3448,7 @@ var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.loopTimes = false;
     this.looped = 0;
     this.object = object;
+    console.log('最初的样式', object.Shape.Option);
     this.oriOption = util.extend({}, object.Shape.Option); // 记录最初的样式
     this.endCallWraper = null;
     this.firstTime = true;
@@ -3465,6 +3473,7 @@ AniFragWrap.prototype = {
             this.oriOption = util.extend({}, this.object.Shape.Option);
         }
         if (this.stoped) {
+            //这里是外部循环
             if (this.endCallWraper) {
                 this.endCallWraper.exeAnimate();
             } else {
@@ -3473,8 +3482,11 @@ AniFragWrap.prototype = {
 
             return false;
         }
-        // //console.log('animationPick',this.animationPick);
+        // console.log('animationPick',-this.object.Shape.Option.rotate+Math.PI*5<=0.1);
+
         if (this.fragStore[this.animationPick]) {
+            //内部循环
+            // console.log(this.fragStore[this.animationPick]);
             this.fragStore[this.animationPick].updateAnimation();
         }
     },
@@ -3505,8 +3517,10 @@ AniFragWrap.prototype = {
     },
     restart: function restart() {
         // 重新开始就得需要记住 最初物体的属性
-        //console.log('restart');
+        console.log('restart');
+        this.oriOption.rotate = 0;
         this.object.updateOption(this.oriOption);
+        console.log(this.oriOption);
         this.overAni = [];
         this.animationPick = 0;
         this.fragStore.forEach(function (element) {
@@ -3536,13 +3550,12 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 12:57:53
+ * @Last Modified time: 2017-10-26 15:51:41
  * 在这里添加事件 
  */
 
-var Shape = function Shape(type, option, strokeOrfill, draggable, highlight) {
+var Shape = function Shape(type, option, strokeOrfill, draggable) {
     this.draggable = draggable ? true : false;
-    this.highlight = highlight ? true : false;
     this.strokeOrfill = strokeOrfill ? strokeOrfill : 'fill'; //是否填充
     this.type = type;
     this.Shape = new shapeTypes[type](option);
@@ -3673,11 +3686,13 @@ Shape.prototype = {
 
         var _temFrag = null;
         if ((typeof atrribute === 'undefined' ? 'undefined' : _typeof(atrribute)) == "object") {
+            console.log('object');
             _temFrag = new AnimationFrag(this, atrribute, "no", arguments[1], this.bus); //懒得写 就写arguments吧
         } else {
             _temFrag = new AnimationFrag(this, atrribute, arguments[1], arguments[2], this.bus);
         }
 
+        console.log(_temFrag);
         this.aniFragWraper.updateFrag(_temFrag); // 动画容器包裹动画
 
         //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
@@ -3702,6 +3717,7 @@ Shape.prototype = {
                 this.aniFragWraper.setLoop(a); //设置循环                
             }
 
+            console.log(this.aniFragWraper);
             if (typeof a === 'number') {
                 this.aniFragWraper.setLoop(true, a);
             }
@@ -3787,9 +3803,14 @@ Shape.prototype = {
         }
     },
     clone: function clone() {
-        var _clone = util.clone(this);
-        _clone.Shapeid = "sp" + guid();
-
+        // console.log({...this.Shape.Option,...this.Shape.UnOption});
+        var _spaAttr = {};
+        if (this.type == "text") {
+            _spaAttr = {
+                text: this.Shape.text
+            };
+        }
+        var _clone = new Shape(this.type, _extends({}, this.Shape.Option, this.Shape.UnOption, _spaAttr), this.strokeOrfill, this.draggable);
         return _clone;
     }
 };
@@ -3969,7 +3990,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 14:07:01
+ * @Last Modified time: 2017-10-26 15:29:06
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -4185,7 +4206,7 @@ WxDraw.prototype = {
 };
 
 var wxDraw = {
-    WxDraw: WxDraw,
+    wxDraw: WxDraw,
     Shape: Shape,
     AnimationFrame: AnimationFrame()
 };
