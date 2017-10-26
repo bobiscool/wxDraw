@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 21:16:46
+ * @Last Modified time: 2017-10-26 22:47:12
  * 在这里添加事件 
  */
 
@@ -312,6 +312,7 @@ var shapeTypes = {
         return new Cshape(option);
     },
     'line': function (option) {
+        console.log(option);
         return new Line(option);
     },
     'ellipse': function (option) {
