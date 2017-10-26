@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 12:53:42
+ * @Last Modified time: 2017-10-26 13:46:26
  * 在这里添加事件 
  */
 
@@ -21,7 +21,7 @@ import { AniFragWrap } from "../animation/animationFragWraper.js"
 import { util } from '../util/utils.js';
 
 
-export var Shape = function (type, option, strokeOrfill, draggable, highlight) {
+export var Shape = function (type, option, strokeOrfill, draggable) {
     this.draggable = draggable ? true : false;
     this.highlight = highlight ? true : false;
     this.strokeOrfill = strokeOrfill ? strokeOrfill : 'fill';//是否填充
@@ -278,9 +278,7 @@ Shape.prototype = {
         }
     },
     clone:function(){
-        let _clone = util.extend({},this);
-        _clone.Shapeid = "sp" + guid();
-
+        let _clone = new Shape(this.type,{...this.Shape.Option,...this.Shape.UnOption},this.strokeOrfill,this.draggable)
         return _clone;
     }
 }

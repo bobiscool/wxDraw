@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 17:09:45
+ * @Last Modified time: 2017-10-26 13:42:22
  * 
  * 工具库
  */
@@ -84,6 +84,23 @@ export const util = {
         }
         return source;
     },
+    clone: function (obj) {
+        let _obj = {};
+        function deepClone(obj) {
+            let _obj = {};
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key) && typeof obj[key] !== 'object') {
+                    _obj[key] == obj[key];
+                } else {
+                    _obj[key] = deepClone(obj[key]) //这里完全不用Stringify
+                }
+            }
+
+            return _obj;
+        }
+
+        return deepClone(obj)
+    }
 
 
 }
@@ -217,9 +234,9 @@ export const getDetectPointIn = function (p1, p2, p3, lineWidth, center) {
     let x = (b2 - b1) / (k1 - k2);//平移之后的相交点
     let y = k1 * x + b1;
     // let x = (-a*b + Math.sqrt(-Math.pow(b,2) + Math.pow(l,2) + Math.pow(a,2)*Math.pow(l,2)))/(1 + Math.pow(a,2))
-/**
- * (-a b + Sqrt[-b^2 + l^2 + a^2 l^2])/(1 + a^2)
- */
+    /**
+     * (-a b + Sqrt[-b^2 + l^2 + a^2 l^2])/(1 + a^2)
+     */
     return [x, y];
 }
 

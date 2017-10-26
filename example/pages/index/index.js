@@ -161,7 +161,8 @@ Page({
       },
       easing: "linear"
     }).start();
-
+  
+    let cir109199 = cir9.clone();
     cir3.bind('tap',function(){
      cir3.updateOption({a:10})
      console.log(cir3);

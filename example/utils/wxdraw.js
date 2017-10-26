@@ -219,7 +219,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-23 17:09:45
+ * @Last Modified time: 2017-10-26 13:40:51
  * 
  * 工具库
  */
@@ -280,7 +280,26 @@ var util = {
             }
         }
         return source;
+    },
+
+    clone: function clone(obj) {
+        function deepClone(obj) {
+            var _obj = {};
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key) && _typeof(obj[key]) !== 'object') {
+                    _obj[key] == obj[key];
+                } else {
+                    console.log(key);
+                    _obj[key] = deepClone(obj[key]); //这里完全不用Stringify
+                }
+            }
+
+            return _obj;
+        }
+
+        return deepClone(obj);
     }
+
 };
 
 var matrixToarray = function matrixToarray(a) {
@@ -3517,7 +3536,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 14:47:24
+ * @Last Modified time: 2017-10-26 12:57:53
  * 在这里添加事件 
  */
 
@@ -3766,6 +3785,12 @@ Shape.prototype = {
             this._eventStore[type].splice(_index, 1);
             // console.log(this._eventStore);
         }
+    },
+    clone: function clone() {
+        var _clone = util.clone(this);
+        _clone.Shapeid = "sp" + guid();
+
+        return _clone;
     }
 };
 
