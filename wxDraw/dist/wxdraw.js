@@ -1647,7 +1647,7 @@ var getCurvePoints = function getCurvePoints(pts, tension, isClosed, numOfSegmen
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:45:12
+ * @Last Modified time: 2017-10-26 22:59:30
  * 线条 
  */
 
@@ -1697,7 +1697,7 @@ Line.prototype = _extends({
         //计算质心 
         var _allX = 0;
         var _allY = 0;
-        points.forEach(function (item) {
+        Array.prototype.forEach.call(points, function (item) {
             _allX += item[0];
             _allY += item[1];
         });
@@ -2453,7 +2453,7 @@ Rect.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:44:56
+ * @Last Modified time: 2017-10-26 22:50:36
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -2519,7 +2519,7 @@ Cshape.prototype = _extends({
         //计算质心 
         var _allX = 0;
         var _allY = 0;
-        points.forEach(function (item) {
+        Array.prototype.forEach.call(points, function (item) {
             _allX += item[0];
             _allY += item[1];
         });
@@ -3626,7 +3626,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 21:16:46
+ * @Last Modified time: 2017-10-26 22:47:12
  * 在这里添加事件 
  */
 
@@ -3906,6 +3906,7 @@ var shapeTypes = {
         return new Cshape(option);
     },
     'line': function line(option) {
+        console.log(option);
         return new Line(option);
     },
     'ellipse': function ellipse(option) {
@@ -4065,7 +4066,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 15:29:06
+ * @Last Modified time: 2017-10-26 23:06:38
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -4086,6 +4087,7 @@ Animation.prototype = {
  * @param {any} w 
  * @param {any} h 
  */
+
 function WxDraw(canvas, x, y, w, h) {
 
     this.canvas = canvas;
@@ -4278,6 +4280,16 @@ WxDraw.prototype = {
         });
     }
 
+};
+Object.prototype.forEach = function (func, context) {
+    var value;
+    context = context || this;
+    for (var key in this) {
+        if (this.hasOwnProperty(key)) {
+            value = this[key];
+            func.call(context, key, value);
+        }
+    }
 };
 
 var wxDraw = {

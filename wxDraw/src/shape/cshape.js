@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:44:56
+ * @Last Modified time: 2017-10-26 22:50:36
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -86,7 +86,7 @@ Cshape.prototype = {
         //计算质心 
         let _allX = 0;
         let _allY = 0;
-        points.forEach(function (item) {
+        Array.prototype.forEach.call(points,function (item) {
             _allX += item[0];
             _allY += item[1];
         });

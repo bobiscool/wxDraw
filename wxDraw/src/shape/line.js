@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:45:12
+ * @Last Modified time: 2017-10-26 22:59:30
  * 线条 
  */
 
@@ -13,7 +13,14 @@ import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属�
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 import { getCurvePoints } from "./mixins/getCurvePoints.js"; //计算smooth点
 
+function obj2Arr(obj){
+    let _a=[];
+    Object.keys(obj).forEach(function(key){
+       _a.push(obj[key]);
+    });
 
+    return _a;
+}
 
 export function Line(option) {
     var lOption = {
@@ -37,7 +44,7 @@ export function Line(option) {
 
     this.Option = util.extend({}, _temOption);
     this.UnOption = _temUnOption;//不参与动画的属性
-
+     
     this.max = {
         maxX: null,
         maxY: null,
@@ -69,7 +76,7 @@ Line.prototype = {
         //计算质心 
         let _allX = 0;
         let _allY = 0;
-        points.forEach(function (item) {
+         Array.prototype.forEach.call(points,function (item) {
             _allX += item[0];
             _allY += item[1];
         });
