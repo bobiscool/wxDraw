@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 16:10:05
+ * @Last Modified time: 2017-10-26 21:43:45
  * 
  * 工具库
  */
@@ -59,15 +59,17 @@ export const util = {
      * @returns 
      */
     extend(target, source, overlay) {
-
+        var _temS = util.clone(source);
         if (!overlay) {
             for (var key in target) {
                 if (source.hasOwnProperty(key))//如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
                 {
                     if (typeof source[key] == "object" && !(source[key] instanceof Array)) {
-                        util.extend(target[key], source[key])//递归
+                        console.log(key);
+                        _temS[key]=util.extend(target[key], _temS[key])//递归
                     } else {
-                        source[key] = target[key];
+                        _temS[key] = target[key];
+
                     }
                 }
             }
@@ -75,37 +77,56 @@ export const util = {
             for (var key in target) {
                 if (target.hasOwnProperty(key)) {
                     if (typeof source[key] == "object" && !(source[key] instanceof Array)) {
-                        util.extend(target[key], source[key], true)//递归
+                        _temS[key]=util.extend(target[key], _temS[key], true)//递归
                     } else {
-                        source[key] = target[key];
+                        _temS[key] = target[key];
                     }
                 }
             }
         }
-        return source;
+
+        console.log(_temS);
+        return _temS;
     },
     clone: function (obj) {
-        console.log('clone',obj);
         let _obj = {};
         function deepClone(obj) {
             let _obj = {};
             for (var key in obj) {
                 // console.log(obj.hasOwnProperty(key)&&typeof obj[key]);
                 if (obj.hasOwnProperty(key) && typeof obj[key] !== 'object') {
-                    _obj[key] == obj[key];
+                    _obj[key] = obj[key];
                 }
-                   if (obj.hasOwnProperty(key) && typeof obj[key] === 'object') {
+                if (obj.hasOwnProperty(key) && typeof obj[key] === 'object') {
                     _obj[key] = deepClone(obj[key]) //这里完全不用Stringify
                 }
             }
-           
-                console.log(_obj);            
+
+            console.log(_obj);
             return _obj;
         }
 
         return deepClone(obj)
-    }
+    },
+    // clone(obj) { //
+    //     if (obj === null || typeof (obj) !== 'object' || 'isActiveClone' in obj)
+    //         return obj;
 
+    //     if (obj instanceof Date)
+    //         var temp = new obj.constructor(); 
+    //     else
+    //         var temp = obj.constructor();
+
+    //     for (var key in obj) {
+    //         if (Object.prototype.hasOwnProperty.call(obj, key)) {
+    //             obj['isActiveClone'] = null;
+    //             temp[key] = util.clone(obj[key]);
+    //             delete obj['isActiveClone'];
+    //         }
+    //     }
+
+    //     return temp;
+    // }
 
 }
 

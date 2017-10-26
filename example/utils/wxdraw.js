@@ -219,7 +219,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 16:10:05
+ * @Last Modified time: 2017-10-26 21:43:45
  * 
  * 工具库
  */
@@ -256,15 +256,16 @@ var util = {
      * @returns 
      */
     extend: function extend(target, source, overlay) {
-
+        var _temS = util.clone(source);
         if (!overlay) {
             for (var key in target) {
                 if (source.hasOwnProperty(key)) //如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
                     {
                         if (_typeof(source[key]) == "object" && !(source[key] instanceof Array)) {
-                            util.extend(target[key], source[key]); //递归
+                            console.log(key);
+                            _temS[key] = util.extend(target[key], _temS[key]); //递归
                         } else {
-                            source[key] = target[key];
+                            _temS[key] = target[key];
                         }
                     }
             }
@@ -272,24 +273,25 @@ var util = {
             for (var key in target) {
                 if (target.hasOwnProperty(key)) {
                     if (_typeof(source[key]) == "object" && !(source[key] instanceof Array)) {
-                        util.extend(target[key], source[key], true); //递归
+                        _temS[key] = util.extend(target[key], _temS[key], true); //递归
                     } else {
-                        source[key] = target[key];
+                        _temS[key] = target[key];
                     }
                 }
             }
         }
-        return source;
+
+        console.log(_temS);
+        return _temS;
     },
 
     clone: function clone(obj) {
-        console.log('clone', obj);
         function deepClone(obj) {
             var _obj = {};
             for (var key in obj) {
                 // console.log(obj.hasOwnProperty(key)&&typeof obj[key]);
                 if (obj.hasOwnProperty(key) && _typeof(obj[key]) !== 'object') {
-                    _obj[key] == obj[key];
+                    _obj[key] = obj[key];
                 }
                 if (obj.hasOwnProperty(key) && _typeof(obj[key]) === 'object') {
                     _obj[key] = deepClone(obj[key]); //这里完全不用Stringify
@@ -302,6 +304,25 @@ var util = {
 
         return deepClone(obj);
     }
+    // clone(obj) { //
+    //     if (obj === null || typeof (obj) !== 'object' || 'isActiveClone' in obj)
+    //         return obj;
+
+    //     if (obj instanceof Date)
+    //         var temp = new obj.constructor(); 
+    //     else
+    //         var temp = obj.constructor();
+
+    //     for (var key in obj) {
+    //         if (Object.prototype.hasOwnProperty.call(obj, key)) {
+    //             obj['isActiveClone'] = null;
+    //             temp[key] = util.clone(obj[key]);
+    //             delete obj['isActiveClone'];
+    //         }
+    //     }
+
+    //     return temp;
+    // }
 
 };
 
@@ -590,7 +611,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 15:18:43
+ * @Last Modified time: 2017-10-26 21:36:17
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -653,7 +674,9 @@ var commonMethods = {
         }
         this.Option = util.extend(option, this.Option);
         this.UnOption = util.extend(option, this.UnOption);
-        // console.log(this.Option);
+        console.log('更新属性', this.Option);
+        console.log('更新 option', option);
+        // console.log('更新属性',this.Option.shadow);
         this._dirty = true;
         this.bus.dispatch('update', 'no');
     },
@@ -2951,7 +2974,7 @@ AnimationTimer.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-16 14:46:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-24 15:35:07
+ * @Last Modified time: 2017-10-26 18:08:57
  * 添加一个特殊属性库 用于支持 有一些不在Option
  * 里面的属性
  */
@@ -3018,7 +3041,7 @@ var specialAtrr = { //一些特殊的属性值的更改
             };
         }
     },
-    "Shadow": {
+    "shadow": {
         // 卧槽 再次刷新了 我自己恶心自己的底线 。。。。 Shadow里面继续颜色改变
         get: function get(val) {
             var _temSh = {
@@ -3053,7 +3076,7 @@ var specialAtrr = { //一些特殊的属性值的更改
             //太恶心了 ！！！ 特殊属性全是 差值形式 不然要恶心死我
             // if (sub) {//这里都是差值的形式 没有直接增加的说法 因为是颜色嘛。。。
 
-            var target = util.extend(tar, obj.Shape.Option.Shadow);
+            var target = util.extend(tar, obj.Shape.Option.shadow);
             // console.log(obj);
             var tarCo = hex2rgb(target.color);
 
@@ -3095,14 +3118,14 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 17:25:47
+ * @Last Modified time: 2017-10-26 21:16:53
  */
 
 function genExe(exe, atrribute, object) {
     // console.log('exe', exe);
     // //console.log('exe', exe.indexOf('#'));
     var temAtrr = void 0;
-
+    // console.log(atrribute);
     if (specialAtrr[atrribute]) {
         //特殊属性 比如颜色
         // //console.log('特殊属性 颜色',specialAtrr[atrribute].get(exe));
@@ -3305,15 +3328,15 @@ AnimationFrag.prototype = {
         // console.log('_keys',_keys);
         _keys.forEach(function (item) {
             var source = this.object.Shape.Option[item] || this.object.Shape.Option[item] == 0 ? this.object.Shape.Option[item] : this.object.Shape[specialOption[this.object.type][item]][item]; //两种拿取source得方法
-            console.log(source);
+            // console.log(source);
             if (specialAtrr[item]) {
                 //特殊属性 比如颜色
-                // //console.log("特殊属性");
+                // console.log("特殊属性");
                 source = specialAtrr[item].get(this.object.Shape.Option[item]);
                 // //console.log(source);
             }
             _self.atrributeList.push({ "attr": item, "incre": genExe(atrribute[item], item, _self.object), "source": source }); //两种拿取source得方法
-            console.log(item, genExe(atrribute[item], item, _self.object));
+            // console.log(item, genExe(atrribute[item], item, _self.object));
         }, this);
     },
     updateSourceAndtarget: function updateSourceAndtarget() {
@@ -3425,7 +3448,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 17:46:21
+ * @Last Modified time: 2017-10-26 21:28:00
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -3499,9 +3522,9 @@ var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.loopTimes = false;
     this.looped = 0;
     this.object = object;
-    console.log('最初的样式', object.Shape.Option);
+    // console.log('最初的样式', object.Shape.Option);
     this.oriOption = util.extend(object.Shape.Option, optionStore(object.type)); // 记录最初的样式
-    console.log('最初的样式', this.oriOption);
+    // console.log(this.aniFragListId, this.oriOption)
 
     this.endCallWraper = null;
     this.firstTime = true;
@@ -3523,7 +3546,7 @@ AniFragWrap.prototype = {
         this.object.disableDrag(); //动画执行阶段 禁止 拖拽
         if (this.firstTime) {
             this.firstTime = false;
-            this.oriOption = util.extend({}, this.object.Shape.Option);
+            this.oriOption = util.extend(this.object.Shape.Option, optionStore(this.object.type));
         }
         if (this.stoped) {
             //这里是外部循环
@@ -3570,10 +3593,10 @@ AniFragWrap.prototype = {
     },
     restart: function restart() {
         // 重新开始就得需要记住 最初物体的属性
-        console.log('restart');
+        // console.log('restart');
         this.oriOption.rotate = 0;
+        // console.log('最初的样式', this.oriOption)
         this.object.updateOption(this.oriOption);
-        console.log(this.oriOption);
         this.overAni = [];
         this.animationPick = 0;
         this.fragStore.forEach(function (element) {
@@ -3581,7 +3604,7 @@ AniFragWrap.prototype = {
         }, this);
         this.started = false;
         this.stoped = false;
-        this.firstTime = true;
+        // this.firstTime = true;
     },
     stop: function stop() {
         this.stoped = true;
@@ -3603,7 +3626,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 15:51:41
+ * @Last Modified time: 2017-10-26 21:16:46
  * 在这里添加事件 
  */
 
@@ -3745,7 +3768,7 @@ Shape.prototype = {
             _temFrag = new AnimationFrag(this, atrribute, arguments[1], arguments[2], this.bus);
         }
 
-        console.log(_temFrag);
+        // console.log(_temFrag);
         this.aniFragWraper.updateFrag(_temFrag); // 动画容器包裹动画
 
         //在添加动画的时候 就行应该 指明这个动画的方向 动画的目标 而不是每次 执行的时候 才去 计算是不是 到达了这个 目标 
@@ -3757,8 +3780,7 @@ Shape.prototype = {
 
         //    }
 
-        //console.log("继续调用", this)
-
+        console.log("继续调用");
 
         return this;
     },

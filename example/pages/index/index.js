@@ -62,10 +62,12 @@ Page({
      * 所以 wxDraw初始化的时候 需要设置 以便点击检测的时候使用
     */
 
-    let rect = new Shape('rect', {x: 60, y: 60, w: 40, h: 40, fillStyle: "#2FB8AC", rotate: 0 },'mix',true)
+    let rect = new Shape('rect', {x: 60, y: 60, w: 40, h: 40, fillStyle: "#2FB8AC", rotate: 0,needShadow:true,shadow:"#000000"},'mix',true)
     this.wxCanvas.add(rect);
    
-    rect.animate({ "x": "+=100"}, { duration: 1000 }).animate({ "rotate": Math.PI * 5},{duration:1000}).start(3);
+    rect.animate({ "x": "+=100" }, { duration: 1000 }).animate({ "rotate": Math.PI * 5, fillStyle: "#046D8B", shadow: { color:"#ECBE13"}},{duration:2000}).start(200);
+
+    // rect.animate({ "rotate": Math.PI * 5, fillStyle: "#046D8B", shadow: { color: "#ECBE13" } }, { duration: 2000 }).animate({ "x": "+=100" }, { duration: 1000 }).start(3);
     
     // // var cir12 = new Shape('circle', { x: 200, y: 200, r: 60, sA: Math.PI / 2, fillStyle: "#333333", lineWidth: 2 }, false, true);
     // var cir1 = new Shape('line', {
