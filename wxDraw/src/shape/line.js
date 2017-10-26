@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 22:59:30
+ * @Last Modified time: 2017-10-26 23:13:57
  * 线条 
  */
 
@@ -13,14 +13,6 @@ import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属�
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 import { getCurvePoints } from "./mixins/getCurvePoints.js"; //计算smooth点
 
-function obj2Arr(obj){
-    let _a=[];
-    Object.keys(obj).forEach(function(key){
-       _a.push(obj[key]);
-    });
-
-    return _a;
-}
 
 export function Line(option) {
     var lOption = {
@@ -42,7 +34,7 @@ export function Line(option) {
     let _temOption = util.extend(option, lOption);
     var _temUnOption = util.extend(option, lUoption);
 
-    this.Option = util.extend({}, _temOption);
+    this.Option =  _temOption
     this.UnOption = _temUnOption;//不参与动画的属性
      
     this.max = {

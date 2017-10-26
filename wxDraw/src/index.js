@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 23:06:38
+ * @Last Modified time: 2017-10-26 23:14:38
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -236,16 +236,6 @@ WxDraw.prototype = {
     }
 
 }
-Object.prototype.forEach = function(func, context) {
-    var value;
-    context = context || this;  
-    for (var key in this) {
-        if (this.hasOwnProperty(key)) {  
-            value = this[key];
-            func.call(context, key, value);
-        }
-    }    
-};
 
 var wxDraw = {
     wxDraw: WxDraw,

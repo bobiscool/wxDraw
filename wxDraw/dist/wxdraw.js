@@ -1647,7 +1647,7 @@ var getCurvePoints = function getCurvePoints(pts, tension, isClosed, numOfSegmen
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-17 18:01:37 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 22:59:30
+ * @Last Modified time: 2017-10-26 23:13:57
  * 线条 
  */
 
@@ -1663,7 +1663,7 @@ function Line(option) {
     var _temOption = util.extend(option, lOption);
     var _temUnOption = util.extend(option, lUoption);
 
-    this.Option = util.extend({}, _temOption);
+    this.Option = _temOption;
     this.UnOption = _temUnOption; //不参与动画的属性
 
     this.max = {
