@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 13:57:31
+ * @Last Modified time: 2017-10-27 09:49:28
  * 字体对象
  */
 
@@ -81,10 +81,17 @@ Text.prototype = {
         //根据 字体 估算出器背后box大小 位置
         // 这里还要根据 baseline textalgin来计算 box位置
         let points = [];
+        let re = /^[\u4e00-u9fa5]$/
         let len = String(this.text).length;
-        let w = len * this.Option.fontSize / 2;
+        let w = 0;
         let h = this.Option.fontSize;
-
+        for(var i =0;i<len;i++){
+           if(re.test(this.text[i])){
+                w +=this.Option.fontSize;
+           }else{
+                w +=this.Option.fontSize/2;
+           }
+        }
         this.offset.x = align(this.UnOption.align, w);
         this.offset.y = baseline(this.UnOption.textBaseline, h);
         this.boxOption.x = this.Option.x + this.offset.x;
