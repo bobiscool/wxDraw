@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 21:28:00
+ * @Last Modified time: 2017-10-27 11:17:54
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -99,7 +99,8 @@ export var AniFragWrap = function (bus, id, object) {
     this.looped = 0;
     this.object = object;
     // console.log('最初的样式', object.Shape.Option);
-    this.oriOption = util.extend(object.Shape.Option, optionStore(object.type));// 记录最初的样式
+    this.oriOption = util.extend(object.Shape.Option, object.Shape.Option);// 记录最初的样式
+    this.oriUnOption = util.extend(object.Shape.Option, object.Shape.UnOption);// 记录最初的样式
     // console.log(this.aniFragListId, this.oriOption)
 
     this.endCallWraper = null;
@@ -122,7 +123,10 @@ AniFragWrap.prototype = {
         this.object.disableDrag();//动画执行阶段 禁止 拖拽
         if (this.firstTime) {
             this.firstTime = false;
-            this.oriOption = util.extend(this.object.Shape.Option, optionStore(this.object.type));
+            this.oriOption = util.extend(this.object.Shape.Option, this.object.Shape.Option);
+            this.oriUnOption = util.extend(this.object.Shape.Option, this.object.Shape.UnOption);// 记录最初的样式            
+            // console.log('  this.oriOption', this.oriOption);
+            // console.log('  this.oriUnOption', this.oriUnOption);
         }
         if (this.stoped) {//这里是外部循环
             if (this.endCallWraper) {
@@ -171,7 +175,8 @@ AniFragWrap.prototype = {
         // console.log('restart');
         this.oriOption.rotate = 0;
         // console.log('最初的样式', this.oriOption)
-        this.object.updateOption(this.oriOption);
+        this.object.restoreOption(this.oriOption);
+        this.object.restoreOption(this.oriUnOption);
         this.overAni = [];
         this.animationPick = 0;
         this.fragStore.forEach(function (element) {

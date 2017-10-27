@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 22:47:12
+ * @Last Modified time: 2017-10-27 11:01:45
  * 在这里添加事件 
  */
 
@@ -211,6 +211,9 @@ Shape.prototype = {
         this.Shape.updateOption(option);
 
         return this;
+    },
+    restoreOption:function(option){
+        this.Shape.restoreOption(option);       
     },
     setOrigin: function (loc) {
         this.Shape.setRotateOrigin(loc)

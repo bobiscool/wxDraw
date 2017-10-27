@@ -1,5 +1,4 @@
-
-    let rect = new Shape('rect', { x: 60, y: 60, w: 40, h: 40, opacity: 0.3, fillStyle: "#2FB8AC", rotate: 0, needShadow: true, shadow: { color: "#cccccc" },needGra: 'circle', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']] }, 'mix', true)
+   let rect = new Shape('rect', { x: 60, y: 60, w: 40, h: 40, opacity: 0.3, fillStyle: "#2FB8AC", rotate: 0, needShadow: true, shadow: { color: "#cccccc" },needGra: 'line', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']] }, 'mix', true)
     let circle = new Shape('circle', { x: 100, y: 100, r: 40, sA: 0, fillStyle: "#C0D860", strokeStyle: "#CC333F", rotate: 20, lineWidth: 0, needGra: 'circle', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]}, 'mix', true)
     console.log(circle);
     let ellipse = new Shape('ellipse', { x: 200, y: 200, a: 40, b: 100, fillStyle: "#00A0B0", rotate: Math.PI / 7, needGra:'circle', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']] }, 'mix', true)
@@ -24,6 +23,8 @@
     this.wxCanvas.add(line);
     this.wxCanvas.add(cshape);
 
-//图形创建测试
-// 测试结果
-// 图形创建 渐变有问题 字体监测区域还要调节
+
+
+    rect.animate("x","+=100",{duration:1000}).animate({"x":"+=100","y":"-=30","rotate":"10","fillStyle":"#1BB0CE"},{duration:1000}).
+        animate({"x":"-=100","y":"+=30","rotate":"+10","fillStyle":"#6A5E72"},{duration:1000}).
+        animate({"fillStyle":"#563444"},{duration:1000}).start(3);

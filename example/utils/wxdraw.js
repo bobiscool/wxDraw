@@ -219,7 +219,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 10:14:49
+ * @Last Modified time: 2017-10-27 10:49:40
  * 
  * 工具库
  */
@@ -262,7 +262,7 @@ var util = {
                 if (source.hasOwnProperty(key)) //如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
                     {
                         if (_typeof(source[key]) == "object" && !(source[key] instanceof Array)) {
-                            console.log(key);
+                            // console.log(key);
                             _temS[key] = util.extend(target[key], _temS[key]); //递归
                         } else {
                             _temS[key] = target[key];
@@ -610,7 +610,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 10:09:35
+ * @Last Modified time: 2017-10-27 11:19:47
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -673,11 +673,21 @@ var commonMethods = {
         }
         this.Option = util.extend(option, this.Option);
         this.UnOption = util.extend(option, this.UnOption);
-        console.log('更新属性', this.Option);
-        console.log('更新 option', option);
+        // console.log('更新属性',this.Option);
+        // console.log('更新 option',option);
         // console.log('更新属性',this.Option.shadow);
         this._dirty = true;
         this.bus.dispatch('update', 'no');
+    },
+    restoreOption: function restoreOption(oldOption) {
+        console.log(oldOption);
+        this.Option = util.extend(oldOption, this.Option);
+        this.UnOption = util.extend(oldOption, this.UnOption);
+        // console.log('更新属性',this.Option);
+        // console.log('更新 option',option);
+        console.log('更新  this.UnOption', this.UnOption);
+        console.log('更新属性', this);
+        this._dirty = true;
     },
     upDetect: function upDetect() {
         this._isChoosed = false;
@@ -708,6 +718,9 @@ var commonMethods = {
             context.setLineJoin(this.UnOption.lineJoin);
         }
         // context.setLineDash(this.UnOption.lineDash);
+        if (this.UnOption.gra && !(this.UnOption.gra instanceof Array)) {
+            this.UnOption.gra = Object.values(this.UnOption.gra);
+        }
         if (this.UnOption.needGra && this.UnOption.needGra == 'line' && this.UnOption.gra && this.UnOption.gra.length > 0) {
 
             /**
@@ -723,21 +736,17 @@ var commonMethods = {
             gra = context.createLinearGradient.apply(context, toConsumableArray(this.getGradientOption(type).lg));
             // gra = context.createLinearGradient(100, 0, 200, 0);
             this.UnOption.gra.forEach(function (element) {
-                var _gra;
-
-                (_gra = gra).addColorStop.apply(_gra, toConsumableArray(element));
+                gra.addColorStop(element[0], element[1]);
             }, this);
-            // console.log(gra);
+            console.log('继续渐变', gra);
             context.setFillStyle(gra);
         }
         if (this.UnOption.needGra && this.UnOption.needGra == 'circle' && this.UnOption.gra && this.UnOption.gra.length > 0) {
             this.turnColorLock(true); //开启颜色锁            
             gra = context.createCircularGradient.apply(context, toConsumableArray(this.getGradientOption(type).cg));
             this.UnOption.gra.forEach(function (element) {
-                var _gra2;
-
                 // console.log(element);
-                (_gra2 = gra).addColorStop.apply(_gra2, toConsumableArray(element));
+                gra.addColorStop(element[0], element[1]);
             }, this);
             // console.log(gra);
             context.setFillStyle(gra);
@@ -834,7 +843,7 @@ var commonMethods = {
         return {
             "circle": type == "circle" ? {
                 "lg": [this.Option.x - this.Option.r, 0, this.Option.x + this.Option.r, 0],
-                "cg": [this.Option.x, this.Option.y, this.Option.r / 10]
+                "cg": [this.Option.x, this.Option.y, this.Option.r]
             } : {},
             "rect": type == "rect" ? {
                 "lg": [//这里还得改
@@ -3456,64 +3465,13 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 21:28:00
+ * @Last Modified time: 2017-10-27 11:17:54
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
  * 动画循环多少次 结束
  * 
  */
-
-var optionStore = function optionStore(type) {
-    return {
-        'rect': _extends({
-            x: 10,
-            y: 10,
-            w: 10,
-            h: 10
-        }, commonAttr()),
-        'circle': _extends({
-            x: 10,
-            y: 10,
-            r: 10,
-            sA: 0,
-            eA: Math.PI * 2
-        }, commonAttr()),
-        'ellipse': _extends({
-            x: 10,
-            y: 10,
-            a: 10, //长轴
-            b: 10 }, commonAttr()),
-        'line': _extends({
-            strokeStyle: "#000000",
-            points: [[1, 2], [23, 45], [2, 45], [230, 205]]
-        }, commonAttr()),
-        'cshape': _extends({
-            points: [[145, 30], [0, -211], [300, 400], [113, 50], [30, -31], [3, 40], [123, 90], [20, -1], [30, 60], [131, 40], [90, -12], [0, 400], [13, 6], [70, -17], [30, 42]]
-        }, commonAttr()),
-        'polygon': _extends({
-            x: 10,
-            y: 10,
-            r: 10,
-            sides: 7
-        }, commonAttr()),
-        'text': {
-            x: 100,
-            y: 200,
-            fontSize: 12,
-            shadow: {
-                offsetX: 5,
-                offsetY: 5,
-                blur: 5,
-                color: "#000000"
-            },
-            fillStyle: "#000000",
-            strokeStyle: "#000000",
-            rotate: 0,
-            opacity: 1
-        }
-    }[type];
-};
 
 var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.runing = false;
@@ -3531,7 +3489,8 @@ var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.looped = 0;
     this.object = object;
     // console.log('最初的样式', object.Shape.Option);
-    this.oriOption = util.extend(object.Shape.Option, optionStore(object.type)); // 记录最初的样式
+    this.oriOption = util.extend(object.Shape.Option, object.Shape.Option); // 记录最初的样式
+    this.oriUnOption = util.extend(object.Shape.Option, object.Shape.UnOption); // 记录最初的样式
     // console.log(this.aniFragListId, this.oriOption)
 
     this.endCallWraper = null;
@@ -3554,7 +3513,10 @@ AniFragWrap.prototype = {
         this.object.disableDrag(); //动画执行阶段 禁止 拖拽
         if (this.firstTime) {
             this.firstTime = false;
-            this.oriOption = util.extend(this.object.Shape.Option, optionStore(this.object.type));
+            this.oriOption = util.extend(this.object.Shape.Option, this.object.Shape.Option);
+            this.oriUnOption = util.extend(this.object.Shape.Option, this.object.Shape.UnOption); // 记录最初的样式            
+            // console.log('  this.oriOption', this.oriOption);
+            // console.log('  this.oriUnOption', this.oriUnOption);
         }
         if (this.stoped) {
             //这里是外部循环
@@ -3604,7 +3566,8 @@ AniFragWrap.prototype = {
         // console.log('restart');
         this.oriOption.rotate = 0;
         // console.log('最初的样式', this.oriOption)
-        this.object.updateOption(this.oriOption);
+        this.object.restoreOption(this.oriOption);
+        this.object.restoreOption(this.oriUnOption);
         this.overAni = [];
         this.animationPick = 0;
         this.fragStore.forEach(function (element) {
@@ -3634,7 +3597,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 22:47:12
+ * @Last Modified time: 2017-10-27 11:01:45
  * 在这里添加事件 
  */
 
@@ -3819,6 +3782,9 @@ Shape.prototype = {
         this.Shape.updateOption(option);
 
         return this;
+    },
+    restoreOption: function restoreOption(option) {
+        this.Shape.restoreOption(option);
     },
     setOrigin: function setOrigin(loc) {
         this.Shape.setRotateOrigin(loc);

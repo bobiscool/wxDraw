@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 10:17:23
+ * @Last Modified time: 2017-10-27 11:19:47
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -67,11 +67,21 @@ export const commonMethods = {
         }
         this.Option = util.extend(option, this.Option);
         this.UnOption = util.extend(option, this.UnOption);
-        console.log('更新属性',this.Option);
-        console.log('更新 option',option);
+        // console.log('更新属性',this.Option);
+        // console.log('更新 option',option);
         // console.log('更新属性',this.Option.shadow);
         this._dirty = true;
         this.bus.dispatch('update', 'no');
+    },
+    restoreOption:function(oldOption){
+        console.log(oldOption);
+        this.Option = util.extend(oldOption, this.Option);
+        this.UnOption = util.extend(oldOption, this.UnOption);
+        // console.log('更新属性',this.Option);
+        // console.log('更新 option',option);
+        console.log('更新  this.UnOption',this.UnOption);
+        console.log('更新属性',this);
+        this._dirty = true;
     },
     upDetect: function () {
         this._isChoosed = false;
@@ -101,6 +111,9 @@ export const commonMethods = {
             context.setLineJoin(this.UnOption.lineJoin);
         }
         // context.setLineDash(this.UnOption.lineDash);
+        if(this.UnOption.gra&&!(this.UnOption.gra instanceof Array)){
+            this.UnOption.gra = Object.values(this.UnOption.gra);
+        }
         if (this.UnOption.needGra&&this.UnOption.needGra=='line'&& this.UnOption.gra&&this.UnOption.gra.length > 0) {
 
             /**
@@ -116,9 +129,9 @@ export const commonMethods = {
             gra = context.createLinearGradient(...this.getGradientOption(type).lg);
             // gra = context.createLinearGradient(100, 0, 200, 0);
             this.UnOption.gra.forEach(function (element) {
-                gra.addColorStop(...element);
+                gra.addColorStop(element[0],element[1]);
             }, this);
-            // console.log(gra);
+            console.log('继续渐变',gra);
             context.setFillStyle(gra);
         }
         if (this.UnOption.needGra&&this.UnOption.needGra=='circle'&& this.UnOption.gra&&this.UnOption.gra.length > 0) {
@@ -126,7 +139,7 @@ export const commonMethods = {
             gra = context.createCircularGradient(...this.getGradientOption(type).cg);
             this.UnOption.gra.forEach(function (element) {
                 // console.log(element);
-                gra.addColorStop(...element);
+                gra.addColorStop(element[0],element[1]);
             }, this);
             // console.log(gra);
             context.setFillStyle(gra);

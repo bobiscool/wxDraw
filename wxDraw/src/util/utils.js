@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 10:14:49
+ * @Last Modified time: 2017-10-27 10:49:40
  * 
  * 工具库
  */
@@ -65,7 +65,7 @@ export const util = {
                 if (source.hasOwnProperty(key))//如果是覆盖的话 只要源source 有那就覆盖掉。。。 不是那就沿用现在的这叫extend太绕了
                 {
                     if (typeof source[key] == "object" && !(source[key] instanceof Array)) {
-                        console.log(key);
+                        // console.log(key);
                         _temS[key]=util.extend(target[key], _temS[key])//递归
                     } else {
                         _temS[key] = target[key];
