@@ -219,7 +219,7 @@ var toConsumableArray = function (arr) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 21:43:45
+ * @Last Modified time: 2017-10-27 10:14:49
  * 
  * 工具库
  */
@@ -281,7 +281,7 @@ var util = {
             }
         }
 
-        console.log(_temS);
+        // console.log(_temS);
         return _temS;
     },
 
@@ -298,7 +298,7 @@ var util = {
                 }
             }
 
-            console.log(_obj);
+            // console.log(_obj);
             return _obj;
         }
 
@@ -570,7 +570,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 15:14:50
+ * @Last Modified time: 2017-10-27 10:11:07
  * 常用的一些属性
  * 
  */
@@ -599,8 +599,7 @@ var commonUnAttr = function commonUnAttr() {
         lineCap: "", // lineCap	String	'butt'、'round'、'square'	线条的结束端点样式
         lineJoin: "", //lineJoin	String	'bevel'、'round'、'miter'	线条的结束交点样式
         miterLimit: "", //最大斜接长度
-        lg: [],
-        cg: [],
+        gra: [],
         isLineDash: false,
         needShadow: false,
         needGra: 'no' //渐变形式  line 线性  circle 是径向   no 是没有
@@ -611,7 +610,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 21:36:17
+ * @Last Modified time: 2017-10-27 10:09:35
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -668,7 +667,7 @@ var commonUnAttr = function commonUnAttr() {
 var commonMethods = {
     updateOption: function updateOption(option) {
         //这个更新属性 是不是有点问题 好像和set属性重复了
-        if (option.fillStyle && option.lg && option.lg.length <= 0 && option.cg && option.cg.length <= 0) {
+        if (option.fillStyle && option.gra && option.gra.length) {
             this.UnOption.needGra == 'no';
             this.turnColorLock(false);
         }
@@ -709,7 +708,7 @@ var commonMethods = {
             context.setLineJoin(this.UnOption.lineJoin);
         }
         // context.setLineDash(this.UnOption.lineDash);
-        if (this.UnOption.needGra && this.UnOption.needGra == 'line' && this.UnOption.lg.length > 0) {
+        if (this.UnOption.needGra && this.UnOption.needGra == 'line' && this.UnOption.gra && this.UnOption.gra.length > 0) {
 
             /**
              * lg
@@ -723,7 +722,7 @@ var commonMethods = {
             this.turnColorLock(true); //开启颜色锁
             gra = context.createLinearGradient.apply(context, toConsumableArray(this.getGradientOption(type).lg));
             // gra = context.createLinearGradient(100, 0, 200, 0);
-            this.UnOption.lg.forEach(function (element) {
+            this.UnOption.gra.forEach(function (element) {
                 var _gra;
 
                 (_gra = gra).addColorStop.apply(_gra, toConsumableArray(element));
@@ -731,12 +730,14 @@ var commonMethods = {
             // console.log(gra);
             context.setFillStyle(gra);
         }
-        if (this.UnOption.needGra && this.UnOption.needGra == 'circle' && this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
+        if (this.UnOption.needGra && this.UnOption.needGra == 'circle' && this.UnOption.gra && this.UnOption.gra.length > 0) {
             this.turnColorLock(true); //开启颜色锁            
             gra = context.createCircularGradient.apply(context, toConsumableArray(this.getGradientOption(type).cg));
-            this.UnOption.cg.forEach(function (element) {
+            this.UnOption.gra.forEach(function (element) {
+                var _gra2;
+
                 // console.log(element);
-                gra.addColorStop(element[0], element[1]);
+                (_gra2 = gra).addColorStop.apply(_gra2, toConsumableArray(element));
             }, this);
             // console.log(gra);
             context.setFillStyle(gra);
@@ -841,7 +842,7 @@ var commonMethods = {
                 "cg": [this.Option.x, this.Option.y, Math.sqrt(Math.pow(this.Option.w / 2, 2) + Math.pow(this.Option.h / 2, 2))]
             } : {},
             "polygon": type == "polygon" ? {
-                "lg": [this.Option.x - this.Option.r, this.Option.x - this.Option.r, this.Option.x + this.Option.r, this.Option.y - this.Option.r],
+                "lg": [this.max.minX, this.max.minY, this.max.maxX, this.max.minY],
                 "cg": [this.Option.x, this.Option.y, this.Option.r]
             } : {},
             "cshape": type == "cshape" ? {
@@ -1386,7 +1387,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 13:57:31
+ * @Last Modified time: 2017-10-27 09:50:49
  * 字体对象
  */
 
@@ -1457,10 +1458,17 @@ Text.prototype = _extends({
         //根据 字体 估算出器背后box大小 位置
         // 这里还要根据 baseline textalgin来计算 box位置
         var points = [];
+        var re = /^[\u4e00-\u9fa5]/;
         var len = String(this.text).length;
-        var w = len * this.Option.fontSize / 2;
+        var w = 0;
         var h = this.Option.fontSize;
-
+        for (var i = 0; i < len; i++) {
+            if (re.test(this.text[i])) {
+                w += this.Option.fontSize;
+            } else {
+                w += this.Option.fontSize / 2;
+            }
+        }
         this.offset.x = align(this.UnOption.align, w);
         this.offset.y = baseline(this.UnOption.textBaseline, h);
         this.boxOption.x = this.Option.x + this.offset.x;

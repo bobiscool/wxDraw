@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 09:49:28
+ * @Last Modified time: 2017-10-27 09:50:49
  * 字体对象
  */
 
@@ -81,7 +81,7 @@ Text.prototype = {
         //根据 字体 估算出器背后box大小 位置
         // 这里还要根据 baseline textalgin来计算 box位置
         let points = [];
-        let re = /^[\u4e00-u9fa5]$/
+        let re = /^[\u4e00-\u9fa5]/
         let len = String(this.text).length;
         let w = 0;
         let h = this.Option.fontSize;

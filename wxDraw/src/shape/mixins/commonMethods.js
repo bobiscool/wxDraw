@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 21:36:17
+ * @Last Modified time: 2017-10-27 10:17:23
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -61,7 +61,7 @@ import { util } from '../../util/utils.js';
 
 export const commonMethods = {
     updateOption: function (option) { //这个更新属性 是不是有点问题 好像和set属性重复了
-        if (option.fillStyle && option.lg && option.lg.length <= 0 && option.cg && option.cg.length <= 0) {
+        if (option.fillStyle && option.gra && option.gra.length) {
             this.UnOption.needGra=='no';
             this.turnColorLock(false);
         }
@@ -101,7 +101,7 @@ export const commonMethods = {
             context.setLineJoin(this.UnOption.lineJoin);
         }
         // context.setLineDash(this.UnOption.lineDash);
-        if (this.UnOption.needGra&&this.UnOption.needGra=='line'&& this.UnOption.lg.length > 0) {
+        if (this.UnOption.needGra&&this.UnOption.needGra=='line'&& this.UnOption.gra&&this.UnOption.gra.length > 0) {
 
             /**
              * lg
@@ -115,18 +115,18 @@ export const commonMethods = {
             this.turnColorLock(true);//开启颜色锁
             gra = context.createLinearGradient(...this.getGradientOption(type).lg);
             // gra = context.createLinearGradient(100, 0, 200, 0);
-            this.UnOption.lg.forEach(function (element) {
+            this.UnOption.gra.forEach(function (element) {
                 gra.addColorStop(...element);
             }, this);
             // console.log(gra);
             context.setFillStyle(gra);
         }
-        if (this.UnOption.needGra&&this.UnOption.needGra=='circle'&& this.UnOption.cg.length > 0 && !this.UnOption.lg.length > 0) {
+        if (this.UnOption.needGra&&this.UnOption.needGra=='circle'&& this.UnOption.gra&&this.UnOption.gra.length > 0) {
             this.turnColorLock(true);//开启颜色锁            
             gra = context.createCircularGradient(...this.getGradientOption(type).cg);
-            this.UnOption.cg.forEach(function (element) {
+            this.UnOption.gra.forEach(function (element) {
                 // console.log(element);
-                gra.addColorStop(element[0], element[1]);
+                gra.addColorStop(...element);
             }, this);
             // console.log(gra);
             context.setFillStyle(gra);
@@ -227,7 +227,7 @@ export const commonMethods = {
                     0,
                 this.Option.x + this.Option.r,
                     0],
-                "cg": [this.Option.x, this.Option.y, this.Option.r / 10]
+                "cg": [this.Option.x, this.Option.y, this.Option.r]
             } : {},
             "rect": type == "rect" ? {
                 "lg": [//这里还得改
@@ -244,10 +244,10 @@ export const commonMethods = {
                 ]
             } : {},
             "polygon": type == "polygon" ? {
-                "lg": [this.Option.x - this.Option.r,
-                this.Option.x - this.Option.r,
-                this.Option.x + this.Option.r,
-                this.Option.y - this.Option.r],
+                "lg": [this.max.minX,
+                this.max.minY,
+                this.max.maxX,
+                this.max.minY],
                 "cg": [this.Option.x, this.Option.y, this.Option.r]
             } : {},
             "cshape": type == "cshape" ? {

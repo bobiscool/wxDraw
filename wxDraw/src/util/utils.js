@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 21:43:45
+ * @Last Modified time: 2017-10-27 10:14:49
  * 
  * 工具库
  */
@@ -85,7 +85,7 @@ export const util = {
             }
         }
 
-        console.log(_temS);
+        // console.log(_temS);
         return _temS;
     },
     clone: function (obj) {
@@ -102,7 +102,7 @@ export const util = {
                 }
             }
 
-            console.log(_obj);
+            // console.log(_obj);
             return _obj;
         }
 
