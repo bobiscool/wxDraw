@@ -24,7 +24,7 @@
     this.wxCanvas.add(cshape);
 
 
-
+    rect.updateOption({needGra:"no"});
     rect.animate("x","+=100",{duration:1000}).animate({"x":"+=100","y":"-=30","rotate":"10","fillStyle":"#1BB0CE"},{duration:1000}).
         animate({"x":"-=100","y":"+=30","rotate":"+10","fillStyle":"#6A5E72"},{duration:1000}).
         animate({"fillStyle":"#563444"},{duration:1000}).start(3);
