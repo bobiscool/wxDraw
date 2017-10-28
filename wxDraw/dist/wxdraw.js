@@ -3472,7 +3472,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 11:17:54
+ * @Last Modified time: 2017-10-28 18:54:29
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -3495,10 +3495,10 @@ var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.loopTimes = false;
     this.looped = 0;
     this.object = object;
-    // console.log('最初的样式', object.Shape.Option);
+    console.log('最初的样式', object.Shape.Option);
     this.oriOption = util.extend(object.Shape.Option, object.Shape.Option); // 记录最初的样式
     this.oriUnOption = util.extend(object.Shape.Option, object.Shape.UnOption); // 记录最初的样式
-    // console.log(this.aniFragListId, this.oriOption)
+    console.log(this.aniFragListId, this.oriOption);
 
     this.endCallWraper = null;
     this.firstTime = true;
@@ -3571,8 +3571,7 @@ AniFragWrap.prototype = {
     restart: function restart() {
         // 重新开始就得需要记住 最初物体的属性
         // console.log('restart');
-        this.oriOption.rotate = 0;
-        // console.log('最初的样式', this.oriOption)
+        // this.oriOption.rotate = 0;
         this.object.restoreOption(this.oriOption);
         this.object.restoreOption(this.oriUnOption);
         this.overAni = [];
