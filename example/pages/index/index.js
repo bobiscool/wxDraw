@@ -64,10 +64,10 @@ Page({
     */
 
     // let rect = new Shape('rect', { x: 60, y: 60, w: 40, h: 40, opacity: 0.3, fillStyle: "#2FB8AC", rotate: 0, needShadow: true, shadow: { color: "#cccccc" },needGra: 'line', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']] }, 'mix', true)
-    var rect = new Shape('rect', { x: 60, y: 60, w: 40, h: 40, lineWidth: 20, fillStyle: "#2FB8AC", rotate: Math.PI / 2, needShadow: true, isLineDash: false, lineDash:[[5, 5], 5] }, 'stroke', true);
+    var rect = new Shape('rect', { x: 60, y: 60, w: 40, h: 40, lineWidth: 20, fillStyle: "#2FB8AC", rotate: Math.PI / 2, needShadow: true, isLineDash: false, lineDash: [[5, 5], 5], lineJoin:"miter",miterLimit:100 }, 'stroke', true);
 
     let circle = new Shape('circle', { x: 160, y: 160, r: 40, sA: Math.PI/4, fillStyle: "#C0D860", strokeStyle: "#CC333F", rotate: 20, lineWidth: 0, needGra: 'line', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]}, 'fill', true)
-    console.log(circle);
+    console.log(rect);
     let ellipse = new Shape('ellipse', { x: 200, y: 200, a: 40, b: 100, fillStyle: "#00A0B0", rotate: Math.PI / 7 }, 'mix', true)
     let cshape = new Shape('cshape', {
       rotate: Math.PI / 2,

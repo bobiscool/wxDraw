@@ -570,7 +570,7 @@ var Point = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 10:11:07
+ * @Last Modified time: 2017-10-28 17:07:40
  * 常用的一些属性
  * 
  */
@@ -590,7 +590,8 @@ var commonAttr = function commonAttr() {
         strokeStyle: "#000000",
         rotate: 0,
         opacity: 1,
-        lineDash: [[5, 5], 5]
+        lineDash: [[5, 5], 5],
+        miterLimit: 3
     };
 };
 
@@ -610,7 +611,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 11:19:47
+ * @Last Modified time: 2017-10-28 17:12:08
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -738,7 +739,7 @@ var commonMethods = {
             this.UnOption.gra.forEach(function (element) {
                 gra.addColorStop(element[0], element[1]);
             }, this);
-            console.log('继续渐变', gra);
+            // console.log('继续渐变',gra);
             context.setFillStyle(gra);
         }
         if (this.UnOption.needGra && this.UnOption.needGra == 'circle' && this.UnOption.gra && this.UnOption.gra.length > 0) {
@@ -756,7 +757,10 @@ var commonMethods = {
             // console.log("没有渐变");
             context.setFillStyle(this.Option.fillStyle);
         }
+        if (this.UnOption.lineJoin == 'miter') {
 
+            context.setMiterLimit(this.Option.miterLimit);
+        }
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
         context.setGlobalAlpha(this.Option.opacity);
@@ -765,9 +769,12 @@ var commonMethods = {
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
         if (this.UnOption.isLineDash) {
-            // console.log(context.setLineDash);
+            console.log(this.Option.lineDash instanceof Array);
             if (context.setLineDash) {
                 // console.log('设置dash')
+                if (!(this.Option.lineDash instanceof Array)) {
+                    this.Option.lineDash[0] = Object.values(this.Option.lineDash[0]); //clone留下来的
+                }
                 context.setLineDash(this.Option.lineDash[0], this.Option.lineDash[1]); //设置linedash
             }
         }

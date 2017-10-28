@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-28 16:53:16
+ * @Last Modified time: 2017-10-28 17:12:08
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -131,7 +131,7 @@ export const commonMethods = {
             this.UnOption.gra.forEach(function (element) {
                 gra.addColorStop(element[0],element[1]);
             }, this);
-            console.log('继续渐变',gra);
+            // console.log('继续渐变',gra);
             context.setFillStyle(gra);
         }
         if (this.UnOption.needGra&&this.UnOption.needGra=='circle'&& this.UnOption.gra&&this.UnOption.gra.length > 0) {
@@ -150,7 +150,10 @@ export const commonMethods = {
             // console.log("没有渐变");
             context.setFillStyle(this.Option.fillStyle);
         }
-
+        if(this.UnOption.lineJoin=='miter'){
+            
+            context.setMiterLimit(this.Option.miterLimit)
+        }
         context.setStrokeStyle(this.Option.strokeStyle);
         context.setLineWidth(this.Option.lineWidth);
         context.setGlobalAlpha(this.Option.opacity);
@@ -159,9 +162,13 @@ export const commonMethods = {
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
         if (this.UnOption.isLineDash) {
-            console.log(context.setLineDash);
+            console.log(this.Option.lineDash instanceof Array);
             if (context.setLineDash) {
                 // console.log('设置dash')
+                if(!(this.Option.lineDash instanceof Array)){
+                    this.Option.lineDash[0] = Object.values(this.Option.lineDash[0]); //clone留下来的
+  
+                }
                 context.setLineDash(this.Option.lineDash[0], this.Option.lineDash[1]);//设置linedash
             }
         }

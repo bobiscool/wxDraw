@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 16:52:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 10:11:07
+ * @Last Modified time: 2017-10-28 17:07:40
  * 常用的一些属性
  * 
  */
@@ -28,7 +28,8 @@ export const commonAttr = function () {//避免变量污染
         strokeStyle: "#000000",
         rotate: 0,
         opacity: 1,
-        lineDash: [[5, 5], 5]
+        lineDash: [[5, 5], 5],
+        miterLimit:3
     }
 }
 
