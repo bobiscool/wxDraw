@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 11:01:45
+ * @Last Modified time: 2017-10-28 23:58:06
  * 在这里添加事件 
  */
 
@@ -160,7 +160,7 @@ Shape.prototype = {
         let _direc = true;
         let _temFrag = null;
         if (typeof atrribute == "object") {
-            console.log('object');
+            // console.log('object');
             _temFrag = new AnimationFrag(this, atrribute, "no", arguments[1], this.bus);//懒得写 就写arguments吧
         } else {
             _temFrag = new AnimationFrag(this, atrribute, arguments[1], arguments[2], this.bus);
@@ -178,7 +178,7 @@ Shape.prototype = {
 
         //    }
 
-        console.log("继续调用")
+        // console.log("继续调用")
 
 
         return this;
@@ -191,7 +191,7 @@ Shape.prototype = {
                 this.aniFragWraper.setLoop(a);//设置循环                
             }
             
-            console.log( this.aniFragWraper);
+            // console.log( this.aniFragWraper);
             if (typeof a === 'number') {
                 this.aniFragWraper.setLoop(true, a);
             }
@@ -315,7 +315,7 @@ var shapeTypes = {
         return new Cshape(option);
     },
     'line': function (option) {
-        console.log(option);
+        // console.log(option);
         return new Line(option);
     },
     'ellipse': function (option) {

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-28 17:12:08
+ * @Last Modified time: 2017-10-28 23:53:36
  * 一些都有的方法 都放到这里
  */
 import { util } from '../../util/utils.js';
@@ -74,13 +74,13 @@ export const commonMethods = {
         this.bus.dispatch('update', 'no');
     },
     restoreOption:function(oldOption){
-        console.log(oldOption);
+        // console.log(oldOption);
         this.Option = util.extend(oldOption, this.Option);
         this.UnOption = util.extend(oldOption, this.UnOption);
         // console.log('更新属性',this.Option);
         // console.log('更新 option',option);
-        console.log('更新  this.UnOption',this.UnOption);
-        console.log('更新属性',this);
+        // console.log('更新  this.UnOption',this.UnOption);
+        // console.log('更新属性',this);
         this._dirty = true;
     },
     upDetect: function () {
@@ -162,7 +162,7 @@ export const commonMethods = {
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
         if (this.UnOption.isLineDash) {
-            console.log(this.Option.lineDash instanceof Array);
+            // console.log(this.Option.lineDash instanceof Array);
             if (context.setLineDash) {
                 // console.log('设置dash')
                 if(!(this.Option.lineDash instanceof Array)){

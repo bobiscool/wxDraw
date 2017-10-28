@@ -64,7 +64,7 @@ Page({
     */
 
     // let rect = new Shape('rect', { x: 60, y: 60, w: 40, h: 40, opacity: 0.3, fillStyle: "#2FB8AC", rotate: 0, needShadow: true, shadow: { color: "#cccccc" },needGra: 'line', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']] }, 'mix', true)
-    var rect = new Shape('rect', { x: 160, y: 160, w: 40, h: 40, lineWidth: 20, fillStyle: "#2FB8AC", rotate: Math.PI / 2, needShadow: true, isLineDash: true, lineDash: [[5, 5], 5], lineJoin:"miter",miterLimit:100 }, 'mix', true);
+    var rect = new Shape('rect', { x: 160, y: 160, w: 40, h: 40, lineWidth: 20, fillStyle: "#2FB8AC", rotate: Math.PI / 2, needShadow: true, isLineDash: true, lineDash: [[5, 5], 5], lineJoin:"miter",miterLimit:100 }, 'fill', true);
 
     let circle = new Shape('circle', { x: 160, y: 160, r: 40, sA: 0, fillStyle: "#C0D860", strokeStyle: "#CC333F", rotate: 20, lineWidth: 0, needGra: 'line', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]}, 'fill', true)
     console.log(rect);
@@ -83,11 +83,11 @@ Page({
     let text = new Shape('text', { x: 100, y: 100, text: "我是测试文字", fillStyle: "#E6781E", rotate: Math.PI / 3, needGra: 'no', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]}, 'fill', true)
     let line = new Shape('line', { points:[[240,373],[11,32],[28,423],[12,105],[203,41],[128,0.06]], strokeStyle: "#2FB8AC",lineWidth:1, rotate: 0, needShadow: true,smooth:true}, 'fill', true)
     // console.log(cshape);
-    // this.wxCanvas.add(rect);
+    this.wxCanvas.add(rect);
     // this.wxCanvas.add(circle);
     this.wxCanvas.add(ellipse);
     // this.wxCanvas.add(polygon);
-    // this.wxCanvas.add(text);
+    this.wxCanvas.add(text);
     // this.wxCanvas.add(line);
     // this.wxCanvas.add(cshape);
 
@@ -151,14 +151,15 @@ Page({
 
 
 
-    // text.animate({ x: "+=40", y: "+=20", fillStyle: "#2B4E72" },{duration:2000}).animate({
-    //   fontSize:"+=30"
-    // }, { duration: 2000 }).start(1)
+    text.animate({ x: "+=40", y: "+=20", fillStyle: "#2B4E72" },{duration:2000}).animate({
+      fontSize:"+=30"
+    }, { duration: 2000 }).start(1)
 
 
-    ellipse.bind('tap',function(){
-      ellipse.updateOption({a:100,fillStyle:"#cccddd"})
-    });
+    // ellipse.bind('longpress',function(){
+
+    //   rect.destroy();
+    // });
   }
   
 })

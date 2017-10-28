@@ -611,7 +611,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-28 17:12:08
+ * @Last Modified time: 2017-10-28 23:53:36
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -681,13 +681,13 @@ var commonMethods = {
         this.bus.dispatch('update', 'no');
     },
     restoreOption: function restoreOption(oldOption) {
-        console.log(oldOption);
+        // console.log(oldOption);
         this.Option = util.extend(oldOption, this.Option);
         this.UnOption = util.extend(oldOption, this.UnOption);
         // console.log('更新属性',this.Option);
         // console.log('更新 option',option);
-        console.log('更新  this.UnOption', this.UnOption);
-        console.log('更新属性', this);
+        // console.log('更新  this.UnOption',this.UnOption);
+        // console.log('更新属性',this);
         this._dirty = true;
     },
     upDetect: function upDetect() {
@@ -769,7 +769,7 @@ var commonMethods = {
             context.setShadow(this.Option.shadow.offsetX, this.Option.shadow.offsetY, this.Option.shadow.blur, this.Option.shadow.color);
         }
         if (this.UnOption.isLineDash) {
-            console.log(this.Option.lineDash instanceof Array);
+            // console.log(this.Option.lineDash instanceof Array);
             if (context.setLineDash) {
                 // console.log('设置dash')
                 if (!(this.Option.lineDash instanceof Array)) {
@@ -3472,7 +3472,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-28 18:54:29
+ * @Last Modified time: 2017-10-28 23:55:23
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -3495,10 +3495,10 @@ var AniFragWrap = function AniFragWrap(bus, id, object) {
     this.loopTimes = false;
     this.looped = 0;
     this.object = object;
-    console.log('最初的样式', object.Shape.Option);
+    // console.log('最初的样式', object.Shape.Option);
     this.oriOption = util.extend(object.Shape.Option, object.Shape.Option); // 记录最初的样式
     this.oriUnOption = util.extend(object.Shape.Option, object.Shape.UnOption); // 记录最初的样式
-    console.log(this.aniFragListId, this.oriOption);
+    // console.log(this.aniFragListId, this.oriOption)
 
     this.endCallWraper = null;
     this.firstTime = true;
@@ -3587,7 +3587,7 @@ AniFragWrap.prototype = {
         this.stoped = true;
         // //console.log('停止');
         this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId, this.object.Shapeid, this.object);
-        console.log('不再更新');
+        // console.log('不再更新')
     },
     resume: function resume() {
         // 先不要有重启
@@ -3603,7 +3603,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 11:01:45
+ * @Last Modified time: 2017-10-28 23:54:13
  * 在这里添加事件 
  */
 
@@ -3886,7 +3886,7 @@ var shapeTypes = {
         return new Cshape(option);
     },
     'line': function line(option) {
-        console.log(option);
+        // console.log(option);
         return new Line(option);
     },
     'ellipse': function ellipse(option) {

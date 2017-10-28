@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-28 18:54:29
+ * @Last Modified time: 2017-10-28 23:55:23
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -98,10 +98,10 @@ export var AniFragWrap = function (bus, id, object) {
     this.loopTimes = false;
     this.looped = 0;
     this.object = object;
-    console.log('最初的样式', object.Shape.Option);
+    // console.log('最初的样式', object.Shape.Option);
     this.oriOption = util.extend(object.Shape.Option, object.Shape.Option);// 记录最初的样式
     this.oriUnOption = util.extend(object.Shape.Option, object.Shape.UnOption);// 记录最初的样式
-    console.log(this.aniFragListId, this.oriOption)
+    // console.log(this.aniFragListId, this.oriOption)
 
     this.endCallWraper = null;
     this.firstTime = true;
@@ -189,7 +189,7 @@ AniFragWrap.prototype = {
         this.stoped = true;
         // //console.log('停止');
         this.bus.dispatch('wraperAniComplete', 'no', this.aniFragListId, this.object.Shapeid, this.object);
-        console.log('不再更新')
+        // console.log('不再更新')
     },
     resume() {
         // 先不要有重启
