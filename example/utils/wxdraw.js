@@ -357,6 +357,18 @@ var rgb2hex = function rgb2hex(r, g, b) {
      */
 };
 
+var objToArray = function objToArray(obj) {
+    //对象的值转数组
+    var _Arrays = [];
+    // console.log(obj);
+    // console.log( Object.keys(obj));
+    Object.keys(obj).forEach(function (item) {
+        _Arrays.push(obj[item]);
+    });
+
+    return _Arrays;
+};
+
 var Store = function Store() {
     this.store = [];
 };
@@ -611,7 +623,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-28 23:53:36
+ * @Last Modified time: 2017-10-29 00:05:21
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -720,7 +732,7 @@ var commonMethods = {
         }
         // context.setLineDash(this.UnOption.lineDash);
         if (this.UnOption.gra && !(this.UnOption.gra instanceof Array)) {
-            this.UnOption.gra = Object.values(this.UnOption.gra);
+            this.UnOption.gra = objToArray(this.UnOption.gra);
         }
         if (this.UnOption.needGra && this.UnOption.needGra == 'line' && this.UnOption.gra && this.UnOption.gra.length > 0) {
 
@@ -773,7 +785,7 @@ var commonMethods = {
             if (context.setLineDash) {
                 // console.log('设置dash')
                 if (!(this.Option.lineDash instanceof Array)) {
-                    this.Option.lineDash[0] = Object.values(this.Option.lineDash[0]); //clone留下来的
+                    this.Option.lineDash[0] = objToArray(this.Option.lineDash[0]); //clone留下来的
                 }
                 context.setLineDash(this.Option.lineDash[0], this.Option.lineDash[1]); //设置linedash
             }
@@ -1403,7 +1415,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 09:50:49
+ * @Last Modified time: 2017-10-29 10:24:19
  * 字体对象
  */
 
@@ -1552,11 +1564,11 @@ Text.prototype = _extends({
         this._dirty = true;
     },
     detected: function detected(x, y) {
-        // //console.log('检测方块', x, y);
         // //console.log('方块', this.Option);
         this._offsetX = this.boxOption.x - x;
         this._offsetY = this.boxOption.y - y;
         if (this._pnpolyTest(x, y)) {
+            // console.log('点中字体', x, y);        
             this._isChoosed = true;
             return true;
         }
@@ -4047,7 +4059,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 23:14:38
+ * @Last Modified time: 2017-10-29 10:40:32
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -4114,7 +4126,7 @@ WxDraw.prototype = {
         // 
         this.bus.dispatch('clearDetectedLayers', 'no'); //清空touchstart选中数组             
         var loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
-
+        console.log('tap', e.touches[0].pageX, e.touches[0].pageY);
         this.store.store.forEach(function (item) {
             item.detect(loc.x, loc.y, 'tap');
         }, this);
@@ -4131,8 +4143,9 @@ WxDraw.prototype = {
     },
     touchstartDetect: function touchstartDetect(e) {
         //外置
-        var loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+        var loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
 
+        console.log(loc);
         this.store.store.forEach(function (item) {
             item.detect(loc.x, loc.y, 'touchstart');
         }, this);
@@ -4147,7 +4160,7 @@ WxDraw.prototype = {
     },
     touchmoveDetect: function touchmoveDetect(e) {
         var loc = this.getLoc(e.touches[0].x, e.touches[0].y);
-
+        console.log('move', loc);
         this.store.store.forEach(function (item) {
             item.moveDetect(loc.x, loc.y);
             // //console.log('item',item)ﬂ
@@ -4164,9 +4177,12 @@ WxDraw.prototype = {
     // },
     getLoc: function getLoc(x, y) {
         //获取点击相对位置
+
+        console.log(x, y);
+        // console.log(x-this.x,y-this.y);
         return {
-            x: x - this.x > 0 ? x - this.x > this.w ? this.w : x - this.x : this.x,
-            y: y - this.y > 0 ? y - this.y > this.h ? this.h : y - this.y : this.y
+            x: x - this.x > 0 ? x - this.x > this.w ? this.w : x - this.x : 0,
+            y: y - this.y > 0 ? y - this.y > this.h ? this.h : y - this.y : 0
         };
     },
     update: function update() {

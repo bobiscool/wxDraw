@@ -1,9 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var  wxDraw= require("../../utils/wxdraw.min.js").wxDraw;
-var Shape = require("../../utils/wxdraw.min.js").Shape;
-var AnimationFrame = require("../../utils/wxdraw.min.js").AnimationFrame;
+var  wxDraw= require("../../utils/wxdraw.js").wxDraw;
+var Shape = require("../../utils/wxdraw.js").Shape;
+var AnimationFrame = require("../../utils/wxdraw.js").AnimationFrame;
 
 // console.log(cancelAnimationFrame);
 
@@ -29,6 +29,7 @@ Page({
   },
   bindtouchmove:function(e){
     // 检测手指点击 之后的移动事件
+    console.log(e);        
     this.wxCanvas.touchmoveDetect(e);
   },
   bindtouchend:function(){
@@ -36,7 +37,7 @@ Page({
     this.wxCanvas.touchendDetect();
   },
   bindtap:function(e){
-    // console.log(e);    
+    console.log(e);    
     this.wxCanvas.tapDetect(e);
   },
   bindlongpress:function(e){
