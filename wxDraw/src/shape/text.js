@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 09:50:49
+ * @Last Modified time: 2017-10-29 10:24:19
  * 字体对象
  */
 
@@ -157,7 +157,6 @@ Text.prototype = {
         this._dirty = true;
     },
     detected: function (x, y) {
-        // //console.log('检测方块', x, y);
         // //console.log('方块', this.Option);
         var _self = this;
 
@@ -170,6 +169,7 @@ Text.prototype = {
         this._offsetX = this.boxOption.x - x;
         this._offsetY = this.boxOption.y - y;
         if (this._pnpolyTest(x, y)) {
+        // console.log('点中字体', x, y);        
             this._isChoosed = true;
             return true;
         }

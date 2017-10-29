@@ -1,9 +1,9 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var  wxDraw= require("../../utils/wxdraw.js").wxDraw;
-var Shape = require("../../utils/wxdraw.js").Shape;
-var AnimationFrame = require("../../utils/wxdraw.js").AnimationFrame;
+var  wxDraw= require("../../utils/wxdraw.min.js").wxDraw;
+var Shape = require("../../utils/wxdraw.min.js").Shape;
+var AnimationFrame = require("../../utils/wxdraw.min.js").AnimationFrame;
 
 // console.log(cancelAnimationFrame);
 
@@ -56,7 +56,7 @@ Page({
     // Fill with gradient
 
 
-    this.wxCanvas = new wxDraw(context,0,0,400,500);
+    this.wxCanvas = new wxDraw(context,10,10,400,500);
 
     /**
      * 由于 小程序没有Dom 操作，所以没法获取canvas高度以及绘图的起点
@@ -68,7 +68,7 @@ Page({
 
     let circle = new Shape('circle', { x: 160, y: 160, r: 40, sA: 0, fillStyle: "#C0D860", strokeStyle: "#CC333F", rotate: 20, lineWidth: 0, needGra: 'line', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]}, 'fill', true)
     console.log(rect);
-    let ellipse = new Shape('ellipse', { x: 200, y: 200, a: 40, b: 100, fillStyle: "#00A0B0", rotate: Math.PI / 7, shadow:{blur:2}}, 'mix', true)
+    let ellipse = new Shape('ellipse', { x: 180, y: 200, a: 100, b: 140, fillStyle: "#2964CC", rotate: Math.PI / 2, opacity:1,shadow:{blur:2}}, 'fill', true)
     let cshape = new Shape('cshape', {
       rotate: Math.PI / 2,
       points: [[70, 85], [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]],
@@ -80,18 +80,18 @@ Page({
       gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]
     }, 'fill', true)
     let polygon = new Shape('polygon', { x: 200, y: 200, r: 40, sides: 9, fillStyle: "#FC354C", rotate: Math.PI / 4 }, 'mix', true)
-    let text = new Shape('text', { x: 100, y: 100, text: "我是测试文字", fillStyle: "#E6781E", rotate: Math.PI / 3, needGra: 'no', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]}, 'fill', true)
+    let text = new Shape('text', { x: 180, y: 200, text: "W", fillStyle: "#ffffff", fontSize:40,rotate: 0,align:"center",textBaseline:'middle'}, 'fill', true)
     let line = new Shape('line', { points:[[240,373],[11,32],[28,423],[12,105],[203,41],[128,0.06]], strokeStyle: "#2FB8AC",lineWidth:1, rotate: 0, needShadow: true,smooth:true}, 'fill', true)
     // console.log(cshape);
-    this.wxCanvas.add(rect);
+    // this.wxCanvas.add(rect);
     // this.wxCanvas.add(circle);
     this.wxCanvas.add(ellipse);
     // this.wxCanvas.add(polygon);
-    this.wxCanvas.add(text);
+    
     // this.wxCanvas.add(line);
     // this.wxCanvas.add(cshape);
 
-
+    
 
     // rect.updateOption({ needGra: "no" });
     // rect.animate("x", "+=100", { duration: 1000 }).animate({ "x": "+=100", "y": "-=30", "rotate": "10", "fillStyle": "#1BB0CE" }, { duration: 1000 }).
@@ -151,15 +151,35 @@ Page({
 
 
 
-    text.animate({ x: "+=40", y: "+=20", fillStyle: "#2B4E72" },{duration:2000}).animate({
-      fontSize:"+=30"
-    }, { duration: 2000 }).start(1)
+    // text.animate({ x: "+=40", y: "+=20", fillStyle: "#2B4E72" },{duration:2000}).animate({
+    //   fontSize:"+=30"
+    // }, { duration: 2000 }).start(1)
 
 
     // ellipse.bind('longpress',function(){
 
     //   rect.destroy();
     // });
+
+    let a = ellipse.clone();
+    let b = ellipse.clone();
+    let c = ellipse.clone();
+    let d = ellipse.clone();
+    let e = ellipse.clone();
+    let f = ellipse.clone();
+    
+    ellipse.destroy();
+    this.wxCanvas.add(b);
+    this.wxCanvas.add(a);
+    this.wxCanvas.add(c);
+    this.wxCanvas.add(text);
+    
+   b.updateOption({fillStyle:"#ff65ff",rotate:0});
+   a.updateOption({ fillStyle: "#29ffff", rotate: 0 });
+   
+  //  a.animate({ rotate: "+=" + Math.PI * 2 }, { duration: 4000, easing:"linear"}).start(true);
+  //  b.animate({ rotate: "+=" + Math.PI * 2 }, { duration: 5000, easing: "linear" }).start(true)
+  //  c.animate({ rotate: "+=" + Math.PI * 2 }, { duration: 3000, easing: "linear" }).start(true)
   }
   
 })

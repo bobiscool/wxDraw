@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container">
- <canvas style="width: 400px; height: 500px;border:1px;position:absolute;top:0;left:0; solid black;" canvas-id="first"
+ <canvas style="width: 400px; height: 500px;border:1px;position:absolute;top:10px;left:10px; border:1px solid black;" canvas-id="first"
   disable-scroll=true
   bindtouchstart="bindtouchstart"
   bindtouchmove="bindtouchmove"  

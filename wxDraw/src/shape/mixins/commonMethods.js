@@ -2,10 +2,10 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-28 23:53:36
+ * @Last Modified time: 2017-10-29 00:05:21
  * 一些都有的方法 都放到这里
  */
-import { util } from '../../util/utils.js';
+import { util,objToArray } from '../../util/utils.js';
 
 
 // var gradientOption = {
@@ -112,7 +112,7 @@ export const commonMethods = {
         }
         // context.setLineDash(this.UnOption.lineDash);
         if(this.UnOption.gra&&!(this.UnOption.gra instanceof Array)){
-            this.UnOption.gra = Object.values(this.UnOption.gra);
+            this.UnOption.gra = objToArray(this.UnOption.gra);
         }
         if (this.UnOption.needGra&&this.UnOption.needGra=='line'&& this.UnOption.gra&&this.UnOption.gra.length > 0) {
 
@@ -166,7 +166,7 @@ export const commonMethods = {
             if (context.setLineDash) {
                 // console.log('设置dash')
                 if(!(this.Option.lineDash instanceof Array)){
-                    this.Option.lineDash[0] = Object.values(this.Option.lineDash[0]); //clone留下来的
+                    this.Option.lineDash[0] = objToArray(this.Option.lineDash[0]); //clone留下来的
   
                 }
                 context.setLineDash(this.Option.lineDash[0], this.Option.lineDash[1]);//设置linedash
