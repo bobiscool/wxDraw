@@ -1415,7 +1415,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 10:24:19
+ * @Last Modified time: 2017-10-29 12:20:05
  * 字体对象
  */
 
@@ -1568,7 +1568,7 @@ Text.prototype = _extends({
         this._offsetX = this.boxOption.x - x;
         this._offsetY = this.boxOption.y - y;
         if (this._pnpolyTest(x, y)) {
-            // console.log('点中字体', x, y);        
+            console.log('点中字体', x, y);
             this._isChoosed = true;
             return true;
         }
@@ -1600,6 +1600,7 @@ Text.prototype = _extends({
     moveDetect: function moveDetect(x, y) {
 
         if (this._isChoosed == true) {
+            console.log('字体移动');
             this.move(x + this._offsetX, y + this._offsetY);
             // this.getOriPoints();//拿到原始点
             // this.getPoints();//拿到变化点
@@ -4059,7 +4060,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 10:40:32
+ * @Last Modified time: 2017-10-29 12:18:35
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -4159,8 +4160,8 @@ WxDraw.prototype = {
         }, this);
     },
     touchmoveDetect: function touchmoveDetect(e) {
-        var loc = this.getLoc(e.touches[0].x, e.touches[0].y);
-        console.log('move', loc);
+        var loc = { x: e.touches[0].x, y: e.touches[0].y };
+        // console.log('move',loc)
         this.store.store.forEach(function (item) {
             item.moveDetect(loc.x, loc.y);
             // //console.log('item',item)ﬂ
@@ -4178,7 +4179,7 @@ WxDraw.prototype = {
     getLoc: function getLoc(x, y) {
         //获取点击相对位置
 
-        console.log(x, y);
+        // console.log(x,y);
         // console.log(x-this.x,y-this.y);
         return {
             x: x - this.x > 0 ? x - this.x > this.w ? this.w : x - this.x : 0,

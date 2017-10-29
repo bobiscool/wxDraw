@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 17:32:27
+ * @Last Modified time: 2017-10-29 16:32:19
  * 普通形状
  * 
  */
@@ -244,7 +244,7 @@ Circle.prototype = {
     },
 
     detected: function (x, y) {
-        if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
+        // if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             // //console.log('点中');
             // this.points = this._Points;
@@ -257,7 +257,7 @@ Circle.prototype = {
             } else {
                 return false;
             }
-        }
+        // }
 
         return false;
     },

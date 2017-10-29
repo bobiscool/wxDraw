@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 10:24:19
+ * @Last Modified time: 2017-10-29 17:23:51
  * 字体对象
  */
 
@@ -202,6 +202,7 @@ Text.prototype = {
     moveDetect: function (x, y) {
 
         if (this._isChoosed == true) {
+            // console.log('字体移动');
             this.move(x + this._offsetX, y + this._offsetY);
             // this.getOriPoints();//拿到原始点
             // this.getPoints();//拿到变化点
