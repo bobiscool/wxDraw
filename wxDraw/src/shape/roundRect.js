@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-29 22:10:10 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 22:11:46
+ * @Last Modified time: 2017-10-29 22:19:51
  * 
  * 突然觉得应该加一个圆角矩形
  */
@@ -81,9 +81,20 @@ RoundRect.prototype = {
     getOriPoints: function () {
         let points = [];
         let points2 = [];
-        points.push([this.Option.x - this.Option.w / 2, this.Option.y - this.Option.h / 2])
+        let realW = this.Option.w - this.Option.r*2;
+        let realH = this.Option.h - this.Option.r*2;
+        
+        //上
+        points.push([this.Option.x - realW / 2, this.Option.y - this.Option.h / 2]);
+        points.push([this.Option.x + realW / 2, this.Option.y - this.Option.h / 2]);
+        
+        //上右圆角
+        
+        
+        //右
         points.push([this.Option.x - this.Option.w / 2, this.Option.y + this.Option.h / 2])
         points.push([this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2])
+
         points.push([this.Option.x + this.Option.w / 2, this.Option.y - this.Option.h / 2])
 
         points2.push([this.Option.x - this.Option.w / 2 - this.Option.lineWidth / 2, this.Option.y - this.Option.h / 2 - this.Option.lineWidth / 2])
