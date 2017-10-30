@@ -1415,7 +1415,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 12:20:05
+ * @Last Modified time: 2017-10-29 17:23:51
  * 字体对象
  */
 
@@ -1568,7 +1568,7 @@ Text.prototype = _extends({
         this._offsetX = this.boxOption.x - x;
         this._offsetY = this.boxOption.y - y;
         if (this._pnpolyTest(x, y)) {
-            console.log('点中字体', x, y);
+            // console.log('点中字体', x, y);        
             this._isChoosed = true;
             return true;
         }
@@ -1600,7 +1600,7 @@ Text.prototype = _extends({
     moveDetect: function moveDetect(x, y) {
 
         if (this._isChoosed == true) {
-            console.log('字体移动');
+            // console.log('字体移动');
             this.move(x + this._offsetX, y + this._offsetY);
             // this.getOriPoints();//拿到原始点
             // this.getPoints();//拿到变化点
@@ -1970,7 +1970,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 17:32:27
+ * @Last Modified time: 2017-10-29 16:32:19
  * 普通形状
  * 
  */
@@ -2189,20 +2189,20 @@ Circle.prototype = _extends({
     },
 
     detected: function detected(x, y) {
-        if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
-            //在最小矩形里面才开始
-            // //console.log('点中');
-            // this.points = this._Points;
+        // if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
+        //在最小矩形里面才开始
+        // //console.log('点中');
+        // this.points = this._Points;
 
-            this._offsetX = this.Option.x - x;
-            this._offsetY = this.Option.y - y;
-            if (this._pnpolyTest(x, y)) {
-                this._isChoosed = true;
-                return true;
-            } else {
-                return false;
-            }
+        this._offsetX = this.Option.x - x;
+        this._offsetY = this.Option.y - y;
+        if (this._pnpolyTest(x, y)) {
+            this._isChoosed = true;
+            return true;
+        } else {
+            return false;
         }
+        // }
 
         return false;
     },
@@ -2268,7 +2268,7 @@ Circle.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:45:36
+ * @Last Modified time: 2017-10-29 23:08:03
  * 分离开
  */
 
@@ -2451,6 +2451,7 @@ Rect.prototype = _extends({
     },
 
     move: function move(x, y) {
+        console.log('move');
         this.Option.x = x;
         this.Option.y = y;
         this._dirty = true;
@@ -4060,7 +4061,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 12:18:35
+ * @Last Modified time: 2017-10-29 17:24:19
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -4127,7 +4128,7 @@ WxDraw.prototype = {
         // 
         this.bus.dispatch('clearDetectedLayers', 'no'); //清空touchstart选中数组             
         var loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
-        console.log('tap', e.touches[0].pageX, e.touches[0].pageY);
+        // console.log('tap',e.touches[0].pageX, e.touches[0].pageY)
         this.store.store.forEach(function (item) {
             item.detect(loc.x, loc.y, 'tap');
         }, this);
@@ -4146,7 +4147,7 @@ WxDraw.prototype = {
         //外置
         var loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
 
-        console.log(loc);
+        // console.log(loc);
         this.store.store.forEach(function (item) {
             item.detect(loc.x, loc.y, 'touchstart');
         }, this);
