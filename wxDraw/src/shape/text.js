@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 17:23:51
+ * @Last Modified time: 2017-10-30 17:22:10
  * 字体对象
  */
 
@@ -208,6 +208,10 @@ Text.prototype = {
             // this.getPoints();//拿到变化点
         }
 
+    },
+    updateText:function(text){
+        this.text = text;
+        this._dirty=true;
     },
     ...commonMethods
 }

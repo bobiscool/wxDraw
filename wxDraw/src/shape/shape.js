@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-30 14:29:22
+ * @Last Modified time: 2017-10-30 17:23:20
  * 在这里添加事件 
  */
 
@@ -291,6 +291,13 @@ Shape.prototype = {
         }
         let _clone = new Shape(this.type,{...this.Shape.Option,...this.Shape.UnOption,..._spaAttr},this.strokeOrfill,this.draggable)
         return _clone;
+    },
+    updateText:function(text){
+       if(this.type=="text"){
+           this.Shape.updateText(text);
+       }else{
+           return false
+       }
     }
 }
 
