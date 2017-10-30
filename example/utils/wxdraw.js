@@ -411,8 +411,10 @@ Store.prototype = {
 
         this.store.splice(oldIndex, 1);
         this.store.splice(index, 0, obj);
+    },
+    clear: function clear() {
+        this.store = [];
     }
-
 };
 
 /*
@@ -2268,7 +2270,7 @@ Circle.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 23:08:03
+ * @Last Modified time: 2017-10-30 14:06:15
  * 分离开
  */
 
@@ -2451,13 +2453,13 @@ Rect.prototype = _extends({
     },
 
     move: function move(x, y) {
-        console.log('move');
+        // console.log('move');
         this.Option.x = x;
         this.Option.y = y;
         this._dirty = true;
     },
     detected: function detected(x, y) {
-        // //console.log('检测方块', x, y);
+        console.log('检测方块', x, y);
         // //console.log('方块', this.Option);
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
@@ -3156,11 +3158,11 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 21:16:53
+ * @Last Modified time: 2017-10-30 16:14:08
  */
 
 function genExe(exe, atrribute, object) {
-    // console.log('exe', exe);
+    console.log('exe', exe, atrribute);
     // //console.log('exe', exe.indexOf('#'));
     var temAtrr = void 0;
     // console.log(atrribute);
@@ -3617,7 +3619,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-28 23:58:06
+ * @Last Modified time: 2017-10-30 14:29:22
  * 在这里添加事件 
  */
 
@@ -3969,7 +3971,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:58:48
+ * @Last Modified time: 2017-10-30 16:11:08
  * 动画 对象 接管所有动画
  */
 
@@ -3987,6 +3989,7 @@ var Animation = function Animation(bus) {
     this.bus.add('animationComplete', this, this.animationComplete); // 添加动画事件 
     this.bus.add('wraperAniComplete', this, this.wraperAniComplete); // 添加动画事件 
     this.bus.add('destoryAnimation', this, this.destroyAnimation); // 销毁图形 那就销毁动画
+    this.bus.add('clearAnimation', this, this.clearAnimation); //清除所有动画
 
 
     //    this.animationFragStore2 = {};
@@ -4054,6 +4057,11 @@ Animation.prototype = {
     },
     destroyAnimation: function destroyAnimation(index, shaId) {
         delete this.animationFragStore[shaId];
+    },
+    clearAnimation: function clearAnimation() {
+        // console.log('清除动画');
+        this.animationFragStore = {};
+        this.running = false;
     }
 };
 
@@ -4061,7 +4069,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 17:24:19
+ * @Last Modified time: 2017-10-30 14:47:50
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -4128,7 +4136,7 @@ WxDraw.prototype = {
         // 
         this.bus.dispatch('clearDetectedLayers', 'no'); //清空touchstart选中数组             
         var loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
-        // console.log('tap',e.touches[0].pageX, e.touches[0].pageY)
+        console.log('tap', e.touches[0].pageX, e.touches[0].pageY);
         this.store.store.forEach(function (item) {
             item.detect(loc.x, loc.y, 'tap');
         }, this);
@@ -4145,7 +4153,7 @@ WxDraw.prototype = {
     },
     touchstartDetect: function touchstartDetect(e) {
         //外置
-        var loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
+        var loc = this.getLoc(e.touches[0].x, e.touches[0].y);
 
         // console.log(loc);
         this.store.store.forEach(function (item) {
@@ -4162,7 +4170,7 @@ WxDraw.prototype = {
     },
     touchmoveDetect: function touchmoveDetect(e) {
         var loc = { x: e.touches[0].x, y: e.touches[0].y };
-        // console.log('move',loc)
+        console.log('move');
         this.store.store.forEach(function (item) {
             item.moveDetect(loc.x, loc.y);
             // //console.log('item',item)ﬂ
@@ -4277,8 +4285,13 @@ WxDraw.prototype = {
         this.store.store.forEach(function (item, index) {
             item._updateLayer(index); //这里没写好 。。但现在没想到更好的办法
         });
+    },
+    clear: function clear() {
+        this.canvas.clearActions();
+        this.store.clear();
+        this.canvas = null;
+        this.bus.dispatch('clearAnimation', 'no', 'no');
     }
-
 };
 
 var wxDraw = {

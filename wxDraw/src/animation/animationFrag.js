@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 21:16:53
+ * @Last Modified time: 2017-10-30 16:15:35
  */
 
 import { AnimationTimer } from "./animationTimer.js"
@@ -13,7 +13,7 @@ import { specialOption, specialAtrr } from './specialAtrribute.js';
 
 
 function genExe(exe, atrribute, object) {
-    // console.log('exe', exe);
+    // console.log('exe', exe,atrribute);
     // //console.log('exe', exe.indexOf('#'));
     let temAtrr;
     // console.log(atrribute);

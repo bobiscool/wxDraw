@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-30 14:49:22
+ * @Last Modified time: 2017-10-30 16:11:08
  * 动画 对象 接管所有动画
  */
 
@@ -100,7 +100,7 @@ Animation.prototype = {
         delete this.animationFragStore[shaId];
     },
     clearAnimation:function(){
-        console.log('清除动画');
+        // console.log('清除动画');
         this.animationFragStore = {};
         this.running = false;
     }
