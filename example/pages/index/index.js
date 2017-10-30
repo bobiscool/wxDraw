@@ -22,12 +22,16 @@ Page({
   },
   bindtouchstart:function(e){
     // 检测手指点击事件
-    // console.log(e);
+    console.log(e);
+
+    // console.log(this.wxCanvas);  
     this.wxCanvas.touchstartDetect(e);
     
   },
   bindtouchmove:function(e){
     // 检测手指点击 之后的移动事件
+    console.log(e);    
+    
     this.wxCanvas.touchmoveDetect(e);
   },
   bindtouchend:function(){
@@ -35,11 +39,13 @@ Page({
     this.wxCanvas.touchendDetect();
   },
   bindtap:function(e){
-    // console.log(e);    
+    console.log(e);    
+    // console.log(this.wxCanvas);    
+    
     this.wxCanvas.tapDetect(e);
   },
   bindlongpress:function(e){
-    // console.log(e);
+    console.log(e);
     this.wxCanvas.longpressDetect(e);
   },
   onLoad: function () {
@@ -65,7 +71,11 @@ Page({
     let rect = new Shape('rect', {x: 60, y: 60, w: 40, h: 40, fillStyle: "#2FB8AC", rotate: 0,needShadow:true,shadow:"#000000"},'mix',true)
     this.wxCanvas.add(rect);
    
-    rect.animate({ "x": "+=100" }, { duration: 1000 }).animate({ "rotate": Math.PI * 5, fillStyle: "#046D8B", shadow: { color:"#ECBE13"}},{duration:2000}).start(1);
+
+    rect.bind('tap',function(){
+      console.log('tap');
+    })
+    // rect.animate({ "x": "+=100" }, { duration: 1000 }).animate({ "rotate": Math.PI * 5, fillStyle: "#046D8B", shadow: { color:"#ECBE13"}},{duration:2000}).start(1);
 
     // rect.animate({ "rotate": Math.PI * 5, fillStyle: "#046D8B", shadow: { color: "#ECBE13" } }, { duration: 2000 }).animate({ "x": "+=100" }, { duration: 1000 }).start(3);
     

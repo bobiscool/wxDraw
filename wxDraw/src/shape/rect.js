@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 23:08:03
+ * @Last Modified time: 2017-10-30 14:06:15
  * 分离开
  */
 
@@ -200,13 +200,13 @@ Rect.prototype = {
         return ifInside;
     },
     move: function (x, y) {
-        console.log('move');
+        // console.log('move');
         this.Option.x = x;
         this.Option.y = y;
         this._dirty = true;
     },
     detected: function (x, y) {
-        // //console.log('检测方块', x, y);
+        console.log('检测方块', x, y);
         // //console.log('方块', this.Option);
         var _self = this;
 

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 10:58:48
+ * @Last Modified time: 2017-10-30 14:23:08
  * 动画 对象 接管所有动画
  */
 
@@ -23,7 +23,7 @@ export const Animation = function (bus) {
     this.bus.add('animationComplete', this, this.animationComplete);// 添加动画事件 
     this.bus.add('wraperAniComplete', this, this.wraperAniComplete);// 添加动画事件 
     this.bus.add('destoryAnimation', this, this.destroyAnimation);// 销毁图形 那就销毁动画
-
+    this.bus.add('clearAnimation',this,this.clearAnimation)//清除所有动画
 
 
     //    this.animationFragStore2 = {};
@@ -98,5 +98,9 @@ Animation.prototype = {
     },
     destroyAnimation:function(index,shaId){
         delete this.animationFragStore[shaId];
+    },
+    clearAnimation:function(){
+        console.log('清除动画');
+        this.animationFragStore = {};
     }
 }
