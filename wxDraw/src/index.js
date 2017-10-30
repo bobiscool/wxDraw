@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-30 14:44:57
+ * @Last Modified time: 2017-10-30 14:47:50
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -238,12 +238,12 @@ WxDraw.prototype = {
         })
 
     },
-    // clear:function(){
-    // //    this.canvas.clearActions();
-    //    this.store.clear();
-    //    this.canvas = null;
-    // //    this.bus.dispatch('clearAnimation','no','no');
-    // }
+    clear:function(){
+       this.canvas.clearActions();
+       this.store.clear();
+       this.canvas = null;
+       this.bus.dispatch('clearAnimation','no','no');
+    }
 }
 
 var wxDraw = {
