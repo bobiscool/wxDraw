@@ -1,11 +1,12 @@
 <!--index.wxml-->
 <view class="container">
- <canvas style="width: 400px; height: 500px;border:1px;position:absolute;top:0px;left:0px; border:1px solid black; z-index:10000" canvas-id="first"
+ <canvas style="width: 400px; height: 500px;border:1px;position:absolute;top:50px;left:50px; border:1px solid black; z-index:10000" canvas-id="first"
   disable-scroll=true
   bindtouchstart="bindtouchstart"
   bindtouchmove="bindtouchmove"  
   bindtouchend="bindtouchend"
   bindtap="bindtap"
+  bindlongpress="bindlongpress"
   ></canvas>
   
   

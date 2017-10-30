@@ -1417,7 +1417,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 17:23:51
+ * @Last Modified time: 2017-10-30 17:22:10
  * 字体对象
  */
 
@@ -1607,6 +1607,10 @@ Text.prototype = _extends({
             // this.getOriPoints();//拿到原始点
             // this.getPoints();//拿到变化点
         }
+    },
+    updateText: function updateText(text) {
+        this.text = text;
+        this._dirty = true;
     }
 }, commonMethods);
 
@@ -3158,11 +3162,11 @@ var specialAtrr = { //一些特殊的属性值的更改
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 16:34:09 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-30 16:14:08
+ * @Last Modified time: 2017-10-30 16:15:35
  */
 
 function genExe(exe, atrribute, object) {
-    console.log('exe', exe, atrribute);
+    // console.log('exe', exe,atrribute);
     // //console.log('exe', exe.indexOf('#'));
     var temAtrr = void 0;
     // console.log(atrribute);
@@ -3619,7 +3623,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-30 14:29:22
+ * @Last Modified time: 2017-10-30 17:23:20
  * 在这里添加事件 
  */
 
@@ -3884,6 +3888,13 @@ Shape.prototype = {
         }
         var _clone = new Shape(this.type, _extends({}, this.Shape.Option, this.Shape.UnOption, _spaAttr), this.strokeOrfill, this.draggable);
         return _clone;
+    },
+    updateText: function updateText(text) {
+        if (this.type == "text") {
+            this.Shape.updateText(text);
+        } else {
+            return false;
+        }
     }
 };
 
@@ -4069,7 +4080,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-30 14:47:50
+ * @Last Modified time: 2017-10-30 19:11:57
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -4134,9 +4145,10 @@ WxDraw.prototype = {
         // touchup
         // longpress 
         // 
+
         this.bus.dispatch('clearDetectedLayers', 'no'); //清空touchstart选中数组             
         var loc = this.getLoc(e.touches[0].pageX, e.touches[0].pageY);
-        console.log('tap', e.touches[0].pageX, e.touches[0].pageY);
+        // console.log('tap',e.touches[0].pageX, e.touches[0].pageY)
         this.store.store.forEach(function (item) {
             item.detect(loc.x, loc.y, 'tap');
         }, this);
@@ -4153,7 +4165,8 @@ WxDraw.prototype = {
     },
     touchstartDetect: function touchstartDetect(e) {
         //外置
-        var loc = this.getLoc(e.touches[0].x, e.touches[0].y);
+        var loc = { x: e.touches[0].x, y: e.touches[0].y };
+        // let loc = this.getLoc(e.touches[0].x, e.touches[0].y);
 
         // console.log(loc);
         this.store.store.forEach(function (item) {
@@ -4170,7 +4183,7 @@ WxDraw.prototype = {
     },
     touchmoveDetect: function touchmoveDetect(e) {
         var loc = { x: e.touches[0].x, y: e.touches[0].y };
-        console.log('move');
+        // console.log('move',loc);
         this.store.store.forEach(function (item) {
             item.moveDetect(loc.x, loc.y);
             // //console.log('item',item)ﬂ

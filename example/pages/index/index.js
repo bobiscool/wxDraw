@@ -1,50 +1,45 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var  wxDraw= require("../../utils/wxdraw.min.js").wxDraw;
-var Shape = require("../../utils/wxdraw.min.js").Shape;
-var AnimationFrame = require("../../utils/wxdraw.min.js").AnimationFrame;
+var wxDraw = require("../../utils/wxdraw.js").wxDraw;
+var Shape = require("../../utils/wxdraw.js").Shape;
+var AnimationFrame = require("../../utils/wxdraw.js").AnimationFrame;
 
-// console.log(cancelAnimationFrame);
 
 Page({
   data: {
     userInfo: {},
     hasUserInfo: false,
-    wxCanvas:null
+    wxCanvas: null
+
 
   },
   //事件处理函数
-  bindViewTap: function() {
+  bindViewTap: function () {
     wx.navigateTo({
       url: '../logs/logs'
     })
   },
-  bindtouchstart:function(e){
+  bindtouchstart: function (e) {
     // 检测手指点击事件
-    console.log(e);
-
-    // console.log(this.wxCanvas);  
+    // console.log(e.CanvasTouch);
     this.wxCanvas.touchstartDetect(e);
-    
+
   },
-  bindtouchmove:function(e){
+  bindtouchmove: function (e) {
     // 检测手指点击 之后的移动事件
-    console.log(e);    
-    
+    console.log(e);
     this.wxCanvas.touchmoveDetect(e);
   },
-  bindtouchend:function(){
-     //检测手指点击 移出事件
+  bindtouchend: function () {
+    //检测手指点击 移出事件
     this.wxCanvas.touchendDetect();
   },
-  bindtap:function(e){
-    console.log(e);    
-    // console.log(this.wxCanvas);    
-    
+  bindtap: function (e) {
+    console.log(e);
     this.wxCanvas.tapDetect(e);
   },
-  bindlongpress:function(e){
+  bindlongpress: function (e) {
     console.log(e);
     this.wxCanvas.longpressDetect(e);
   },
@@ -56,178 +51,110 @@ Page({
     var context = wx.createCanvasContext('first')
 
 
-   
+
 
     // Fill with gradient
 
 
-    this.wxCanvas = new wxDraw(context,0,0,400,500);
+    this.wxCanvas = new wxDraw(context, 50, 50, 400, 500);
 
     /**
      * 由于 小程序没有Dom 操作，所以没法获取canvas高度以及绘图的起点
      * 所以 wxDraw初始化的时候 需要设置 以便点击检测的时候使用
     */
+    let Sp = [];
+    let Sps = {
+      // ellipse: { x: 180, y: 200, a: 100, b: 140, fillStyle: "#2964CC", rotate: Math.PI / 2, opacity: 1, shadow: { blur: 2 } },
+      // polygon: { x: 200, y: 100, r: 40, sides: 7, fillStyle: "#FC354C", rotate: Math.PI / 4 },
+      // cshape: {
+      //   rotate: Math.PI / 2,
+      //   points: [[70, 85], [400, 200], [204, 46], [120, 104], [104, 361], [104, 46], [80, 20], [20, 16], [20, 40], [104, 61]],
+      //   lineWidth: 5,
+      //   fillStyle: "#00A0B0",
+      //   rotate: Math.PI / 7,
+      //   needGra: 'circle',
+      //   smooth: false,
+      //   gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]
+      // },
+      rect: { x: 150, y: 250, w: 80, h: 80, fillStyle: "#36BBA6" },
+      // circle: { x: 160, y: 160, r: 40, sA: 0, fillStyle: "#C0D860", strokeStyle: "#CC333F", rotate: 10, lineWidth: 0, needGra: 'line', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']] }
+    };
 
-    let rect = new Shape('rect', {x: 60, y: 60, w: 40, h: 40, fillStyle: "#2FB8AC", rotate: 0,needShadow:true,shadow:"#000000"},'mix',true)
-    this.wxCanvas.add(rect);
-   
 
-    rect.bind('tap',function(){
-      console.log('tap');
-    })
-    // rect.animate({ "x": "+=100" }, { duration: 1000 }).animate({ "rotate": Math.PI * 5, fillStyle: "#046D8B", shadow: { color:"#ECBE13"}},{duration:2000}).start(1);
-
-    // rect.animate({ "rotate": Math.PI * 5, fillStyle: "#046D8B", shadow: { color: "#ECBE13" } }, { duration: 2000 }).animate({ "x": "+=100" }, { duration: 1000 }).start(3);
+    let text = new Shape('text', { x: 0, y: 50, fontSize: 20, text: "点击,拖拽或者长按任意一个图形", fillStyle: "#D6254D" }, 'fill', true);
+    this.wxCanvas.add(text);
     
-    // // var cir12 = new Shape('circle', { x: 200, y: 200, r: 60, sA: Math.PI / 2, fillStyle: "#333333", lineWidth: 2 }, false, true);
-    // var cir1 = new Shape('line', {
-    //   fillStyle: "#333333", rotate: Math.PI / 2, points: [
-    //     [70, 85],
-    //     [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]],lineWidth:5}, 'stroke',true);
-    // console.log(cir1);
- 
-    // var a = [[70, 85],
-    //     [40, 20], [24, 46], [2, 4], [14, 6], [4, 46]];
+    let keys = Object.keys(Sps);
+    for (var i = 0; i < keys.length; i++) {
+      Sp[i] = new Shape(keys[i], Sps[keys[i]], 'fill', true);
+      this.wxCanvas.add(Sp[i]);
+      (function (i) {
+        Sp[i].bind('tap', function () {
+          text.updateText('你在点击'+keys[i]);
+        });
 
-    //  var am2= a.map(function(item){
-    //        return [item[0]*6,item[1]]
-    //     })
-    //       console.log(am2);
-    //     var cshape = new Shape('cshape', {
-    //       fillStyle: "#E1D5A3", rotate: Math.PI / 2, points:am2, lineWidth: 0.5, Shadow: "#ffffff",
-    //       needGra: 'circle',
-    //       cg: [[0, 'red'], [1, 'white']]
-    // }, true, true);
-    // var cir4 = new Shape('line', {
-    //   fillStyle: "#000000", rotate: Math.PI / 2, points: [
-    //     [163, 193], [-18, 48]], lineWidth: 12, Shadow: "#ffffff"
-    // }, true, true)
-    // // var cir1 = new Shape('rect', { x: 0, y: 400, w: 20, h: 40, fillStyle: "#000000", rotate: 200}, true,true)
-    // var cir7 = new Shape('rect', { x: 0, y: 60, w: 40, h: 40, fillStyle: "#dcdcdc", rotate: Math.PI/2 },'mix', true)
+        Sp[i].bind('drag', function () {
+          text.updateText('你在拖拽'+keys[i]);
+          
+        });
 
-    // var cir9 = new Shape('text', { x: 100, y: 300, text:"ssssss",fontSize:30,align:"left"}, 'stroke', true)
+        Sp[i].bind('touchstart', function () {
+          text.updateText('你开始点击'+keys[i]);
+          
+        });
 
-    // var cir2 = new Shape('polygon', { x: 10, y: 100, r: 20, sides: 5, rotate: 0 }, 'stroke', true)
- 
-    // var cir3 = new Shape('ellipse', {
-    //   x: 220, y: 200,
-    //   a: 100, b: 300, rotate: 0,
-    //   fillStyle: "#EEDEAD",
-    //   lineWidth: 5,
-    //   isLineDash:true,
-    //   lineDash:[[10,10],50],
-    //   needGra:'line',
-    //   lg:[[0, 'red'],[1, 'white']]
-    // }, 'fill', true);
+        Sp[i].bind('touchmove', function () {
+          text.updateText('你在'+keys[i]+"上移动");
+          
+        });
 
-    // var cir4 = new Shape('ellipse',{
-    //   x:200,y:200,
-    //   a: 100, b: 250, rotate:0,
-    //   fillStyle: "#DDDEAD",
-    //   lineWidth:10,
-    //   opacity:0.9
-    // },true, true)    
-
-
-
-    // var cir13 = new Shape('line',{
-    //   points:[[12,34],[304,607]],rotate:0,
-    //   fillStyle: "#DDDEAD",
-    //   lineWidth:2,
-    //   opacity:0.9,
-    //   isLineDash:true,
-    //   lineDash:[[1,2],2]
-    // },true, true)    
-
-    // // console.log(cir3);
-    // // cir3.setOrigin([40,40])
-    // // console.log(cir3);
-    // this.wxCanvas.add(cir4);
-    // this.wxCanvas.add(cir3);
-    // this.wxCanvas.add(cir2);
-    // // this.wxCanvas.add(cir1);
-    // this.wxCanvas.add(cir7);
-    // this.wxCanvas.add(cir9);
-    // this.wxCanvas.add(cshape);
-    // this.wxCanvas.add(cir9);
-    // this.wxCanvas.add(cir1);
-    // // this.wxCanvas.add(cir12);
-    // this.wxCanvas.add(cir13);
-    
-    // // cir8.destroy();
-    // cshape.updateLayer("+2");
-    
-    // // cir12.on('longpress',function(a){
-    // //   console.log(a);
-    // // });
-
-    // let tom = function () {
-    //   console.log('aaa');
-    // }
-    // cshape.bind('longpress',tom);
-    // cshape.unbind('longpress',tom);
-
-    // console.log(this.wxCanvas);
-
-    // cir9.animate({rotate:"+=10"}, {
-    //   duration: 10000,
-    //   onLooping: function () {
-    //     // console.log('----');
-    //   },
-    //   easing: "linear"
-    // }).start();
+        Sp[i].bind('touchend', function () {
+          text.updateText('你结束点击'+keys[i]);
   
-    // let cir109199 = cir9.clone();
-    // cir3.bind('tap',function(){
-    //  cir3.updateOption({a:10})
-    //  console.log(cir3);
-    // });
+        });
 
-    // cir3.bind('drag', function () {
-    //   cir3.updateOption({ a: 100 })
-    //   console.log(cir3);
-    // });
-    // cir3.bind('touchend',function(){
-    //   cir3.updateOption({ b: 100 })
-    // });
+        Sp[i].bind('longpress', function () {
+          text.updateText('你重重的点击了'+keys[i]);
+  
+        });
+      })(i)
 
-    
+    }
 
-    // let tom2 = function () {
-    //   console.log('aaa');
-    // }
+    // let polygon = new Shape('polygon', { x: 200, y: 100, r: 40, sides: 3, fillStyle: "#FC354C", rotate: Math.PI / 4 }, 'mix', true)
 
-    // this.wxCanvas.add(cir109199);
-    // console.log(cir109199);
-    // console.log(tom===tom2);
-    // cir12.animate({ /*'rotate': Math.PI, "x": "+=200",y: 400,*/sA:Math.PI }, {
-    //   duration: 10000,
-    //   onLooping: function () {
-    //     // console.log('----');
-    //   },
-    //   easing: "bouncePast"
-    //   }).start();
+    // circle.bind('tap', function () {
+    //   text.updateText('你点击了有渐变的圆形')
+    // })
 
 
-    // cir1.animate("rotate","+=100",{duration:10000}).start()
-    // cir1.animate("rotate","+=100",{duration:10000}).start()
+    // polygon.bind('drag', function () {
+    //   text.updateText('你在拖拽polygon')
+    // })
 
-    // cir3.animate({ 'rotate': Math.PI, fillStyle:"#F88863",lineDash:[[10,20],20]}, {
-    //   duration: 10000,
-    //   onLooping: function () {
-    //     // console.log('----');
-    //   },
-    //   easing: "bouncePast"
-    // }).start();
+    text.bind('tap', function () {
+      text.updateText('你玩弄了我')
+    });
+
+    text.bind('touchstart', function () {
+      text.updateText('你玩弄了我')
+    });
+
+    text.bind('drag', function () {
+      text.updateText('你在拖拽我');
       
-    // cir3.animate({ lineDash: [[30, 40], 20] }, {
-    //   duration: 10000,
-    //   onLooping: function () {
-    //     // console.log('----');
-    //   },
-    //   easing: "bouncePast"
-    // }).start(true);
+    });
+
+    text.bind('touchend', function () {
+      text.updateText('你结束玩弄我');
+    });
+
+    text.bind('longpress', function () {
+      text.updateText('你猛烈地玩弄了我');
+    });
+  },
+  onUnload: function () {
+    this.wxCanvas.clear(); //推荐这个
   }
 
-  
 })
