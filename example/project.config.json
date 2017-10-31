@@ -3,13 +3,13 @@
 	"setting": {
 		"urlCheck": true,
 		"es6": true,
-		"postcss": false,
+		"postcss": true,
 		"minified": true
 	},
 	"compileType": "weapp",
 	"libVersion": "1.6.0",
-	"appid": "wx810910e43ff27ed4",
-	"projectname": "wxDraw",
+	"appid": "",
+	"projectname": "example",
 	"condition": {
 		"weapp": {
 			"current": -1,

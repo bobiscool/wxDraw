@@ -1,11 +1,58 @@
 {
-  "pages":[
-    "pages/index/index"
+  "pages": [
+    "page/component/index",
+
+    "page/component/pages/circle/index",
+    "page/component/pages/cshape/index",
+    "page/component/pages/ellipse/index",
+    "page/component/pages/polygon/index",
+    "page/component/pages/rect/index",
+    "page/component/pages/text/index",
+    "page/component/pages/line/index",
+
+    "page/component/pages/demo1/index",
+    "page/component/pages/demo2/index",
+    "page/component/pages/demo3/index",
+    "page/component/pages/demo4/index",
+    "page/component/pages/demo5/index",
+    "page/component/pages/all/index",
+     "page/about/index"
+    
+    
+    
+  
+
+
+
   ],
-  "window":{
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black"
-  }
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "wxDraw演示",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [{
+      "pagePath": "page/component/index",
+      "iconPath": "image/icon_component.png",
+      "selectedIconPath": "image/icon_component_HL.png",
+      "text": "演示"
+    }, {
+      "pagePath": "page/about/index",
+      "iconPath": "image/icon_API.png",
+      "selectedIconPath": "image/icon_API_HL.png",
+      "text": "关于"
+    }]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 10000,
+    "uploadFile": 10000,
+    "downloadFile": 10000
+  },
+  "debug": false
 }
