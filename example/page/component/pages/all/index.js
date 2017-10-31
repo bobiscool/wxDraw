@@ -22,13 +22,13 @@ Page({
   },
   bindtouchstart: function (e) {
     // 检测手指点击事件
-    console.log(e);
+    // console.log(e);
     this.wxCanvas.touchstartDetect(e);
 
   },
   bindtouchmove: function (e) {
     // 检测手指点击 之后的移动事件
-    console.log(e);
+    // console.log(e);
     this.wxCanvas.touchmoveDetect(e);
   },
   bindtouchend: function () {
@@ -56,7 +56,7 @@ Page({
     // Fill with gradient
 
 
-    this.wxCanvas = new wxDraw(context, 50, 50, 400, 500);
+    this.wxCanvas = new wxDraw(context, 0, 0, 400, 500);
 
     /**
      * 由于 小程序没有Dom 操作，所以没法获取canvas高度以及绘图的起点

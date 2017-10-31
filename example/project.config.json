@@ -9,7 +9,7 @@
 	"compileType": "weapp",
 	"libVersion": "1.6.0",
 	"appid": "",
-	"projectname": "example",
+	"projectname": "demoPro",
 	"condition": {
 		"weapp": {
 			"current": -1,

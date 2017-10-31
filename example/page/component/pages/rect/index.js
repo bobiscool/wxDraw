@@ -48,8 +48,8 @@ Page({
 
 
 
-    this.wxCanvas = new wxDraw(context,0,0,300,500);
-    console.log(this.wxCanvas)
+    this.wxCanvas = new wxDraw(context,0,0,400,500);
+    // console.log(this.wxCanvas)
     
     /**
      * 由于 小程序没有Dom 操作，所以没法获取canvas高度以及绘图的起点

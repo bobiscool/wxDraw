@@ -29,7 +29,7 @@ Page({
   },
   bindtouchmove:function(e){
     // 检测手指点击 之后的移动事件
-    console.log(e);        
+    // console.log(e);        
     this.wxCanvas.touchmoveDetect(e);
   },
   bindtouchend:function(){
@@ -37,7 +37,7 @@ Page({
     this.wxCanvas.touchendDetect();
   },
   bindtap:function(e){
-    console.log(e);    
+    // console.log(e);    
     this.wxCanvas.tapDetect(e);
   },
   bindlongpress:function(e){
