@@ -292,12 +292,13 @@ Shape.prototype = {
         let _clone = new Shape(this.type,{...this.Shape.Option,...this.Shape.UnOption,..._spaAttr},this.strokeOrfill,this.draggable)
         return _clone;
     },
-    updateText:function(text){
+    updateText:function(text) {
        if(this.type=="text"){
            this.Shape.updateText(text);
        }else{
            return false
        }
+       return this;
     }
 }
 

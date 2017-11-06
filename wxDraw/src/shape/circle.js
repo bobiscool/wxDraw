@@ -208,12 +208,19 @@ Circle.prototype = {
         //创建路径
         var points = this._Points;
 
+        var closePath = this.UnOption.closePath;
+        var startInt = 0;
         context.beginPath();
-        context.moveTo(points[0][0], points[0][1]);
-        for (var i = 1; i <= 101; ++i) {
+        if(!closePath) {
+            startInt = 1;
+        }
+        context.moveTo(points[startInt][0], points[startInt][1]);
+        for (var i = startInt+1; i <= 101; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
-        context.closePath();
+        if(closePath) {
+            context.closePath();
+        }
     },
     _draw: function (context) {
         let changeMatrix = null;
