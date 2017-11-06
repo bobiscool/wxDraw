@@ -43,6 +43,7 @@ export const commonUnAttr = function (){
         gra:[],
         isLineDash:false,
         needShadow:false,
+        closePath:true,        
         needGra:'no' //渐变形式  line 线性  circle 是径向   no 是没有
     }
 }
