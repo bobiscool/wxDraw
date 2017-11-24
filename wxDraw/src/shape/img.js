@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 11:12:18
+ * @Last Modified time: 2017-11-24 11:28:53
  * 添加图像
  */
 
@@ -60,6 +60,8 @@ Img.prototype = {
         let changeMatrix = null;
         let getchaMatrix = null;
         let origin = null;
+      
+
         if (this._dirty) {
             this.getOriPoints();
             this.getPoints();//拿到所有真实点
@@ -148,12 +150,23 @@ Img.prototype = {
         //console.log('创建路径');
         var points = this._Points;
         // //console.log(points);
+        context.save();
+        context.setGlobalAlpha(this.Option.opacity);
         context.beginPath();
         context.moveTo(points[0][0], points[0][1]);
         for (var i = 1; i < points.length; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
         context.closePath();
+        context.save();        
+        if(this.rotateOrigin){
+            conext.translate(this.x-this.rotateOrigin[0],this.y-this.rotateOrigin[1]);
+        }else{
+            conext.translate(this.x,this.y);            
+        }
+
+        context.restore();
+       
     },
     _pnpolyTest(x, y) {
         // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
