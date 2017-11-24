@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 11:06:47
+ * @Last Modified time: 2017-11-24 11:12:18
  * 添加图像
  */
 
@@ -72,7 +72,6 @@ Img.prototype = {
     },
     getOriPoints: function () {
         let points = [];
-        let points2 = [];
         points.push([this.Option.x - this.Option.w / 2, this.Option.y - this.Option.h / 2])
         points.push([this.Option.x - this.Option.w / 2, this.Option.y + this.Option.h / 2])
         points.push([this.Option.x + this.Option.w / 2, this.Option.y + this.Option.h / 2])

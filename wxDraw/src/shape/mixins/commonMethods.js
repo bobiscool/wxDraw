@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 00:05:21
+ * @Last Modified time: 2017-11-24 11:15:48
  * 一些都有的方法 都放到这里
  */
 import { util,objToArray } from '../../util/utils.js';
@@ -206,6 +206,13 @@ export const commonMethods = {
             context.closePath();
             context.restore();
             return false;
+        }
+
+        if(this.type == 'image'){
+            context.save();
+            context.setGlobalAlpha(this.Option.opacity);
+            context.beginPath();
+                        
         }
         context.save();
         this._drawLine = false; //用于标识是否画外框
