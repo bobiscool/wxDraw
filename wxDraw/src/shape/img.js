@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 11:28:53
+ * @Last Modified time: 2017-11-24 11:37:16
  * 添加图像
  */
 
@@ -160,10 +160,15 @@ Img.prototype = {
         context.closePath();
         context.save();        
         if(this.rotateOrigin){
-            conext.translate(this.x-this.rotateOrigin[0],this.y-this.rotateOrigin[1]);
+            context.translate(this.x-this.rotateOrigin[0],this.y-this.rotateOrigin[1]);
         }else{
-            conext.translate(this.x,this.y);            
+            context.translate(this.x,this.y);            
         }
+
+        context.rotate(this.Option.rotate);
+        context.drawImage(this.UnOption.file,this.oriPoints[0],this.oriPoints[1],this.Option.w,this.Option.h)
+
+        con
 
         context.restore();
        
