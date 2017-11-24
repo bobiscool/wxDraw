@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 11:37:16
+ * @Last Modified time: 2017-11-24 11:38:34
  * 添加图像
  */
 
@@ -68,7 +68,7 @@ Img.prototype = {
             // //console.log('_POINTS',this.Option);
             this.getMax();//所有真实点max min
         }
-        this.createPath(context);//绘制
+        this.drawImage(context);//绘制
         this._dirty = false;
 
     },
@@ -145,7 +145,7 @@ Img.prototype = {
 
 
     },
-    createPath: function (context) {
+    drawImage: function (context) {
         //创建路径
         //console.log('创建路径');
         var points = this._Points;
@@ -167,9 +167,6 @@ Img.prototype = {
 
         context.rotate(this.Option.rotate);
         context.drawImage(this.UnOption.file,this.oriPoints[0],this.oriPoints[1],this.Option.w,this.Option.h)
-
-        con
-
         context.restore();
        
     },
