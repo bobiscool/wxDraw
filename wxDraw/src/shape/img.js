@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 11:38:34
+ * @Last Modified time: 2017-11-24 16:14:58
  * 添加图像
  */
 
@@ -96,7 +96,7 @@ Img.prototype = {
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
-
+        
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
         this._detectPoints = matrixToarray(_points);//除掉矩阵多余的部分
         // //console.log(this._Points);
