@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 11:30:35
+ * @Last Modified time: 2017-11-27 18:29:42
  * 添加图像
  */
 
@@ -69,6 +69,7 @@ Img.prototype = {
             this.getMax();//所有真实点max min
         }
         this.drawImage(context);//绘制
+        this._drawHelperPoints(context);
         this._dirty = false;
 
     },
@@ -172,7 +173,7 @@ Img.prototype = {
             context.translate( this.rotateOrigin[0], this.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
             // context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
-            context.drawImage(this.UnOption.file,this.Option.x - this.rotateOrigin[0],this.Option.y - this.rotateOrigin[1],this.Option.w,this.Option.h);
+            context.drawImage(this.UnOption.file,(this.Option.x-this.Option.w) - this.rotateOrigin[0],(this.Option.y-this.Option.h) - this.rotateOrigin[1],this.Option.w,this.Option.h);
         }
 
         context.rotate(this.Option.rotate);
