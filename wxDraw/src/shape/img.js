@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 16:14:58
+ * @Last Modified time: 2017-11-24 18:41:55
  * 添加图像
  */
 
@@ -96,7 +96,7 @@ Img.prototype = {
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
-        
+
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
         this._detectPoints = matrixToarray(_points);//除掉矩阵多余的部分
         // //console.log(this._Points);
@@ -166,8 +166,12 @@ Img.prototype = {
         }
 
         context.rotate(this.Option.rotate);
+        console.log(this.oriPoints);
+        // console.log(this.UnOption);
+        console.log(this.Option);
         context.drawImage(this.UnOption.file,this.oriPoints[0],this.oriPoints[1],this.Option.w,this.Option.h)
         context.restore();
+        console.log('huzihi1')
        
     },
     _pnpolyTest(x, y) {

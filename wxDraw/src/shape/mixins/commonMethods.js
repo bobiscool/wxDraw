@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 11:21:49
+ * @Last Modified time: 2017-11-27 10:29:59
  * 一些都有的方法 都放到这里
  */
 import { util,objToArray } from '../../util/utils.js';
@@ -178,6 +178,13 @@ export const commonMethods = {
             this.fill(context);
             return false;
         }
+
+        if(this._type == 'image'){
+            
+            this._draw(context);
+            return false;       
+        }
+        
         context.save();
         this._drawLine = true; //用于标识是否画外框        
         this._draw(context);
@@ -209,6 +216,7 @@ export const commonMethods = {
         }
 
         if(this._type == 'image'){
+            
             this._draw(context);
             return false;       
         }
@@ -229,6 +237,13 @@ export const commonMethods = {
             this.fill(context);
             return false;
         }
+
+        if(this._type == 'image'){
+            
+            this._draw(context);
+            return false;       
+        }
+
         context.save();
         this._drawLine = true; //用于标识是否画外框        
         this._draw(context);

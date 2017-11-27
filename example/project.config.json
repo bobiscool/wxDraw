@@ -8,8 +8,8 @@
 	},
 	"compileType": "weapp",
 	"libVersion": "1.6.0",
-	"appid": "",
-	"projectname": "demoPro",
+	"appid": "touristappid",
+	"projectname": "demoPro2",
 	"condition": {
 		"weapp": {
 			"current": -1,
