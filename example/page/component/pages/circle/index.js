@@ -78,8 +78,10 @@ Page({
     // let circle = new Shape('circle', { x: 160, y: 160, r: 40, sA: 0, fillStyle: "#C0D860", strokeStyle: "#CC333F", rotate: 10, lineWidth: 0, needGra: 'line', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]}, 'fill', true)
     // let circle1 = new Shape('circle', { x: 160, y: 270, r: 40, sA: Math.PI/2, fillStyle: "#C0D860", strokeStyle: "#CC333F", rotate: 20, lineWidth: 0, needGra: 'circle', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]}, 'fill', true)
     // let circle2 = new Shape('circle', { x: 160, y: 360, r: 40, sA: Math.PI, fillStyle: "#FF6600", strokeStyle: "#CC333F", rotate: 30, lineWidth: 0}, 'fill', true)
-    let circle2 = new Shape('image', { x: 10, y: 30, file:"./1.png", rotate: 30, lineWidth: 0}, 'fill', true)
+    let circle2 = new Shape('image', { x: 100, y: 300,w:100,h:100, file:"./1.png", lineWidth: 0}, 'fill', true)
   
+
+    console.log(circle2);
     // wx.chooseImage({
     //   success: function (res) {
     //     console.log(res);
@@ -89,7 +91,10 @@ Page({
     // this.wxCanvas.add(circle);
     // this.wxCanvas.add(circle1);
     this.wxCanvas.add(circle2);
-
+    circle2.setOrigin([100,10]);
+    circle2.updateOption(
+      { rotate:-Math.PI/4}
+    );
     // circle2.bind('tap',function(){
     //   // console.log('aaaa')
     // })

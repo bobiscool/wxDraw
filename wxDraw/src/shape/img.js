@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 18:41:55
+ * @Last Modified time: 2017-11-27 11:30:35
  * 添加图像
  */
 
@@ -35,7 +35,7 @@ export const Img = function (option) {
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
-    this.bus = null;
+    // this.bus = null;
     this.rotateOrigin = null;
     this.oriPoints = [];
     this._Points = [];
@@ -159,19 +159,30 @@ Img.prototype = {
         }
         context.closePath();
         context.save();        
-        if(this.rotateOrigin){
-            context.translate(this.x-this.rotateOrigin[0],this.y-this.rotateOrigin[1]);
-        }else{
-            context.translate(this.x,this.y);            
+        if (!this.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            // context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+            context.drawImage(this.UnOption.file,-this.Option.w / 2, -this.Option.h / 2,this.Option.w,this.Option.h)
+        } else {
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            console.log('其他旋转中心')
+            context.translate( this.rotateOrigin[0], this.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            // context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
+            context.drawImage(this.UnOption.file,this.Option.x - this.rotateOrigin[0],this.Option.y - this.rotateOrigin[1],this.Option.w,this.Option.h);
         }
 
         context.rotate(this.Option.rotate);
-        console.log(this.oriPoints);
+        // console.log(this.oriPoints);
         // console.log(this.UnOption);
-        console.log(this.Option);
-        context.drawImage(this.UnOption.file,this.oriPoints[0],this.oriPoints[1],this.Option.w,this.Option.h)
+        // console.log(this.UnOption.file);
+        // console.log(this.oriPoints);
+        
         context.restore();
-        console.log('huzihi1')
+        console.log(context);
        
     },
     _pnpolyTest(x, y) {

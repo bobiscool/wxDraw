@@ -514,7 +514,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 11:21:49
+ * @Last Modified time: 2017-11-27 11:18:28
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -579,7 +579,7 @@ var commonMethods = {
         this.UnOption = util.extend(option, this.UnOption);
         // console.log('更新属性',this.Option);
         // console.log('更新 option',option);
-        // console.log('更新属性',this.Option.shadow);
+        console.log('更新属性', this.bus);
         this._dirty = true;
         this.bus.dispatch('update', 'no');
     },
@@ -687,6 +687,13 @@ var commonMethods = {
             this.fill(context);
             return false;
         }
+
+        if (this._type == 'image') {
+
+            this._draw(context);
+            return false;
+        }
+
         context.save();
         this._drawLine = true; //用于标识是否画外框        
         this._draw(context);
@@ -718,6 +725,7 @@ var commonMethods = {
         }
 
         if (this._type == 'image') {
+
             this._draw(context);
             return false;
         }
@@ -738,6 +746,13 @@ var commonMethods = {
             this.fill(context);
             return false;
         }
+
+        if (this._type == 'image') {
+
+            this._draw(context);
+            return false;
+        }
+
         context.save();
         this._drawLine = true; //用于标识是否画外框        
         this._draw(context);
@@ -2642,7 +2657,7 @@ Cshape.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 18:41:55
+ * @Last Modified time: 2017-11-27 11:30:35
  * 添加图像
  */
 
@@ -2669,7 +2684,7 @@ var Img = function Img(option) {
     this._isChoosed = false;
     this._offsetX = 0;
     this._offsetY = 0;
-    this.bus = null;
+    // this.bus = null;
     this.rotateOrigin = null;
     this.oriPoints = [];
     this._Points = [];
@@ -2783,19 +2798,30 @@ Img.prototype = _extends({
         }
         context.closePath();
         context.save();
-        if (this.rotateOrigin) {
-            context.translate(this.x - this.rotateOrigin[0], this.y - this.rotateOrigin[1]);
+        if (!this.rotateOrigin) {
+            context.translate(this.Option.x, this.Option.y);
+            context.rotate(this.Option.rotate);
+            // context.rect(-this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
+            context.drawImage(this.UnOption.file, -this.Option.w / 2, -this.Option.h / 2, this.Option.w, this.Option.h);
         } else {
-            context.translate(this.x, this.y);
+            /**
+             * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
+             */
+            console.log('其他旋转中心');
+            context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
+            context.rotate(this.Option.rotate);
+            // context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
+            context.drawImage(this.UnOption.file, this.Option.x - this.rotateOrigin[0], this.Option.y - this.rotateOrigin[1], this.Option.w, this.Option.h);
         }
 
         context.rotate(this.Option.rotate);
-        console.log(this.oriPoints);
+        // console.log(this.oriPoints);
         // console.log(this.UnOption);
-        console.log(this.Option);
-        context.drawImage(this.UnOption.file, this.oriPoints[0], this.oriPoints[1], this.Option.w, this.Option.h);
+        // console.log(this.UnOption.file);
+        // console.log(this.oriPoints);
+
         context.restore();
-        console.log('huzihi1');
+        console.log(context);
     },
     _pnpolyTest: function _pnpolyTest(x, y) {
         // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
@@ -3750,7 +3776,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 16:43:45
+ * @Last Modified time: 2017-11-27 11:24:26
  * 在这里添加事件 
  */
 
@@ -3930,6 +3956,7 @@ Shape.prototype = {
     }, //开始动画
     updateOption: function updateOption(option) {
         if (!this.Shape.bus) {
+            console.log(this);
             this.Shape.bus = this.bus;
         }
 

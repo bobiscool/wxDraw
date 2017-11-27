@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-24 16:43:45
+ * @Last Modified time: 2017-11-27 11:24:26
  * 在这里添加事件 
  */
 
@@ -206,6 +206,7 @@ Shape.prototype = {
     },//开始动画
     updateOption: function (option) {
         if (!this.Shape.bus) {
+            console.log(this);
             this.Shape.bus = this.bus;
         }
 
