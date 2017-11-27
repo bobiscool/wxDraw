@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 19:04:33
+ * @Last Modified time: 2017-11-27 19:10:36
  * 分离开
  */
 
@@ -50,6 +50,7 @@ export const Rect = function (option) {
     this.getMax();
     this._dirty = true;
     this._type = 'rect';
+    this._rotateOriginOver = false;
 }
 
 Rect.prototype = {
@@ -241,8 +242,9 @@ Rect.prototype = {
     },
     _chengeCenter(origin){
         var self = this;
-       this.Option.x = this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0]
-       this.Option.y = this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0]
+        console.log(this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0],this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0])
+    //    this.Option.x = this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0]
+    //    this.Option.y = this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0]
     },
     ...commonMethods
 }

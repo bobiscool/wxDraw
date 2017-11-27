@@ -2196,7 +2196,7 @@ Circle.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 19:04:33
+ * @Last Modified time: 2017-11-27 19:08:33
  * 分离开
  */
 
@@ -2415,8 +2415,9 @@ Rect.prototype = _extends({
         }
     },
     _chengeCenter: function _chengeCenter(origin) {
-        this.Option.x = this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0];
-        this.Option.y = this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0];
+        console.log(this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0], this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0]);
+        //    this.Option.x = this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0]
+        //    this.Option.y = this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0]
     }
 }, commonMethods);
 
