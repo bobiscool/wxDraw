@@ -514,7 +514,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 18:23:37
+ * @Last Modified time: 2017-11-27 18:33:26
  * 一些都有的方法 都放到这里
  */
 // var gradientOption = {
@@ -579,7 +579,7 @@ var commonMethods = {
     this.UnOption = util.extend(option, this.UnOption);
     // console.log('更新属性',this.Option);
     // console.log('更新 option',option);
-    console.log("更新属性", this.bus);
+    // console.log("更新属性", this.bus);
     this._dirty = true;
     this.bus.dispatch("update", "no");
   },
@@ -2196,7 +2196,7 @@ Circle.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-30 14:06:15
+ * @Last Modified time: 2017-11-27 19:04:33
  * 分离开
  */
 
@@ -2284,6 +2284,7 @@ Rect.prototype = _extends({
             _points2.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
+        this._chengeCenter(origin);
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
         this._detectPoints = matrixToarray(_points2); //除掉矩阵多余的部分
         // //console.log(this._Points);
@@ -2412,6 +2413,10 @@ Rect.prototype = _extends({
             // this.getPoints();//拿到变化点
             // this.getMax();//拿到边界点
         }
+    },
+    _chengeCenter: function _chengeCenter(origin) {
+        this.Option.x = this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0];
+        this.Option.y = this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0];
     }
 }, commonMethods);
 
@@ -2671,7 +2676,7 @@ Cshape.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 18:27:19
+ * @Last Modified time: 2017-11-27 18:43:52
  * 添加图像
  */
 
@@ -2822,21 +2827,18 @@ Img.prototype = _extends({
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
              */
-            console.log('其他旋转中心');
+            // console.log('其他旋转中心')
             context.translate(this.rotateOrigin[0], this.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
             // context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
-            context.drawImage(this.UnOption.file, this.Option.x + this.Option.w - this.rotateOrigin[0], this.Option.y + this.Option.h - this.rotateOrigin[1], this.Option.w, this.Option.h);
+            context.drawImage(this.UnOption.file, this.Option.x - this.Option.w / 2 - this.rotateOrigin[0], this.Option.y - this.Option.h / 2 - this.rotateOrigin[1], this.Option.w, this.Option.h);
         }
-
-        context.rotate(this.Option.rotate);
         // console.log(this.oriPoints);
         // console.log(this.UnOption);
         // console.log(this.UnOption.file);
         // console.log(this.oriPoints);
-
         context.restore();
-        console.log(context);
+        // console.log(context);
     },
     _pnpolyTest: function _pnpolyTest(x, y) {
         // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
@@ -2848,11 +2850,7 @@ Img.prototype = _extends({
 
         // console.log('_detectPoints',this._detectPoints);
         // console.log('_detectPoints2',this._Points);
-        if (this._drawLine) {
-            Points = this._detectPoints;
-        } else {
-            Points = this._Points;
-        }
+        Points = this._detectPoints;
 
         for (var i = 0, j = Points.length - 1; i < Points.length; j = i++) {
             /**
@@ -2905,6 +2903,7 @@ Img.prototype = _extends({
     moveDetect: function moveDetect(x, y) {
 
         if (this._isChoosed == true) {
+            console.log(x + this._offsetX, y + this._offsetY);
             this.move(x + this._offsetX, y + this._offsetY);
             // this.getOriPoints();//拿到原始点
             // this.getPoints();//拿到变化点
@@ -3791,7 +3790,7 @@ AniFragWrap.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 11:24:26
+ * @Last Modified time: 2017-11-27 18:33:48
  * 在这里添加事件 
  */
 
@@ -3971,7 +3970,7 @@ Shape.prototype = {
     }, //开始动画
     updateOption: function updateOption(option) {
         if (!this.Shape.bus) {
-            console.log(this);
+            // console.log(this);
             this.Shape.bus = this.bus;
         }
 

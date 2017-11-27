@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 18:23:37
+ * @Last Modified time: 2017-11-27 18:33:26
  * 一些都有的方法 都放到这里
  */
 import { util, objToArray } from "../../util/utils.js";
@@ -69,7 +69,7 @@ export const commonMethods = {
     this.UnOption = util.extend(option, this.UnOption);
     // console.log('更新属性',this.Option);
     // console.log('更新 option',option);
-    console.log("更新属性", this.bus);
+    // console.log("更新属性", this.bus);
     this._dirty = true;
     this.bus.dispatch("update", "no");
   },

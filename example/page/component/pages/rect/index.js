@@ -1,8 +1,8 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var  wxDraw= require("../../../../util/wxdraw.min.js").wxDraw;
-var Shape = require("../../../../util/wxdraw.min.js").Shape;
+var  wxDraw= require("../../../../util/wxdraw.js").wxDraw;
+var Shape = require("../../../../util/wxdraw.js").Shape;
 var AnimationFrame = require("../../../../util/wxdraw.min.js").AnimationFrame;
 
 
@@ -58,6 +58,8 @@ Page({
 
     var rect = new Shape('rect', { x: 150, y: 250, w: 80, h: 80,fillStyle:"#36BBA6" }, 'fill', true);
     this.wxCanvas.add(rect);
+    rect.setOrigin([40,40]);
+    rect.updateOption({rotate:Math.PI/4})
 
   },
   onUnload: function () {

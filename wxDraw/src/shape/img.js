@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 18:29:42
+ * @Last Modified time: 2017-11-27 18:43:52
  * 添加图像
  */
 
@@ -169,21 +169,19 @@ Img.prototype = {
             /**
              * 这里需要注意  在设置 旋转中心后  旋转的 位置点将变为rect 左上角
              */
-            console.log('其他旋转中心')
+            // console.log('其他旋转中心')
             context.translate( this.rotateOrigin[0], this.rotateOrigin[1]);
             context.rotate(this.Option.rotate);
             // context.rect(this.Option.x - this.Option.rotateOrigin[0], this.Option.y - this.Option.rotateOrigin[1], this.Option.w, this.Option.h);
-            context.drawImage(this.UnOption.file,(this.Option.x-this.Option.w) - this.rotateOrigin[0],(this.Option.y-this.Option.h) - this.rotateOrigin[1],this.Option.w,this.Option.h);
+            context.drawImage(this.UnOption.file,((this.Option.x-this.Option.w/2) - this.rotateOrigin[0]),((this.Option.y-this.Option.h/2) - this.rotateOrigin[1]),this.Option.w,this.Option.h);
+        
         }
-
-        context.rotate(this.Option.rotate);
         // console.log(this.oriPoints);
         // console.log(this.UnOption);
         // console.log(this.UnOption.file);
         // console.log(this.oriPoints);
-        
         context.restore();
-        console.log(context);
+        // console.log(context);
        
     },
     _pnpolyTest(x, y) {
@@ -196,12 +194,7 @@ Img.prototype = {
 
         // console.log('_detectPoints',this._detectPoints);
         // console.log('_detectPoints2',this._Points);
-        if (this._drawLine) {
             Points = this._detectPoints;
-        } else {
-            Points = this._Points;
-        }
-
 
         for (var i = 0, j = Points.length - 1; i < Points.length; j = i++) {
             /**
@@ -254,6 +247,7 @@ Img.prototype = {
     moveDetect: function (x, y) {
 
         if (this._isChoosed == true) {
+            console.log(x + this._offsetX,y + this._offsetY)
             this.move(x + this._offsetX, y + this._offsetY);
             // this.getOriPoints();//拿到原始点
             // this.getPoints();//拿到变化点

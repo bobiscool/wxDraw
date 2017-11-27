@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-30 14:06:15
+ * @Last Modified time: 2017-11-27 19:04:33
  * 分离开
  */
 
@@ -102,7 +102,8 @@ Rect.prototype = {
         this.detectOriPoints.forEach(function (item) {
             _points2.push(this.getPointTodraw(item[0], item[1], origin))
         }, this);
-
+        
+        this._chengeCenter(origin);
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
         this._detectPoints = matrixToarray(_points2);//除掉矩阵多余的部分
         // //console.log(this._Points);
@@ -237,6 +238,11 @@ Rect.prototype = {
             // this.getMax();//拿到边界点
         }
 
+    },
+    _chengeCenter(origin){
+        var self = this;
+       this.Option.x = this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0]
+       this.Option.y = this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0]
     },
     ...commonMethods
 }

@@ -75,7 +75,8 @@ Page({
     this.wxCanvas.add(p3);
 
     p2.updateOption({y:200,rotate:Math.PI/5,fillStyle:"#7CB490",sides:5})
-    p3.updateOption({y:300,isLineDash:true,sides:13})
+    p3.setOrigin([100,10]);
+    p3.updateOption({y:300,isLineDash:true,sides:13,rotate:10})
   },
   onUnload: function () {
     this.wxCanvas.clear(); //推荐这个
