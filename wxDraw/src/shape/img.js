@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-29 10:11:50
+ * @Last Modified time: 2017-11-29 10:26:07
  * 添加图像
  */
 
@@ -70,7 +70,7 @@ Img.prototype = {
             this.getMax();//所有真实点max min
         }
         this.drawImage(context);//绘制
-        this._drawHelperPoints(context);
+        // this._drawHelperPoints(context);
         this._dirty = false;
 
     },

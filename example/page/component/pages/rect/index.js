@@ -58,7 +58,7 @@ Page({
 
     var rect = new Shape('rect', { x: 150, y: 250, w: 80, h: 80,fillStyle:"#36BBA6" }, 'fill', true);
     this.wxCanvas.add(rect);
-    rect.setOrigin([40,40]);
+    // rect.setOrigin([40,40]);
     rect.updateOption({rotate:Math.PI/4})
 
   },

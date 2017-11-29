@@ -91,7 +91,8 @@ Page({
     // this.wxCanvas.add(circle);
     // this.wxCanvas.add(circle1);
     this.wxCanvas.add(circle2);
-    circle2.setOrigin([100,10]);
+    // circle2.setOrigin([100,10]);
+    circle2.animate({x:"+10",w:1000,h:1000},{}).start()
     circle2.updateOption(
       { rotate:-Math.PI/4}
     );
