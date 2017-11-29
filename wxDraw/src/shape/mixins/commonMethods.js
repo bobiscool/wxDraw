@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-29 10:10:48
+ * @Last Modified time: 2017-11-29 10:21:09
  * 一些都有的方法 都放到这里
  */
 import { util, objToArray } from "../../util/utils.js";
@@ -100,7 +100,11 @@ export const commonMethods = {
   // },
   setRotateOrigin: function(loc) {
     //设置旋转中心
-    this.rotateOrigin = loc;
+    if (this._canRotateOrigin) {
+      this.rotateOrigin = loc;
+    } else {
+      this.rotateOrigin = null;
+    }
   },
   setCommonstyle: function(context) {
     // console.log(context);
@@ -352,19 +356,18 @@ export const commonMethods = {
     context.beginPath();
     if (this._detectPoints) {
       this._detectPoints.forEach(function(item) {
-        context.arc(item[0], item[1], 5, Math.PI * 2, 0, Math.PI * 2,false);
+        context.arc(item[0], item[1], 5, Math.PI * 2, 0, Math.PI * 2, false);
       });
     } else {
-        
       this._Points.forEach(function(item) {
-        context.arc(item[0], item[1], 5, Math.PI * 2, 0, Math.PI * 2,false);
+        context.arc(item[0], item[1], 5, Math.PI * 2, 0, Math.PI * 2, false);
       });
     }
-    context.closePath();    
+    context.closePath();
     context.fill();
     context.restore();
   },
-  closeRotateOrigin(){
-    this._canRotateOrigin = false; // 限制 rotateOrigin 
+  closeRotateOrigin() {
+    this._canRotateOrigin = false; // 限制 rotateOrigin
   }
 };
