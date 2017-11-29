@@ -86,7 +86,7 @@ Page({
     // })
     this.wxCanvas.add(img);
     // circle2.setOrigin([100,10]);
-    img.animate({x:"+100",w:1000,h:1000,rotate:Math.PI/2},{duration:5000}).start(100)
+    img.animate({x:"+100",w:1000,h:1000,rotate:Math.PI/2},{duration:5000}).start(10)
     // circle2.updateOption(
     //   { rotate:-Math.PI/4}
     // );
