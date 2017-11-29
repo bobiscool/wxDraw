@@ -175,4 +175,6 @@ animate之后 如何继续调animate？ 在目标模式下不会有什么 问题
 - 还是事件类型
 - 事件类型
 - 就没法有 rotateOrigin 的形式的旋转
+- 也就是在添加事件之后没法有 rotateOrigin 形式的旋转
+- 可以 drag 就没法 rotateOrigin 的形式
 - 

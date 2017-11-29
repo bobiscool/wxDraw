@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-22 11:02:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-25 13:45:02
+ * @Last Modified time: 2017-11-29 10:11:35
  * 椭圆
  * 
  */
@@ -54,7 +54,7 @@ export const Ellipse = function (option) {
     this.getMax();//根据原始点 
     this._dirty = true;
     this._type = 'ellipse';
-
+    this._canRotateOrigin = true;         
 }
 
 Ellipse.prototype = {

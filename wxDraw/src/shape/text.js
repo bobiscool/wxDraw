@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-30 17:22:10
+ * @Last Modified time: 2017-11-29 10:13:00
  * 字体对象
  */
 
@@ -73,6 +73,7 @@ export const Text = function (option) {
     this.getPoints();
     this._dirty = true;
     this._type ='text';
+    this._canRotateOrigin = true;            
 }
 
 

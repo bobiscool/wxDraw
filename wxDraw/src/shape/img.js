@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 18:43:52
+ * @Last Modified time: 2017-11-29 10:11:50
  * 添加图像
  */
 
@@ -53,6 +53,7 @@ export const Img = function (option) {
     this.getMax();
     this._dirty = true;
     this._type = 'image';
+    this._canRotateOrigin = true;         
 }
 
 Img.prototype = {

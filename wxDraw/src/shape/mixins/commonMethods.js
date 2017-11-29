@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-19 18:04:13 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 18:33:26
+ * @Last Modified time: 2017-11-29 10:10:48
  * 一些都有的方法 都放到这里
  */
 import { util, objToArray } from "../../util/utils.js";
@@ -363,5 +363,8 @@ export const commonMethods = {
     context.closePath();    
     context.fill();
     context.restore();
+  },
+  closeRotateOrigin(){
+    this._canRotateOrigin = false; // 限制 rotateOrigin 
   }
 };

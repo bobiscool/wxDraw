@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 18:33:48
+ * @Last Modified time: 2017-11-29 10:12:46
  * 在这里添加事件 
  */
 
@@ -27,6 +27,9 @@ export var Shape = function (type, option, strokeOrfill, draggable) {
     this.strokeOrfill = strokeOrfill ? strokeOrfill : 'fill';//是否填充
     this.type = type;
     this.Shape = new shapeTypes[type](option);
+    if(this.draggable){
+        this.Shape.closeRotateOrigin()
+    }
     // console.log('方块', this.Shape.Option);
 
     this.AnimationTimer = new AnimationTimer();
@@ -48,7 +51,8 @@ export var Shape = function (type, option, strokeOrfill, draggable) {
         "longpress": [],
         "drag": []
     };//用于回调事件的
-    this._nowType = 'tap'
+    this._nowType = 'tap';
+    this._canRotateOrigin = true;            
 }
 
 

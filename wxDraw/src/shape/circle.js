@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 16:32:19
+ * @Last Modified time: 2017-11-29 09:58:15
  * 普通形状
  * 
  */
@@ -59,7 +59,7 @@ export const Circle = function (option) {
     // this.rotateOrigin = null;
     // 用于渐变的
     this._colorLock = false; //颜色锁 设置渐变之后 颜色就就不能动画了
-
+    this._canRotateOrigin = true; // 限制 rotateOrigin 
 
     this.max = {
         maxX: null,

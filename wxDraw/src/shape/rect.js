@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-27 19:10:36
+ * @Last Modified time: 2017-11-29 10:12:31
  * 分离开
  */
 
@@ -51,6 +51,7 @@ export const Rect = function (option) {
     this._dirty = true;
     this._type = 'rect';
     this._rotateOriginOver = false;
+    this._canRotateOrigin = true;    
 }
 
 Rect.prototype = {

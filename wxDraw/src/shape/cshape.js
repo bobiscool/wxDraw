@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-13 13:31:22 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-26 22:50:36
+ * @Last Modified time: 2017-11-29 10:11:17
  * cshape 用户自定义的图形
  * 拿到形状点位后 
  * 算出中心 
@@ -70,6 +70,7 @@ export const Cshape = function (option) {
     this.rotateOrigin = null
     this._dirty = true;
     this._type = 'cshape';
+    this._canRotateOrigin = true;     
 }
 
 Cshape.prototype = {

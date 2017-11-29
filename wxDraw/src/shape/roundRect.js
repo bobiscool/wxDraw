@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-29 22:10:10 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-29 22:19:51
+ * @Last Modified time: 2017-11-29 10:12:39
  * 
  * 突然觉得应该加一个圆角矩形
  */
@@ -61,6 +61,7 @@ export const RoundRect = function (option) {
     this.getMax();
     this._dirty = true;
     this._type = 'rect';
+    this._canRotateOrigin = true;        
 }
 
 RoundRect.prototype = {
