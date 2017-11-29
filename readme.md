@@ -72,7 +72,7 @@ let polygon = new Shape('polygon', { x: 200, y: 200, r: 40, sides: 9, //9边形
 let img = new Shape('image', { x: 100, y: 300,w:100,h:100, file:"./1.png"}, 'fill', true)
   
 ```
-![](http://project.ueflat.xyz/image/ellipse.png)
+![](http://project.ueflat.xyz/image/image.png)
 
 ### cshape 「自定义图形」
 ```js
