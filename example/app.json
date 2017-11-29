@@ -9,6 +9,7 @@
     "page/component/pages/rect/index",
     "page/component/pages/text/index",
     "page/component/pages/line/index",
+    "page/component/pages/img/index",    
 
     "page/component/pages/demo1/index",
     "page/component/pages/demo2/index",

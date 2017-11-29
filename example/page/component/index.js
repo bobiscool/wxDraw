@@ -9,7 +9,7 @@ Page({
         id: 'content',
         name: '图形创建演示',
         open: false,
-        pages: ['rect','circle','ellipse','polygon','text', 'line', 'cshape']
+        pages: ['rect','circle','ellipse','polygon','text', 'line', 'cshape','img']
       }, {
         id: 'form',
         name: '图形动画演示',

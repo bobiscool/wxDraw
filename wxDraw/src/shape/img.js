@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-29 10:26:07
+ * @Last Modified time: 2017-11-29 10:37:30
  * 添加图像
  */
 
@@ -223,7 +223,7 @@ Img.prototype = {
         this._dirty = true;
     },
     detected: function (x, y) {
-        console.log('检测方块', x, y);
+        // console.log('检测方块', x, y);
         // //console.log('方块', this.Option);
         var _self = this;
 
@@ -248,7 +248,7 @@ Img.prototype = {
     moveDetect: function (x, y) {
 
         if (this._isChoosed == true) {
-            console.log(x + this._offsetX,y + this._offsetY)
+            // console.log(x + this._offsetX,y + this._offsetY)
             this.move(x + this._offsetX, y + this._offsetY);
             // this.getOriPoints();//拿到原始点
             // this.getPoints();//拿到变化点
