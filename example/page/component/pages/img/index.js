@@ -75,7 +75,7 @@ Page({
     */
 
 
-    let img = new Shape('image', { x: 100, y: 300,w:100,h:100, file:"./1.png", lineWidth: 0}, 'fill', true)
+    let img = new Shape('image', { x: 100, y: 300,w:100,h:100, file:"./1.png"}, 'fill', true)
   
 
     // console.log(circle2);
@@ -86,7 +86,7 @@ Page({
     // })
     this.wxCanvas.add(img);
     // circle2.setOrigin([100,10]);
-    // circle2.animate({x:"+10",w:1000,h:1000,rotate:Math.PI/2},{}).start()
+    img.animate({x:"+100",w:1000,h:1000,rotate:Math.PI/2},{duration:5000}).start(100)
     // circle2.updateOption(
     //   { rotate:-Math.PI/4}
     // );

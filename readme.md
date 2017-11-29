@@ -1,6 +1,8 @@
 ![](./assets/1.png)
 # wxDraw
 
+「已经开始支持图形创建」
+
 > 轻量的小程序canvas动画库
 
 ### [github](https://github.com/bobiscool/wxDraw)
@@ -60,6 +62,28 @@ let polygon = new Shape('polygon', { x: 200, y: 200, r: 40, sides: 9, //9边形
                              fillStyle: "#00A0B0", rotate: Math.PI / 7 }, 'mix', true)
 ```
 ![](http://project.ueflat.xyz/image/ellipse.png)
+
+
+## image
+图形对象
+option参数
+
+| 参数  | 类型   | 必填   | 说明   |
+| :--- | :----: | ----: |:---:  |
+| x		| Number |  是   |图形中心 x坐标|
+| y    | Number |  是   |图形中心 y坐标|
+| w    | Number |  是   |图形宽|
+| h    | Number |  是   |图形高|
+| file    | string |  是   |图形相对地址 「支持图片 png jpg」|
+
+
+示例
+```js
+let img = new Shape('image', { x: 100, y: 300,w:100,h:100, file:"./1.png"}, 'fill', true)
+  
+```
+![](http://project.ueflat.xyz/image/ellipse.png)
+
 ### cshape 「自定义图形」
 ```js
   let cshape = new Shape('cshape', {
