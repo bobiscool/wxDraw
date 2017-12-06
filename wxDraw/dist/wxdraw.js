@@ -1905,7 +1905,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-12-06 09:57:36
+ * @Last Modified time: 2017-12-06 10:04:23
  * 普通形状
  * 
  */
@@ -2094,11 +2094,16 @@ Circle.prototype = _extends({
         var points = this._Points;
 
         context.beginPath();
-        context.moveTo(points[0][0], points[0][1]);
-        for (var i = 1; i <= 101; ++i) {
+        var startInt = 0;
+        if (!this.UnOption.closePath) {
+            startInt = 1;
+        }
+
+        context.moveTo(points[startInt][0], points[startInt][1]);
+        for (var i = startInt + 1; i <= 101; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
-        if (this.cUoption.closePath) {
+        if (this.UnOption.closePath) {
             context.closePath();
         }
     },

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-12-06 10:03:05
+ * @Last Modified time: 2017-12-06 10:04:23
  * 普通形状
  * 
  */
@@ -211,7 +211,7 @@ Circle.prototype = {
 
         context.beginPath();
         var startInt = 0;
-        if (!closePath) {
+        if (!this.UnOption.closePath) {
             startInt = 1;
         }
 
