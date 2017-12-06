@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-29 09:58:15
+ * @Last Modified time: 2017-12-06 10:03:05
  * 普通形状
  * 
  */
@@ -45,7 +45,8 @@ export const Circle = function (option) {
 
     var cUoption = {
         ...commonUnAttr(),
-        counterclockwise: false, //这个还没用
+        counterclockwise: false, //这个还没用,
+        closePath: false
     }
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, cUoption);
@@ -209,11 +210,18 @@ Circle.prototype = {
         var points = this._Points;
 
         context.beginPath();
-        context.moveTo(points[0][0], points[0][1]);
-        for (var i = 1; i <= 101; ++i) {
+        var startInt = 0;
+        if (!closePath) {
+            startInt = 1;
+        }
+
+        context.moveTo(points[startInt][0], points[startInt][1]);
+        for (var i = startInt + 1; i <= 101; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
-        context.closePath();
+        if(this.UnOption.closePath){
+        context.closePath();        
+        }
     },
     _draw: function (context) {
         let changeMatrix = null;

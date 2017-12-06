@@ -1905,7 +1905,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-29 09:58:15
+ * @Last Modified time: 2017-12-06 09:57:36
  * 普通形状
  * 
  */
@@ -1935,7 +1935,8 @@ var Circle = function Circle(option) {
     }, commonAttr());
 
     var cUoption = _extends({}, commonUnAttr(), {
-        counterclockwise: false //这个还没用
+        counterclockwise: false, //这个还没用,
+        closePath: false
     });
     var _temOption = util.extend(option, cOption);
     var _temUnOption = util.extend(option, cUoption);
@@ -2097,7 +2098,9 @@ Circle.prototype = _extends({
         for (var i = 1; i <= 101; ++i) {
             context.lineTo(points[i][0], points[i][1]);
         }
-        context.closePath();
+        if (this.cUoption.closePath) {
+            context.closePath();
+        }
     },
     _draw: function _draw(context) {
         if (this._dirty) {
@@ -2687,7 +2690,7 @@ Cshape.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-11-24 10:39:42 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-29 10:26:07
+ * @Last Modified time: 2017-11-29 10:37:30
  * 添加图像
  */
 
@@ -2893,7 +2896,7 @@ Img.prototype = _extends({
         this._dirty = true;
     },
     detected: function detected(x, y) {
-        console.log('检测方块', x, y);
+        // console.log('检测方块', x, y);
         // //console.log('方块', this.Option);
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
@@ -2915,7 +2918,7 @@ Img.prototype = _extends({
     moveDetect: function moveDetect(x, y) {
 
         if (this._isChoosed == true) {
-            console.log(x + this._offsetX, y + this._offsetY);
+            // console.log(x + this._offsetX,y + this._offsetY)
             this.move(x + this._offsetX, y + this._offsetY);
             // this.getOriPoints();//拿到原始点
             // this.getPoints();//拿到变化点

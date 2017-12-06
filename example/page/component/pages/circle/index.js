@@ -77,7 +77,7 @@ Page({
 
     let circle = new Shape('circle', { x: 160, y: 160, r: 40, sA: 0, fillStyle: "#C0D860", strokeStyle: "#CC333F", rotate: 10, lineWidth: 0, needGra: 'line', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]}, 'fill', true)
     let circle1 = new Shape('circle', { x: 160, y: 270, r: 40, sA: Math.PI/2, fillStyle: "#C0D860", strokeStyle: "#CC333F", rotate: 20, lineWidth: 0, needGra: 'circle', gra: [[0, '#00A0B0'], [0.2, '#6A4A3C'], [0.4, '#CC333F'], [0.6, '#EB6841'], [1, '#EDC951']]}, 'fill', true)
-    let circle2 = new Shape('circle', { x: 160, y: 360, r: 40, sA: Math.PI, fillStyle: "#FF6600", strokeStyle: "#CC333F", rotate: 30, lineWidth: 0}, 'fill', true)
+    let circle2 = new Shape('circle', { x: 160, y: 360, r: 40, sA: Math.PI, fillStyle: "#FF6600", strokeStyle: "#CC333F", rotate: 30, lineWidth: 0}, 'stroke', true)
     // let circle2 = new Shape('image', { x: 100, y: 300,w:100,h:100, file:"./1.png", lineWidth: 0}, 'fill', true)
   
 
