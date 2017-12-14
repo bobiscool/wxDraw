@@ -6,7 +6,7 @@
 > 轻量的小程序canvas动画库
 
 ### [github](https://github.com/bobiscool/wxDraw)
-###  [文档](http://project.ueflat.xyz/#/)
+###  [完整文档看这里](http://project.ueflat.xyz/#/)
 
 
 
@@ -29,6 +29,8 @@ canvas 是HTML5的一个重要元素，它能够高效的绘制图形，但是�
 ## 支持图形
 
 
+
+> 这里只做演示 详细文档 [点这里](http://project.ueflat.xyz/#/)
 > 这些图形都可以在演示文件里看到 [点这里](https://github.com/bobiscool/wxDraw/tree/master/example)
 
 ### rect
