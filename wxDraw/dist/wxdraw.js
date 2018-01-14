@@ -2211,7 +2211,7 @@ Circle.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-29 10:12:31
+ * @Last Modified time: 2018-01-14 22:20:08
  * 分离开
  */
 
@@ -2301,7 +2301,7 @@ Rect.prototype = _extends({
             _points2.push(this.getPointTodraw(item[0], item[1], origin));
         }, this);
 
-        this._chengeCenter(origin);
+        this._changeCenter(origin);
         this._Points = matrixToarray(_points); //除掉矩阵多余的部分
         this._detectPoints = matrixToarray(_points2); //除掉矩阵多余的部分
         // //console.log(this._Points);
@@ -2431,8 +2431,9 @@ Rect.prototype = _extends({
             // this.getMax();//拿到边界点
         }
     },
-    _chengeCenter: function _chengeCenter(origin) {
-        console.log(this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0], this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0]);
+    _changeCenter: function _changeCenter(origin) {
+        
+        // console.log(this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0],this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0])
         //    this.Option.x = this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0]
         //    this.Option.y = this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0]
     }

@@ -18,7 +18,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c rollup.config.prod.js&&cp ./dist/wxdraw.min.js ../example/util",
-    "start": "rollup -c&&cp ./dist/wxdraw.js ../example2/util",
+    "start": "rollup -c&&cp ./dist/wxdraw.js ../test/util",
     "bd":"rollup -c rollup.config.prod.js&&cp ./dist/wxdraw.min.js ../example/util"
 
   },
