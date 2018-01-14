@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-30 16:11:08
+ * @Last Modified time: 2018-01-14 22:17:51
  * 动画 对象 接管所有动画
  */
 
@@ -73,7 +73,12 @@ Animation.prototype = {
     },
     animationComplete: function (who) {
         // //console.log('who',who,this.animationCompleteList);
+        // m某个物件的动画完成  就需要清除动画
         this.animationCompleteList.push(who);
+        // console.log(this.animationFragStore);
+        // console.log(this.animationFragStore[who]);
+        delete this.animationFragStore[who]
+        console.log("结束动画")
         if (Object.keys(this.wraperAniCompleteOb).length === Object.keys(this.animationFragStore).length) {
             this.running = false;// 动画执行 结束
             // //console.log('结束动画')
@@ -83,6 +88,7 @@ Animation.prototype = {
         // //console.log(afID, shaId);
         if (this.wraperAniCompleteOb[shaId]) {
             this.wraperAniCompleteOb[shaId].push(afID);
+            
 
         } else {
             this.wraperAniCompleteOb[shaId] = [afID]; // 用于检测吗每一个shape的动画是否完成

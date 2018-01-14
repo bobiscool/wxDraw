@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:34:43 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-10-27 10:49:40
+ * @Last Modified time: 2017-12-11 13:25:40
  * 
  * 工具库
  */
@@ -22,7 +22,7 @@ export const getLocation = function (x, y) {
 export const guid = function () {
     var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
+        return v.toString(16);// | bitwise 按位操作
     });
     return guid;
 }

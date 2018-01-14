@@ -1,0 +1,3 @@
+<view class="ob">
+   <image src="resources/me.jpg" style="height:325px;width:243px;position:absolute; left:50%;top:100px;margin-left:-121.5px;"></image>
+</view>

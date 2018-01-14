@@ -3,7 +3,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-29 10:12:46
+ * @Last Modified time: 2018-01-14 21:57:46
  * 在这里添加事件 
  */
 
@@ -191,6 +191,8 @@ Shape.prototype = {
     // 动画循环
     start: function (a) {
         this.animationStart = true;
+            // console.log( this.aniFragWraper);
+        
         if (this.aniFragWraper) {
             if (a === true) {
                 this.aniFragWraper.setLoop(a);//设置循环                
@@ -204,8 +206,10 @@ Shape.prototype = {
             this.aniFragListId = "";// 每一段动画的id
             this.aniFragWraper = null;// 每一段动画的id
         } else {
-            //console.log('未添加动画对象');
+            // console.log('未添加动画对象');
         }
+        
+        console.log("start")
 
     },//开始动画
     updateOption: function (option) {
