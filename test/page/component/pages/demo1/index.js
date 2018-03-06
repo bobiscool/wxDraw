@@ -76,11 +76,17 @@ Page({
       c[i] = new Shape('circle', { x: 100+i*10, y: 160, r: 4}, 'fill', true)
     this.wxCanvas.add(c[i]);
 
-    c[i].animate('y',"+=100",{duration:1000+i*50}).animate('y',"-=100",{duration:1000+i*50}).start(true);
+    c[i].animate('y',"+=100",{duration:1000+i*50}).animate('y',"-=100",{duration:1000+i*50}).start(1);
     
     }
-  
 
+    setTimeout(() => {
+      for (var i = 0; i < 20; i++) {
+        console.log(0);
+        c[i].animate('y', "+=10", { duration: 1000 + i * 50 }).animate('y', "-=10", { duration: 1000 + i * 50 }).start(1);
+
+      }
+    }, 3000);
   
   },
   onUnload:function(){

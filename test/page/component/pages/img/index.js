@@ -75,8 +75,9 @@ Page({
     */
 
 
-    let img = new Shape('image', { x: 100, y: 300,w:100,h:100, file:"./1.png"}, 'fill', true)
+    let img1 = new Shape('image', { x: 100, y: 300,w:100,h:100, file:"./1.png"}, 'fill', true)
   
+    let img0 = new Shape('image', { x: 50, y: 30, w: 100, h: 100, file: "./1.png" }, 'fill', true)
 
     // console.log(circle2);
     // wx.chooseImage({
@@ -84,10 +85,19 @@ Page({
     //     console.log(res);
     //   }
     // })
-    this.wxCanvas.add(img);
+    this.wxCanvas.add(img0);
+    this.wxCanvas.add(img1);
     // circle2.setOrigin([100,10]);
-    img.animate({x:"+100",w:1000,h:1000,rotate:Math.PI/2},{duration:5000}).start(10)
-    // circle2.updateOption(
+    img0.animate({ x: "+=100" }, { duration: 1000 }).start(1);
+    img1.animate({x:"+=100"},{duration:1000}).start(1);
+    setTimeout(() => {
+      img0.animate({ x: "-=100" }, { duration: 1000 }).start(1);
+      img1.animate({ x: "-=100" }, { duration: 1000 }).start(1);
+    }, 1500);
+    setTimeout(() => {
+      img0.animate({ x: "+=100" }, { duration: 1000 }).start(1);
+      img1.animate({ x: "+=100" }, { duration: 1000 }).start(1);
+    }, 3000);
     //   { rotate:-Math.PI/4}
     // );
     // circle2.bind('tap',function(){

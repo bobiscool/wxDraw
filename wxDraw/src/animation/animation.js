@@ -77,15 +77,16 @@ Animation.prototype = {
         this.animationCompleteList.push(who);
         // console.log(this.animationFragStore);
         // console.log(this.animationFragStore[who]);
-        delete this.animationFragStore[who]
-        console.log("结束动画")
+        delete this.animationFragStore[who];
+        // delete this.wraperAniCompleteOb[who];
+        console.log("=========结束动画=========")
         if (Object.keys(this.wraperAniCompleteOb).length === Object.keys(this.animationFragStore).length) {
             this.running = false;// 动画执行 结束
             // //console.log('结束动画')
         }
     },
     wraperAniComplete: function (afID, shaId,obj) {
-        // //console.log(afID, shaId);
+        console.log(afID, shaId);
         if (this.wraperAniCompleteOb[shaId]) {
             this.wraperAniCompleteOb[shaId].push(afID);
             
@@ -95,8 +96,9 @@ Animation.prototype = {
         }
 
         // //console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
-
-        if (this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length) {
+        console.log('========测试判断是否动画结束是否成功=========');
+        console.log(this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length);
+        if (this.wraperAniCompleteOb[shaId].length == this.wraperAniCompleteOb.length) {
             obj.restoreDrag();//恢复drag状态
             this.bus.dispatch('animationComplete', 'no', shaId);// 某一个物件的动画完成
         }

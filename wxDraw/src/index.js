@@ -165,14 +165,15 @@ WxDraw.prototype = {
         // //console.log(AnimationOption);
         // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
-
+        console.log('看下为什么了？？', this.animation.animationFragStore);
+        console.log('看下animationWrapper', AnimationWraper);
         if (this.animation.animationFragStore[Shapeid]) {
             // 
-            // console.log('已经有动画了');
+            console.log('已经有动画了');
             this.animation.animationFragStore[Shapeid][this.animation.animationFragStore[Shapeid].length - 1].endCallWraper = AnimationWraper;
             this.animation.animationFragStore[Shapeid].push(AnimationWraper);
         } else {
-            // console.log('初始化 ');
+            console.log('初始化 ');
 
             this.animation.animationFragStore[Shapeid] = [AnimationWraper];
         }
@@ -245,6 +246,11 @@ WxDraw.prototype = {
        this.store.clear();
        this.canvas = null;
        this.bus.dispatch('clearAnimation','no','no');
+    },
+    reset: function() {
+        this.canvas.clearRect(this.x, this.y, this.w, this.h);
+        this.canvas.draw();
+        this.clear();
     }
 }
 

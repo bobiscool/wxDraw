@@ -1,6 +1,14 @@
 {
   "pages": [
-    "page/rect/index"
+    "page/rect/index",
+    "page/component/index",
+    "page/about/index",
+    "page/component/pages/img/index",
+    "page/component/pages/demo1/index",
+    "page/component/pages/demo2/index",
+    "page/component/pages/demo3/index",
+    "page/component/pages/demo4/index",
+    "page/component/pages/demo5/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",
