@@ -88,16 +88,21 @@ Page({
     this.wxCanvas.add(img0);
     this.wxCanvas.add(img1);
     // circle2.setOrigin([100,10]);
-    img0.animate({ x: "+=100" }, { duration: 1000 }).start(1);
+    img0.animate({ x: "+=100" }, { duration: 1000 }).animate({ x: "-=100" }, { duration: 1000 }).animate({ x: "+=100" }, { duration: 1000 }).start(1);
     img1.animate({x:"+=100"},{duration:1000}).start(1);
     setTimeout(() => {
-      img0.animate({ x: "-=100" }, { duration: 1000 }).start(1);
       img1.animate({ x: "-=100" }, { duration: 1000 }).start(1);
     }, 1500);
     setTimeout(() => {
-      img0.animate({ x: "+=100" }, { duration: 1000 }).start(1);
       img1.animate({ x: "+=100" }, { duration: 1000 }).start(1);
     }, 3000);
+    // 重置以后重新绘制失败的 bug 复现
+    setTimeout(() => {
+      img0.destroy();
+      // img1.destroy();
+      let img2 = new Shape('image', { x: 50, y: 50, w: 100, h: 100, file: "./1.png" }, 'fill', true);
+      this.wxCanvas.add(img2);
+    }, 4000)
     //   { rotate:-Math.PI/4}
     // );
     // circle2.bind('tap',function(){
