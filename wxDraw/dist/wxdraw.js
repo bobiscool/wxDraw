@@ -6,16 +6,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
 };
 
-
-
-
-
-
-
-
-
-
-
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -40,12 +30,6 @@ var createClass = function () {
   };
 }();
 
-
-
-
-
-
-
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i];
@@ -59,40 +43,6 @@ var _extends = Object.assign || function (target) {
 
   return target;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 var toConsumableArray = function (arr) {
   if (Array.isArray(arr)) {
@@ -113,10 +63,6 @@ var toConsumableArray = function (arr) {
  * 工具库
  */
 
-// import * as _ from "lodash"
-
-
-
 var guid = function guid() {
     var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0,
@@ -125,8 +71,6 @@ var guid = function guid() {
     });
     return guid;
 };
-
-
 var util = {
     mix: function mix(target, source, overlay) {
         //混合
@@ -404,21 +348,6 @@ var Matrix = function () {
     return Matrix;
 }();
 
-// var a=new Matrix([
-//     [1,2],
-//     [1,0],
-//     [1,0]
-// ]);
-
-// var b = new Matrix([
-//     [4,2],
-//     [4,2],
-//     [4,2],
-// ]);
-
-
-// //console.log(a.add(b).matrixArray)
-
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-15 23:33:37 
@@ -517,6 +446,7 @@ var commonUnAttr = function commonUnAttr() {
  * @Last Modified time: 2017-11-29 10:21:09
  * 一些都有的方法 都放到这里
  */
+
 // var gradientOption = {
 //     "circle": {
 //         "lg": [this.Option.x - this.Option.r,
@@ -824,6 +754,7 @@ var commonMethods = {
  * @Last Modified time: 2017-11-29 10:12:24
  */
 
+
 // function Point(x, y) {
 //     this.x = x;
 //     this.y = y;
@@ -1127,6 +1058,7 @@ Polygon.prototype = _extends({
  * 椭圆
  * 
  */
+
 
 // function Point(x, y) {
 //     this.x = x;
@@ -1497,7 +1429,13 @@ Text.prototype = _extends({
         this._dirty = true;
     },
     detected: function detected(x, y) {
-        // //console.log('方块', this.Option);
+
+        // //console.log('方块', _self.Option.x, x, _self.Option.y, y, (_self.Option.y + _self.Option.h), y, (_self.Option.x + _self.Option.w), x);
+        // if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
+        //在最小矩形里面才开始
+        // //console.log('点中');
+        // this.points = this._Points;
+
         this._offsetX = this.boxOption.x - x;
         this._offsetY = this.boxOption.y - y;
         if (this._pnpolyTest(x, y)) {
@@ -1909,6 +1847,8 @@ Line.prototype = _extends({
  * 普通形状
  * 
  */
+
+
 // var rOption = {
 //     x: 10,
 //     y: 10,
@@ -2198,15 +2138,6 @@ Circle.prototype = _extends({
     }
 }, commonMethods);
 
-/**
- * 方块
- */
-
-// module.exports = {
-//     Circle: Circle,
-//     Rect: Rect
-// }
-
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 19:04:04 
@@ -2214,6 +2145,7 @@ Circle.prototype = _extends({
  * @Last Modified time: 2018-01-14 22:20:08
  * 分离开
  */
+
 
 var Rect = function Rect(option) {
     var rOption = _extends({
@@ -2404,7 +2336,8 @@ Rect.prototype = _extends({
     },
     detected: function detected(x, y) {
         console.log('检测方块', x, y);
-        // //console.log('方块', this.Option);
+
+        // //console.log('方块', _self.Option.x, x, _self.Option.y, y, (_self.Option.y + _self.Option.h), y, (_self.Option.x + _self.Option.w), x);
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             // //console.log('点中');
@@ -2432,7 +2365,6 @@ Rect.prototype = _extends({
         }
     },
     _changeCenter: function _changeCenter(origin) {
-        
         // console.log(this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0],this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0])
         //    this.Option.x = this.getPointTodraw(this.Option.x, this.Option.y, origin)[0][0]
         //    this.Option.y = this.getPointTodraw(this.Option.x, this.Option.y, origin)[1][0]
@@ -2454,6 +2386,7 @@ Rect.prototype = _extends({
  * 然后计算出真实点
  * 
  */
+
 
 var Cshape = function Cshape(option) {
     var cOption = _extends({
@@ -2746,6 +2679,7 @@ var Img = function Img(option) {
 
 Img.prototype = _extends({
     _draw: function _draw(context) {
+
         if (this._dirty) {
             this.getOriPoints();
             this.getPoints(); //拿到所有真实点
@@ -2902,8 +2836,8 @@ Img.prototype = _extends({
         this._dirty = true;
     },
     detected: function detected(x, y) {
-        // console.log('检测方块', x, y);
-        // //console.log('方块', this.Option);
+
+        // //console.log('方块', _self.Option.x, x, _self.Option.y, y, (_self.Option.y + _self.Option.h), y, (_self.Option.x + _self.Option.w), x);
         if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             // //console.log('点中');
@@ -3131,6 +3065,7 @@ var EasingFunctions = {
  * @Last Modified time: 2017-10-12 17:43:45
  * 单个小物件自己的计时器
  */
+
 function Watch() {
     this.startTime = 0; //启动时间
     this.running = false; //是否还在运行
@@ -3753,7 +3688,7 @@ AniFragWrap.prototype = {
     },
     getAniOver: function getAniOver(who) {
         this.overAni.push(who);
-        //console.log('连续碎片是否完成?', this.overAni);
+        console.log('连续碎片是否完成?', this.overAni);
         if (this.overAni.length == this.fragStore.length) {
             // 动画执行完毕后 还有几种情况 1 直接结束
             if (this.loop) {
@@ -3772,8 +3707,7 @@ AniFragWrap.prototype = {
             }
 
             return false;
-        }
-        this.animationPick++;
+        }        this.animationPick++;
         this.fragStore[this.animationPick].updateSourceAndtarget(); //更新属性
     },
     restart: function restart() {
@@ -3807,14 +3741,6 @@ AniFragWrap.prototype = {
         this.looped = 1;
     }
 };
-
-/*
- * @Author: Thunderball.Wu 
- * @Date: 2017-09-22 15:45:51 
- * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-01-14 21:57:46
- * 在这里添加事件 
- */
 
 var Shape = function Shape(type, option, strokeOrfill, draggable) {
     this.draggable = draggable ? true : false;
@@ -3919,37 +3845,6 @@ Shape.prototype = {
             this.aniFragListId = "af" + guid();
             this.aniFragWraper = new AniFragWrap(this.bus, this.aniFragListId, this); // 一旦开始连续调用 就创建一个
         }
-
-        //console.log("添加形状")
-        // 在这里添加 动画
-        // 所有的动画其实就是目标
-        // 一旦 每个动画对象执行 animate其实就是给自己立了一个flag
-        /**
-         *所以的动画碎片其实就是所有的flag
-         这些flag you刚开始的 有结束的 于是 改变的时候就要去记录状态 
-         对比 这些状态 是不是以及完成 
-         完成了就完事 
-         没完成 那就继续 按照时间 完成
-         */
-        //    if(atrribute=="x"){
-        // @TODO 方向
-        // @TODO 表达式
-        // @TODO 回调
-
-        //    if(exp.indexOf('+=')==0){
-        //       let tem = exp.split('=')[1];
-
-        /**
-         * 这里的animate 世纪路所有动画 
-         * 但是在哪里执行呢 ？
-         * 在父集里面 有一个 aniamtion 哪个是 动画控制器 
-         * 是一个总的 宗华控制器 
-         * 但是 是事实上 总的动画控制器 
-         * uodate 还是 每一个单个 shape自己跟新 动画 这样思路上 
-         * 才不不会乱 
-         * 
-         */
-
         var _temFrag = null;
         if ((typeof atrribute === 'undefined' ? 'undefined' : _typeof(atrribute)) == "object") {
             // console.log('object');
@@ -4173,7 +4068,6 @@ function fakeAnimationFrame(callback) {
     setTimeout(function () {
         start = +new Date();
         callback(start);
-        
 
         //   //console.log(finish - start);
     }, 16);
@@ -4221,7 +4115,6 @@ Animation.prototype = {
             // //console.log('---');
             _self.running && _self.updateStep();
         }
-
         animationFrame(stepAnimation);
     },
     updateStep: function updateStep() {
@@ -4250,14 +4143,15 @@ Animation.prototype = {
         // console.log(this.animationFragStore);
         // console.log(this.animationFragStore[who]);
         delete this.animationFragStore[who];
-        console.log("结束动画");
+        // delete this.wraperAniCompleteOb[who];
+        console.log("=========结束动画=========");
         if (Object.keys(this.wraperAniCompleteOb).length === Object.keys(this.animationFragStore).length) {
             this.running = false; // 动画执行 结束
             // //console.log('结束动画')
         }
     },
     wraperAniComplete: function wraperAniComplete(afID, shaId, obj) {
-        // //console.log(afID, shaId);
+        console.log(afID, shaId);
         if (this.wraperAniCompleteOb[shaId]) {
             this.wraperAniCompleteOb[shaId].push(afID);
         } else {
@@ -4265,8 +4159,9 @@ Animation.prototype = {
         }
 
         // //console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
-
-        if (this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length) {
+        console.log('========测试判断是否动画结束是否成功=========');
+        console.log(this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length);
+        if (this.wraperAniCompleteOb[shaId].length == this.wraperAniCompleteOb.length) {
             obj.restoreDrag(); //恢复drag状态
             this.bus.dispatch('animationComplete', 'no', shaId); // 某一个物件的动画完成
         }
@@ -4296,8 +4191,6 @@ Animation.prototype = {
  *  还有在有些实机( 比如我的一加3 )小程序里面 使用console.log 一个构造函数 会显示null
  *  实际上是拿到了的，具体原因，还要找微信官方开发者解释
  */
-
-// import { AnimationFrame } from "./animation/animationFrame.js";
 /**
  * 
  * 
@@ -4436,14 +4329,15 @@ WxDraw.prototype = {
         // //console.log(AnimationOption);
         // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
-
+        console.log('看下为什么了？？', this.animation.animationFragStore);
+        console.log('看下animationWrapper', AnimationWraper);
         if (this.animation.animationFragStore[Shapeid]) {
             // 
-            // console.log('已经有动画了');
+            console.log('已经有动画了');
             this.animation.animationFragStore[Shapeid][this.animation.animationFragStore[Shapeid].length - 1].endCallWraper = AnimationWraper;
             this.animation.animationFragStore[Shapeid].push(AnimationWraper);
         } else {
-            // console.log('初始化 ');
+            console.log('初始化 ');
 
             this.animation.animationFragStore[Shapeid] = [AnimationWraper];
         }
@@ -4510,6 +4404,11 @@ WxDraw.prototype = {
         this.store.clear();
         this.canvas = null;
         this.bus.dispatch('clearAnimation', 'no', 'no');
+    },
+    reset: function reset() {
+        this.canvas.clearRect(this.x, this.y, this.w, this.h);
+        this.canvas.draw();
+        this.clear();
     }
 };
 

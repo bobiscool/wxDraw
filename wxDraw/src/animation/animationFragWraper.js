@@ -146,7 +146,7 @@ AniFragWrap.prototype = {
     },
     getAniOver(who) {
         this.overAni.push(who);
-        //console.log('连续碎片是否完成?', this.overAni);
+        console.log('连续碎片是否完成?', this.overAni);
         if (this.overAni.length == this.fragStore.length) {// 动画执行完毕后 还有几种情况 1 直接结束
             if (this.loop) {
                 if (this.loopTimes && this.looped <= this.loopTimes) {

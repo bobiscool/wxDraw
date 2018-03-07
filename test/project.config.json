@@ -4,17 +4,14 @@
 		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
-		"minified": true
+		"minified": true,
+		"newFeature": true
 	},
-	"compileType": "weapp",
+	"compileType": "miniprogram",
 	"libVersion": "1.6.0",
-	"appid": "touristappid",
+	"appid": "wx45ef8305f9cbc62a",
 	"projectname": "%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95114",
 	"condition": {
-		"weapp": {
-			"current": -1,
-			"list": []
-		},
 		"search": {
 			"current": -1,
 			"list": []
@@ -22,6 +19,19 @@
 		"conversation": {
 			"current": -1,
 			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": 0,
+			"list": [
+				{
+					"id": -1,
+					"name": "test",
+					"pathName": "page/component/index"
+				}
+			]
 		}
 	}
 }

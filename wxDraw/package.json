@@ -17,10 +17,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c rollup.config.prod.js&&cp ./dist/wxdraw.min.js ../example/util",
+    "build": "rollup -c rollup.config.prod.js&&cp ./dist/wxdraw.min.js ../example/util&&cp ./dist/wxdraw.min.js ../test/util",
     "start": "rollup -c&&cp ./dist/wxdraw.js ../test/util",
-    "bd":"rollup -c rollup.config.prod.js&&cp ./dist/wxdraw.min.js ../example/util"
-
+    "bd": "rollup -c rollup.config.prod.js&&cp ./dist/wxdraw.min.js ../example/util"
   },
   "repository": {
     "type": "git",
@@ -32,6 +31,7 @@
   "author": "bobiscool OR call me thunderball.wu",
   "license": "MIT",
   "dependencies": {
-    "babel-polyfill": "^6.26.0"
+    "babel-polyfill": "^6.26.0",
+    "rollup": "^0.56.4"
   }
 }
