@@ -1280,7 +1280,7 @@ Ellipse.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-29 10:13:00
+ * @Last Modified time: 2018-03-11 23:27:35
  * 字体对象
  */
 
@@ -1329,7 +1329,7 @@ var Text = function Text(option) {
         needShadow: false
     };
 
-    this.text = option.text;
+    this.text = String(option.text);
     this.Option = util.extend(option, tOption);
     this.UnOption = util.extend(option, tUnOption);
     this.boxOption = { x: 0, y: 0 };
@@ -3615,7 +3615,7 @@ eventBus.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-01-14 22:04:13
+ * @Last Modified time: 2018-03-11 23:32:54
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -3688,7 +3688,7 @@ AniFragWrap.prototype = {
     },
     getAniOver: function getAniOver(who) {
         this.overAni.push(who);
-        console.log('连续碎片是否完成?', this.overAni);
+        // console.log('连续碎片是否完成?', this.overAni);
         if (this.overAni.length == this.fragStore.length) {
             // 动画执行完毕后 还有几种情况 1 直接结束
             if (this.loop) {
@@ -4077,7 +4077,7 @@ function fakeAnimationFrame(callback) {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-01-14 22:17:51
+ * @Last Modified time: 2018-03-11 23:32:26
  * 动画 对象 接管所有动画
  */
 
@@ -4144,7 +4144,7 @@ Animation.prototype = {
         // console.log(this.animationFragStore[who]);
         delete this.animationFragStore[who];
         // delete this.wraperAniCompleteOb[who];
-        console.log("=========结束动画=========");
+        // console.log("=========结束动画=========")
         if (Object.keys(this.wraperAniCompleteOb).length === Object.keys(this.animationFragStore).length) {
             this.running = false; // 动画执行 结束
             // //console.log('结束动画')
@@ -4159,7 +4159,7 @@ Animation.prototype = {
         }
 
         // //console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
-        console.log('========测试判断是否动画结束是否成功=========');
+        // console.log('========测试判断是否动画结束是否成功=========');
         console.log(this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length);
         if (this.wraperAniCompleteOb[shaId].length == this.wraperAniCompleteOb.length) {
             obj.restoreDrag(); //恢复drag状态
@@ -4181,7 +4181,7 @@ Animation.prototype = {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-01-14 22:00:52
+ * @Last Modified time: 2018-03-11 23:34:48
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -4329,15 +4329,15 @@ WxDraw.prototype = {
         // //console.log(AnimationOption);
         // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
-        console.log('看下为什么了？？', this.animation.animationFragStore);
-        console.log('看下animationWrapper', AnimationWraper);
+        // console.log('看下为什么了？？', this.animation.animationFragStore);
+        // console.log('看下animationWrapper', AnimationWraper);
         if (this.animation.animationFragStore[Shapeid]) {
             // 
-            console.log('已经有动画了');
+            // console.log('已经有动画了');
             this.animation.animationFragStore[Shapeid][this.animation.animationFragStore[Shapeid].length - 1].endCallWraper = AnimationWraper;
             this.animation.animationFragStore[Shapeid].push(AnimationWraper);
         } else {
-            console.log('初始化 ');
+            // console.log('初始化 ');
 
             this.animation.animationFragStore[Shapeid] = [AnimationWraper];
         }

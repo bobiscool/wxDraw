@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-29 09:58:45 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-01-14 22:17:51
+ * @Last Modified time: 2018-03-11 23:32:26
  * 动画 对象 接管所有动画
  */
 
@@ -79,7 +79,7 @@ Animation.prototype = {
         // console.log(this.animationFragStore[who]);
         delete this.animationFragStore[who];
         // delete this.wraperAniCompleteOb[who];
-        console.log("=========结束动画=========")
+        // console.log("=========结束动画=========")
         if (Object.keys(this.wraperAniCompleteOb).length === Object.keys(this.animationFragStore).length) {
             this.running = false;// 动画执行 结束
             // //console.log('结束动画')
@@ -96,7 +96,7 @@ Animation.prototype = {
         }
 
         // //console.log('shaId', this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length,this.wraperAniCompleteOb[shaId].length == this.animationFragStore[shaId].length);
-        console.log('========测试判断是否动画结束是否成功=========');
+        // console.log('========测试判断是否动画结束是否成功=========');
         console.log(this.wraperAniCompleteOb[shaId].length, this.animationFragStore[shaId].length);
         if (this.wraperAniCompleteOb[shaId].length == this.wraperAniCompleteOb.length) {
             obj.restoreDrag();//恢复drag状态

@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-21 13:47:34 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-01-14 22:00:52
+ * @Last Modified time: 2018-03-11 23:34:48
  * 主要 引入对象
  * 
  * 写给开发者的:
@@ -165,15 +165,15 @@ WxDraw.prototype = {
         // //console.log(AnimationOption);
         // this.animation.animationFragStore.push(AnimationOption);// 添加 动画碎片 
         // this.animation.animationFragStore2.push(AnimationOption);// 添加 动画碎片 
-        console.log('看下为什么了？？', this.animation.animationFragStore);
-        console.log('看下animationWrapper', AnimationWraper);
+        // console.log('看下为什么了？？', this.animation.animationFragStore);
+        // console.log('看下animationWrapper', AnimationWraper);
         if (this.animation.animationFragStore[Shapeid]) {
             // 
-            console.log('已经有动画了');
+            // console.log('已经有动画了');
             this.animation.animationFragStore[Shapeid][this.animation.animationFragStore[Shapeid].length - 1].endCallWraper = AnimationWraper;
             this.animation.animationFragStore[Shapeid].push(AnimationWraper);
         } else {
-            console.log('初始化 ');
+            // console.log('初始化 ');
 
             this.animation.animationFragStore[Shapeid] = [AnimationWraper];
         }

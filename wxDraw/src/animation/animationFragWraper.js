@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-12 11:28:31 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-01-14 22:04:13
+ * @Last Modified time: 2018-03-11 23:32:54
  * 动画 碎片包裹
  * 用于控制 较复杂 的 动画 情景 
  * 动画的 循环 
@@ -146,7 +146,7 @@ AniFragWrap.prototype = {
     },
     getAniOver(who) {
         this.overAni.push(who);
-        console.log('连续碎片是否完成?', this.overAni);
+        // console.log('连续碎片是否完成?', this.overAni);
         if (this.overAni.length == this.fragStore.length) {// 动画执行完毕后 还有几种情况 1 直接结束
             if (this.loop) {
                 if (this.loopTimes && this.looped <= this.loopTimes) {
