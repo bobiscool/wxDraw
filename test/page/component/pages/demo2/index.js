@@ -98,7 +98,7 @@ Page({
 
 
     setTimeout(function () {
-      text2.animate({ "y": "-=100", shadow: { offsetY: 100, blur: 30 } }, { easing: "swingTo", duration: 1000 }).animate({ "y": "+=100", shadow: { offsetY: 5, blur: 5 } }, { easing: "swingFrom", duration: 1000 }).start(true);
+      text2.animate({ "y": "-=100", shadow: { offsetY: 100, blur: 30 },opacity:0 }, { easing: "swingTo", duration: 1000 }).animate({ "y": "+=100", shadow: { offsetY: 5, blur: 5 } }, { easing: "swingFrom", duration: 1000 }).start(true);
     }, 100);
 
 

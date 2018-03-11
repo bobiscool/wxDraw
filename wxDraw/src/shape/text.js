@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-10-23 10:27:35 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-11-29 10:13:00
+ * @Last Modified time: 2018-03-11 23:27:35
  * 字体对象
  */
 
@@ -56,7 +56,7 @@ export const Text = function (option) {
         needShadow:false
     }
 
-    this.text = option.text;
+    this.text = String(option.text);
     this.Option = util.extend(option, tOption);
     this.UnOption = util.extend(option, tUnOption);
     this.boxOption = { x: 0, y: 0 };
