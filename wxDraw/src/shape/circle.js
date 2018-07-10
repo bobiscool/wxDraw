@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-07-11 00:18:06
+ * @Last Modified time: 2018-07-11 00:23:32
  * 普通形状
  * 
  */
@@ -90,8 +90,7 @@ Circle.prototype = {
         for (var i = 0; i <= 100; ++i) {
 
             sA = this.Option.sA + i * aA / 100;
-            // console.log(sA);
-            // console.log(this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA));
+
             points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
 
             points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
@@ -115,7 +114,7 @@ Circle.prototype = {
             origin = this.rotateOrigin;
         }
 
-        // //console.log('item', origin);
+
 
         this.oriPoints.forEach(function (item) {
             _points.push(this.getPointTodraw(item[0], item[1], origin))
@@ -127,8 +126,7 @@ Circle.prototype = {
 
         this._Points = matrixToarray(_points);//除掉矩阵多余的部分
         this._detectPoints = matrixToarray(_points2);
-        // //console.log(this._Points);
-        // //console.log(this.oriPoints);
+
         return this._Points;//除掉矩阵多余的部分;
     },
     getMax: function () {
