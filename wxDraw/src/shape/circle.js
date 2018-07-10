@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2017-12-06 10:04:23
+ * @Last Modified time: 2018-07-11 00:18:06
  * 普通形状
  * 
  */
@@ -11,18 +11,6 @@ import { Matrix } from '../util/matrix.js';
 import { Point } from "./mixins/points.js"; //准备把rect 改成 点形式
 import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
-
-
-// var rOption = {
-//     x: 10,
-//     y: 10,
-//     w: 10,
-//     h: 10,
-//     ...commonAttr
-// }
-
-
-
 
 
 
@@ -109,31 +97,7 @@ Circle.prototype = {
             points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
         }
 
-        // console.log(points);
 
-        //计算拓展之后的点位
-        // let k1 = (this.Option.x - points[50][0]) / (this.Option.y - points[50][1]);
-        // let b1 = this.Option.y - this.Option.x * k1;
-        // let l = this.Option.lineWidth / Math.sin(aA / 2);
-        // let $x = (-1*k1 * b1 + Math.sqrt(-Math.pow(b1, 2) + Math.pow(l, 2) + Math.pow(k1, 2) * Math.pow(l, 2))) / (1 + Math.pow(k1, 2));
-        // let x0 = $x + this.Option.x
-        // let y0 = k1 * x0 + b1;
-
-        //  console.log(b1);
-        //  console.log(Math.sin(aA / 2));
-        //  console.log(k1);
-        //  console.log(l);
-        // console.log('x0',  -1*Math.pow(b1, 2) + Math.pow(l, 2) + Math.pow(k1, 2) * Math.pow(l, 2));
-        // console.log('x0',  -1*Math.pow(b1, 2));
-        // console.log('x0', Math.pow(l, 2) );
-        // console.log('x0',  Math.pow(k1, 2) * Math.pow(l, 2));
-        // // console.log('x0',  -1*Math.pow(b1, 2) + Math.pow(l, 2) + Math.pow(k1, 2) * Math.pow(l, 2));
-        // console.log('yssss', points[50][1]);
-        // sA = this.Option.sA || 0;//算到x0 y0
-        // for (var i = 0; i < 100; ++i) {
-        //     points2.push([x0 + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), y0 - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
-        //     sA += aA / 100;
-        // }
 
         points.unshift([this.Option.x, this.Option.y]);
         points2.unshift([this.Option.x, this.Option.y]);
@@ -318,17 +282,4 @@ Circle.prototype = {
 }
 
 
-
-/**
- * 方块
- */
-
-
-
-
-
-// module.exports = {
-//     Circle: Circle,
-//     Rect: Rect
-// }
 

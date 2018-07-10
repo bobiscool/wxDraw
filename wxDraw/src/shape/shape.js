@@ -2,8 +2,8 @@
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
- * @Last Modified by: wuyiping(wuyiping@baidu.com)
- * @Last Modified time: 2018-07-10 20:01:12
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2018-07-11 00:17:06
  * 在这里添加事件 
  */
 
@@ -346,8 +346,8 @@ Shape.prototype = {
     *         图形对象api
     * 准备用于添加插件
     */
-    addShape:function(name:String,shapeClass){
-        shapeTypes[name] = function(option){
+    addShape:function(name,shapeClass){
+        shapeTypes[name] = (option) => {
             return new shapeClass(option)
         }
     }
