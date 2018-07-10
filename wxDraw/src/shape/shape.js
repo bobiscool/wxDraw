@@ -2,8 +2,8 @@
 /*
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 15:45:51 
- * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-01-14 21:57:46
+ * @Last Modified by: wuyiping(wuyiping@baidu.com)
+ * @Last Modified time: 2018-07-10 20:01:12
  * 在这里添加事件 
  */
 
@@ -20,6 +20,37 @@ import { AnimationFrag } from '../animation/animationFrag.js';
 import { guid } from "../util/utils.js";
 import { AniFragWrap } from "../animation/animationFragWraper.js"
 import { util } from '../util/utils.js';
+
+
+var shapeTypes = {
+    "circle": function (option) {
+        return new Circle(option);
+    },
+    'rect': function (option) {
+        // console.log('方块');
+        // console.log(option);
+        return new Rect(option);
+    },
+    'polygon': function (option) {
+        return new Polygon(option);
+    },
+    'cshape': function (option) {
+        return new Cshape(option);
+    },
+    'line': function (option) {
+        // console.log(option);
+        return new Line(option);
+    },
+    'ellipse': function (option) {
+        return new Ellipse(option);
+    },
+    'text': function (option) {
+        return new Text(option);
+    },
+    'image':function(option){
+        return new Img(option);
+    }
+}
 
 
 export var Shape = function (type, option, strokeOrfill, draggable) {
@@ -308,6 +339,17 @@ Shape.prototype = {
        }else{
            return false
        }
+    },
+   /**
+    * @function addShape
+    * @param shapeClass 
+    *         图形对象api
+    * 准备用于添加插件
+    */
+    addShape:function(name:String,shapeClass){
+        shapeTypes[name] = function(option){
+            return new shapeClass(option)
+        }
     }
 }
 
@@ -315,33 +357,3 @@ Shape.prototype = {
 
 
 
-
-var shapeTypes = {
-    "circle": function (option) {
-        return new Circle(option);
-    },
-    'rect': function (option) {
-        // console.log('方块');
-        // console.log(option);
-        return new Rect(option);
-    },
-    'polygon': function (option) {
-        return new Polygon(option);
-    },
-    'cshape': function (option) {
-        return new Cshape(option);
-    },
-    'line': function (option) {
-        // console.log(option);
-        return new Line(option);
-    },
-    'ellipse': function (option) {
-        return new Ellipse(option);
-    },
-    'text': function (option) {
-        return new Text(option);
-    },
-    'image':function(option){
-        return new Img(option);
-    }
-}
