@@ -1,8 +1,8 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var  wxDraw= require("../../../../util/wxdraw.min.js").wxDraw;
-var Shape = require("../../../../util/wxdraw.min.js").Shape;
+var  wxDraw= require("../../../../util/wxdraw.js").wxDraw;
+var Shape = require("../../../../util/wxdraw.js").Shape;
 var AnimationFrame = require("../../../../util/wxdraw.min.js").AnimationFrame;
 
 

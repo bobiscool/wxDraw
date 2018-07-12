@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.6.0",
 	"appid": "wx810910e43ff27ed4",
-	"projectname": "test0311",
+	"projectname": "testDraw2.0",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -20,16 +20,21 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": -1,
 			"list": [
 				{
 					"id": -1,
 					"name": "test",
-					"pathName": "page/component/index"
+					"pathName": "page/component/index",
+					"query": ""
 				}
 			]
 		}

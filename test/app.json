@@ -27,7 +27,7 @@
       "selectedIconPath": "image/icon_component_HL.png",
       "text": "演示"
     }, {
-      "pagePath": "page/about/index",
+      "pagePath": "page/rect/index",
       "iconPath": "image/icon_API.png",
       "selectedIconPath": "image/icon_API_HL.png",
       "text": "关于"

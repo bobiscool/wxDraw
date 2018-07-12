@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:29:58 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-07-12 23:20:51
+ * @Last Modified time: 2018-07-12 23:58:33
  * 图形的基本性质 用于绑定 事件 以及拖拽 高亮用的
  */
 import { util, matrixToarray, objToArray } from '../util/utils.js';
@@ -15,8 +15,8 @@ export class shapeBase {
 
     constructor(options, cOption, cUoption) {
 
-        var _temOption = util.extend(option, cOption);
-        var _temUnOption = util.extend(option, cUoption);
+        var _temOption = util.extend(options, cOption);
+        var _temUnOption = util.extend(options, cUoption);
         this.Option = _temOption;
         // console.log(_temUnOption);
         this.UnOption = _temUnOption; //不参与动画的属性

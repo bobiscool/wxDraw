@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-07-12 23:21:13
+ * @Last Modified time: 2018-07-12 23:37:11
  * 普通形状
  * 
  */
@@ -38,11 +38,12 @@ export class Circle extends shapeBase {
             counterclockwise: false, //这个还没用,
             closePath: false
         }
+
+        super(options, cOption, cUoption);
         this._type = 'circle';
         this.fullCircle = true;
 
-        super(options, cOption, cUoption);
-       
+        console.log(this._type);
     }
     getOriPoints () {
         var points = [],
@@ -190,11 +191,6 @@ export class Circle extends shapeBase {
         this._dirty = true;
     }
     detected(x, y) {
-        // if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
-            //在最小矩形里面才开始
-            // //console.log('点中');
-            // this.points = this._Points;
-
             this._offsetX = this.Option.x - x;
             this._offsetY = this.Option.y - y;
             if (this._pnpolyTest(x, y)) {
@@ -203,21 +199,14 @@ export class Circle extends shapeBase {
             } else {
                 return false;
             }
-        // }
-
         return false;
     }
     moveDetect(x, y) {
-        // if (!this.detected(x, y)) {
-        //     this._isChoosed = false;
-        // } else {
+   
         if (this._isChoosed == true) {
             this.move(x + this._offsetX, y + this._offsetY);
-            // this.getOriPoints();//拿到原始点
-            // this.getPoints();//拿到变化点
-            // this.getMax();//拿到边界点
+            
         }
-        // }
     }
 
 }
