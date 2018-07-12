@@ -2,16 +2,16 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-07-11 00:23:32
+ * @Last Modified time: 2018-07-12 23:21:13
  * 普通形状
  * 
  */
 import { util, matrixToarray, objToArray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
-import { Point } from "./mixins/points.js"; //准备把rect 改成 点形式
-import { commonAttr, commonUnAttr } from "./mixins/commonAttr.js"; //共有属性
+import { Point } from './mixins/points.js'; 
+import { commonAttr, commonUnAttr } from './mixins/commonAttr.js'; //共有属性
 import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
-
+import { shapeBase } from './shapeBase'
 
 
 /**
@@ -20,58 +20,31 @@ import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
  * @param {any} option  配置项
  * 
  */
-export const Circle = function (option) {
+export class Circle extends shapeBase {
     // var _temOption1 = util.mix(option,)
-    var cOption = {
-        x: 10,
-        y: 10,
-        r: 10,
-        sA: 0,
-        eA: Math.PI * 2,
-        ...commonAttr()
+   
+    constructor(options){
+        var cOption = {
+            x: 10,
+            y: 10,
+            r: 10,
+            sA: 0,
+            eA: Math.PI * 2,
+            ...commonAttr()
+        }
+    
+        var cUoption = {
+            ...commonUnAttr(),
+            counterclockwise: false, //这个还没用,
+            closePath: false
+        }
+        this._type = 'circle';
+        this.fullCircle = true;
+
+        super(options, cOption, cUoption);
+       
     }
-
-    var cUoption = {
-        ...commonUnAttr(),
-        counterclockwise: false, //这个还没用,
-        closePath: false
-    }
-    var _temOption = util.extend(option, cOption);
-    var _temUnOption = util.extend(option, cUoption);
-    this.Option = _temOption;
-    // console.log(_temUnOption);
-    this.UnOption = _temUnOption;//不参与动画的属性
-    this._isChoosed = false;
-    this._offsetX = 0;
-    this._offsetY = 0;
-    this.fullCircle = true;
-    // this.rotateOrigin = null;
-    // 用于渐变的
-    this._colorLock = false; //颜色锁 设置渐变之后 颜色就就不能动画了
-    this._canRotateOrigin = true; // 限制 rotateOrigin 
-
-    this.max = {
-        maxX: null,
-        maxY: null,
-        minX: null,
-        minY: null,
-    };
-    this.oriPoints = null//拿到最初的点位
-    this._Points = [];//用于检测位置的 点位数组 也是当前位置
-
-    this._isChoosed = false;
-    this.rotateOrigin = null;
-    this._drawLine = false; //用于标识是否画外框
-    this.detectOriPoints = [];
-    this._detectPoints = [];
-    this.getOriPoints();//拿到原始点 
-    this.getMax();//根据原始点 
-    this._dirty = true;
-    this._type = 'circle';
-}
-
-Circle.prototype = {
-    getOriPoints: function () {
+    getOriPoints () {
         var points = [],
             points2 = [],
             sA = this.Option.sA || 0,
@@ -102,8 +75,10 @@ Circle.prototype = {
         points2.unshift([this.Option.x, this.Option.y]);
         this.oriPoints = points;
         this.detectOriPoints = points2;
-    },
-    getPoints: function () {
+    }
+
+    
+    getPoints() {
         //getPoints修改 现在不用 tranlate+rotate形式 
         let _points = [];
         let _points2 = [];
@@ -128,8 +103,9 @@ Circle.prototype = {
         this._detectPoints = matrixToarray(_points2);
 
         return this._Points;//除掉矩阵多余的部分;
-    },
-    getMax: function () {
+    }
+    
+    getMax () {
         //绘制 与检测 不能在统一个地方
         let _Points = this.detectOriPoints;
 
@@ -166,8 +142,8 @@ Circle.prototype = {
         }, this);
 
 
-    },
-    createPath: function (context) {
+    }
+    createPath(context) {
         //创建路径
         var points = this._Points;
 
@@ -184,8 +160,8 @@ Circle.prototype = {
         if(this.UnOption.closePath){
         context.closePath();        
         }
-    },
-    _draw: function (context) {
+    }
+    _draw(context) {
         let changeMatrix = null;
         let getchaMatrix = null;
         let origin = null;
@@ -197,23 +173,23 @@ Circle.prototype = {
         }
         this.createPath(context);//绘制
         this._dirty = true;
-    },
-    getPointTodraw: function (x, y, origin) {
+    }
+
+    getPointTodraw(x, y, origin) {
 
         let angle = this.Option.rotate;
 
 
         //将所有变化 都转到 Point对象去了 
         return new Point(x, y).rotate(origin, angle);//计算出每一个点变化之后的位置
-    },
-    move: function (x, y) {
+    }
+    move(x, y) {
         // //console.log('move', x, y);
         this.Option.x = x;
         this.Option.y = y;
         this._dirty = true;
-    },
-
-    detected: function (x, y) {
+    }
+    detected(x, y) {
         // if (x > this.max.minX && x < this.max.maxX && y > this.max.minY && y < this.max.maxY) {
             //在最小矩形里面才开始
             // //console.log('点中');
@@ -230,8 +206,8 @@ Circle.prototype = {
         // }
 
         return false;
-    },
-    moveDetect: function (x, y) {
+    }
+    moveDetect(x, y) {
         // if (!this.detected(x, y)) {
         //     this._isChoosed = false;
         // } else {
@@ -242,42 +218,7 @@ Circle.prototype = {
             // this.getMax();//拿到边界点
         }
         // }
-    },
-    _pnpolyTest(x, y) {
-        // 核心测试代码 理论源于  https://wrf.ecse.rpi.edu//Research/Short_Notes/pnpoly.html
-        // var A = this.points[0];// 拿到前面两个点
-        // var B = this.points[1];
-        var ifInside = false;
+    }
 
-        var Points = null;
-        if (this._drawLine) {
-            Points = this._detectPoints;
-            // console.log("监测点");
-        } else {
-            Points = this._Points;
-        }
-
-        for (var i = 0, j = Points.length - 1; i < Points.length; j = i++) {
-            /**
-             * 0 4
-               1 0
-               2 1
-               3 2
-               4 3
-             */
-            var Xi = Points[i][0], Yi = Points[i][1];
-            var Xj = Points[j][0], Yj = Points[j][1];
-
-            var insect = ((Yi > y) != (Yj > y)) && (x < (Xj - Xi) * (y - Yi) / (Yj - Yi) + Xi);
-
-            if (insect) ifInside = !ifInside;
-        }
-
-        // //console.log(ifInside);
-        return ifInside;
-    },
-    ...commonMethods
 }
-
-
 
