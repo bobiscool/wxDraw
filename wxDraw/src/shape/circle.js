@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-07-13 23:15:23
+ * @Last Modified time: 2018-07-13 23:54:13
  * 普通形状
  * 
  */
@@ -10,7 +10,7 @@ import { util, matrixToarray, objToArray } from '../util/utils.js';
 import { Matrix } from '../util/matrix.js';
 import { Point } from './mixins/points.js'; 
 import { commonAttr, commonUnAttr } from './mixins/commonAttr.js'; //共有属性
-import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
+import { defaultConfig } from "./mixins/defaultConfig.js"; //共有方法
 import { shapeBase } from './shapeBase'
 
 
@@ -21,28 +21,11 @@ import { shapeBase } from './shapeBase'
  * 
  */
 export class Circle extends shapeBase {
-    // var _temOption1 = util.mix(option,)
    
     constructor(options){
-        var cOption = {
-            x: 10,
-            y: 10,
-            r: 10,
-            sA: 0,
-            eA: Math.PI * 2,
-            ...commonAttr()
-        }
-    
-        var cUoption = {
-            ...commonUnAttr(),
-            counterclockwise: false, //这个还没用,
-            closePath: false
-        }
-
-        super(options, cOption, cUoption);
+        super(options, defaultConfig['circle']);
         this._type = 'circle';
         this.fullCircle = true;
-        
     }
 
     getMax () {
@@ -57,30 +40,12 @@ export class Circle extends shapeBase {
     }
     
     getPoints() {
-        //getPoints修改 现在不用 tranlate+rotate形式 
-        let _points = [];
-        let _points2 = [];
-        let origin = null;
-        if (!this.rotateOrigin) {
-            origin = [this.Option.x, this.Option.y];
-        } else {
-            origin = this.rotateOrigin;
-        }
-
-
-
-        this.oriPoints.forEach(function (item) {
-            _points.push(this.getPointTodraw(item[0], item[1], origin))
-        }, this);
-
-        this.detectOriPoints.forEach(function (item) {
-            _points2.push(this.getPointTodraw(item[0], item[1], origin))
-        }, this);
-
-        this._Points = matrixToarray(_points);//除掉矩阵多余的部分
-        this._detectPoints = matrixToarray(_points2);
-
-        return this._Points;//除掉矩阵多余的部分;
+       this._detectPoints = [
+            [this.Option.x + this.Option.r, this.Option.y + this.Option.r],
+            [this.Option.x + this.Option.r, this.Option.y + this.Option.r],
+            [this.Option.x + this.Option.r, this.Option.y + this.Option.r],
+            [this.Option.x + this.Option.r, this.Option.y + this.Option.r]
+       ]
     }
     
     

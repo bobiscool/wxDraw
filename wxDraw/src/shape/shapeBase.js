@@ -2,7 +2,7 @@
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:29:58 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-07-13 23:17:31
+ * @Last Modified time: 2018-07-13 23:55:55
  * 图形的基本性质 用于绑定 事件 以及拖拽 高亮用的
  */
 import { util, matrixToarray, objToArray } from '../util/utils.js';
@@ -13,19 +13,15 @@ import { commonMethods } from "./mixins/commonMethods.js"; //共有方法
 
 export class shapeBase {
 
-    constructor(options, cOption, cUoption) {
+    constructor(options, dOption) {
 
-        var _temOption = util.extend(options, cOption);
-        var _temUnOption = util.extend(options, cUoption);
+        var _temOption = util.extend(options, dOption.option);
+        var _temUnOption = util.extend(options, dOption.uoption);
         this.Option = _temOption;
-        // console.log(_temUnOption);
         this.UnOption = _temUnOption; //不参与动画的属性
         this._isChoosed = false;
         this._offsetX = 0;
         this._offsetY = 0;
-        this.fullCircle = true;
-        // this.rotateOrigin = null;
-        // 用于渐变的
         this._colorLock = false; //颜色锁 设置渐变之后 颜色就就不能动画了
         this._canRotateOrigin = true; // 限制 rotateOrigin 
 
@@ -35,13 +31,11 @@ export class shapeBase {
             minX: null,
             minY: null,
         };
-        this.oriPoints = null //拿到最初的点位
         this._Points = []; //用于检测位置的 点位数组 也是当前位置
 
         this._isChoosed = false;
         this.rotateOrigin = null;
         this._drawLine = false; //用于标识是否画外框
-        this.detectOriPoints = [];
         this._detectPoints = [];
         this.getMax(); //根据原始点 
         this._dirty = true;
@@ -83,11 +77,6 @@ export class shapeBase {
        * @param {any} lineJoin 线连接
        * @param {any} lineDash 虚线
        */
-      // setLine (lineCap, lineJoin, lineDash) { //设置线
-      //     this.UnOption.lineCap = lineCap;
-      //     this.UnOption.lineJoin = lineJoin;
-      //     this.UnOption.lineDash = lineDash;
-      // },
       setRotateOrigin(loc) {
         //设置旋转中心
         if (this._canRotateOrigin) {
@@ -97,8 +86,7 @@ export class shapeBase {
         }
       }
       setCommonstyle(context) {
-        // console.log(context);
-        // return false;
+
         let gra = null;
         let type = this._type;
         if (this.UnOption.lineCap) {
@@ -397,4 +385,9 @@ export class shapeBase {
     getMax () {
        // 获取极限点击位置 用于
     }
+
+    translate (){
+
+    }
+
 }

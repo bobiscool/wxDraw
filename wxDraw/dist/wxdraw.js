@@ -1814,21 +1814,42 @@ Line.prototype = _extends({
 
 /*
  * @Author: Thunderball.Wu 
+ * @Date: 2018-07-13 23:45:02 
+ * @Last Modified by: Thunderball.Wu
+ * @Last Modified time: 2018-07-13 23:53:47
+ */
+var defaultConfig = {
+    'circle': {
+        option: _extends({
+            x: 10,
+            y: 10,
+            r: 10,
+            sA: 0,
+            eA: Math.PI * 2
+        }, commonAttr()),
+        uoption: _extends({}, commonUnAttr(), {
+            counterclockwise: false, //这个还没用,
+            closePath: false
+        })
+    }
+};
+
+/*
+ * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:29:58 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-07-13 00:04:40
+ * @Last Modified time: 2018-07-13 23:53:01
  * 图形的基本性质 用于绑定 事件 以及拖拽 高亮用的
  */
 
 var shapeBase = function () {
-  function shapeBase(options, cOption, cUoption) {
+  function shapeBase(options, dOption) {
     classCallCheck(this, shapeBase);
 
 
-    var _temOption = util.extend(options, cOption);
-    var _temUnOption = util.extend(options, cUoption);
+    var _temOption = util.extend(options, dOption.option);
+    var _temUnOption = util.extend(options, dOption.uoption);
     this.Option = _temOption;
-    // console.log(_temUnOption);
     this.UnOption = _temUnOption; //不参与动画的属性
     this._isChoosed = false;
     this._offsetX = 0;
@@ -1853,7 +1874,6 @@ var shapeBase = function () {
     this._drawLine = false; //用于标识是否画外框
     this.detectOriPoints = [];
     this._detectPoints = [];
-    this.getOriPoints(); //拿到原始点 
     this.getMax(); //根据原始点 
     this._dirty = true;
     this._type = 'circle';
@@ -1899,11 +1919,6 @@ var shapeBase = function () {
      * @param {any} lineJoin 线连接
      * @param {any} lineDash 虚线
      */
-    // setLine (lineCap, lineJoin, lineDash) { //设置线
-    //     this.UnOption.lineCap = lineCap;
-    //     this.UnOption.lineJoin = lineJoin;
-    //     this.UnOption.lineDash = lineDash;
-    // },
 
   }, {
     key: 'setRotateOrigin',
@@ -1918,8 +1933,7 @@ var shapeBase = function () {
   }, {
     key: 'setCommonstyle',
     value: function setCommonstyle(context) {
-      // console.log(context);
-      // return false;
+
       var gra = null;
       var type = this._type;
       if (this.UnOption.lineCap) {
@@ -2170,39 +2184,11 @@ var shapeBase = function () {
   }, {
     key: 'getMax',
     value: function getMax() {
-      //绘制 与检测 不能在统一个地方
-      var _Points = this.detectOriPoints;
-
-      // console.log(_Points);
-      this.max = {
-        maxX: null,
-        maxY: null,
-        minX: null,
-        minY: null
-      };
-
-      _Points.forEach(function (element) {
-        if (element[0] > this.max.maxX) {
-          this.max.maxX = element[0];
-        }
-        if (!this.max.minX && this.max.minX !== 0) {
-          this.max.minX = element[0];
-        }
-        if (this.max.minX && element[0] < this.max.minX) {
-          this.max.minX = element[0];
-        }
-
-        if (element[1] > this.max.maxY) {
-          this.max.maxY = element[1];
-        }
-        if (!this.max.minY && this.max.minY !== 0) {
-          this.max.minY = element[1];
-        }
-        if (this.max.minY && element[1] < this.max.minY) {
-          this.max.minY = element[1];
-        }
-      }, this);
+      // 获取极限点击位置 用于
     }
+  }, {
+    key: 'translate',
+    value: function translate() {}
   }]);
   return shapeBase;
 }();
@@ -2211,7 +2197,7 @@ var shapeBase = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-07-13 23:05:52
+ * @Last Modified time: 2018-07-13 23:52:32
  * 普通形状
  * 
  */
@@ -2230,20 +2216,7 @@ var Circle = function (_shapeBase) {
     function Circle(options) {
         classCallCheck(this, Circle);
 
-        var cOption = _extends({
-            x: 10,
-            y: 10,
-            r: 10,
-            sA: 0,
-            eA: Math.PI * 2
-        }, commonAttr());
-
-        var cUoption = _extends({}, commonUnAttr(), {
-            counterclockwise: false, //这个还没用,
-            closePath: false
-        });
-
-        var _this = possibleConstructorReturn(this, (Circle.__proto__ || Object.getPrototypeOf(Circle)).call(this, options, cOption, cUoption));
+        var _this = possibleConstructorReturn(this, (Circle.__proto__ || Object.getPrototypeOf(Circle)).call(this, options, defaultConfig['circle']));
 
         _this._type = 'circle';
         _this.fullCircle = true;
@@ -2252,75 +2225,33 @@ var Circle = function (_shapeBase) {
     }
 
     createClass(Circle, [{
-        key: 'getOriPoints',
-        value: function getOriPoints() {
-            var points = [],
-                points2 = [],
-                sA = this.Option.sA || 0,
-                eA = this.Option.eA || Math.PI * 2,
-                aA = eA - sA;
+        key: 'getMax',
+        value: function getMax() {
 
-            // console.log(aA);            
-            if (aA >= 2 * Math.PI) {
-                this.fullCircle = true;
-            } else {
-                this.fullCircle = false;
-            }
-
-            for (var i = 0; i <= 100; ++i) {
-
-                sA = this.Option.sA + i * aA / 100;
-
-                points.push([this.Option.x + this.Option.r * Math.sin(sA), this.Option.y - this.Option.r * Math.cos(sA)]);
-
-                points2.push([this.Option.x + (this.Option.r + this.Option.lineWidth / 2) * Math.sin(sA), this.Option.y - (this.Option.r + this.Option.lineWidth / 2) * Math.cos(sA)]);
-            }
-
-            points.unshift([this.Option.x, this.Option.y]);
-            points2.unshift([this.Option.x, this.Option.y]);
-            this.oriPoints = points;
-            this.detectOriPoints = points2;
+            this.max = {
+                maxX: this.Option.x + this.Option.r,
+                maxY: this.Option.y + this.Option.r,
+                minX: this.Option.y - this.Option.r,
+                minY: this.Option.x - this.Option.r
+            };
         }
     }, {
         key: 'getPoints',
         value: function getPoints() {
-            //getPoints修改 现在不用 tranlate+rotate形式 
-            var _points = [];
-            var _points2 = [];
-            var origin = null;
-            if (!this.rotateOrigin) {
-                origin = [this.Option.x, this.Option.y];
-            } else {
-                origin = this.rotateOrigin;
-            }
-
-            this.oriPoints.forEach(function (item) {
-                _points.push(this.getPointTodraw(item[0], item[1], origin));
-            }, this);
-
-            this.detectOriPoints.forEach(function (item) {
-                _points2.push(this.getPointTodraw(item[0], item[1], origin));
-            }, this);
-
-            this._Points = matrixToarray(_points); //除掉矩阵多余的部分
-            this._detectPoints = matrixToarray(_points2);
-
-            return this._Points; //除掉矩阵多余的部分;
+            this._detectPoints = [[this.Option.x + this.Option.r, this.Option.y + this.Option.r], [this.Option.x + this.Option.r, this.Option.y + this.Option.r], [this.Option.x + this.Option.r, this.Option.y + this.Option.r], [this.Option.x + this.Option.r, this.Option.y + this.Option.r]];
         }
     }, {
         key: 'createPath',
         value: function createPath(context) {
             //创建路径
             var points = this._Points;
-
             context.beginPath();
-            // context.arc(this.Option.x, this.Option.y , this.Option.r , this.Option.sA, this.Option.eA);
+            context.arc(this.Option.x, this.Option.y, this.Option.r, this.Option.sA, this.Option.eA);
         }
     }, {
         key: '_draw',
         value: function _draw(context) {
             if (this._dirty) {
-                this.getOriPoints(); //拿到所有原始点
                 this.getPoints(); //拿到所有真实点
                 // //console.log('_POINTS',this._Points);
                 this.getMax(); //所有真实点max min
