@@ -1816,7 +1816,7 @@ Line.prototype = _extends({
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 09:29:58 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-07-12 23:58:33
+ * @Last Modified time: 2018-07-13 00:04:40
  * 图形的基本性质 用于绑定 事件 以及拖拽 高亮用的
  */
 
@@ -2167,6 +2167,42 @@ var shapeBase = function () {
       // //console.log(ifInside);
       return ifInside;
     }
+  }, {
+    key: 'getMax',
+    value: function getMax() {
+      //绘制 与检测 不能在统一个地方
+      var _Points = this.detectOriPoints;
+
+      // console.log(_Points);
+      this.max = {
+        maxX: null,
+        maxY: null,
+        minX: null,
+        minY: null
+      };
+
+      _Points.forEach(function (element) {
+        if (element[0] > this.max.maxX) {
+          this.max.maxX = element[0];
+        }
+        if (!this.max.minX && this.max.minX !== 0) {
+          this.max.minX = element[0];
+        }
+        if (this.max.minX && element[0] < this.max.minX) {
+          this.max.minX = element[0];
+        }
+
+        if (element[1] > this.max.maxY) {
+          this.max.maxY = element[1];
+        }
+        if (!this.max.minY && this.max.minY !== 0) {
+          this.max.minY = element[1];
+        }
+        if (this.max.minY && element[1] < this.max.minY) {
+          this.max.minY = element[1];
+        }
+      }, this);
+    }
   }]);
   return shapeBase;
 }();
@@ -2175,7 +2211,7 @@ var shapeBase = function () {
  * @Author: Thunderball.Wu 
  * @Date: 2017-09-22 14:23:52 
  * @Last Modified by: Thunderball.Wu
- * @Last Modified time: 2018-07-12 23:37:11
+ * @Last Modified time: 2018-07-13 23:05:52
  * 普通形状
  * 
  */
@@ -2212,7 +2248,6 @@ var Circle = function (_shapeBase) {
         _this._type = 'circle';
         _this.fullCircle = true;
 
-        console.log(_this._type);
         return _this;
     }
 
@@ -2273,60 +2308,13 @@ var Circle = function (_shapeBase) {
             return this._Points; //除掉矩阵多余的部分;
         }
     }, {
-        key: 'getMax',
-        value: function getMax() {
-            //绘制 与检测 不能在统一个地方
-            var _Points = this.detectOriPoints;
-
-            // console.log(_Points);
-            this.max = {
-                maxX: null,
-                maxY: null,
-                minX: null,
-                minY: null
-            };
-
-            _Points.forEach(function (element) {
-                if (element[0] > this.max.maxX) {
-                    this.max.maxX = element[0];
-                }
-                if (!this.max.minX && this.max.minX !== 0) {
-                    this.max.minX = element[0];
-                }
-                if (this.max.minX && element[0] < this.max.minX) {
-                    this.max.minX = element[0];
-                }
-
-                if (element[1] > this.max.maxY) {
-                    this.max.maxY = element[1];
-                }
-                if (!this.max.minY && this.max.minY !== 0) {
-                    this.max.minY = element[1];
-                }
-                if (this.max.minY && element[1] < this.max.minY) {
-                    this.max.minY = element[1];
-                }
-            }, this);
-        }
-    }, {
         key: 'createPath',
         value: function createPath(context) {
             //创建路径
             var points = this._Points;
 
             context.beginPath();
-            var startInt = 0;
-            if (!this.UnOption.closePath) {
-                startInt = 1;
-            }
-
-            context.moveTo(points[startInt][0], points[startInt][1]);
-            for (var i = startInt + 1; i <= 101; ++i) {
-                context.lineTo(points[i][0], points[i][1]);
-            }
-            if (this.UnOption.closePath) {
-                context.closePath();
-            }
+            // context.arc(this.Option.x, this.Option.y , this.Option.r , this.Option.sA, this.Option.eA);
         }
     }, {
         key: '_draw',
