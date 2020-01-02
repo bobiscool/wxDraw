@@ -7,7 +7,7 @@
 > 轻量的小程序canvas动画库
 
 ### [github](https://github.com/bobiscool/wxDraw)
-###  [完整文档看这里](http://project.ueflat.xyz/#/)
+###  [完整文档看这里](https://bobiscool.github.io/wxDrawDocs/#/)
 
 
 
